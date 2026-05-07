@@ -1,0 +1,153 @@
+{
+  "receiver": {
+    "iq_corrections": {
+      "amplitude": {
+        "value": 0.0,
+        "coarse_delta": 0.01,
+        "fine_delta": 0.001
+      },
+      "phase": {
+        "value": 0.0,
+        "coarse_delta": 0.01,
+        "fine_delta": 0.001
+      }
+    }
+  },
+  "transmitter": {
+    "mic": {
+      "gain": {
+        "value": 1.0,
+        "coarse_delta": 0.01,
+        "fine_delta": 0.001
+      }
+    },
+    "iq_corrections": {
+      "amplitude": {
+        "value": 0.0,
+        "coarse_delta": 0.01,
+        "fine_delta": 0.001
+      },
+      "phase": {
+        "value": 0.0,
+        "coarse_delta": 0.01,
+        "fine_delta": 0.001
+      }
+    }
+  },
+  "active_bands": {
+    "focus_band_id": "SPLIT_BAND_ONE",
+    "tx_band_id": "SPLIT_BAND_ONE",
+    "rx_band_id": "SPLIT_BAND_ONE",
+
+    "band_1":  {
+      "band": {
+        "name": "20m",
+        "label": "20m",
+        "lowest_frequency": 14000000,
+        "highest_frequency": 14350000,
+        "landing_frequency": 14200000,
+        "default_fine_step": 100,
+        "default_coarse_step": 1000,
+        "default_mode": "MODE_USB"
+      },
+      "pipeline_a": {
+        "rf": {
+          "centre_frequency": {
+            "value": 14200000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          },
+          "vfo": {
+            "value": 0,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "pipeline_b": {
+        "rf": {
+          "centre_frequency": {
+            "value": 14200000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          },
+          "vfo": {
+            "value": 0,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "tx_pipeline": {
+        "rf": {
+          "centre_frequency": {
+            "value": 14200000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "is_multi_pipeline": true,
+      "focus_pipeline_id": "PIPELINE_A",
+      "tx_pipeline_id": "PIPELINE_A"
+    },
+    "band_2": {
+      "band": {
+        "name": "40m",
+        "label": "40m",
+        "lowest_frequency": 7000000,
+        "highest_frequency": 7200000,
+        "landing_frequency": 7100000,
+        "default_fine_step": 100,
+        "default_coarse_step": 1000,
+        "default_mode": "MODE_LSB"
+      },
+      "pipeline_a": {
+        "rf": {
+          "centre_frequency": {
+            "value": 7100000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          },
+          "vfo": {
+            "value": 7130000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "pipeline_b": {
+        "rf": {
+          "centre_frequency": {
+            "value": 7100000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          },
+          "vfo": {
+            "value": 7140000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "tx_pipeline": {
+        "rf": {
+          "centre_frequency": {
+            "value": 7100000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          },
+          "vfo": {
+            "value": 7130000,
+            "coarse_delta": 1000,
+            "fine_delta": 100
+          }
+        }
+      },
+      "is_multi_pipeline": true,
+      "focus_pipeline_id": "PIPELINE_A",
+      "tx_pipeline_id": "PIPELINE_A"
+    }
+  },
+  "ptt": false
+}

@@ -1,0 +1,5 @@
+
+RadioSettings.ModePb.name max_size: 8
+RadioSettings.ModePb.label max_size: 8
+RadioSettings.BandPb.name max_size: 8
+RadioSettings.BandPb.label max_size: 8

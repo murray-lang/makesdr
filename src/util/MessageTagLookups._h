@@ -1,0 +1,167 @@
+#pragma once
+
+#include <cstdint>
+
+#define receiver 1
+#define transmitter (2)
+#define active_bands (3)
+#define ptt (4)
+
+#define focus_band_id (1)
+#define tx_band_id (2)
+#define rx_band_id (3)
+#define band_1 (4)
+#define band_2 (5)
+
+#define band (1)
+#define pipeline_a (2)
+#define pipeline_b (3)
+#define tx_pipeline (4)
+#define is_multi_pipeline (5)
+#define focus_pipeline_id (6)
+#define tx_pipeline_id (7)
+
+#define name (1)
+#define label (2)
+#define lowest_frequency (3)
+#define highest_frequency (4)
+#define landing_frequency (5)
+#define default_fine_step (6)
+#define default_coarse_step (7)
+#define default_mode (8)
+
+#define rf (1)
+#define mute (2)
+#define agc_speed (3)
+
+#define iq_corrections (1)
+#define mic (2)
+
+#define gain (1)
+#define bandwidth (2)
+
+#define centre_frequency (2)
+#define vfo (3)
+#define max_negative_vfo_offset (5)
+#define max_positive_vfo_offset (6)
+
+#define amplitude (1)
+#define phase (2)
+
+#define value (1)
+#define coarse_delta (2)
+#define fine_delta (3)
+
+struct TagLookup
+{
+  const char *path;
+  int32_t tags[10];
+};
+
+inline TagLookup tagLookups[] = {
+  { "receiver", {receiver}},
+  { "receiver.iq_corrections", {receiver, iq_corrections}},
+  { "receiver.iq_corrections.amplitude", {receiver, iq_corrections, amplitude}},
+  { "receiver.iq_corrections.amplitude.value", {receiver, iq_corrections, amplitude, value}},
+  { "receiver.iq_corrections.amplitude.value.coarse_delta", {receiver, iq_corrections, amplitude, value, coarse_delta}},
+  { "receiver.iq_corrections.amplitude.value.fine_delta", {receiver, iq_corrections, amplitude, value, fine_delta}},
+
+  { "transmitter", {transmitter}},
+  { "transmitter.iq_corrections", {transmitter, iq_corrections}},
+  { "transmitter.iq_corrections.amplitude", {transmitter, iq_corrections, amplitude}},
+  { "transmitter.iq_corrections.amplitude.value", {transmitter, iq_corrections, amplitude, value}},
+  { "transmitter.iq_corrections.amplitude.value.coarse_delta", {transmitter, iq_corrections, amplitude, value, coarse_delta}},
+  { "transmitter.iq_corrections.amplitude.value.fine_delta", {transmitter, iq_corrections, amplitude, value, fine_delta}},
+  { "transmitter.mic", { transmitter, mic}},
+  { "transmitter.mic.gain", { transmitter, mic, gain}},
+  { "transmitter.mic.gain.value", {transmitter, mic, gain, value}},
+  { "transmitter.mic.gain.value.coarse_delta", {transmitter, mic, gain, value, coarse_delta}},
+  { "transmitter.mic.gain.value.fine_delta", {transmitter, mic, gain, value, fine_delta}},
+
+  { "active_bands", { active_bands }},
+  { "active_bands.focus_band_id", { active_bands, focus_band_id }},
+  { "active_bands.tx_band_id", { active_bands, tx_band_id }},
+  { "active_bands.rx_band_id", { active_bands, rx_band_id }},
+  { "active_bands.band_1", { active_bands, band_1 }},
+  { "active_bands.band_1.band", { active_bands, band_1, band }},
+  { "active_bands.band_1.band.name", { active_bands, band_1, band, name }},
+  { "active_bands.band_1.band.label", { active_bands, band_1, band, label }},
+  { "active_bands.band_1.band.lowest_frequency", { active_bands, band_1, band, lowest_frequency }},
+  { "active_bands.band_1.band.highest_frequency", { active_bands, band_1, band, highest_frequency }},
+  { "active_bands.band_1.band.landing_frequency", { active_bands, band_1, band, landing_frequency }},
+  { "active_bands.band_1.band.default_fine_step", { active_bands, band_1, band, default_fine_step }},
+  { "active_bands.band_1.band.default_coarse_step", { active_bands, band_1, band, default_coarse_step }},
+  { "active_bands.band_1.band.default_mode", { active_bands, band_1, band, default_mode }},
+  { "active_bands.band_1.pipeline_a", { active_bands, band_1, pipeline_a }},
+  { "active_bands.band_2", { active_bands, band_2 }},
+  { "active_bands.band_2.band.name", { active_bands, band_2, band, name }},
+  { "active_bands.band_2.band.label", { active_bands, band_2, band, label }},
+  { "active_bands.band_2.band.lowest_frequency", { active_bands, band_2, band, lowest_frequency }},
+  { "active_bands.band_2.band.highest_frequency", { active_bands, band_2, band, highest_frequency }},
+  { "active_bands.band_2.band.landing_frequency", { active_bands, band_2, band, landing_frequency }},
+  { "active_bands.band_2.band.default_fine_step", { active_bands, band_2, band, default_fine_step }},
+  { "active_bands.band_2.band.default_coarse_step", { active_bands, band_2, band, default_coarse_step }},
+  { "active_bands.band_2.band.default_mode", { active_bands, band_2, band, default_mode }},
+
+  { "active_bands.pipeline_a", {active_bands, pipeline_a}},
+  { "active_bands.pipeline_a.rf", {active_bands, pipeline_a, rf}},
+  { "active_bands.pipeline_a.rf.gain", {active_bands, pipeline_a, rf, gain}},
+  { "active_bands.pipeline_a.rf.gain.value", {active_bands, pipeline_a, rf, gain, value}},
+  { "active_bands.pipeline_a.rf.gain.coarse_delta", {active_bands, pipeline_a, rf, gain, coarse_delta}},
+  { "active_bands.pipeline_a.rf.gain.fine_delta", {active_bands, pipeline_a, rf, gain, fine_delta}},
+  { "active_bands.pipeline_a.rf.centre_frequency", {active_bands, pipeline_a, rf, centre_frequency}},
+  { "active_bands.pipeline_a.rf.centre_frequency.value", {active_bands, pipeline_a, rf, centre_frequency, value}},
+  { "active_bands.pipeline_a.rf.centre_frequency.coarse_delta", {active_bands, pipeline_a, rf, centre_frequency, coarse_delta}},
+  { "active_bands.pipeline_a.rf.centre_frequency.fine_delta", {active_bands, pipeline_a, rf, centre_frequency, fine_delta}},
+  { "active_bands.pipeline_a.rf.vfo", {active_bands, pipeline_a, rf, vfo}},
+  { "active_bands.pipeline_a.rf.vfo.value", {active_bands, pipeline_a, rf, vfo, value}},
+  { "active_bands.pipeline_a.rf.vfo.coarse_delta", {active_bands, pipeline_a, rf, vfo, coarse_delta}},
+  { "active_bands.pipeline_a.rf.vfo.fine_delta", {active_bands, pipeline_a, rf, vfo, fine_delta}},
+  { "active_bands.pipeline_a.rf.max_negative_vfo_offset", {active_bands, pipeline_a, rf, max_negative_vfo_offset}},
+  { "active_bands.pipeline_a.rf.max_positive_vfo_offset", {active_bands, pipeline_a, rf, max_positive_vfo_offset}},
+  { "active_bands.pipeline_a.mute", {active_bands, pipeline_a, mute}},
+  { "active_bands.pipeline_a.agc_speed", {active_bands, pipeline_a, agc_speed}},
+
+  { "active_bands.pipeline_b", {active_bands, pipeline_b}},
+  { "active_bands.pipeline_b.rf", {active_bands, pipeline_b, rf}},
+  { "active_bands.pipeline_b.rf.gain", {active_bands, pipeline_b, rf, gain}},
+  { "active_bands.pipeline_b.rf.gain.value", {active_bands, pipeline_b, rf, gain, value}},
+  { "active_bands.pipeline_b.rf.gain.coarse_delta", {active_bands, pipeline_b, rf, gain, coarse_delta}},
+  { "active_bands.pipeline_b.rf.gain.fine_delta", {active_bands, pipeline_b, rf, gain, fine_delta}},
+  { "active_bands.pipeline_b.rf.centre_frequency", {active_bands, pipeline_b, rf, centre_frequency}},
+  { "active_bands.pipeline_b.rf.centre_frequency.value", {active_bands, pipeline_b, rf, centre_frequency, value}},
+  { "active_bands.pipeline_b.rf.centre_frequency.coarse_delta", {active_bands, pipeline_b, rf, centre_frequency, coarse_delta}},
+  { "active_bands.pipeline_b.rf.centre_frequency.fine_delta", {active_bands, pipeline_b, rf, centre_frequency, fine_delta}},
+  { "active_bands.pipeline_b.rf.vfo", {active_bands, pipeline_b, rf, vfo}},
+  { "active_bands.pipeline_b.rf.vfo.value", {active_bands, pipeline_b, rf, vfo, value}},
+  { "active_bands.pipeline_b.rf.vfo.coarse_delta", {active_bands, pipeline_b, rf, vfo, coarse_delta}},
+  { "active_bands.pipeline_b.rf.vfo.fine_delta", {active_bands, pipeline_b, rf, vfo, fine_delta}},
+  { "active_bands.pipeline_b.rf.max_negative_vfo_offset", {active_bands, pipeline_b, rf, max_negative_vfo_offset}},
+  { "active_bands.pipeline_b.rf.max_positive_vfo_offset", {active_bands, pipeline_b, rf, max_positive_vfo_offset}},
+  { "active_bands.pipeline_b.mute", {active_bands, pipeline_b, mute}},
+  { "active_bands.pipeline_b.agc_speed", {active_bands, pipeline_b, agc_speed}},
+
+  { "active_bands.tx_pipeline", {active_bands, tx_pipeline}},
+  { "active_bands.tx_pipeline.rf", {active_bands, tx_pipeline, rf}},
+  { "active_bands.tx_pipeline.rf.gain", {active_bands, tx_pipeline, rf, gain}},
+  { "active_bands.tx_pipeline.rf.gain.value", {active_bands, tx_pipeline, rf, gain, value}},
+  { "active_bands.tx_pipeline.rf.gain.coarse_delta", {active_bands, tx_pipeline, rf, gain, coarse_delta}},
+  { "active_bands.tx_pipeline.rf.gain.fine_delta", {active_bands, tx_pipeline, rf, gain, fine_delta}},
+  { "active_bands.tx_pipeline.rf.centre_frequency", {active_bands, tx_pipeline, rf, centre_frequency}},
+  { "active_bands.tx_pipeline.rf.centre_frequency.value", {active_bands, tx_pipeline, rf, centre_frequency, value}},
+  { "active_bands.tx_pipeline.rf.centre_frequency.coarse_delta", {active_bands, tx_pipeline, rf, centre_frequency, coarse_delta}},
+  { "active_bands.tx_pipeline.rf.centre_frequency.fine_delta", {active_bands, tx_pipeline, rf, centre_frequency, fine_delta}},
+  { "active_bands.tx_pipeline.rf.vfo", {active_bands, tx_pipeline, rf, vfo}},
+  { "active_bands.tx_pipeline.rf.vfo.value", {active_bands, tx_pipeline, rf, vfo, value}},
+  { "active_bands.tx_pipeline.rf.vfo.coarse_delta", {active_bands, tx_pipeline, rf, vfo, coarse_delta}},
+  { "active_bands.tx_pipeline.rf.vfo.fine_delta", {active_bands, tx_pipeline, rf, vfo, fine_delta}},
+  { "active_bands.tx_pipeline.rf.max_negative_vfo_offset", {active_bands, tx_pipeline, rf, max_negative_vfo_offset}},
+  { "active_bands.tx_pipeline.rf.max_positive_vfo_offset", {active_bands, tx_pipeline, rf, max_positive_vfo_offset}},
+  { "active_bands.tx_pipeline.mute", {active_bands, tx_pipeline, mute}},
+  { "active_bands.tx_pipeline.agc_speed", {active_bands, tx_pipeline, agc_speed}},
+
+  { "active_bands.is_multi_pipeline", {active_bands, is_multi_pipeline}},
+  { "active_bands.focus_pipeline_id", {active_bands, focus_pipeline_id}},
+  { "active_bands.tx_pipeline_id", {active_bands, tx_pipeline_id}},
+
+};
