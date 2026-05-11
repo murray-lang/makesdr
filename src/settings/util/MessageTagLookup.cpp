@@ -2,6 +2,15 @@
 #include "RadioSettings.pb.h"
 
 
+// Field name to tag mappings (organized by message type)
+struct FieldEntry {
+  const char* name;
+  int32_t tag;
+  const FieldEntry* submsg;  // Pointer to submessage field table, or nullptr
+};
+
+// extern const FieldEntry radio_fields[];
+
 // extern const FieldEntry steppable_fields[] ;
 // extern const FieldEntry mic_fields[];
 // extern const FieldEntry iq_corrections_fields[];
@@ -22,7 +31,7 @@ constexpr FieldEntry mode_fields[] = {
   {"lo_cut", RadioSettings_ModePb_lo_cut_tag, nullptr},
   {"hi_cut", RadioSettings_ModePb_hi_cut_tag, nullptr},
   {"offset", RadioSettings_ModePb_offset_tag, nullptr},
-  {"nullptr", 0, nullptr}
+  {nullptr, 0, nullptr}
 };
 constexpr FieldEntry band_fields[] = {
   {"name", RadioSettings_BandPb_name_tag, nullptr},
@@ -97,7 +106,6 @@ constexpr FieldEntry tx_pipeline_fields[] = {
 
 constexpr FieldEntry band_settings_fields[] = {
   {"band", RadioSettings_BandSettingsPb_band_tag, band_fields},
-  {"focus_pipeline", RadioSettings_BandSettingsPb_focus_pipeline_tag, rx_pipeline_fields},
   {"pipeline_a", RadioSettings_BandSettingsPb_pipeline_a_tag, rx_pipeline_fields},
   {"pipeline_b", RadioSettings_BandSettingsPb_pipeline_b_tag, rx_pipeline_fields},
   {"tx_pipeline", RadioSettings_BandSettingsPb_tx_pipeline_tag, tx_pipeline_fields},
@@ -111,7 +119,6 @@ constexpr FieldEntry active_bands_fields[] = {
   {"focus_band_id", RadioSettings_ActiveBandSettingsPb_focus_band_id_tag, nullptr},
   {"tx_band_id", RadioSettings_ActiveBandSettingsPb_tx_band_id_tag, nullptr},
   {"rx_band_id", RadioSettings_ActiveBandSettingsPb_rx_band_id_tag, nullptr},
-  {"focus_band", RadioSettings_ActiveBandSettingsPb_focus_band_tag, band_settings_fields},
   {"band_1", RadioSettings_ActiveBandSettingsPb_band_1_tag, band_settings_fields},
   {"band_2", RadioSettings_ActiveBandSettingsPb_band_2_tag, band_settings_fields},
   {nullptr, 0, nullptr}
@@ -126,12 +133,12 @@ const FieldEntry radio_fields[] = {
 };
 
 // Lookup function that traverses the hierarchy
-bool lookup_field_path(const char* path, uint32_t* tags_out, uint32_t max_tags) {
+ResultCode lookup_field_path(const char* path, uint32_t* tags_out, uint32_t max_tags) {
     const FieldEntry* current_table = radio_fields;
     int tag_count = 0;
 
     const char* p = path;
-    char field_name[64];
+    char field_name[MAX_FIELD_NAME_LENGTH];
 
     while (*p && tag_count < max_tags) {
         // Extract next field name
@@ -155,10 +162,13 @@ bool lookup_field_path(const char* path, uint32_t* tags_out, uint32_t max_tags) 
             entry++;
         }
 
-        if (!found || (current_table == nullptr && *p != '\0')) {
-            return false;  // Field not found or path continues but no submsg
+        if (!found) {
+            return ResultCode::ERR_SETTING_PATH_NOT_FOUND;
+        }
+        if (current_table == nullptr && *p != '\0') {
+          return ResultCode::ERR_SETTING_DOTTED_STRING_NOT_VALID;
         }
     }
 
-    return tag_count > 0;
+    return tag_count > 0 ? ResultCode::OK : ResultCode::ERR_SETTING_PATH_NOT_FOUND;
 }
