@@ -4,11 +4,49 @@
 #include "pb_common.h"
 
 
-
 ResultCode
 SettingsBase::resolveDottedPath(const char* dottedPath, SettingFieldPath& path)
 {
-  return lookup_field_path(dottedPath, path.data(), MAX_FIELD_PATH_LENGTH);
+  //return lookup_field_path(dottedPath, path.data(), MAX_FIELD_PATH_LENGTH);
+
+  const FieldEntry* current_table = radio_fields;
+  int tag_count = 0;
+
+  const char* p = dottedPath;
+  char field_name[MAX_FIELD_NAME_LENGTH];
+
+  while (*p && tag_count < MAX_FIELD_PATH_LENGTH) {
+    // Extract next field name
+    int i = 0;
+    while (*p && *p != '.' && i < 63) {
+      field_name[i++] = *p++;
+    }
+    field_name[i] = '\0';
+    if (*p == '.') p++;  // Skip dot
+
+    // Search in current table
+    const FieldEntry* entry = current_table;
+    bool found = false;
+    while (entry != nullptr && entry->name != nullptr) {
+      if (strcmp(entry->name, field_name) == 0) {
+        path.push_back(entry->tag);
+        tag_count++;
+        current_table = entry->submsg;
+        found = true;
+        break;
+      }
+      entry++;
+    }
+
+    if (!found) {
+      return ResultCode::ERR_SETTING_PATH_NOT_FOUND;
+    }
+    if (current_table == nullptr && *p != '\0') {
+      return ResultCode::ERR_SETTING_DOTTED_STRING_NOT_VALID;
+    }
+  }
+
+  return tag_count > 0 ? ResultCode::OK : ResultCode::ERR_SETTING_PATH_NOT_FOUND;
 }
 
 ResultCode
@@ -94,7 +132,7 @@ SettingsBase::updateField(pb_field_iter_t* iter, const SettingFieldVariant &valu
       return ResultCode::ERR_SETTING_STRING_TOO_LONG;
     }
     strncpy(static_cast<char *>(target_ptr), stringValue.data, stringValue.size);
-    static_cast<char *>(target_ptr)[stringValue.size - 1] = '\0';
+    static_cast<char *>(target_ptr)[stringValue.size] = '\0';
     break;
   }
   default:
@@ -125,7 +163,8 @@ void pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t coarseStep
   }
 }
 
-bool pb_update_steppable(pb_field_iter_t* msg_iter, const void* value_or_delta, size_t value_size)
+ResultCode
+SettingsBase::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVariant& steppableValue)
 {
   void* steppable_msg = msg_iter->pData;
   const pb_msgdesc_t* steppable_desc = msg_iter->submsg_desc;
@@ -133,7 +172,7 @@ bool pb_update_steppable(pb_field_iter_t* msg_iter, const void* value_or_delta, 
   pb_field_iter_t other_iter;
 
   if (!pb_field_iter_begin(&value_iter, steppable_desc, steppable_msg)) {
-    return false;
+    return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
   }
   // The value_iter stays unchanged so that the value can be updated.
   // Get another one to step through the other fields
@@ -141,46 +180,52 @@ bool pb_update_steppable(pb_field_iter_t* msg_iter, const void* value_or_delta, 
 
   // Find the value field
   if (!pb_field_iter_find(&value_iter, 1)) {
-    return false;
+    return ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
   }
   void* value = value_iter.pData;
   pb_type_t type = PB_LTYPE(value_iter.type);
 
-  if (!pb_field_iter_find(&other_iter, 2)) {
-    return false;
+  if (!pb_field_iter_find(&other_iter, 2)) { // "Coarse delta tag
+    return ResultCode::ERR_SETTING_STEPPABLE_COARSE_NOT_FOUND;
   }
   void* coarse_delta = other_iter.pData;
 
   if (!pb_field_iter_find(&other_iter, 3)) {
-    return false;
+    return ResultCode::ERR_SETTING_STEPPABLE_FINE_NOT_FOUND;
   }
   void* fine_delta = other_iter.pData;
 
   if (!pb_field_iter_find(&other_iter, 4)) {
-    return false;
+    return ResultCode::ERR_SETTING_STEPPABLE_USE_FINE_NOT_FOUND;
   }
   void* use_fine = other_iter.pData;
   bool useFine = *(bool*)use_fine;
 
   if (type == PB_LTYPE_FIXED32) {
+    const float* pDelta = etl::get_if<float>(&steppableValue);
+    if (pDelta == nullptr) {
+      return ResultCode::ERR_SETTING_EXPECT_FLOAT;
+    }
     float result;
-    float delta = *(float*)value_or_delta;
-    pb_calc_steppable_float(*(float*)value, delta, *(float*)coarse_delta, *(float*)fine_delta, useFine, &result);
+    pb_calc_steppable_float(*(float*)value, *pDelta, *(float*)coarse_delta, *(float*)fine_delta, useFine, &result);
 
-    return pb_update_value(&value_iter, &result, sizeof(float));
+    return updateField(&value_iter, result);
   }
   if (type == PB_LTYPE_VARINT) {
+    const int64_t* pDelta = etl::get_if<int64_t>(&steppableValue);
+    if (pDelta == nullptr) {
+      return ResultCode::ERR_SETTING_EXPECT_INT64;
+    }
     int64_t result;
-    int64_t delta = *(int64_t*)value_or_delta;
-    pb_calc_steppable_int64(*(int64_t*)value, delta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
+    pb_calc_steppable_int64(*(int64_t*)value, *pDelta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
 
-    return pb_update_value(&value_iter, (int64_t*)&result, sizeof(int64_t));
+    return updateField(&value_iter, result);
   }
-  return false;
+  return ResultCode::ERR_SETTING_STEPPABLE_TYPE_UNSUPPORTED;
 }
 
 ResultCode
-SettingsBase::update(const SettingFieldPath &path, const SettingFieldVariant &value)
+SettingsBase::updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
 {
   pb_field_iter_t iter;
   void* current_message = getMessage();
@@ -229,7 +274,15 @@ SettingsBase::update(const SettingFieldPath &path, const SettingFieldVariant &va
 
     // Tags over 1000 identify steppable fields
     if (tag > 1000) {
-      return pb_update_steppable(&iter, new_value, value_size);
+      ResultCode rc = updateSteppable(&iter, value);
+      if (rc == ResultCode::OK) {
+        for (size_t i = 0; i < parent_count; i++) {
+          if (ancestor_iters[i].pSize) {
+            *static_cast<bool *>(ancestor_iters[i].pSize) = true;
+          }
+        }
+      }
+      return rc;
     }
 
     current_desc = iter.submsg_desc;
@@ -258,6 +311,124 @@ SettingsBase::update(const SettingFieldPath &path, const SettingFieldVariant &va
   }
 
   return result;
+}
+
+ResultCode
+SettingsBase::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
+{
+  void* source_ptr = iter->pData;
+
+  if (PB_ATYPE(iter->type) == PB_ATYPE_POINTER) {
+    // For pointer types, dereference first
+    source_ptr = *(void**)iter->pData;
+    if (!source_ptr) {
+      return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+    }
+  }
+
+  // Handle different field types
+  pb_type_t ltype = PB_LTYPE(iter->type);
+  switch (ltype) {
+  case PB_LTYPE_BOOL:
+    value = *static_cast<bool*>(source_ptr);
+    break;
+
+  case PB_LTYPE_VARINT:
+  case PB_LTYPE_SVARINT:
+    if (iter->data_size == sizeof(int32_t)) {
+      value = *static_cast<int32_t*>(source_ptr);
+    } else if (iter->data_size == sizeof(int64_t)) {
+      value = *static_cast<int64_t*>(source_ptr);
+    }
+    break;
+
+  case PB_LTYPE_UVARINT:
+    if (iter->data_size == sizeof(uint32_t)) {
+      value = *static_cast<uint32_t*>(source_ptr);
+    } else if (iter->data_size == sizeof(uint64_t)) {
+      value = *static_cast<int64_t*>(source_ptr); // Note: converting to signed (limited number of types in variant)
+    }
+    break;
+
+  case PB_LTYPE_FIXED32:
+    value = *static_cast<float*>(source_ptr);
+    break;
+
+  // case PB_LTYPE_FIXED64:
+  //   value = *static_cast<double*>(source_ptr);
+  //   break;
+
+  case PB_LTYPE_STRING: {
+    const char* str = static_cast<const char*>(source_ptr);
+    // Use NameString as the default string type for retrieval
+    value = NameString(str);
+    break;
+  }
+
+  default:
+    return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+  }
+
+  return ResultCode::OK;
+}
+
+ResultCode
+SettingsBase::getField(const SettingFieldPath &path, SettingFieldVariant &value)
+{
+  pb_field_iter_t iter;
+  void* current_message = getMessage();
+  const pb_msgdesc_t* current_desc = m_pDescriptor;
+
+  uint32_t pathLength = path.size();
+
+  // Traverse through all but the last field ID
+  for (size_t i = 0; i < pathLength - 1; i++) {
+    if (!pb_field_iter_begin(&iter, current_desc, current_message)) {
+      return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
+    }
+
+    uint32_t tag = path.at(i);
+
+    // Find the field with the specified tag
+    if (!pb_field_iter_find(&iter, tag)) {
+      return ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
+    }
+
+    // Verify this is a submessage type
+    if (!PB_LTYPE_IS_SUBMSG(iter.type)) {
+      return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+
+    // Get pointer to the submessage
+    if (PB_ATYPE(iter.type) == PB_ATYPE_POINTER) {
+      // For pointer type, dereference to get the submessage
+      void** ptr = (void**)iter.pData;
+      if (!*ptr) {
+        return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+      }
+      current_message = *ptr;
+    }
+    else {
+      // For static type, pData points directly to the submessage
+      current_message = iter.pData;
+    }
+
+    current_desc = iter.submsg_desc;
+    if (!current_desc) {
+      return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+  }
+
+  // Now handle the final field (the one to retrieve)
+  if (!pb_field_iter_begin(&iter, current_desc, current_message)) {
+    return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
+  }
+
+  if (!pb_field_iter_find(&iter, path[pathLength - 1])) {
+    return ResultCode::ERR_SETTING_UNKNOWN_TAG;
+  }
+
+  return getField(&iter, value);
 }
 
 SettingsBase::StringValue

@@ -1,5 +1,5 @@
 #pragma once
-#include "base/SettingsBase.h"
+#include "../base/SettingsBase.h"
 
 class Mode : public SettingsBase
 {
@@ -20,8 +20,8 @@ public:
   Mode(RadioSettings_ModePb& raw)
     : SettingsBase(&RadioSettings_ModePb_msg)
     , m_rawSettings(raw)
-    , m_name{m_rawSettings.name, sizeof(m_rawSettings.name)}
-    , m_label{m_rawSettings.label, sizeof(m_rawSettings.label)}
+    , m_name{raw.name, raw.name, sizeof(raw.name)}
+    , m_label{raw.label, raw.label, sizeof(raw.label)}
   {}
 
   StringRef& name() { return m_name; }
@@ -34,6 +34,8 @@ public:
   [[nodiscard]] Type type() const { return static_cast<Type>(m_rawSettings.type); }
 
 protected:
+  void* getMessage() override { return &m_rawSettings; }
+
   RadioSettings_ModePb& m_rawSettings;
   StringRef m_name;
   StringRef m_label;

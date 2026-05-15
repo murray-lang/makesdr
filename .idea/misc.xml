@@ -4,4 +4,12 @@
     <option name="pythonIntegrationState" value="YES" />
   </component>
   <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$" />
+  <component name="CidrRootsConfiguration">
+    <sourceRoots>
+<!--
+      <file path="$PROJECT_DIR$/../../../tools/etl" />
+      <file path="$PROJECT_DIR$/../../../tools/nanopb" />
+-->
+    </sourceRoots>
+  </component>
 </project>

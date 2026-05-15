@@ -2,6 +2,8 @@
 #include "SettingFieldPath.h"
 #include "SettingFieldVariant.h"
 
+#define MAX_SETTING_UPDATE_SEQUENCE 4
+
 class SettingFieldUpdate
 {
 public:
@@ -11,11 +13,11 @@ public:
   {}
   SettingFieldUpdate(const SettingFieldPath& path, const NameString& value)
     : m_path(path)
-    , m_value(value)
+    , m_value(etl::in_place_type_t<NameString>{}, value)
   {}
   SettingFieldUpdate(const SettingFieldPath& path, const LabelString& value)
     : m_path(path)
-    , m_value(value)
+    , m_value(etl::in_place_type_t<LabelString>{}, value)
   {}
   SettingFieldUpdate(const SettingFieldPath& path, int32_t value)
     : m_path(path)
@@ -38,10 +40,12 @@ public:
     , m_value(value)
   {}
 
-  const SettingFieldPath& path() const { return m_path; }
-  const SettingFieldVariant& value() const { return m_value; }
+  [[nodiscard]] const SettingFieldPath& path() const { return m_path; }
+  [[nodiscard]] const SettingFieldVariant& value() const { return m_value; }
 
 protected:
   SettingFieldPath m_path;
   SettingFieldVariant m_value;
 };
+
+using SettingFieldUpdateVector = etl::vector<SettingFieldUpdate, MAX_SETTING_UPDATE_SEQUENCE>;

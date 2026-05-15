@@ -24,17 +24,21 @@ public:
 
   SettingsBase &operator=(const SettingsBase &rhs) = default;
 
-  ResultCode update(const SettingFieldUpdate &settingUpdate)
+  ResultCode updateField(const SettingFieldUpdate &settingUpdate)
   {
-    return update(settingUpdate.path(), settingUpdate.value());
+    return updateField(settingUpdate.path(), settingUpdate.value());
   }
 
-  ResultCode update(const SettingFieldPath &path, const SettingFieldVariant &value);
+  ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value);
+
+  ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value);
 
   static ResultCode resolveDottedPath(const char *dottedPath, SettingFieldPath &path);
 
 protected:
   ResultCode updateField(pb_field_iter_t* iter, const SettingFieldVariant& value);
+  ResultCode updateSteppable(pb_field_iter_t* iter, const SettingFieldVariant& value);
+  ResultCode getField(pb_field_iter_t* iter, SettingFieldVariant& value);
 
   virtual void* getMessage() = 0;
 

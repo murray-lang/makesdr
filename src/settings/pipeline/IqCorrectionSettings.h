@@ -1,7 +1,7 @@
 #pragma once
 
-#include "base/SettingsBase.h"
-#include "base/SteppableFloatSetting.h"
+#include "../base/SettingsBase.h"
+#include "../base/SteppableFloatSetting.h"
 
 class IqCorrectionSettings : public SettingsBase
 {
@@ -19,6 +19,8 @@ public:
   [[nodiscard]] const SteppableFloatSetting& phase() const { return m_phase; }
 
 protected:
+  void* getMessage() override { return &m_rawSettings; }
+
   RadioSettings_IqCorrectionSettingsPb& m_rawSettings;
   SteppableFloatSetting m_amplitude;
   SteppableFloatSetting m_phase;

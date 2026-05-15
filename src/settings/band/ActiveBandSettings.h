@@ -1,5 +1,5 @@
 #pragma once
-#include "base/SettingsBase.h"
+#include "../base/SettingsBase.h"
 #include "BandSettings.h"
 #include "SplitBandId.h"
 
@@ -12,6 +12,12 @@ public:
     , m_band1Settings(raw.band_1)
     , m_band2Settings(raw.band_2)
   {}
+
+  [[nodiscard]] bool hasFocusBandId() const { return m_rawSettings.has_focus_band_id; }
+  [[nodiscard]] bool hasTxBandId() const { return m_rawSettings.has_tx_band_id; }
+  [[nodiscard]] bool hasRxBandId() const { return m_rawSettings.has_rx_band_id; }
+  [[nodiscard]] bool hasBand1() const { return m_rawSettings.has_band_1; }
+  [[nodiscard]] bool hasBand2() const { return m_rawSettings.has_band_2; }
 
   BandSettings* getBandSettings(SplitBandId bandId)
   {

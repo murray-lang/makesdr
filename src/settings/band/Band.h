@@ -1,21 +1,20 @@
 #pragma once
-#include "base/SettingsBase.h"
+#include "../base/SettingsBase.h"
 
-#include "Mode.h"
+#include "../mode/Mode.h"
 
-class Band : public SettingsBase
+class Band
 {
 public:
   Band(RadioSettings_BandPb& raw)
-    : SettingsBase(&RadioSettings_BandPb_msg)
-    , m_rawSettings(raw)
-    , m_name{m_rawSettings.name, sizeof(m_rawSettings.name)}
-    , m_label{m_rawSettings.label, sizeof(m_rawSettings.label)}
+    : m_rawSettings(raw)
+    , m_name{raw.name, raw.name, sizeof(raw.name)}
+    , m_label{raw.label, raw.label, sizeof(m_rawSettings.label)}
   {
   }
 
-  StringRef& name() { return m_name; }
-  StringRef& label() { return m_label; }
+  [[nodiscard]] const StringRef& name() const { return m_name; }
+  [[nodiscard]] const StringRef& label() const { return m_label; }
 
   [[nodiscard]] int64_t lowestFrequency() const { return m_rawSettings.lowest_frequency; }
   [[nodiscard]] int64_t highestFrequency() const { return m_rawSettings.highest_frequency; }
@@ -25,7 +24,8 @@ public:
   [[nodiscard]] Mode::Type defaultMode() const { return static_cast<Mode::Type>(m_rawSettings.default_mode); }
 
 protected:
-  RadioSettings_BandPb& m_rawSettings;
-  StringRef m_name;
-  StringRef m_label;
+
+  const RadioSettings_BandPb& m_rawSettings;
+  const StringRef m_name;
+  const StringRef m_label;
 };

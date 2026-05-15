@@ -15,5 +15,6 @@ using SettingFieldVariant = etl::variant<
   uint32_t,
   int64_t,
   float,
-  bool
+  bool,
+  const char *
 >;

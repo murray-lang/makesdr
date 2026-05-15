@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "nanopb.proto";
+//import "nanopb.proto";
 
 package RadioSettings;
 
@@ -47,6 +47,10 @@ message ModePb {
   int32 offset = 6;
 }
 
+message ModeListPb {
+  repeated ModePb modes = 1;
+}
+
 message BandPb {
   string name = 1;
   string label = 2;
@@ -56,6 +60,20 @@ message BandPb {
   int32 default_fine_step = 6;
   int32 default_coarse_step = 7;
   ModeType default_mode = 8;
+}
+
+message BandListPb {
+  repeated BandPb bands = 1;
+}
+
+message BandCategoryPb {
+  string name = 1;
+  string label = 2;
+  BandListPb bands = 3;
+}
+
+message BandCategoryListPb {
+  repeated BandCategoryPb categories = 1;
 }
 
 message SteppableInt64SettingPb {
@@ -107,23 +125,25 @@ message TransmitterSettingsPb {
 }
 
 message RxPipelineSettingsPb {
-  RfSettingsPb rf = 1;
-  IfSettingsPb if = 2;
-  optional bool mute = 3;
-  AgcSpeed agc_speed = 4;
+  optional ModeType mode = 1;
+  RfSettingsPb rf = 2;
+  IfSettingsPb if = 3;
+  optional bool mute = 4;
+  optional AgcSpeed agc_speed = 5;
 }
 
 message TxPipelineSettingsPb {
-  RfSettingsPb rf = 1;
+  optional ModeType mode = 1;
+  RfSettingsPb rf = 2;
 }
 
 message BandSettingsPb {
-  BandPb band = 1;
+  optional string name = 1;
   RxPipelineSettingsPb pipeline_a = 2;
   optional RxPipelineSettingsPb pipeline_b = 3;
   optional TxPipelineSettingsPb tx_pipeline = 4;
-  bool is_multi_pipeline = 5;
-  PipelineId focus_pipeline_id = 6;
+  optional bool is_multi_pipeline = 5;
+  optional PipelineId focus_pipeline_id = 6;
   optional PipelineId tx_pipeline_id = 7;
 
 }
@@ -134,6 +154,7 @@ message ActiveBandSettingsPb {
   optional SplitBandId rx_band_id = 3;
   BandSettingsPb band_1 = 4;
   BandSettingsPb band_2 = 5;
+  optional bool is_split = 6;
 }
 
 message RadioSettingsPb {

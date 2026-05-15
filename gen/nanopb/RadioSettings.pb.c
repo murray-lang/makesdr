@@ -9,7 +9,19 @@
 PB_BIND(RadioSettings_ModePb, RadioSettings_ModePb, AUTO)
 
 
+PB_BIND(RadioSettings_ModeListPb, RadioSettings_ModeListPb, 2)
+
+
 PB_BIND(RadioSettings_BandPb, RadioSettings_BandPb, AUTO)
+
+
+PB_BIND(RadioSettings_BandListPb, RadioSettings_BandListPb, 2)
+
+
+PB_BIND(RadioSettings_BandCategoryPb, RadioSettings_BandCategoryPb, 2)
+
+
+PB_BIND(RadioSettings_BandCategoryListPb, RadioSettings_BandCategoryListPb, 4)
 
 
 PB_BIND(RadioSettings_SteppableInt64SettingPb, RadioSettings_SteppableInt64SettingPb, AUTO)

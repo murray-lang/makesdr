@@ -14,5 +14,7 @@ public:
   [[nodiscard]] float fineDelta() const { return m_rawSettings.fine_delta; }
   [[nodiscard]] bool useFine() const { return m_rawSettings.use_fine; }
 protected:
+  void* getMessage() override { return &m_rawSettings; }
+
   RadioSettings_SteppableFloatSettingPb& m_rawSettings;
 };

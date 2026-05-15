@@ -2,28 +2,6 @@
 #include "RadioSettings.pb.h"
 
 
-// Field name to tag mappings (organized by message type)
-struct FieldEntry {
-  const char* name;
-  int32_t tag;
-  const FieldEntry* submsg;  // Pointer to submessage field table, or nullptr
-};
-
-// extern const FieldEntry radio_fields[];
-
-// extern const FieldEntry steppable_fields[] ;
-// extern const FieldEntry mic_fields[];
-// extern const FieldEntry iq_corrections_fields[];
-// extern const FieldEntry band_fields[];
-// extern const FieldEntry rf_fields[];
-// extern const FieldEntry if_fields[];
-// extern const FieldEntry rx_pipeline_fields[];
-// extern const FieldEntry tx_pipeline_fields[];
-// extern const FieldEntry receiver_fields[];
-// extern const FieldEntry transmitter_fields[];
-// extern const FieldEntry band_settings_fields[];
-// extern const FieldEntry active_bands_fields[];
-
 constexpr FieldEntry mode_fields[] = {
   {"type", RadioSettings_ModePb_type_tag, nullptr},
   {"name", RadioSettings_ModePb_name_tag, nullptr},
@@ -92,6 +70,7 @@ constexpr FieldEntry transmitter_fields[] = {
 };
 
 constexpr FieldEntry rx_pipeline_fields[] = {
+  {"mode", RadioSettings_RxPipelineSettingsPb_mode_tag, nullptr},
   {"rf", RadioSettings_RxPipelineSettingsPb_rf_tag, rf_fields},
   {"if", RadioSettings_RxPipelineSettingsPb_if_tag, if_fields},
   {"mute", RadioSettings_RxPipelineSettingsPb_mute_tag, nullptr},
@@ -100,12 +79,13 @@ constexpr FieldEntry rx_pipeline_fields[] = {
 };
 
 constexpr FieldEntry tx_pipeline_fields[] = {
+  {"mode", RadioSettings_RxPipelineSettingsPb_mode_tag, nullptr},
   {"rf", RadioSettings_TxPipelineSettingsPb_rf_tag, rf_fields},
   {nullptr, 0, nullptr}
 };
 
 constexpr FieldEntry band_settings_fields[] = {
-  {"band", RadioSettings_BandSettingsPb_band_tag, band_fields},
+  {"name", RadioSettings_BandSettingsPb_name_tag, nullptr},
   {"pipeline_a", RadioSettings_BandSettingsPb_pipeline_a_tag, rx_pipeline_fields},
   {"pipeline_b", RadioSettings_BandSettingsPb_pipeline_b_tag, rx_pipeline_fields},
   {"tx_pipeline", RadioSettings_BandSettingsPb_tx_pipeline_tag, tx_pipeline_fields},
@@ -121,6 +101,7 @@ constexpr FieldEntry active_bands_fields[] = {
   {"rx_band_id", RadioSettings_ActiveBandSettingsPb_rx_band_id_tag, nullptr},
   {"band_1", RadioSettings_ActiveBandSettingsPb_band_1_tag, band_settings_fields},
   {"band_2", RadioSettings_ActiveBandSettingsPb_band_2_tag, band_settings_fields},
+  {"is_split", RadioSettings_ActiveBandSettingsPb_is_split_tag, nullptr},
   {nullptr, 0, nullptr}
 };
 

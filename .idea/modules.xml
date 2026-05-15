@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/RadioConfigProto.iml" filepath="$PROJECT_DIR$/.idea/RadioConfigProto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/RadioSettingsProto.iml" filepath="$PROJECT_DIR$/.idea/RadioSettingsProto.iml" />
     </modules>
   </component>
 </project>

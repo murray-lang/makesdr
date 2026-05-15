@@ -7,17 +7,20 @@ set(CMAKE_CXX_STANDARD 20)
 set(PROTO_PLATFORMS "nanopb" "google")
 set(PROTO_PLATFORM "nanopb")
 
-set(NANOPB_DIR "$ENV{HOME}/devtools/nanopb")
+set(THIRD_PARTY_DIR  ${CMAKE_SOURCE_DIR}/third-party)
+set(NANOPB_DIR "${THIRD_PARTY_DIR}/nanopb")
 set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 set(GEN_DIR ${CMAKE_SOURCE_DIR}/gen)
 set(GOOGLE_GEN_DIR ${GEN_DIR}/google)
 set(NANOPB_GEN_DIR ${GEN_DIR}/nanopb)
 set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 set(SETTINGS_DIR ${SRC_DIR}/settings)
-set(ETL_DIR "$ENV{HOME}/devtools/etl")
+set(ETL_DIR "${THIRD_PARTY_DIR}/etl")
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
 list(APPEND CMAKE_MODULE_PATH ${NANOPB_DIR}/extra)
+
+add_definitions(-DMAX_BANDS=34)
 
 if (PROTO_PLATFORM STREQUAL "google")
     add_definitions(-DPROTO_GOOGLE)
@@ -69,29 +72,53 @@ set(SETTINGS_SOURCES
     ${PROTO_HDRS}
     include/ResultCode.h
     src/main.cpp
-    src/settings/util/PbUtils.h
-    src/settings/util/PbUtils.cpp
-    src/settings/util/MessageTagLookup.h
-    src/settings/util/MessageTagLookup.cpp
-    src/settings/base/SettingsBase.h
-    src/settings/base/SettingsBase.cpp
-    src/settings/base/SettingFieldPath.h
-    src/settings/base/SettingFieldVariant.h
-    src/settings/base/SettingFieldUpdate.h
-    src/settings/RadioSettings.h
-    src/settings/ActiveBandSettings.h
-    src/settings/ReceiverSettings.h
-    src/settings/TransmitterSettings.h
-    src/settings/IqCorrectionSettings.h
-    src/settings/MicrophoneSettings.h
-    src/settings/BandSettings.h
-    src/settings/SplitBandId.h
-    src/settings/Band.h
-    src/settings/Mode.h
-    src/settings/RfSettings.h
-    src/settings/base/SteppableInt64Setting.h
-    src/settings/base/SteppableFloatSetting.h
-    src/settings/base/SteppableVariant.h
+#    src/settings/util/PbUtils.h
+#    src/settings/util/PbUtils.cpp
+        src/settings/band/ActiveBandSettings.h
+        src/settings/band/BandSettings.h
+        src/settings/band/SplitBandId.h
+        src/settings/band/Band.h
+        src/settings/band/BandList.h
+        src/settings/band/AvailableBands.h
+        src/settings/band/AvailableBands.cpp
+        src/settings/band/BandCategory.h
+        src/settings/band/BandCategoryList.h
+
+        src/settings/base/SettingsBase.h
+        src/settings/base/SettingsBase.cpp
+        src/settings/base/SettingFieldPath.h
+        src/settings/base/SettingFieldVariant.h
+        src/settings/base/SettingFieldUpdate.h
+        src/settings/base/SteppableInt64Setting.h
+        src/settings/base/SteppableFloatSetting.h
+        src/settings/base/SteppableVariant.h
+
+        src/settings/mode/Mode.h
+        src/settings/mode/AvailableModes.h
+        src/settings/mode/AvailableModes.cpp
+
+        src/settings/util/MessageTagLookup.h
+        src/settings/util/MessageTagLookup.cpp
+        src/settings/util/GenerateResolvedPathSourceFiles.h
+        src/settings/util/GenerateResolvedPathSourceFiles.cpp
+        src/settings/util/ResolvedFieldPaths.h
+        src/settings/util/ResolvedFieldPaths.cpp
+        src/settings/util/DefaultRadioSettings.h
+        src/settings/util/DefaultRadioSettings.cpp
+
+        src/settings/pipeline/IqCorrectionSettings.h
+        src/settings/pipeline/MicrophoneSettings.h
+        src/settings/pipeline/PipelineId.h
+        src/settings/pipeline/AgcSpeed.h
+        src/settings/pipeline/RfSettings.h
+        src/settings/pipeline/IfSettings.h
+        src/settings/pipeline/RxPipelineSettings.h
+
+        src/settings/RadioSettings.h
+        src/settings/RadioSettings.cpp
+        src/settings/ReceiverSettings.h
+        src/settings/TransmitterSettings.h
+
 )
 
 add_subdirectory(${ETL_DIR} etl)
