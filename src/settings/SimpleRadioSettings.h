@@ -6,10 +6,10 @@
 #include "TransmitterSettings.h"
 #include "util/DefaultRadioSettings.h"
 
-class RadioSettings : public SettingsBase
+class SimpleRadioSettings : public SettingsBase
 {
 public:
-  RadioSettings()
+  SimpleRadioSettings()
     : SettingsBase(&RadioSettings_RadioSettingsPb_msg)
     , m_rawSettings(defaultRadioSettingsPb)
     , m_activeBandSettings(m_rawSettings.active_bands)
@@ -17,7 +17,7 @@ public:
     , m_transmitterSettings(m_rawSettings.transmitter)
   {}
 
-  RadioSettings(const RadioSettings_RadioSettingsPb& raw)
+  SimpleRadioSettings(const RadioSettings_RadioSettingsPb& raw)
     : SettingsBase(&RadioSettings_RadioSettingsPb_msg)
     , m_rawSettings(raw)
     , m_activeBandSettings(m_rawSettings.active_bands)
@@ -44,25 +44,19 @@ public:
 
   [[nodiscard]] bool getPtt() const { return m_rawSettings.ptt; }
 
-  ResultCode setMode(SplitBandId bandId, PipelineId pipelineId, const Mode::Type& mode);
-  ResultCode setFocusPipelineMode(SplitBandId bandId, const Mode::Type& mode);
-  ResultCode setFocusMode(const Mode::Type& mode);
+
   ResultCode getFocusBandId(SplitBandId* pBandId);
   ResultCode getTxBandId(SplitBandId* pBandId);
   ResultCode getRxBandId(SplitBandId* pBandId);
   ResultCode getFocusPipelineId(SplitBandId bandId, PipelineId* pPipelineId);
-  ResultCode setBand(SplitBandId bandId, const char* bandName);
-  ResultCode setFocusBand(const char* bandName);
-
-  ResultCode splitBands(bool split, const NameString& newBandName);
   ResultCode isSplitBands(bool* pIsSplitBands);
 
 protected:
+  void* getMessage() override { return &m_rawSettings; }
+
   ResultCode getBandId(const SettingFieldPath& path, SplitBandId* pBandId);
   ResultCode getPipelineId(const SettingFieldPath& path, PipelineId* pPipelineId);
   ResultCode getBool(const SettingFieldPath& path, bool* pBool);
-
-  void* getMessage() override { return &m_rawSettings; }
 
   RadioSettings_RadioSettingsPb m_rawSettings;
   ActiveBandSettings m_activeBandSettings;

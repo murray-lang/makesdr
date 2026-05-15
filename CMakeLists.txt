@@ -114,8 +114,10 @@ set(SETTINGS_SOURCES
         src/settings/pipeline/IfSettings.h
         src/settings/pipeline/RxPipelineSettings.h
 
-        src/settings/RadioSettings.h
-        src/settings/RadioSettings.cpp
+        src/settings/SimpleRadioSettings.h
+        src/settings/SimpleRadioSettings.cpp
+        src/settings/SmartRadioSettings.h
+        src/settings/SmartRadioSettings.cpp
         src/settings/ReceiverSettings.h
         src/settings/TransmitterSettings.h
 
