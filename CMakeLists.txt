@@ -76,6 +76,8 @@ set(SETTINGS_SOURCES
 #    src/settings/util/PbUtils.cpp
         src/settings/band/ActiveBandSettings.h
         src/settings/band/BandSettings.h
+        src/settings/band/BandSettingsCache.h
+        src/settings/band/BandSettingsCache.cpp
         src/settings/band/SplitBandId.h
         src/settings/band/Band.h
         src/settings/band/BandList.h
@@ -109,6 +111,7 @@ set(SETTINGS_SOURCES
         src/settings/util/DefaultRadioSettings.h
         src/settings/util/DefaultRadioSettings.cpp
 
+        src/settings/pipeline/PipelineSettings.h
         src/settings/pipeline/IqCorrectionSettings.h
         src/settings/pipeline/MicrophoneSettings.h
         src/settings/pipeline/PipelineId.h
@@ -117,12 +120,12 @@ set(SETTINGS_SOURCES
         src/settings/pipeline/IfSettings.h
         src/settings/pipeline/RxPipelineSettings.h
 
-        src/settings/RadioSettings.h
-        src/settings/RadioSettings.cpp
-        src/settings/AutoCompleteRadioSettings.h
-        src/settings/AutoCompleteRadioSettings.cpp
-        src/settings/ReceiverSettings.h
-        src/settings/TransmitterSettings.h
+        src/settings/radio/RadioSettings.h
+        src/settings/radio/RadioSettings.cpp
+        src/settings/radio/AutoCompleteRadioSettings.h
+        src/settings/radio/AutoCompleteRadioSettings.cpp
+        src/settings/radio/ReceiverSettings.h
+        src/settings/radio/TransmitterSettings.h
         src/settings/base/SettingsManipulator.cpp
         src/settings/base/SettingsManipulator.h
 

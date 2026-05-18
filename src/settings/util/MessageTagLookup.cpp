@@ -70,7 +70,7 @@ constexpr FieldEntry transmitter_fields[] = {
 };
 
 constexpr FieldEntry rx_pipeline_fields[] = {
-  {"requested_mode", RadioSettings_RxPipelineSettingsPb_requested_mode_tag, nullptr},
+  {"mode_request", RadioSettings_RxPipelineSettingsPb_mode_request_tag, nullptr},
   {"mode", RadioSettings_RxPipelineSettingsPb_mode_tag, mode_fields},
   {"rf", RadioSettings_RxPipelineSettingsPb_rf_tag, rf_fields},
   {"if", RadioSettings_RxPipelineSettingsPb_if_tag, if_fields},
@@ -80,13 +80,14 @@ constexpr FieldEntry rx_pipeline_fields[] = {
 };
 
 constexpr FieldEntry tx_pipeline_fields[] = {
-  {"requested_mode", RadioSettings_RxPipelineSettingsPb_requested_mode_tag, nullptr},
+  {"mode_request", RadioSettings_TxPipelineSettingsPb_mode_request_tag, nullptr},
   {"mode", RadioSettings_RxPipelineSettingsPb_mode_tag, mode_fields},
   {"rf", RadioSettings_TxPipelineSettingsPb_rf_tag, rf_fields},
   {nullptr, 0, nullptr}
 };
 
 constexpr FieldEntry band_settings_fields[] = {
+  {"band_request", RadioSettings_BandSettingsPb_band_request_tag, nullptr},
   {"band", RadioSettings_BandSettingsPb_band_tag, band_fields},
   {"pipeline_a", RadioSettings_BandSettingsPb_pipeline_a_tag, rx_pipeline_fields},
   {"pipeline_b", RadioSettings_BandSettingsPb_pipeline_b_tag, rx_pipeline_fields},

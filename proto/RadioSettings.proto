@@ -165,6 +165,10 @@ message ActiveBandSettingsPb {
   optional bool is_split = 6;
 }
 
+message BandSettingsCachePb {
+  map<string, BandSettingsPb> band_settings = 1;
+}
+
 message RadioSettingsPb {
   optional ReceiverSettings receiver = 1;
   optional TransmitterSettingsPb transmitter = 2;

@@ -60,6 +60,12 @@ PB_BIND(RadioSettings_BandSettingsPb, RadioSettings_BandSettingsPb, 2)
 PB_BIND(RadioSettings_ActiveBandSettingsPb, RadioSettings_ActiveBandSettingsPb, 2)
 
 
+PB_BIND(RadioSettings_BandSettingsCachePb, RadioSettings_BandSettingsCachePb, 4)
+
+
+PB_BIND(RadioSettings_BandSettingsCachePb_BandSettingsEntry, RadioSettings_BandSettingsCachePb_BandSettingsEntry, 2)
+
+
 PB_BIND(RadioSettings_RadioSettingsPb, RadioSettings_RadioSettingsPb, 2)
 
 

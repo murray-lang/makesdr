@@ -1,12 +1,12 @@
 #pragma once
 
-#include "base/SettingsBase.h"
-#include "band/ActiveBandSettings.h"
+#include "../base/SettingsBase.h"
+#include "../band/ActiveBandSettings.h"
 #include "ReceiverSettings.h"
 #include "RadioSettings.h"
 #include "TransmitterSettings.h"
-#include "base/SettingsManipulator.h"
-#include "util/DefaultRadioSettings.h"
+#include "../base/SettingsManipulator.h"
+#include "../util/DefaultRadioSettings.h"
 
 class AutoCompleteRadioSettings : public RadioSettings
 {

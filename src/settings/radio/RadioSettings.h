@@ -1,10 +1,10 @@
 #pragma once
 
-#include "base/SettingsBase.h"
-#include "band/ActiveBandSettings.h"
+#include "../base/SettingsBase.h"
+#include "../band/ActiveBandSettings.h"
 #include "ReceiverSettings.h"
 #include "TransmitterSettings.h"
-#include "util/DefaultRadioSettings.h"
+#include "../util/DefaultRadioSettings.h"
 
 class RadioSettings : public SettingsBase
 {

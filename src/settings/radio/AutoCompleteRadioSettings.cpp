@@ -1,8 +1,8 @@
-#include "AutoCompleteRadioSettings.h"
-#include "util/ResolvedFieldPaths.h"
-#include "mode/ModeList.h"
-#include "band/AvailableBands.h"
-#include "band/BandCategoryList.h"
+#include "../radio/AutoCompleteRadioSettings.h"
+#include "../util/ResolvedFieldPaths.h"
+#include "../mode/ModeList.h"
+#include "../band/AvailableBands.h"
+#include "../band/BandCategoryList.h"
 
 ResultCode
 AutoCompleteRadioSettings::getFocusBandId(SplitBandId* pBandId)
@@ -31,7 +31,7 @@ AutoCompleteRadioSettings::getFocusPipelineId(SplitBandId bandId, PipelineId* pP
   } else if (bandId == SplitBandId::Two) {
     focusPipelineIdPath = &active_bands_band_2_focus_pipeline_id;
   } else {
-    return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+    return ResultCode::ERR_SETTING_BAND_ID_INVALID;
   }
   return getPipelineId(*focusPipelineIdPath, pPipelineId);
 }
@@ -84,7 +84,7 @@ AutoCompleteRadioSettings::splitBands(bool split, const NameString& newBandName)
   if (rc != ResultCode::OK) return rc;
 
   if (isSplit == split) {
-    return isSplit ? ResultCode::ERROR_SETTING_BANDS_ALREADY_SPLIT : ResultCode::ERROR_SETTING_BANDS_ALREADY_UNSPLIT;
+    return isSplit ? ResultCode::ERR_SETTING_BANDS_ALREADY_SPLIT : ResultCode::ERR_SETTING_BANDS_ALREADY_UNSPLIT;
   }
 
   // This will be needed either way
@@ -148,7 +148,7 @@ AutoCompleteRadioSettings::setBand(SplitBandId bandId, const char* bandName)
   } else if (bandId == SplitBandId::Two) {
     bandIdPath = &active_bands_band_2_band_name;
   } else {
-    return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+    return ResultCode::ERR_SETTING_BAND_ID_INVALID;
   }
   SettingFieldUpdate update(*bandIdPath, bandName);
   return m_manipulator.updateField(update);
@@ -172,7 +172,7 @@ AutoCompleteRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, co
     } else if (pipelineId == PipelineId::B) {
       specifiedModePath = &active_bands_band_1_pipeline_b_mode;
     } else {
-      return ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
+      return ResultCode::ERR_SETTING_PIPELINE_ID_INVALID;
     }
   } else if (bandId == SplitBandId::Two) {
     txPipelineIdPath = &active_bands_band_2_tx_pipeline_id;
@@ -182,10 +182,10 @@ AutoCompleteRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, co
     } else if (pipelineId == PipelineId::B) {
       specifiedModePath = &active_bands_band_2_pipeline_b_mode;
     } else {
-      return ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
+      return ResultCode::ERR_SETTING_PIPELINE_ID_INVALID;
     }
   } else {
-    return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+    return ResultCode::ERR_SETTING_BAND_ID_INVALID;
   }
   SettingFieldUpdate specifiedUpdate(*specifiedModePath, static_cast<uint32_t>(mode));
   ResultCode rc = m_manipulator.updateField(specifiedUpdate);
@@ -203,7 +203,7 @@ AutoCompleteRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, co
           rc = m_manipulator.updateField(txUpdate);
         }
       } else {
-        rc = ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
+        rc = ResultCode::ERR_SETTING_PIPELINE_ID_INVALID;
       }
     }
   }
@@ -225,7 +225,7 @@ AutoCompleteRadioSettings::getBandId(const SettingFieldPath& path, SplitBandId* 
     if (focusBandIdPtr != nullptr) {
       *pBandId = static_cast<SplitBandId>(*focusBandIdPtr);
     } else {
-      rc = ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+      rc = ResultCode::ERR_SETTING_BAND_ID_INVALID;
     }
   }
   return rc;
@@ -241,7 +241,7 @@ AutoCompleteRadioSettings::getPipelineId(const SettingFieldPath& path, PipelineI
     if (focusPipelineIdPtr != nullptr) {
       *pPipelineId = static_cast<PipelineId>(*focusPipelineIdPtr);
     } else {
-      rc = ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
+      rc = ResultCode::ERR_SETTING_PIPELINE_ID_INVALID;
     }
   }
   return rc;
@@ -257,7 +257,7 @@ AutoCompleteRadioSettings::getBool(const SettingFieldPath& path, bool* pBool)
     if (focusBoolPtr != nullptr) {
       *pBool = *focusBoolPtr;
     } else {
-      rc = ResultCode::ERROR_SETTING_BOOL_INVALID;
+      rc = ResultCode::ERR_SETTING_BOOL_INVALID;
     }
   }
   return rc;

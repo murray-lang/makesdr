@@ -2,11 +2,11 @@
 #include <sstream>
 #include <fstream>
 
-#include "RadioSettings.h"
+#include "settings/radio/RadioSettings.h"
 #include "util/GenerateResolvedPathSourceFiles.h"
 
 #include "RadioSettings.pb.h"
-#include "AutoCompleteRadioSettings.h"
+#include "settings/radio/AutoCompleteRadioSettings.h"
 #include "band/AvailableBands.h"
 #include "mode/AvailableModes.h"
 #include "settings/util/ResolvedFieldPaths.h"

@@ -23,9 +23,12 @@ public:
   [[nodiscard]] int32_t defaultCoarseStep() const { return m_rawSettings.default_coarse_step; }
   [[nodiscard]] Mode::Type defaultMode() const { return static_cast<Mode::Type>(m_rawSettings.default_mode); }
 
+  RadioSettings_BandPb& raw() { return m_rawSettings; }
+  [[nodiscard]] const RadioSettings_BandPb& raw() const { return m_rawSettings; }
+
 protected:
 
-  const RadioSettings_BandPb& m_rawSettings;
+  RadioSettings_BandPb& m_rawSettings;
   const StringRef m_name;
   const StringRef m_label;
 };

@@ -1,6 +1,6 @@
 #include "RadioSettings.h"
 
-#include "util/PbUtils.h"
+#include "../util/PbUtils.h"
 
 ResultCode
 RadioSettings::readProtobuf(const uint8_t *buffer, size_t msg_length) {

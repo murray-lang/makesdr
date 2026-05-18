@@ -56,16 +56,16 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
     .rx_band_id =  RadioSettings_SplitBandId_SPLIT_BAND_ONE,
     .has_band_1 = true,
     .band_1 =   {
-      .has_requested_band = true,
-      .requested_band = "20m",
-      .has_band = false,
-      .band = RadioSettings_BandPb_init_zero,
+      .which_band_or_request = RadioSettings_BandSettingsPb_band_request_tag,
+      .band_or_request {
+        .band_request = "20m",
+      },
       .has_pipeline_a = true,
       .pipeline_a =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_USB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_USB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,
@@ -107,10 +107,10 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
       },
       .has_pipeline_b = true,
       .pipeline_b =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_USB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_USB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,
@@ -152,10 +152,10 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
       },
       .has_tx_pipeline = true,
       .tx_pipeline =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_USB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_USB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,
@@ -190,16 +190,16 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
     },
     .has_band_2 = true,
     .band_2 =  {
-      .has_requested_band = true,
-      .requested_band = "40m",
-      .has_band = false,
-      .band = RadioSettings_BandPb_init_zero,
+      .which_band_or_request = RadioSettings_BandSettingsPb_band_request_tag,
+      .band_or_request {
+        .band_request = "40m",
+      },
       .has_pipeline_a = true,
       .pipeline_a =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_LSB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_LSB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,
@@ -241,10 +241,10 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
       },
       .has_pipeline_b = true,
       .pipeline_b =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_LSB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_LSB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,
@@ -286,10 +286,10 @@ RadioSettings_RadioSettingsPb defaultRadioSettingsPb = {
       },
       .has_tx_pipeline = true,
       .tx_pipeline =  {
-        .has_requested_mode = true,
-        .requested_mode =  RadioSettings_ModeType_MODE_LSB,
-        .has_mode = true,
-        .mode =  RadioSettings_ModePb_init_zero,
+        .which_mode_or_request = RadioSettings_RxPipelineSettingsPb_mode_request_tag,
+        .mode_or_request =  {
+          .mode_request =  RadioSettings_ModeType_MODE_LSB,
+        },
         .has_rf = true,
         .rf =  {
           .has_max_negative_vfo_offset = false,

@@ -1,7 +1,7 @@
 #pragma once
-#include "base/SettingsBase.h"
-#include "pipeline/IqCorrectionSettings.h"
-#include "pipeline/MicrophoneSettings.h"
+#include "../base/SettingsBase.h"
+#include "../pipeline/IqCorrectionSettings.h"
+#include "../pipeline/MicrophoneSettings.h"
 
 
 class TransmitterSettings : public SettingsBase

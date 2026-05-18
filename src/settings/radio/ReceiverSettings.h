@@ -1,6 +1,6 @@
 #pragma once
-#include "base/SettingsBase.h"
-#include "pipeline/IqCorrectionSettings.h"
+#include "../base/SettingsBase.h"
+#include "../pipeline/IqCorrectionSettings.h"
 #include "RadioSettings.pb.h"
 
 class ReceiverSettings : public SettingsBase
