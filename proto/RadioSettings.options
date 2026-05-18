@@ -5,6 +5,8 @@ RadioSettings.ModePb.label max_size: 15
 RadioSettings.BandPb.name max_size: 8
 RadioSettings.BandPb.label max_size: 10
 
+RadioSettings.BandSettingsPb.requested_band max_size: 8
+
 RadioSettings.BandListPb.bands max_count: 34
 
 RadioSettings.ModeListPb.modes max_count: 10
@@ -15,4 +17,5 @@ RadioSettings.BandCategoryPb.bands max_count: 13
 
 RadioSettings.BandCategoryListPb.categories max_count: 8
 
-RadioSettings.BandSettingsPb.name max_size: 8
+RadioSettings.BandSettingsPb.band_name max_size: 8
+RadioSettings.BandSettingsPb.bands max_count: 2

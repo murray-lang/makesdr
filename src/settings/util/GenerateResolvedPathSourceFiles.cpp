@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 
-#include "../SimpleRadioSettings.h"
+#include "../RadioSettings.h"
 #include "MessageTagLookup.h"
 
 struct ResolvedPath {

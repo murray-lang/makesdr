@@ -8,8 +8,7 @@ class TransmitterSettings : public SettingsBase
 {
 public:
   TransmitterSettings(RadioSettings_TransmitterSettingsPb& raw)
-    : SettingsBase(&RadioSettings_TransmitterSettingsPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_iqCorrectionSettings(raw.iq_corrections)
     , m_microphoneSettings(raw.mic)
   {}
@@ -23,8 +22,6 @@ public:
   [[nodiscard]] const MicrophoneSettings& microphoneSettings() const { return m_microphoneSettings; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_TransmitterSettingsPb& m_rawSettings;
   IqCorrectionSettings m_iqCorrectionSettings;
   MicrophoneSettings m_microphoneSettings;

@@ -4,21 +4,36 @@
 #include "../pipeline/RxPipelineSettings.h"
 #include "../pipeline/TxPipelineSettings.h"
 #include "../base/SettingsBase.h"
+#include <etl/variant.h>
 
+#include "etl/vector.h"
+
+// using BandIdVariant = etl::variant<etl::monostate, StringRef, uint32_t>;
 
 class BandSettings : public SettingsBase
 {
 public:
+  using BandVector = etl::vector<Band, 2>;
+
   BandSettings(RadioSettings_BandSettingsPb& raw)
-    : SettingsBase(&RadioSettings_BandSettingsPb_msg)
-    , m_rawSettings(raw)
-    , m_name{raw.name, raw.name, sizeof(raw.name)}
+    : m_rawSettings(raw)
+    , m_band(raw.band)
+    // , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_pipelineA(raw.pipeline_a)
     , m_pipelineB(raw.pipeline_b)
     , m_txPipeline(raw.tx_pipeline)
-  {}
+  {
+    // if (m_rawSettings.which_band_id == RadioSettings_BandSettingsPb_band_name_tag) {
+    //   m_bandId.emplace<StringRef>(m_rawSettings.band_id.band_name, m_rawSettings.band_id.band_name, sizeof(m_rawSettings.band_id.band_name));
+    // } else if (m_rawSettings.which_band_id == RadioSettings_BandSettingsPb_band_index_tag) {
+    //   m_bandId.emplace<uint32_t>(m_rawSettings.band_id.band_index);
+    // }
+    // for (int i = 0; i < m_rawSettings.bands_count; i++) {
+    //   m_bands.emplace_back(m_rawSettings.bands[i]);
+    // }
+  }
 
-  [[nodiscard]] bool hasName() const { return m_rawSettings.has_name; }
+  [[nodiscard]] bool hasBand() const { return m_rawSettings.has_band != 0; }
   [[nodiscard]] bool hasFocusPipelineId() const { return m_rawSettings.has_focus_pipeline_id; }
   [[nodiscard]] bool hasTxPipelineId() const { return m_rawSettings.has_tx_pipeline_id; }
   [[nodiscard]] bool hasIsMultiPipeline() const { return m_rawSettings.has_is_multi_pipeline; }
@@ -26,7 +41,7 @@ public:
   [[nodiscard]] bool hasPipelineB() const { return m_rawSettings.has_pipeline_b; }
   [[nodiscard]] bool hasTxPipeline() const { return m_rawSettings.has_tx_pipeline; }
 
-  StringRef& name() { return m_name; }
+  Band& band() { return m_band; }
 
   RxPipelineSettings& pipelineASettings() { return m_pipelineA; }
   [[nodiscard]] const RxPipelineSettings& pipelineASettings() const { return m_pipelineA; }
@@ -48,13 +63,29 @@ public:
     return nullptr;
   }
 
+  // uint32_t bandsCount() const { return m_rawSettings.bands_count; }
+  // BandVector& bands() { return m_bands; }
+  //
+  // Band* getBand()
+  // {
+  //   if (m_rawSettings.bands_count > 0) {
+  //     if (m_rawSettings.which_band_id == RadioSettings_BandSettingsPb) {
+  //       return getBand(m_rawSettings.band_id.band_index);
+  //     }
+  //     if (m_rawSettings.which_band_id == RadioSettings_BandSettingsPb) {
+  //       return getBand(m_rawSettings.band_id.band_name);
+  //     }
+  //   }
+  //   return nullptr;
+  // }
+
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-  StringRef m_name;
   RadioSettings_BandSettingsPb& m_rawSettings;
+  Band m_band;
   RxPipelineSettings m_pipelineA;
   RxPipelineSettings m_pipelineB;
   TxPipelineSettings m_txPipeline;
+  // BandVector m_bands;
 };
 
 

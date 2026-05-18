@@ -7,8 +7,7 @@ class IqCorrectionSettings : public SettingsBase
 {
 public:
   IqCorrectionSettings(RadioSettings_IqCorrectionSettingsPb& raw)
-    : SettingsBase(&RadioSettings_IqCorrectionSettingsPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_amplitude(raw.amplitude)
     , m_phase(raw.phase)
   {}
@@ -19,8 +18,6 @@ public:
   [[nodiscard]] const SteppableFloatSetting& phase() const { return m_phase; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_IqCorrectionSettingsPb& m_rawSettings;
   SteppableFloatSetting m_amplitude;
   SteppableFloatSetting m_phase;

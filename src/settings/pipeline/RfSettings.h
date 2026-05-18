@@ -7,8 +7,7 @@ class RfSettings : public SettingsBase
 {
 public:
   RfSettings(RadioSettings_RfSettingsPb& raw)
-    : SettingsBase(&RadioSettings_RfSettingsPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_gain(raw.gain)
     , m_centreFrequency(raw.centre_frequency)
     , m_vfoFrequency(raw.vfo)
@@ -31,8 +30,6 @@ public:
   [[nodiscard]] const SteppableInt64Setting& vfoFrequency() const { return m_vfoFrequency; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_RfSettingsPb& m_rawSettings;
   SteppableFloatSetting m_gain;
   SteppableInt64Setting m_centreFrequency;

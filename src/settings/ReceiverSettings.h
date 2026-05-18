@@ -7,8 +7,7 @@ class ReceiverSettings : public SettingsBase
 {
 public:
   ReceiverSettings(RadioSettings_ReceiverSettings& raw)
-    : SettingsBase(&RadioSettings_ReceiverSettings_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_iqCorrectionSettings(raw.iq_corrections)
   {}
 
@@ -18,8 +17,6 @@ public:
   [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_ReceiverSettings& m_rawSettings;
   IqCorrectionSettings m_iqCorrectionSettings;
 };

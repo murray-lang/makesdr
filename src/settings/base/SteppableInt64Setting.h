@@ -5,8 +5,7 @@ class SteppableInt64Setting : public SettingsBase
 {
 public:
   SteppableInt64Setting(RadioSettings_SteppableInt64SettingPb& raw)
-    : SettingsBase(&RadioSettings_SteppableInt64SettingPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
   {}
 
   [[nodiscard]] int64_t value() const { return m_rawSettings.value; }
@@ -14,7 +13,5 @@ public:
   [[nodiscard]] int64_t fineDelta() const { return m_rawSettings.fine_delta; }
   [[nodiscard]] bool useFine() const { return m_rawSettings.use_fine; }
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-  
   RadioSettings_SteppableInt64SettingPb& m_rawSettings;
 };

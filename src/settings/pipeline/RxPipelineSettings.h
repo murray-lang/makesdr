@@ -9,8 +9,8 @@ class RxPipelineSettings : public SettingsBase
 {
 public:
   RxPipelineSettings(RadioSettings_RxPipelineSettingsPb& rawSettings)
-    : SettingsBase(&RadioSettings_RxPipelineSettingsPb_msg)
-    , m_rawSettings(rawSettings)
+    : m_rawSettings(rawSettings)
+    , m_mode(rawSettings.mode)
     , m_rfSettings(rawSettings.rf)
     , m_ifSettings(rawSettings.if_)
   {}
@@ -21,14 +21,8 @@ public:
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
   [[nodiscard]] bool hasMute() const { return m_rawSettings.has_mute; }
 
-  [[nodiscard]] Mode::Type mode() const { return static_cast<Mode::Type>(m_rawSettings.mode); }
-
-  ResultCode setMode(Mode::Type modeType)
-  {
-    m_rawSettings.mode = static_cast<RadioSettings_ModeType>(modeType);
-    m_rawSettings.has_mode = true;
-    return ResultCode::OK;
-  }
+  // [[nodiscard]] Mode::Type mode() const { return static_cast<Mode::Type>(m_rawSettings.mode); }
+  Mode& mode() { return m_mode; }
 
   RfSettings& rfSettings() { return m_rfSettings; }
   [[nodiscard]] const RfSettings& rfSettings() const { return m_rfSettings; }
@@ -40,9 +34,8 @@ public:
   [[nodiscard]] bool isMute() const { return m_rawSettings.mute; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_RxPipelineSettingsPb& m_rawSettings;
+  Mode m_mode;
   RfSettings m_rfSettings;
   IfSettings m_ifSettings;
 };

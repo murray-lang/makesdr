@@ -7,12 +7,12 @@ class ActiveBandSettings : public SettingsBase
 {
 public:
   ActiveBandSettings(RadioSettings_ActiveBandSettingsPb& raw)
-    : SettingsBase(&RadioSettings_ActiveBandSettingsPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_band1Settings(raw.band_1)
     , m_band2Settings(raw.band_2)
   {}
 
+  [[nodiscard]] bool isSplit() const { return m_rawSettings.is_split; }
   [[nodiscard]] bool hasFocusBandId() const { return m_rawSettings.has_focus_band_id; }
   [[nodiscard]] bool hasTxBandId() const { return m_rawSettings.has_tx_band_id; }
   [[nodiscard]] bool hasRxBandId() const { return m_rawSettings.has_rx_band_id; }
@@ -54,10 +54,8 @@ public:
   [[nodiscard]] const BandSettings& band2Settings() const { return m_band2Settings; }
 
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
-protected:
   RadioSettings_ActiveBandSettingsPb& m_rawSettings;
   BandSettings m_band1Settings;
   BandSettings m_band2Settings;
+
 };

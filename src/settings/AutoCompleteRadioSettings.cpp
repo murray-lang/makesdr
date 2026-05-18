@@ -1,11 +1,43 @@
-#include "SmartRadioSettings.h"
+#include "AutoCompleteRadioSettings.h"
 #include "util/ResolvedFieldPaths.h"
 #include "mode/ModeList.h"
 #include "band/AvailableBands.h"
 #include "band/BandCategoryList.h"
 
 ResultCode
-SmartRadioSettings::setFocusPipelineMode(SplitBandId bandId, const Mode::Type& mode)
+AutoCompleteRadioSettings::getFocusBandId(SplitBandId* pBandId)
+{
+  return getBandId(active_bands_focus_band_id, pBandId);
+}
+
+ResultCode
+AutoCompleteRadioSettings::getTxBandId(SplitBandId* pBandId)
+{
+  return getBandId(active_bands_tx_band_id, pBandId);
+}
+ResultCode
+AutoCompleteRadioSettings::getRxBandId(SplitBandId* pBandId)
+{
+  return getBandId(active_bands_rx_band_id, pBandId);
+}
+
+ResultCode
+AutoCompleteRadioSettings::getFocusPipelineId(SplitBandId bandId, PipelineId* pPipelineId)
+{
+  const SettingFieldPath* focusPipelineIdPath = nullptr;
+
+  if (bandId == SplitBandId::One) {
+    focusPipelineIdPath = &active_bands_band_1_focus_pipeline_id;
+  } else if (bandId == SplitBandId::Two) {
+    focusPipelineIdPath = &active_bands_band_2_focus_pipeline_id;
+  } else {
+    return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+  }
+  return getPipelineId(*focusPipelineIdPath, pPipelineId);
+}
+
+ResultCode
+AutoCompleteRadioSettings::setFocusPipelineMode(SplitBandId bandId, const Mode::Type& mode)
 {
   PipelineId focusPipelineId;
   ResultCode rc = getFocusPipelineId(bandId, &focusPipelineId);
@@ -16,7 +48,7 @@ SmartRadioSettings::setFocusPipelineMode(SplitBandId bandId, const Mode::Type& m
 }
 
 ResultCode
-SmartRadioSettings::setFocusMode(const Mode::Type& mode)
+AutoCompleteRadioSettings::setFocusMode(const Mode::Type& mode)
 {
   SplitBandId focusBandId;
   ResultCode rc = getFocusBandId(&focusBandId);
@@ -27,7 +59,7 @@ SmartRadioSettings::setFocusMode(const Mode::Type& mode)
 }
 
 ResultCode
-SmartRadioSettings::setFocusBand(const char* bandName)
+AutoCompleteRadioSettings::setFocusBand(const char* bandName)
 {
   SplitBandId focusBandId;
   ResultCode rc = getFocusBandId(&focusBandId);
@@ -35,7 +67,7 @@ SmartRadioSettings::setFocusBand(const char* bandName)
     if (focusBandId == SplitBandId::None) {
       // If it's not set then set it now.
       focusBandId = SplitBandId::One;
-      rc = updateField(active_bands_focus_band_id, static_cast<uint32_t>(focusBandId));
+      rc = m_manipulator.updateField(active_bands_focus_band_id, static_cast<uint32_t>(focusBandId));
     }
     if (rc == ResultCode::OK) {
       rc = setBand(focusBandId, bandName);
@@ -45,7 +77,7 @@ SmartRadioSettings::setFocusBand(const char* bandName)
 }
 
 ResultCode
-SmartRadioSettings::splitBands(bool split, const NameString& newBandName)
+AutoCompleteRadioSettings::splitBands(bool split, const NameString& newBandName)
 {
   bool isSplit = false;
   ResultCode rc = isSplitBands(&isSplit);
@@ -61,14 +93,14 @@ SmartRadioSettings::splitBands(bool split, const NameString& newBandName)
   if (rc != ResultCode::OK) return rc;
 
   if (split) {
-    SettingFieldUpdate band2NameUpdate(active_bands_band_2_name, newBandName);
-    rc = updateField(band2NameUpdate);
+    SettingFieldUpdate band2NameUpdate(active_bands_band_2_band_name, newBandName);
+    rc = m_manipulator.updateField(band2NameUpdate);
     if (rc != ResultCode::OK) return rc;
 
     // If tx_band_id is not set, then set it to band 1 (not 2. Doesn't really matter.)
     if (txBandId == SplitBandId::None) {
       SettingFieldUpdate txBandIdUpdate(active_bands_tx_band_id, static_cast<uint32_t>(SplitBandId::One));
-      rc = updateField(txBandIdUpdate);
+      rc = m_manipulator.updateField(txBandIdUpdate);
       if (rc != ResultCode::OK) return rc;
     }
   } else {
@@ -76,7 +108,7 @@ SmartRadioSettings::splitBands(bool split, const NameString& newBandName)
     // We already have the tx band id
     if (txBandId != SplitBandId::One) {
       SettingFieldUpdate bandIdUpdate(active_bands_tx_band_id, static_cast<uint32_t>(SplitBandId::One));
-      rc = updateField(bandIdUpdate);
+      rc = m_manipulator.updateField(bandIdUpdate);
       if (rc != ResultCode::OK) return rc;
     }
     // Now the focus band
@@ -86,7 +118,7 @@ SmartRadioSettings::splitBands(bool split, const NameString& newBandName)
 
     if (focusBandId != SplitBandId::One) {
       SettingFieldUpdate bandIdUpdate(active_bands_focus_band_id, static_cast<uint32_t>(SplitBandId::One));
-      rc = updateField(bandIdUpdate);
+      rc = m_manipulator.updateField(bandIdUpdate);
       if (rc != ResultCode::OK) return rc;
     }
     // now the rx band
@@ -96,36 +128,36 @@ SmartRadioSettings::splitBands(bool split, const NameString& newBandName)
 
     if (rxBandId != SplitBandId::One) {
       SettingFieldUpdate focusBandIdUpdate(active_bands_rx_band_id, static_cast<uint32_t>(SplitBandId::One));
-      rc = updateField(focusBandIdUpdate);
+      rc = m_manipulator.updateField(focusBandIdUpdate);
       if (rc != ResultCode::OK) return rc;
     }
   }
   // Finally, update the split flag itself
   SettingFieldUpdate update(active_bands_is_split, split);
-  return updateField(update);
+  return m_manipulator.updateField(update);
 }
 
 
 
 ResultCode
-SmartRadioSettings::setBand(SplitBandId bandId, const char* bandName)
+AutoCompleteRadioSettings::setBand(SplitBandId bandId, const char* bandName)
 {
   const SettingFieldPath* bandIdPath = nullptr;
   if (bandId == SplitBandId::One) {
-    bandIdPath = &active_bands_band_1_name;
+    bandIdPath = &active_bands_band_1_band_name;
   } else if (bandId == SplitBandId::Two) {
-    bandIdPath = &active_bands_band_2_name;
+    bandIdPath = &active_bands_band_2_band_name;
   } else {
     return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
   }
   SettingFieldUpdate update(*bandIdPath, bandName);
-  return updateField(update);
+  return m_manipulator.updateField(update);
 }
 
 
 
 ResultCode
-SmartRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, const Mode::Type& mode)
+AutoCompleteRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, const Mode::Type& mode)
 {
   const SettingFieldPath* specifiedModePath = nullptr;
   const SettingFieldPath* txPipelineIdPath = nullptr;
@@ -156,23 +188,76 @@ SmartRadioSettings::setMode(SplitBandId bandId, PipelineId pipelineId, const Mod
     return ResultCode::ERROR_SETTING_BAND_ID_INVALID;
   }
   SettingFieldUpdate specifiedUpdate(*specifiedModePath, static_cast<uint32_t>(mode));
-  ResultCode rc = updateField(specifiedUpdate);
+  ResultCode rc = m_manipulator.updateField(specifiedUpdate);
 
   if (rc == ResultCode::OK) {
     // Now see if the tx pipeline follows the given rx pipeline.
     // If so then update it too.
     SettingFieldVariant txPipelineId;
-    rc = getField(*txPipelineIdPath, txPipelineId);
+    rc = m_manipulator.getField(*txPipelineIdPath, txPipelineId);
     if (rc == ResultCode::OK) {
       auto* txPipelineIdPtr = etl::get_if<uint32_t>(&txPipelineId);
       if (txPipelineIdPtr != nullptr) {
         if (*txPipelineIdPtr == static_cast<uint32_t>(pipelineId)) {
           SettingFieldUpdate txUpdate(*txPipelineModePath, static_cast<uint32_t>(mode));
-          rc = updateField(txUpdate);
+          rc = m_manipulator.updateField(txUpdate);
         }
       } else {
         rc = ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
       }
+    }
+  }
+  return rc;
+}
+
+ResultCode
+AutoCompleteRadioSettings::isSplitBands(bool* pIsSplitBands)
+{
+  return getBool(active_bands_is_split, pIsSplitBands);
+}
+ResultCode
+AutoCompleteRadioSettings::getBandId(const SettingFieldPath& path, SplitBandId* pBandId)
+{
+  SettingFieldVariant focusBandId;
+  ResultCode rc = m_manipulator.getField(path, focusBandId);
+  if (rc == ResultCode::OK) {
+    auto* focusBandIdPtr = etl::get_if<uint32_t>(&focusBandId);
+    if (focusBandIdPtr != nullptr) {
+      *pBandId = static_cast<SplitBandId>(*focusBandIdPtr);
+    } else {
+      rc = ResultCode::ERROR_SETTING_BAND_ID_INVALID;
+    }
+  }
+  return rc;
+}
+
+ResultCode
+AutoCompleteRadioSettings::getPipelineId(const SettingFieldPath& path, PipelineId* pPipelineId)
+{
+  SettingFieldVariant focusPipelineId;
+  ResultCode rc = m_manipulator.getField(path, focusPipelineId);
+  if (rc == ResultCode::OK) {
+    auto* focusPipelineIdPtr = etl::get_if<uint32_t>(&focusPipelineId);
+    if (focusPipelineIdPtr != nullptr) {
+      *pPipelineId = static_cast<PipelineId>(*focusPipelineIdPtr);
+    } else {
+      rc = ResultCode::ERROR_SETTING_PIPELINE_ID_INVALID;
+    }
+  }
+  return rc;
+}
+
+ResultCode
+AutoCompleteRadioSettings::getBool(const SettingFieldPath& path, bool* pBool)
+{
+  SettingFieldVariant focusBool;
+  ResultCode rc = m_manipulator.getField(path, focusBool);
+  if (rc == ResultCode::OK) {
+    auto* focusBoolPtr = etl::get_if<bool>(&focusBool);
+    if (focusBoolPtr != nullptr) {
+      *pBool = *focusBoolPtr;
+    } else {
+      rc = ResultCode::ERROR_SETTING_BOOL_INVALID;
     }
   }
   return rc;

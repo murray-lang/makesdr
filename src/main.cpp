@@ -2,11 +2,13 @@
 #include <sstream>
 #include <fstream>
 
-#include "SimpleRadioSettings.h"
+#include "RadioSettings.h"
 #include "util/GenerateResolvedPathSourceFiles.h"
 
 #include "RadioSettings.pb.h"
-#include "SmartRadioSettings.h"
+#include "AutoCompleteRadioSettings.h"
+#include "band/AvailableBands.h"
+#include "mode/AvailableModes.h"
 #include "settings/util/ResolvedFieldPaths.h"
 
 using RadioSettingsPb = RadioSettings_RadioSettingsPb;
@@ -36,7 +38,9 @@ int main()
   centreFrequency->fine_delta = 100;
   centreFrequency->use_fine = false;
 
-  SmartRadioSettings radioSettings;
+  AutoCompleteRadioSettings radioSettings;
+  // radioSettings.setBands(&availableBandsPb);
+  // radioSettings.setModes(&availableModesPb);
 
 
   // ResultCode rc = setMode(radioSettings, SplitBandId::One, PipelineId::A, Mode::Type::FMN);

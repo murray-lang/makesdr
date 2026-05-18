@@ -125,27 +125,35 @@ message TransmitterSettingsPb {
 }
 
 message RxPipelineSettingsPb {
-  optional ModeType mode = 1;
-  RfSettingsPb rf = 2;
-  IfSettingsPb if = 3;
-  optional bool mute = 4;
-  optional AgcSpeed agc_speed = 5;
+  oneof mode_or_request {
+    ModeType mode_request = 1;
+    ModePb mode = 2;
+  }
+  RfSettingsPb rf = 3;
+  IfSettingsPb if = 4;
+  optional bool mute = 5;
+  optional AgcSpeed agc_speed = 6;
 }
 
 message TxPipelineSettingsPb {
-  optional ModeType mode = 1;
-  RfSettingsPb rf = 2;
+  oneof mode_or_request {
+    ModeType mode_request = 1;
+    ModePb mode = 2;
+  }
+  RfSettingsPb rf = 3;
 }
 
 message BandSettingsPb {
-  optional string name = 1;
-  RxPipelineSettingsPb pipeline_a = 2;
-  optional RxPipelineSettingsPb pipeline_b = 3;
-  optional TxPipelineSettingsPb tx_pipeline = 4;
-  optional bool is_multi_pipeline = 5;
-  optional PipelineId focus_pipeline_id = 6;
-  optional PipelineId tx_pipeline_id = 7;
-
+  oneof band_or_request {
+    string band_request = 1;
+    BandPb band = 2;
+  }
+  RxPipelineSettingsPb pipeline_a = 3;
+  optional RxPipelineSettingsPb pipeline_b = 4;
+  optional TxPipelineSettingsPb tx_pipeline = 5;
+  optional bool is_multi_pipeline = 6;
+  optional PipelineId focus_pipeline_id = 7;
+  optional PipelineId tx_pipeline_id = 8;
 }
 
 message ActiveBandSettingsPb {

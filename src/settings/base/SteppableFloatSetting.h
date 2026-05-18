@@ -5,8 +5,7 @@ class SteppableFloatSetting : public SettingsBase
 {
 public:
   SteppableFloatSetting(RadioSettings_SteppableFloatSettingPb& raw)
-    : SettingsBase(&RadioSettings_SteppableFloatSettingPb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
   {}
 
   [[nodiscard]] float value() const { return m_rawSettings.value; }
@@ -14,7 +13,5 @@ public:
   [[nodiscard]] float fineDelta() const { return m_rawSettings.fine_delta; }
   [[nodiscard]] bool useFine() const { return m_rawSettings.use_fine; }
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_SteppableFloatSettingPb& m_rawSettings;
 };

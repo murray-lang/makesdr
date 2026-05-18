@@ -79,13 +79,14 @@ set(SETTINGS_SOURCES
         src/settings/band/SplitBandId.h
         src/settings/band/Band.h
         src/settings/band/BandList.h
+        src/settings/band/BandList.cpp
         src/settings/band/AvailableBands.h
         src/settings/band/AvailableBands.cpp
         src/settings/band/BandCategory.h
         src/settings/band/BandCategoryList.h
+        src/settings/band/BandCategoryList.cpp
 
         src/settings/base/SettingsBase.h
-        src/settings/base/SettingsBase.cpp
         src/settings/base/SettingFieldPath.h
         src/settings/base/SettingFieldVariant.h
         src/settings/base/SettingFieldUpdate.h
@@ -94,6 +95,8 @@ set(SETTINGS_SOURCES
         src/settings/base/SteppableVariant.h
 
         src/settings/mode/Mode.h
+        src/settings/mode/ModeList.h
+        src/settings/mode/ModeList.cpp
         src/settings/mode/AvailableModes.h
         src/settings/mode/AvailableModes.cpp
 
@@ -114,12 +117,14 @@ set(SETTINGS_SOURCES
         src/settings/pipeline/IfSettings.h
         src/settings/pipeline/RxPipelineSettings.h
 
-        src/settings/SimpleRadioSettings.h
-        src/settings/SimpleRadioSettings.cpp
-        src/settings/SmartRadioSettings.h
-        src/settings/SmartRadioSettings.cpp
+        src/settings/RadioSettings.h
+        src/settings/RadioSettings.cpp
+        src/settings/AutoCompleteRadioSettings.h
+        src/settings/AutoCompleteRadioSettings.cpp
         src/settings/ReceiverSettings.h
         src/settings/TransmitterSettings.h
+        src/settings/base/SettingsManipulator.cpp
+        src/settings/base/SettingsManipulator.h
 
 )
 

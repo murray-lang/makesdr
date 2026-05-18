@@ -1,11 +1,12 @@
-#include "SettingsBase.h"
+#include "SettingsManipulator.h"
 #include <util/MessageTagLookup.h>
 
 #include "pb_common.h"
+#include <cstring>
 
 
 ResultCode
-SettingsBase::resolveDottedPath(const char* dottedPath, SettingFieldPath& path)
+SettingsManipulator::resolveDottedPath(const char* dottedPath, SettingFieldPath& path)
 {
   //return lookup_field_path(dottedPath, path.data(), MAX_FIELD_PATH_LENGTH);
 
@@ -50,7 +51,7 @@ SettingsBase::resolveDottedPath(const char* dottedPath, SettingFieldPath& path)
 }
 
 ResultCode
-SettingsBase::updateField(pb_field_iter_t* iter, const SettingFieldVariant &value)
+SettingsManipulator::updateField(pb_field_iter_t* iter, const SettingFieldVariant &value)
 {
    void* target_ptr = iter->pData;
 
@@ -138,14 +139,13 @@ SettingsBase::updateField(pb_field_iter_t* iter, const SettingFieldVariant &valu
   default:
     return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
   }
-  // set has_<blah>
-  if (iter->pSize != nullptr) {
-    *static_cast<bool *>(iter->pSize) = true;
-  }
+  // set has_<blah> or which_<blah>
+  markFieldPresent(iter);
   return ResultCode::OK;
 }
 
-void pb_calc_steppable_float(float oldValue, float delta, float coarseStep, float fineStep, bool useFine, float* newValue)
+void
+SettingsManipulator::pb_calc_steppable_float(float oldValue, float delta, float coarseStep, float fineStep, bool useFine, float* newValue)
 {
   if (useFine) {
     *newValue = oldValue + delta*fineStep;
@@ -154,7 +154,8 @@ void pb_calc_steppable_float(float oldValue, float delta, float coarseStep, floa
   }
 }
 
-void pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t coarseStep, int64_t fineStep, int64_t useFine, int64_t* newValue)
+void
+SettingsManipulator::pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t coarseStep, int64_t fineStep, int64_t useFine, int64_t* newValue)
 {
   if (useFine) {
     *newValue = oldValue + delta*fineStep;
@@ -164,7 +165,7 @@ void pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t coarseStep
 }
 
 ResultCode
-SettingsBase::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVariant& steppableValue)
+SettingsManipulator::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVariant& steppableValue)
 {
   void* steppable_msg = msg_iter->pData;
   const pb_msgdesc_t* steppable_desc = msg_iter->submsg_desc;
@@ -225,10 +226,10 @@ SettingsBase::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVaria
 }
 
 ResultCode
-SettingsBase::updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
+SettingsManipulator::updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
 {
   pb_field_iter_t iter;
-  void* current_message = getMessage();
+  void* current_message = m_pMessage;
   const pb_msgdesc_t* current_desc = m_pDescriptor;
 
   uint32_t pathLength = path.size();
@@ -314,7 +315,256 @@ SettingsBase::updateField(const SettingFieldPath &path, const SettingFieldVarian
 }
 
 ResultCode
-SettingsBase::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
+SettingsManipulator::markFieldPresent(const pb_field_iter_t* iter)
+{
+  if (iter == nullptr || iter->pSize == nullptr) {
+    return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+  }
+
+  if (PB_HTYPE(iter->type) == PB_HTYPE_ONEOF) {
+    *static_cast<pb_size_t*>(iter->pSize) = iter->tag;
+  } else {
+    *static_cast<bool*>(iter->pSize) = true;
+  }
+  return ResultCode::OK;
+}
+
+ResultCode
+SettingsManipulator::mergePresentFields(const void* pRhsMessage)
+{
+  if (m_pMessage == nullptr || pRhsMessage == nullptr || m_pDescriptor == nullptr) {
+    return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+  }
+
+  return mergePresentFields(m_pMessage, pRhsMessage, m_pDescriptor);
+}
+
+bool
+SettingsManipulator::fieldHasMergeablePresence(const pb_field_iter_t* iter)
+{
+  if (iter == nullptr) {
+    return false;
+  }
+
+  const pb_type_t htype = PB_HTYPE(iter->type);
+
+  if (htype == PB_HTYPE_OPTIONAL) {
+    return iter->pSize != nullptr && *static_cast<const bool*>(iter->pSize);
+  }
+
+  if (htype == PB_HTYPE_REPEATED) {
+    return iter->pSize != nullptr && *static_cast<const pb_size_t*>(iter->pSize) > 0;
+  }
+
+  if (htype == PB_HTYPE_ONEOF) {
+    if (iter->pSize == nullptr) {
+      return false;
+    }
+
+    const pb_size_t which = *static_cast<const pb_size_t*>(iter->pSize);
+
+    /*
+     * Patch semantics:
+     *   which_* == 0       -> rhs did not update this oneof
+     *   which_* == tag     -> rhs selected this oneof member
+     *   which_* != tag     -> another oneof member is selected; ignore this member
+     */
+    return which != 0 && which == iter->tag;
+  }
+
+  return false;
+}
+
+bool
+SettingsManipulator::shouldVisitField(const pb_field_iter_t* iter)
+{
+  if (iter == nullptr) {
+    return false;
+  }
+
+  if (fieldHasMergeablePresence(iter)) {
+    return true;
+  }
+
+  /*
+   * Singular submessages do not have has_* presence, but they may contain
+   * optional/oneof fields deeper in the tree. Visit them as structural
+   * containers. Singular scalar fields are skipped because there is no
+   * reliable presence signal in a zero-init patch message.
+   */
+  return PB_LTYPE_IS_SUBMSG(iter->type) &&
+         PB_HTYPE(iter->type) != PB_HTYPE_OPTIONAL &&
+         PB_HTYPE(iter->type) != PB_HTYPE_REPEATED &&
+         PB_HTYPE(iter->type) != PB_HTYPE_ONEOF;
+}
+
+ResultCode
+SettingsManipulator::copyPresentField(pb_field_iter_t* pLhsIter, const pb_field_iter_t* pRhsIter)
+{
+  if (pLhsIter == nullptr || pRhsIter == nullptr) {
+    return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+  }
+
+  if (PB_ATYPE(pLhsIter->type) == PB_ATYPE_POINTER ||
+      PB_ATYPE(pRhsIter->type) == PB_ATYPE_POINTER) {
+    return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+  }
+
+  if (PB_ATYPE(pLhsIter->type) == PB_ATYPE_CALLBACK ||
+      PB_ATYPE(pRhsIter->type) == PB_ATYPE_CALLBACK) {
+    return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+  }
+
+  const pb_type_t htype = PB_HTYPE(pRhsIter->type);
+
+  if (htype == PB_HTYPE_ONEOF) {
+    if (pLhsIter->pSize == nullptr || pRhsIter->pSize == nullptr) {
+      return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+    }
+
+    const pb_size_t rhsWhich = *static_cast<const pb_size_t*>(pRhsIter->pSize);
+
+    if (rhsWhich == 0 || rhsWhich != pRhsIter->tag) {
+      return ResultCode::OK;
+    }
+
+    std::memcpy(pLhsIter->pData, pRhsIter->pData, pRhsIter->data_size);
+    *static_cast<pb_size_t*>(pLhsIter->pSize) = rhsWhich;
+    return ResultCode::OK;
+  }
+
+  if (htype == PB_HTYPE_REPEATED) {
+    if (pLhsIter->pSize == nullptr || pRhsIter->pSize == nullptr) {
+      return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+    }
+
+    const pb_size_t rhsCount = *static_cast<const pb_size_t*>(pRhsIter->pSize);
+
+    if (rhsCount == 0) {
+      return ResultCode::OK;
+    }
+
+    std::memcpy(pLhsIter->pData, pRhsIter->pData, pRhsIter->data_size * rhsCount);
+    *static_cast<pb_size_t*>(pLhsIter->pSize) = rhsCount;
+    return ResultCode::OK;
+  }
+
+  std::memcpy(pLhsIter->pData, pRhsIter->pData, pRhsIter->data_size);
+
+  if (htype == PB_HTYPE_OPTIONAL) {
+    return markFieldPresent(pLhsIter);
+  }
+
+  return ResultCode::OK;
+}
+
+ResultCode
+SettingsManipulator::mergePresentFields(
+  void* pLhsMessage,
+  const void* pRhsMessage,
+  const pb_msgdesc_t* pDescriptor
+)
+{
+  if (pLhsMessage == nullptr || pRhsMessage == nullptr || pDescriptor == nullptr) {
+    return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+  }
+
+  pb_field_iter_t lhsIter;
+  pb_field_iter_t rhsIter;
+
+  const bool lhsHasField = pb_field_iter_begin(&lhsIter, pDescriptor, pLhsMessage);
+  const bool rhsHasField = pb_field_iter_begin(&rhsIter, pDescriptor, const_cast<void*>(pRhsMessage));
+
+  if (!lhsHasField || !rhsHasField) {
+    return lhsHasField == rhsHasField ? ResultCode::OK : ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
+  }
+
+  bool lhsValid = true;
+  bool rhsValid = true;
+
+  while (lhsValid && rhsValid) {
+    if (lhsIter.tag != rhsIter.tag) {
+      return ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
+    }
+
+    if (shouldVisitField(&rhsIter)) {
+      if (PB_ATYPE(lhsIter.type) == PB_ATYPE_POINTER ||
+          PB_ATYPE(rhsIter.type) == PB_ATYPE_POINTER) {
+        return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+      }
+
+      if (PB_ATYPE(lhsIter.type) == PB_ATYPE_CALLBACK ||
+          PB_ATYPE(rhsIter.type) == PB_ATYPE_CALLBACK) {
+        return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+      }
+
+      if (PB_LTYPE_IS_SUBMSG(rhsIter.type)) {
+        if (rhsIter.submsg_desc == nullptr) {
+          return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+        }
+
+        const pb_type_t rhsHtype = PB_HTYPE(rhsIter.type);
+
+        if (rhsHtype == PB_HTYPE_ONEOF) {
+          if (lhsIter.pSize == nullptr || rhsIter.pSize == nullptr) {
+            return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+          }
+
+          const pb_size_t rhsWhich = *static_cast<const pb_size_t*>(rhsIter.pSize);
+
+          /*
+           * rhs.which_* == 0 means "ignore this oneof".
+           * Normally this cannot be reached because shouldVisitField() filters
+           * it out, but keep the guard here to preserve patch semantics.
+           */
+          if (rhsWhich == 0 || rhsWhich != rhsIter.tag) {
+            lhsValid = pb_field_iter_next(&lhsIter);
+            rhsValid = pb_field_iter_next(&rhsIter);
+            continue;
+          }
+
+          const pb_size_t lhsWhich = *static_cast<const pb_size_t*>(lhsIter.pSize);
+
+          /*
+           * rhs selected a oneof member. That selected member has precedence.
+           * If lhs had a different active member, clear this member's storage
+           * before merging into it.
+           */
+          if (lhsWhich != rhsWhich) {
+            std::memset(lhsIter.pData, 0, lhsIter.data_size);
+          }
+
+          *static_cast<pb_size_t*>(lhsIter.pSize) = rhsWhich;
+        }
+
+        ResultCode rc = mergePresentFields(lhsIter.pData, rhsIter.pData, rhsIter.submsg_desc);
+        if (rc != ResultCode::OK) {
+          return rc;
+        }
+
+        if (PB_HTYPE(lhsIter.type) == PB_HTYPE_OPTIONAL) {
+          rc = markFieldPresent(&lhsIter);
+          if (rc != ResultCode::OK) {
+            return rc;
+          }
+        }
+      } else {
+        ResultCode rc = copyPresentField(&lhsIter, &rhsIter);
+        if (rc != ResultCode::OK) {
+          return rc;
+        }
+      }
+    }
+
+    lhsValid = pb_field_iter_next(&lhsIter);
+    rhsValid = pb_field_iter_next(&rhsIter);
+  }
+
+  return lhsValid == rhsValid ? ResultCode::OK : ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
+}
+
+ResultCode
+SettingsManipulator::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
 {
   void* source_ptr = iter->pData;
 
@@ -373,10 +623,10 @@ SettingsBase::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
 }
 
 ResultCode
-SettingsBase::getField(const SettingFieldPath &path, SettingFieldVariant &value)
+SettingsManipulator::getField(const SettingFieldPath &path, SettingFieldVariant &value)
 {
   pb_field_iter_t iter;
-  void* current_message = getMessage();
+  void* current_message = m_pMessage;
   const pb_msgdesc_t* current_desc = m_pDescriptor;
 
   uint32_t pathLength = path.size();
@@ -431,20 +681,23 @@ SettingsBase::getField(const SettingFieldPath &path, SettingFieldVariant &value)
   return getField(&iter, value);
 }
 
-SettingsBase::StringValue
-SettingsBase::StringValueVisitor::operator()(const NameString& value) const
+SettingsManipulator::StringValue
+SettingsManipulator::StringValueVisitor::operator()(const NameString& value) const
 {
   return {value.c_str(), static_cast<pb_size_t>(value.size())};
 }
 
-SettingsBase::StringValue
-SettingsBase::StringValueVisitor::operator()(const LabelString& value) const
+SettingsManipulator::StringValue
+SettingsManipulator::StringValueVisitor::operator()(const LabelString& value) const
 {
   return {value.c_str(), static_cast<pb_size_t>(value.size())};
 }
 
-SettingsBase::StringValue
-SettingsBase::getStringValue(const SettingFieldVariant& value)
+SettingsManipulator::StringValue
+SettingsManipulator::getStringValue(const SettingFieldVariant& value)
 {
   return etl::visit(StringValueVisitor{}, value);
 }
+
+
+

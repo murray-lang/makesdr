@@ -18,11 +18,12 @@ public:
   };
 
   Mode(RadioSettings_ModePb& raw)
-    : SettingsBase(&RadioSettings_ModePb_msg)
-    , m_rawSettings(raw)
+    : m_rawSettings(raw)
     , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_label{raw.label, raw.label, sizeof(raw.label)}
   {}
+
+  [[nodiscard]] Type type() const { return static_cast<Type>(m_rawSettings.type); }
 
   StringRef& name() { return m_name; }
   StringRef& label() { return m_label; }
@@ -31,11 +32,7 @@ public:
   [[nodiscard]] int32_t hiCut() const { return m_rawSettings.hi_cut; }
   [[nodiscard]] int32_t offset() const { return m_rawSettings.offset; }
 
-  [[nodiscard]] Type type() const { return static_cast<Type>(m_rawSettings.type); }
-
 protected:
-  void* getMessage() override { return &m_rawSettings; }
-
   RadioSettings_ModePb& m_rawSettings;
   StringRef m_name;
   StringRef m_label;

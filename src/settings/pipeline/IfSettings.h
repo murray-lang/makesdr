@@ -6,8 +6,7 @@ class IfSettings : public SettingsBase
 {
 public:
   IfSettings(RadioSettings_IfSettingsPb& rawSettings)
-    : SettingsBase(&RadioSettings_IfSettingsPb_msg)
-    , m_rawSettings(rawSettings)
+    : m_rawSettings(rawSettings)
     , m_gain(rawSettings.gain)
   {}
 
@@ -19,8 +18,6 @@ public:
   [[nodiscard]] const SteppableFloatSetting& gain() const { return m_gain; }
 
 protected:
-  void * getMessage() override { return &m_rawSettings; }
-
   RadioSettings_IfSettingsPb& m_rawSettings;
   SteppableFloatSetting m_gain;
 };
