@@ -1,7 +1,8 @@
 #pragma once
 #include "base/SettingsBase.h"
 #include "RfSettings.h"
-#include "mode/Mode.h"
+#include "band/Band.h"
+#include "mode/ModeList.h"
 #include <etl/variant.h>
 
 
@@ -33,6 +34,20 @@ public:
 
   RfSettings& rfSettings() { return m_rfSettings; }
   [[nodiscard]] const RfSettings& rfSettings() const { return m_rfSettings; }
+
+  ResultCode applyBandDefaults(const Band* pBand, const ModeList& modeInfo)
+  {
+    if (pBand != nullptr) {
+      Mode::Type defaultMode = pBand->defaultMode();
+      const Mode* pNewMode = modeInfo.findModeByType(defaultMode);
+      if (pNewMode == nullptr) {
+        return ResultCode::ERR_SETTING_MODE_TYPE_UNAVAILABLE;
+      }
+      m_modeOrRequest.emplace<Mode>(*pNewMode);
+      m_rfSettings.applyBandDefaults(pBand);
+    }
+    return ResultCode::OK;
+  }
 
 protected:
   MessageType& m_rawSettings;

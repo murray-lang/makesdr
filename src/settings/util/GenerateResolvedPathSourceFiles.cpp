@@ -1,4 +1,5 @@
 
+#include <format>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -41,17 +42,17 @@ static void generatePaths(
   }
 }
 
-void generateResolvedPathSourceFiles()
+void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char* baseName)
 {
   std::vector<ResolvedPath> allPaths;
 
     // Generate all dotted paths with their resolved tags
     std::vector<uint32_t> emptyTags;
-    generatePaths(radio_fields, "", emptyTags, allPaths);
+    generatePaths(fieldEntries, "", emptyTags, allPaths);
 
     // Output files
-    std::string headerFile = "ResolvedFieldPaths.h";
-    std::string sourceFile = "ResolvedFieldPaths.cpp";
+    std::string headerFile = std::format("{}.h", baseName);
+    std::string sourceFile = std::format("{}.cpp", baseName);
 
 
     // Generate header file

@@ -186,6 +186,9 @@ typedef struct _RadioSettings_BandSettingsPb {
     RadioSettings_PipelineId focus_pipeline_id;
     bool has_tx_pipeline_id;
     RadioSettings_PipelineId tx_pipeline_id;
+    /* This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+ It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
+    RadioSettings_PipelineId focus_pipeline;
 } RadioSettings_BandSettingsPb;
 
 typedef struct _RadioSettings_ActiveBandSettingsPb {
@@ -201,6 +204,9 @@ typedef struct _RadioSettings_ActiveBandSettingsPb {
     RadioSettings_BandSettingsPb band_2;
     bool has_is_split;
     bool is_split;
+    /* This is a dummy band that is used to set either band_1 or Band_2 depending on focus_band_id.
+ It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
+    RadioSettings_SplitBandId focus_band;
 } RadioSettings_ActiveBandSettingsPb;
 
 typedef struct _RadioSettings_BandSettingsCachePb_BandSettingsEntry {
@@ -270,10 +276,12 @@ extern "C" {
 
 #define RadioSettings_BandSettingsPb_focus_pipeline_id_ENUMTYPE RadioSettings_PipelineId
 #define RadioSettings_BandSettingsPb_tx_pipeline_id_ENUMTYPE RadioSettings_PipelineId
+#define RadioSettings_BandSettingsPb_focus_pipeline_ENUMTYPE RadioSettings_PipelineId
 
 #define RadioSettings_ActiveBandSettingsPb_focus_band_id_ENUMTYPE RadioSettings_SplitBandId
 #define RadioSettings_ActiveBandSettingsPb_tx_band_id_ENUMTYPE RadioSettings_SplitBandId
 #define RadioSettings_ActiveBandSettingsPb_rx_band_id_ENUMTYPE RadioSettings_SplitBandId
+#define RadioSettings_ActiveBandSettingsPb_focus_band_ENUMTYPE RadioSettings_SplitBandId
 
 
 
@@ -296,8 +304,8 @@ extern "C" {
 #define RadioSettings_TransmitterSettingsPb_init_default {false, RadioSettings_IqCorrectionSettingsPb_init_default, false, RadioSettings_MicrophoneSettingsPb_init_default}
 #define RadioSettings_RxPipelineSettingsPb_init_default {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_default, false, RadioSettings_IfSettingsPb_init_default, false, 0, false, _RadioSettings_AgcSpeed_MIN}
 #define RadioSettings_TxPipelineSettingsPb_init_default {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_default}
-#define RadioSettings_BandSettingsPb_init_default {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_TxPipelineSettingsPb_init_default, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN}
-#define RadioSettings_ActiveBandSettingsPb_init_default {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_default, false, RadioSettings_BandSettingsPb_init_default, false, 0}
+#define RadioSettings_BandSettingsPb_init_default {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_TxPipelineSettingsPb_init_default, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN, _RadioSettings_PipelineId_MIN}
+#define RadioSettings_ActiveBandSettingsPb_init_default {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_default, false, RadioSettings_BandSettingsPb_init_default, false, 0, _RadioSettings_SplitBandId_MIN}
 #define RadioSettings_BandSettingsCachePb_init_default {0, {RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default}}
 #define RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default {"", false, RadioSettings_BandSettingsPb_init_default}
 #define RadioSettings_RadioSettingsPb_init_default {false, RadioSettings_ReceiverSettings_init_default, false, RadioSettings_TransmitterSettingsPb_init_default, false, RadioSettings_ActiveBandSettingsPb_init_default, false, 0}
@@ -317,8 +325,8 @@ extern "C" {
 #define RadioSettings_TransmitterSettingsPb_init_zero {false, RadioSettings_IqCorrectionSettingsPb_init_zero, false, RadioSettings_MicrophoneSettingsPb_init_zero}
 #define RadioSettings_RxPipelineSettingsPb_init_zero {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_zero, false, RadioSettings_IfSettingsPb_init_zero, false, 0, false, _RadioSettings_AgcSpeed_MIN}
 #define RadioSettings_TxPipelineSettingsPb_init_zero {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_zero}
-#define RadioSettings_BandSettingsPb_init_zero   {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_TxPipelineSettingsPb_init_zero, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN}
-#define RadioSettings_ActiveBandSettingsPb_init_zero {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_zero, false, RadioSettings_BandSettingsPb_init_zero, false, 0}
+#define RadioSettings_BandSettingsPb_init_zero   {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_TxPipelineSettingsPb_init_zero, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN, _RadioSettings_PipelineId_MIN}
+#define RadioSettings_ActiveBandSettingsPb_init_zero {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_zero, false, RadioSettings_BandSettingsPb_init_zero, false, 0, _RadioSettings_SplitBandId_MIN}
 #define RadioSettings_BandSettingsCachePb_init_zero {0, {RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero}}
 #define RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero {"", false, RadioSettings_BandSettingsPb_init_zero}
 #define RadioSettings_RadioSettingsPb_init_zero  {false, RadioSettings_ReceiverSettings_init_zero, false, RadioSettings_TransmitterSettingsPb_init_zero, false, RadioSettings_ActiveBandSettingsPb_init_zero, false, 0}
@@ -382,12 +390,14 @@ extern "C" {
 #define RadioSettings_BandSettingsPb_is_multi_pipeline_tag 6
 #define RadioSettings_BandSettingsPb_focus_pipeline_id_tag 7
 #define RadioSettings_BandSettingsPb_tx_pipeline_id_tag 8
+#define RadioSettings_BandSettingsPb_focus_pipeline_tag 9
 #define RadioSettings_ActiveBandSettingsPb_focus_band_id_tag 1
 #define RadioSettings_ActiveBandSettingsPb_tx_band_id_tag 2
 #define RadioSettings_ActiveBandSettingsPb_rx_band_id_tag 3
 #define RadioSettings_ActiveBandSettingsPb_band_1_tag 4
 #define RadioSettings_ActiveBandSettingsPb_band_2_tag 5
 #define RadioSettings_ActiveBandSettingsPb_is_split_tag 6
+#define RadioSettings_ActiveBandSettingsPb_focus_band_tag 7
 #define RadioSettings_BandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define RadioSettings_BandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define RadioSettings_BandSettingsCachePb_band_settings_tag 1
@@ -538,7 +548,8 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  pipeline_b,        4) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  tx_pipeline,       5) \
 X(a, STATIC,   OPTIONAL, BOOL,     is_multi_pipeline,   6) \
 X(a, STATIC,   OPTIONAL, UENUM,    focus_pipeline_id,   7) \
-X(a, STATIC,   OPTIONAL, UENUM,    tx_pipeline_id,    8)
+X(a, STATIC,   OPTIONAL, UENUM,    tx_pipeline_id,    8) \
+X(a, STATIC,   SINGULAR, UENUM,    focus_pipeline,    9)
 #define RadioSettings_BandSettingsPb_CALLBACK NULL
 #define RadioSettings_BandSettingsPb_DEFAULT NULL
 #define RadioSettings_BandSettingsPb_band_or_request_band_MSGTYPE RadioSettings_BandPb
@@ -552,7 +563,8 @@ X(a, STATIC,   OPTIONAL, UENUM,    tx_band_id,        2) \
 X(a, STATIC,   OPTIONAL, UENUM,    rx_band_id,        3) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            4) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_2,            5) \
-X(a, STATIC,   OPTIONAL, BOOL,     is_split,          6)
+X(a, STATIC,   OPTIONAL, BOOL,     is_split,          6) \
+X(a, STATIC,   SINGULAR, UENUM,    focus_band,        7)
 #define RadioSettings_ActiveBandSettingsPb_CALLBACK NULL
 #define RadioSettings_ActiveBandSettingsPb_DEFAULT NULL
 #define RadioSettings_ActiveBandSettingsPb_band_1_MSGTYPE RadioSettings_BandSettingsPb
@@ -629,20 +641,20 @@ extern const pb_msgdesc_t RadioSettings_RadioSettingsPb_msg;
 
 /* Maximum encoded size of messages (where known) */
 #define RADIOSETTINGS_RADIOSETTINGS_PB_H_MAX_SIZE RadioSettings_BandCategoryListPb_size
-#define RadioSettings_ActiveBandSettingsPb_size  1422
+#define RadioSettings_ActiveBandSettingsPb_size  1428
 #define RadioSettings_BandCategoryListPb_size    21696
 #define RadioSettings_BandCategoryPb_size        2709
 #define RadioSettings_BandListPb_size            2686
 #define RadioSettings_BandPb_size                77
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_size 716
-#define RadioSettings_BandSettingsCachePb_size   7190
-#define RadioSettings_BandSettingsPb_size        704
+#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_size 718
+#define RadioSettings_BandSettingsCachePb_size   7210
+#define RadioSettings_BandSettingsPb_size        706
 #define RadioSettings_IfSettingsPb_size          26
 #define RadioSettings_IqCorrectionSettingsPb_size 40
 #define RadioSettings_MicrophoneSettingsPb_size  20
 #define RadioSettings_ModeListPb_size            620
 #define RadioSettings_ModePb_size                60
-#define RadioSettings_RadioSettingsPb_size       1537
+#define RadioSettings_RadioSettingsPb_size       1543
 #define RadioSettings_ReceiverSettings_size      42
 #define RadioSettings_RfSettingsPb_size          118
 #define RadioSettings_RxPipelineSettingsPb_size  214

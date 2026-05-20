@@ -1,5 +1,6 @@
 #pragma once
 #include "../base/SettingsBase.h"
+#include "../band/Band.h"
 #include "../base/SteppableFloatSetting.h"
 #include "../base/SteppableInt64Setting.h"
 
@@ -20,6 +21,15 @@ public:
   [[nodiscard]] int32_t maxPositiveVfoOffset() const { return m_rawSettings.max_positive_vfo_offset; }
   [[nodiscard]] int32_t maxNegativeVfoOffset() const { return m_rawSettings.max_negative_vfo_offset; }
 
+  void setMaxPositiveVfoOffset(int32_t offset) {
+    m_rawSettings.max_positive_vfo_offset = offset;
+    m_rawSettings.has_max_positive_vfo_offset = true;
+  }
+  void setMaxNegativeVfoOffset(int32_t offset) {
+    m_rawSettings.max_negative_vfo_offset = offset;
+    m_rawSettings.has_max_negative_vfo_offset = true;
+  }
+
   SteppableFloatSetting& gain() { return m_gain; }
   [[nodiscard]] const SteppableFloatSetting& gain() const { return m_gain; }
 
@@ -28,6 +38,21 @@ public:
 
   SteppableInt64Setting& vfoFrequency() { return m_vfoFrequency; }
   [[nodiscard]] const SteppableInt64Setting& vfoFrequency() const { return m_vfoFrequency; }
+
+  void applyBandDefaults(const Band* pBand)
+  {
+      uint64_t freqPlusOffset = m_centreFrequency.value() + m_vfoFrequency.value();
+      if (!hasCentreFrequency() || !hasVfoFrequency() || !pBand->containsFrequency(freqPlusOffset)) {
+        m_rawSettings.has_centre_frequency = true;
+        m_rawSettings.has_vfo = true;
+        m_rawSettings.centre_frequency.value = pBand->landingFrequency();
+        m_rawSettings.centre_frequency.coarse_delta = pBand->defaultCoarseStep();
+        m_rawSettings.centre_frequency.fine_delta = pBand->defaultFineStep();
+        m_rawSettings.vfo.value = pBand->landingFrequency();
+        m_rawSettings.vfo.coarse_delta = pBand->defaultCoarseStep();
+        m_rawSettings.vfo.fine_delta = pBand->defaultFineStep();
+      }
+  }
 
 protected:
   RadioSettings_RfSettingsPb& m_rawSettings;

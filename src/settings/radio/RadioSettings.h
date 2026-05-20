@@ -5,7 +5,9 @@
 #include "ReceiverSettings.h"
 #include "TransmitterSettings.h"
 #include "../util/DefaultRadioSettings.h"
+#include "../util/PbUtils.h"
 
+template <typename ActiveBandSettingsType>
 class RadioSettings : public SettingsBase
 {
 public:
@@ -32,21 +34,29 @@ public:
   [[nodiscard]] bool hasActiveBands() const { return m_rawSettings.has_active_bands; }
   [[nodiscard]] bool hasPtt() const { return m_rawSettings.has_ptt; }
 
-  ActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
+  ActiveBandSettingsType& activeBandSettings() { return m_activeBandSettings; }
   ReceiverSettings& receiverSettings() { return m_receiverSettings; }
   TransmitterSettings& transmitterSettings() { return m_transmitterSettings; }
 
-  [[nodiscard]] const ActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
+  [[nodiscard]] const ActiveBandSettingsType& activeBandSettings() const { return m_activeBandSettings; }
   [[nodiscard]] const ReceiverSettings& receiverSettings() const { return m_receiverSettings; }
   [[nodiscard]] const TransmitterSettings& transmitterSettings() const { return m_transmitterSettings; }
 
   [[nodiscard]] bool getPtt() const { return m_rawSettings.ptt; }
 
-  ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length);
+  ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length) {
+    return PbUtils::readProtobuf<RadioSettings_RadioSettingsPb>(
+      buffer,
+      msg_length,
+      RadioSettings_RadioSettingsPb_fields,
+      RadioSettings_RadioSettingsPb_init_zero,
+      m_rawSettings
+    );
+  }
 
 protected:
   RadioSettings_RadioSettingsPb m_rawSettings;
-  ActiveBandSettings m_activeBandSettings;
+  ActiveBandSettingsType m_activeBandSettings;
   ReceiverSettings m_receiverSettings;
   TransmitterSettings m_transmitterSettings;
 };

@@ -154,6 +154,9 @@ message BandSettingsPb {
   optional bool is_multi_pipeline = 6;
   optional PipelineId focus_pipeline_id = 7;
   optional PipelineId tx_pipeline_id = 8;
+  // This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
+  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
+  PipelineId focus_pipeline = 9;
 }
 
 message ActiveBandSettingsPb {
@@ -163,6 +166,10 @@ message ActiveBandSettingsPb {
   BandSettingsPb band_1 = 4;
   BandSettingsPb band_2 = 5;
   optional bool is_split = 6;
+  // This is a dummy band that is used to set either band_1 or Band_2 depending on focus_band_id.
+  // It exists for the purpose of path lookups, and the tag is detected in code for the above purpose.
+  SplitBandId focus_band = 7;
+
 }
 
 message BandSettingsCachePb {

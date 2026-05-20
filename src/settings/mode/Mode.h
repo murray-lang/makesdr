@@ -23,6 +23,20 @@ public:
     , m_label{raw.label, raw.label, sizeof(raw.label)}
   {}
 
+  Mode(const Mode& rhs) noexcept
+    : m_rawSettings(rhs.m_rawSettings)
+    , m_name{rhs.m_rawSettings.name, rhs.m_rawSettings.name, sizeof(rhs.m_rawSettings.name)}
+  , m_label{rhs.m_rawSettings.label, rhs.m_rawSettings.label, sizeof(rhs.m_rawSettings.label)}
+  {
+  }
+
+  Mode(const Mode&& rhs) noexcept
+    : m_rawSettings(rhs.m_rawSettings)
+    , m_name{rhs.m_rawSettings.name, rhs.m_rawSettings.name, sizeof(rhs.m_rawSettings.name)}
+    , m_label{rhs.m_rawSettings.label, rhs.m_rawSettings.label, sizeof(rhs.m_rawSettings.label)}
+  {
+  }
+
   [[nodiscard]] Type type() const { return static_cast<Type>(m_rawSettings.type); }
 
   StringRef& name() { return m_name; }

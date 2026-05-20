@@ -3,13 +3,14 @@
 #include "BandSettings.h"
 #include "SplitBandId.h"
 
+template <typename BandSettingsType>
 class ActiveBandSettings : public SettingsBase
 {
 public:
   ActiveBandSettings(RadioSettings_ActiveBandSettingsPb& raw)
     : m_rawSettings(raw)
-    , m_band1Settings(raw.band_1)
-    , m_band2Settings(raw.band_2)
+    , m_bandOneSettings(raw.band_1)
+    , m_bandTwoSettings(raw.band_2)
   {}
 
   [[nodiscard]] bool isSplit() const { return m_rawSettings.is_split; }
@@ -19,43 +20,47 @@ public:
   [[nodiscard]] bool hasBand1() const { return m_rawSettings.has_band_1; }
   [[nodiscard]] bool hasBand2() const { return m_rawSettings.has_band_2; }
 
-  BandSettings* getBandSettings(SplitBandId bandId)
+  [[nodiscard]] SplitBandId focusBandId() const { return static_cast<SplitBandId>(m_rawSettings.focus_band_id); }
+  [[nodiscard]] SplitBandId txBandId() const { return static_cast<SplitBandId>(m_rawSettings.tx_band_id); }
+  [[nodiscard]] SplitBandId rxBandId() const { return static_cast<SplitBandId>(m_rawSettings.rx_band_id); }
+
+  BandSettingsType* getBandSettings(SplitBandId bandId)
   {
-    if (bandId == SplitBandId::One) return &m_band1Settings;
-    if (bandId == SplitBandId::Two) return &m_band2Settings;
+    if (bandId == SplitBandId::One) return &m_bandOneSettings;
+    if (bandId == SplitBandId::Two) return &m_bandTwoSettings;
     return nullptr;
   }
 
-  [[nodiscard]] const BandSettings* getBandSettings(SplitBandId bandId) const
+  [[nodiscard]] const BandSettingsType* getBandSettings(SplitBandId bandId) const
   {
     return const_cast<ActiveBandSettings*>(this)->getBandSettings(bandId);
   }
 
-  BandSettings* getFocusBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.focus_band_id)); }
-  BandSettings* getTxBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.tx_band_id)); }
-  BandSettings* getRxBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.rx_band_id)); }
+  BandSettingsType* getFocusBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.focus_band_id)); }
+  BandSettingsType* getTxBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.tx_band_id)); }
+  BandSettingsType* getRxBandSettings() { return getBandSettings(static_cast<SplitBandId>(m_rawSettings.rx_band_id)); }
 
-  [[nodiscard]] const BandSettings* getFocusBandSettings() const
+  [[nodiscard]] const BandSettingsType* getFocusBandSettings() const
   {
     return const_cast<ActiveBandSettings*>(this)->getFocusBandSettings();
   }
-  [[nodiscard]] const BandSettings* getTxBandSettings() const
+  [[nodiscard]] const BandSettingsType* getTxBandSettings() const
   {
     return const_cast<ActiveBandSettings*>(this)->getTxBandSettings();
   }
-  [[nodiscard]] const BandSettings* getRxBandSettings() const
+  [[nodiscard]] const BandSettingsType* getRxBandSettings() const
   {
     return const_cast<ActiveBandSettings*>(this)->getRxBandSettings();
   }
 
-  BandSettings& band1Settings() { return m_band1Settings; }
-  BandSettings& band2Settings() { return m_band2Settings; }
-  [[nodiscard]] const BandSettings& band1Settings() const { return m_band1Settings; }
-  [[nodiscard]] const BandSettings& band2Settings() const { return m_band2Settings; }
+  BandSettingsType& bandOneSettings() { return m_bandOneSettings; }
+  BandSettingsType& bandTwoSettings() { return m_bandTwoSettings; }
+  [[nodiscard]] const BandSettings& bandOneSettings() const { return m_bandOneSettings; }
+  [[nodiscard]] const BandSettings& bandTwoSettings() const { return m_bandTwoSettings; }
 
 protected:
   RadioSettings_ActiveBandSettingsPb& m_rawSettings;
-  BandSettings m_band1Settings;
-  BandSettings m_band2Settings;
+  BandSettingsType m_bandOneSettings;
+  BandSettingsType m_bandTwoSettings;
 
 };

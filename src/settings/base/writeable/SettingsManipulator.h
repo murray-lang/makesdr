@@ -1,9 +1,9 @@
 #pragma once
 #include "RadioSettings.pb.h"
-#include "SettingFieldPath.h"
+#include "../SettingFieldPath.h"
 #include <etl/string.h>
 #include <ResultCode.h>
-#include "SettingFieldUpdate.h"
+#include "../SettingFieldUpdate.h"
 
 class SettingsManipulator
 {
@@ -21,9 +21,16 @@ public:
 
   ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value);
 
+  ResultCode setFieldPresence(const SettingFieldPath &path, bool present);
+
   ResultCode mergePresentFields(const void* pRhsMessage);
 
-  static ResultCode resolveDottedPath(const char *dottedPath, SettingFieldPath &path);
+  static ResultCode resolveDottedPath(
+    const char *dottedPath,
+    SettingFieldPath &path,
+    bool* isIndirectOut,
+    AutoCompleteTrigger* triggerOut
+  );
 
 protected:
   static ResultCode updateField(pb_field_iter_t* iter, const SettingFieldVariant& value);

@@ -75,18 +75,28 @@ set(SETTINGS_SOURCES
 #    src/settings/util/PbUtils.h
 #    src/settings/util/PbUtils.cpp
         src/settings/band/ActiveBandSettings.h
+
         src/settings/band/BandSettings.h
-        src/settings/band/BandSettingsCache.h
-        src/settings/band/BandSettingsCache.cpp
+        src/settings/band/BandSettings.cpp
         src/settings/band/SplitBandId.h
         src/settings/band/Band.h
         src/settings/band/BandList.h
         src/settings/band/BandList.cpp
-        src/settings/band/AvailableBands.h
-        src/settings/band/AvailableBands.cpp
         src/settings/band/BandCategory.h
         src/settings/band/BandCategoryList.h
         src/settings/band/BandCategoryList.cpp
+
+        src/settings/band/writeable/AvailableBands.h
+        src/settings/band/writeable/AvailableBands.cpp
+        src/settings/band/writeable/WriteableBandSettings.h
+        src/settings/band/writeable/WriteableBandSettings.cpp
+        src/settings/band/writeable/WriteableActiveBandSettings.h
+        src/settings/band/writeable/WriteableActiveBandSettings.cpp
+        src/settings/band/writeable/ResolvedActiveBandsFieldPaths.h
+        src/settings/band/writeable/ResolvedActiveBandsFieldPaths.cpp
+        src/settings/band/writeable/BandSettingsCache.h
+        src/settings/band/writeable/BandSettingsCache.cpp
+
 
         src/settings/base/SettingsBase.h
         src/settings/base/SettingFieldPath.h
@@ -121,13 +131,12 @@ set(SETTINGS_SOURCES
         src/settings/pipeline/RxPipelineSettings.h
 
         src/settings/radio/RadioSettings.h
-        src/settings/radio/RadioSettings.cpp
-        src/settings/radio/AutoCompleteRadioSettings.h
-        src/settings/radio/AutoCompleteRadioSettings.cpp
+        src/settings/radio/writeable/WriteableRadioSettings.h
+        src/settings/radio/writeable/WriteableRadioSettings.cpp
         src/settings/radio/ReceiverSettings.h
         src/settings/radio/TransmitterSettings.h
-        src/settings/base/SettingsManipulator.cpp
-        src/settings/base/SettingsManipulator.h
+        src/settings/base/writeable/SettingsManipulator.cpp
+        src/settings/base/writeable/SettingsManipulator.h
 
 )
 

@@ -6,15 +6,20 @@
 
 
 ResultCode
-SettingsManipulator::resolveDottedPath(const char* dottedPath, SettingFieldPath& path)
+SettingsManipulator::resolveDottedPath(
+  const char* dottedPath,
+  SettingFieldPath& path,
+  bool* isIndirectOut,
+  AutoCompleteTrigger* triggerOut
+)
 {
-  //return lookup_field_path(dottedPath, path.data(), MAX_FIELD_PATH_LENGTH);
-
   const FieldEntry* current_table = radio_fields;
   int tag_count = 0;
 
   const char* p = dottedPath;
   char field_name[MAX_FIELD_NAME_LENGTH];
+  bool isIndirect = false;
+  AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE;
 
   while (*p && tag_count < MAX_FIELD_PATH_LENGTH) {
     // Extract next field name
@@ -33,6 +38,13 @@ SettingsManipulator::resolveDottedPath(const char* dottedPath, SettingFieldPath&
         path.push_back(entry->tag);
         tag_count++;
         current_table = entry->submsg;
+        if (entry->isIndirect) {
+          isIndirect = true;
+        }
+        if (current_table == nullptr) {
+          // We're at the leaf. Save the AutoComplete trigger
+          trigger = entry->trigger;
+        }
         found = true;
         break;
       }
@@ -42,11 +54,14 @@ SettingsManipulator::resolveDottedPath(const char* dottedPath, SettingFieldPath&
     if (!found) {
       return ResultCode::ERR_SETTING_PATH_NOT_FOUND;
     }
-    if (current_table == nullptr && *p != '\0') {
-      return ResultCode::ERR_SETTING_DOTTED_STRING_NOT_VALID;
+    if (current_table == nullptr) {
+      if (*p != '\0') {
+        return ResultCode::ERR_SETTING_DOTTED_STRING_NOT_VALID;
+      }
     }
   }
-
+  *isIndirectOut = isIndirect;
+  *triggerOut = trigger;
   return tag_count > 0 ? ResultCode::OK : ResultCode::ERR_SETTING_PATH_NOT_FOUND;
 }
 
@@ -679,6 +694,97 @@ SettingsManipulator::getField(const SettingFieldPath &path, SettingFieldVariant 
   }
 
   return getField(&iter, value);
+}
+
+ResultCode
+ SettingsManipulator::setFieldPresence(const SettingFieldPath &path, bool present)
+{
+  pb_field_iter_t iter;
+  void* current_message = m_pMessage;
+  const pb_msgdesc_t* current_desc = m_pDescriptor;
+
+  uint32_t pathLength = path.size();
+
+  if (pathLength == 0) {
+    return ResultCode::ERR_SETTING_PATH_NOT_FOUND;
+  }
+
+  // Array to store ancestor iterators
+  pb_field_iter_t ancestor_iters[pathLength];
+  size_t ancestor_count = 0;
+
+  // Traverse through all but the last field ID
+  for (size_t i = 0; i < pathLength - 1; i++) {
+    if (!pb_field_iter_begin(&iter, current_desc, current_message)) {
+      return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
+    }
+
+    uint32_t tag = path.at(i);
+
+    // Find the field with the specified tag
+    if (!pb_field_iter_find(&iter, tag)) {
+      return ResultCode::ERR_SETTING_FIELD_NOT_FOUND;
+    }
+
+    // Verify this is a submessage type
+    if (!PB_LTYPE_IS_SUBMSG(iter.type)) {
+      return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+
+    // Store this iterator as an ancestor
+    ancestor_iters[ancestor_count++] = iter;
+
+    // Get pointer to the submessage
+    if (PB_ATYPE(iter.type) == PB_ATYPE_POINTER) {
+      // For pointer type, dereference to get the submessage
+      void** ptr = (void**)iter.pData;
+      if (!*ptr) {
+        return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+      }
+      current_message = *ptr;
+    }
+    else {
+      // For static type, pData points directly to the submessage
+      current_message = iter.pData;
+    }
+
+    current_desc = iter.submsg_desc;
+    if (!current_desc) {
+      return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+  }
+
+  // Now handle the final field (the leaf)
+  if (!pb_field_iter_begin(&iter, current_desc, current_message)) {
+    return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
+  }
+
+  if (!pb_field_iter_find(&iter, path[pathLength - 1])) {
+    return ResultCode::ERR_SETTING_UNKNOWN_TAG;
+  }
+
+  if (present) {
+    // Set has_<> to true for all ancestors
+    for (size_t i = 0; i < ancestor_count; i++) {
+      if (ancestor_iters[i].pSize) {
+        *static_cast<bool *>(ancestor_iters[i].pSize) = true;
+      }
+    }
+    // Set has_<> to true for the leaf
+    return markFieldPresent(&iter);
+  } else {
+    // Only set has_<> to false for the leaf
+    if (iter.pSize == nullptr) {
+      return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+    }
+
+    if (PB_HTYPE(iter.type) == PB_HTYPE_ONEOF) {
+      *static_cast<pb_size_t*>(iter.pSize) = 0;
+    } else {
+      *static_cast<bool*>(iter.pSize) = false;
+    }
+    return ResultCode::OK;
+  }
 }
 
 SettingsManipulator::StringValue

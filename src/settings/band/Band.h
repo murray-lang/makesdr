@@ -26,6 +26,11 @@ public:
   RadioSettings_BandPb& raw() { return m_rawSettings; }
   [[nodiscard]] const RadioSettings_BandPb& raw() const { return m_rawSettings; }
 
+  [[nodiscard]] bool containsFrequency(uint64_t frequency) const
+  {
+    return frequency >= lowestFrequency() && frequency <= highestFrequency();
+  }
+
 protected:
 
   RadioSettings_BandPb& m_rawSettings;

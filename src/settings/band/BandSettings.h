@@ -7,28 +7,17 @@
 #include <etl/variant.h>
 
 #include "etl/vector.h"
+#include "mode/ModeList.h"
 
 using BandOrRequestVariant = etl::variant<etl::monostate, StringRef, Band>;
 
 class BandSettings : public SettingsBase
 {
 public:
-  BandSettings(RadioSettings_BandSettingsPb& raw)
-    : m_rawSettings(raw)
-    , m_pipelineA(raw.pipeline_a)
-    , m_pipelineB(raw.pipeline_b)
-    , m_txPipeline(raw.tx_pipeline)
-  {
-    if (m_rawSettings.which_band_or_request == RadioSettings_BandSettingsPb_band_request_tag) {
-      m_bandOrRequest.emplace<StringRef>(
-        m_rawSettings.band_or_request.band_request,
-        m_rawSettings.band_or_request.band_request,
-        sizeof(m_rawSettings.band_or_request.band_request)
-      );
-    } else if (m_rawSettings.which_band_or_request == RadioSettings_BandSettingsPb_band_tag) {
-      m_bandOrRequest.emplace<Band>(m_rawSettings.band_or_request.band);
-    }
-  }
+  BandSettings(RadioSettings_BandSettingsPb& raw);
+
+  BandSettings& operator=(const BandSettings& rhs) noexcept;
+  BandSettings& operator=(const RadioSettings_BandSettingsPb& rhs) noexcept;
 
   [[nodiscard]] bool isBandValid() const { return m_bandOrRequest.index() != 0; }
   [[nodiscard]] bool hasBandRequest() const { return m_bandOrRequest.index() == 1; }
@@ -39,6 +28,8 @@ public:
   [[nodiscard]] bool hasPipelineA() const { return m_rawSettings.has_pipeline_a; }
   [[nodiscard]] bool hasPipelineB() const { return m_rawSettings.has_pipeline_b; }
   [[nodiscard]] bool hasTxPipeline() const { return m_rawSettings.has_tx_pipeline; }
+
+  [[nodiscard]] const StringRef* bandName() const;
 
   [[nodiscard]] const Band* band() const { return etl::get_if<Band>(&m_bandOrRequest); }
 
@@ -63,6 +54,7 @@ public:
   }
 
   RadioSettings_BandSettingsPb& raw() { return m_rawSettings; }
+  [[nodiscard]] const RadioSettings_BandSettingsPb& raw() const { return m_rawSettings; }
 
   // uint32_t bandsCount() const { return m_rawSettings.bands_count; }
   // BandVector& bands() { return m_bands; }
@@ -81,6 +73,9 @@ public:
   // }
 
 protected:
+  void setBandOrRequestVariant(RadioSettings_BandSettingsPb& raw);
+  void setBandOrRequestVariant() { setBandOrRequestVariant(m_rawSettings); }
+
   RadioSettings_BandSettingsPb& m_rawSettings;
   BandOrRequestVariant m_bandOrRequest;
   RxPipelineSettings m_pipelineA;
