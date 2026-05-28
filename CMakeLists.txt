@@ -1,158 +1,54 @@
 cmake_minimum_required(VERSION 4.1)
 
+set(AVAILABLE_EXAMPLES "play" "save" "restore" "websockets")
+
+set(AVAILABLE_PLATFORMS "linux" "rpi" "stm32h745i")
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+
 project(RadioSettingsProto)
 
-set(CMAKE_CXX_STANDARD 20)
+set(USE_ETL ON)
 
-set(PROTO_PLATFORMS "nanopb" "google")
-set(PROTO_PLATFORM "nanopb")
+add_definitions(
+        -DUSE_ETL
+        # These lengths are one less than the corresponding string sizes in the proto options file ('\0')
 
-set(THIRD_PARTY_DIR  ${CMAKE_SOURCE_DIR}/third-party)
-set(NANOPB_DIR "${THIRD_PARTY_DIR}/nanopb")
-set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
-set(GEN_DIR ${CMAKE_SOURCE_DIR}/gen)
-set(GOOGLE_GEN_DIR ${GEN_DIR}/google)
-set(NANOPB_GEN_DIR ${GEN_DIR}/nanopb)
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-set(SETTINGS_DIR ${SRC_DIR}/settings)
-set(ETL_DIR "${THIRD_PARTY_DIR}/etl")
+        -DMAX_NAME_LENGTH=7
+        -DMAX_FIELD_PATH_LENGTH=6
+        -DMAX_BAND_LABEL_LENGTH=9
+        -DMAX_MODE_LABEL_LENGTH=14
+        -DMAX_ID_LENGTH=16
+        -DMAX_DOTTED_STRING_LENGTH=64
+        -DMAX_BAND_CATEGORIES=8
+        -DMAX_BANDS_PER_CATEGORY=13
+        -DMAX_GPIO=27
+        -DMAX_GPIO_LINES_PER_DEVICE=4
+        -DMAX_DIGITAL_INPUT_HANDLERS=8
+        -DMAX_DIGITAL_OUTPUT_HANDLERS=4
+        -DMAX_DIGITAL_INPUT_LINES_TOTAL=10
+        -DMAX_CONTROL_SINKS=4
+        -DMAX_CONTROL_SOURCES=4
+        -DMAX_GPIO_CONTEXT_LENGTH=16
+        -DMAX_GPIO_EVENT_QUEUE_CAPACITY=64
+
+        -DUSE_GPIO
+)
+
+set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/third-party)
+set(NANOPB_DIR ${THIRD_PARTY_DIR}/nanopb)
+set(ETL_DIR ${THIRD_PARTY_DIR}/etl)
+set(ARDUINO_JSON_DIR ${THIRD_PARTY_DIR}/ArduinoJson)
+
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-list(APPEND CMAKE_MODULE_PATH ${NANOPB_DIR}/extra)
-
-add_definitions(-DMAX_BANDS=34)
-
-if (PROTO_PLATFORM STREQUAL "google")
-    add_definitions(-DPROTO_GOOGLE)
-
-    find_package(Protobuf REQUIRED)
-elseif(PROTO_PLATFORM STREQUAL "nanopb")
-    add_definitions(-DPROTO_NANOPB)
-
-    find_package(nanopb REQUIRED)
-
-    include("${NANOPB_DIR}/extra/FindNanopb.cmake")
-endif()
-
-if (PROTO_PLATFORM STREQUAL "google")
-    add_library(proto_lib OBJECT ${PROTO_DIR}/RadioSettings.proto)
-    target_link_libraries(proto_lib PUBLIC protobuf::libprotobuf)
-    target_include_directories(proto_lib PUBLIC ${GOOGLE_GEN_DIR})
-
-    protobuf_generate(
-        TARGET proto_lib
-        LANGUAGE cpp
-        ${PROTO_DIR}/RadioSettings.proto
-        PROTOC_OUT_DIR ${GOOGLE_GEN_DIR}
-    )
-elseif(PROTO_PLATFORM STREQUAL "nanopb")
-#    set(NANOPB_GENERATE_CPP_APPEND_PATH OFF)
-#    set(NANOPB_OPTIONS -I${PROTO_DIR} --output-dir=${NANOPB_GEN_DIR})
-#    set(NANOPB_OPTIONS "--options-file=${PROTO_DIR}/RadioSettings.options")
-    nanopb_generate_cpp(
-            PROTO_SRCS PROTO_HDRS
-#            TARGET nanopb_lib
-#            RELPATH ${PROTO_DIR}
-            ${PROTO_DIR}/RadioSettings.proto
-    )
-#    message(STATUS "Generated sources: ${PROTO_SRCS}")
-#    message(STATUS "Generated headers: ${PROTO_HDRS}")
-#    message(STATUS "NANOPB_OUT: ${NANOPB_OUT}")
-
-    add_custom_target(copy_nanopb_gen ALL
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${NANOPB_GEN_DIR}/
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h ${NANOPB_GEN_DIR}/
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h
-        COMMENT "Copying nanopb generated files to source tree"
-)
-endif()
-
-set(SETTINGS_SOURCES
-    ${PROTO_SRCS}
-    ${PROTO_HDRS}
-    include/ResultCode.h
-    src/main.cpp
-#    src/settings/util/PbUtils.h
-#    src/settings/util/PbUtils.cpp
-        src/settings/band/ActiveBandSettings.h
-
-        src/settings/band/BandSettings.h
-        src/settings/band/BandSettings.cpp
-        src/settings/band/SplitBandId.h
-        src/settings/band/Band.h
-        src/settings/band/BandList.h
-        src/settings/band/BandList.cpp
-        src/settings/band/BandCategory.h
-        src/settings/band/BandCategoryList.h
-        src/settings/band/BandCategoryList.cpp
-
-        src/settings/band/writeable/AvailableBands.h
-        src/settings/band/writeable/AvailableBands.cpp
-        src/settings/band/writeable/WriteableBandSettings.h
-        src/settings/band/writeable/WriteableBandSettings.cpp
-        src/settings/band/writeable/WriteableActiveBandSettings.h
-        src/settings/band/writeable/WriteableActiveBandSettings.cpp
-        src/settings/band/writeable/ResolvedActiveBandsFieldPaths.h
-        src/settings/band/writeable/ResolvedActiveBandsFieldPaths.cpp
-        src/settings/band/writeable/BandSettingsCache.h
-        src/settings/band/writeable/BandSettingsCache.cpp
-
-
-        src/settings/base/SettingsBase.h
-        src/settings/base/SettingFieldPath.h
-        src/settings/base/SettingFieldVariant.h
-        src/settings/base/SettingFieldUpdate.h
-        src/settings/base/SteppableInt64Setting.h
-        src/settings/base/SteppableFloatSetting.h
-        src/settings/base/SteppableVariant.h
-
-        src/settings/mode/Mode.h
-        src/settings/mode/ModeList.h
-        src/settings/mode/ModeList.cpp
-        src/settings/mode/AvailableModes.h
-        src/settings/mode/AvailableModes.cpp
-
-        src/settings/util/MessageTagLookup.h
-        src/settings/util/MessageTagLookup.cpp
-        src/settings/util/GenerateResolvedPathSourceFiles.h
-        src/settings/util/GenerateResolvedPathSourceFiles.cpp
-        src/settings/util/ResolvedFieldPaths.h
-        src/settings/util/ResolvedFieldPaths.cpp
-        src/settings/util/DefaultRadioSettings.h
-        src/settings/util/DefaultRadioSettings.cpp
-
-        src/settings/pipeline/PipelineSettings.h
-        src/settings/pipeline/IqCorrectionSettings.h
-        src/settings/pipeline/MicrophoneSettings.h
-        src/settings/pipeline/PipelineId.h
-        src/settings/pipeline/AgcSpeed.h
-        src/settings/pipeline/RfSettings.h
-        src/settings/pipeline/IfSettings.h
-        src/settings/pipeline/RxPipelineSettings.h
-
-        src/settings/radio/RadioSettings.h
-        src/settings/radio/writeable/WriteableRadioSettings.h
-        src/settings/radio/writeable/WriteableRadioSettings.cpp
-        src/settings/radio/ReceiverSettings.h
-        src/settings/radio/TransmitterSettings.h
-        src/settings/base/writeable/SettingsManipulator.cpp
-        src/settings/base/writeable/SettingsManipulator.h
-
-)
-
 add_subdirectory(${ETL_DIR} etl)
+add_subdirectory(${NANOPB_DIR} nanopb)
+add_subdirectory(${ARDUINO_JSON_DIR} arduinoJson)
 
-add_executable(RadioSettingsProto ${SETTINGS_SOURCES})
+add_subdirectory(src/core)
+add_subdirectory(src/settings)
+add_subdirectory(src/config)
 
-if (PROTO_PLATFORM STREQUAL "google")
-    target_link_libraries(RadioSettingsProto PRIVATE proto_lib)
-elseif(PROTO_PLATFORM STREQUAL "nanopb")
-    target_include_directories(RadioSettingsProto PUBLIC
-            ${INCLUDE_DIR}
-            ${SETTINGS_DIR}
-            ${ETL_DIR}/include
-            ${NANOPB_DIR}
-            ${NANOPB_GEN_DIR}
-    )
-    add_dependencies(RadioSettingsProto copy_nanopb_gen)
-endif()
+include(${CMAKE_SOURCE_DIR}/examples/${TARGET_EXAMPLE}/${TARGET_EXAMPLE}.cmake)
+

@@ -1,0 +1,65 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "linux-play-debug",
+      "displayName": "Play Debug (linux)",
+      "binaryDir": "${sourceDir}/build-play-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "play",
+        "TARGET_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "linux-play-release",
+      "displayName": "Play Release (linux)",
+      "binaryDir": "${sourceDir}/build-play-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "play",
+        "TARGET_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "linux-save-debug",
+      "displayName": "Save Debug (linux)",
+      "binaryDir": "${sourceDir}/build-save-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "save",
+        "TARGET_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "linux-save-release",
+      "displayName": "Save Release (linux)",
+      "binaryDir": "${sourceDir}/build-save-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "save",
+        "TARGET_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "linux-restore-debug",
+      "displayName": "Restore Debug (linux)",
+      "binaryDir": "${sourceDir}/build-restore-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "restore",
+        "TARGET_PLATFORM": "linux"
+      }
+    },
+    {
+      "name": "linux-restore-release",
+      "displayName": "Restore Release (linux)",
+      "binaryDir": "${sourceDir}/build-restore-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "restore",
+        "TARGET_PLATFORM": "linux"
+      }
+    }
+  ]
+}
