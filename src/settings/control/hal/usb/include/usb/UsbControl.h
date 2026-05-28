@@ -1,0 +1,21 @@
+#pragma once
+
+#include <cstdint>
+#include "ResultCode.h"
+
+class UsbControl {
+
+public:
+    UsbControl(uint16_t vendorId, uint16_t productId) : m_vendorId(vendorId), m_productId(productId) {}
+    virtual ~UsbControl() = default;
+    virtual ResultCode initialise() = 0;
+    virtual bool discover() = 0;
+    virtual ResultCode open() = 0;
+    virtual void close() = 0;
+    virtual void exit() = 0;
+
+protected:
+    uint16_t m_vendorId;
+    uint16_t m_productId;
+};
+

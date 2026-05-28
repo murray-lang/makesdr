@@ -4,3 +4,6 @@
 [submodule "third-party/etl"]
 	path = third-party/etl
 	url = https://github.com/ETLCPP/etl.git
+[submodule "third-party/ArduinoJson"]
+	path = third-party/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson.git
