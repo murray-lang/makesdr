@@ -10,6 +10,8 @@ set(CORE_SETTINGS_SOURCES
         include/model/core/SettingFieldPath.h
         include/model/core/SettingFieldUpdate.h
         include/model/core/SettingFieldVariant.h
+        include/model/core/SettingsBase.h
+        include/model/core/BaseRadioSettings.h
 
         src/MessageTagLookup.cpp
         src/MessageVisitor.cpp

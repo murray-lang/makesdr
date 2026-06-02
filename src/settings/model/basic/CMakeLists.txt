@@ -5,7 +5,6 @@ project(RadioSettingsProto-settings-model-basic)
 set(BASIC_SETTINGS_SOURCES
         ${PROTO_SRCS}
         ${PROTO_HDRS}
-#        ../../../../include/ResultCode.h
         include/model/basic/StringRef.h
         include/model/basic/ActiveBandSettings.h
         include/model/basic/BasicActiveBandSettings.h
@@ -13,11 +12,7 @@ set(BASIC_SETTINGS_SOURCES
         include/model/basic/BasicBandSettings.h
         include/model/basic/SplitBandId.h
         include/model/basic/Band.h
-        include/model/basic/SettingsBase.h
         include/model/basic/ResolveIndirection.h
-
-        ../core/include/model/core/SettingFieldPath.h
-        ../core/include/model/core/SettingFieldVariant.h
 
         include/model/basic/SteppableInt64Setting.h
         include/model/basic/SteppableFloatSetting.h

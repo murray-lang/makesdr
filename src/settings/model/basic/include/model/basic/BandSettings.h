@@ -2,7 +2,7 @@
 #include <CrossPlatformTypes.h>
 #include "Band.h"
 #include "PipelineId.h"
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "ResolveIndirection.h"
 
 using BandOrRequestVariant = variant<monostate, StringRef, Band>;

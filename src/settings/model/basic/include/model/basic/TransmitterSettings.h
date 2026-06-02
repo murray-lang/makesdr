@@ -1,5 +1,5 @@
 #pragma once
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "IqCorrectionSettings.h"
 #include "MicrophoneSettings.h"
 

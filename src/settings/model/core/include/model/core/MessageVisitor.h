@@ -22,6 +22,14 @@ public:
 
   ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value);
 
+  ResultCode getField(
+    const SettingFieldPath &path,
+    SettingFieldVariant &value,
+    bool mustHave,
+    bool parentsMustHave,
+    bool& retrieved
+  );
+
   ResultCode setFieldPresence(const SettingFieldPath &path, bool present);
 
   ResultCode mergePresentFields(const void* pRhsMessage);

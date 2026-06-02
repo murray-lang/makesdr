@@ -640,11 +640,25 @@ MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
 ResultCode
 MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &value)
 {
+  bool retrieved;
+  return getField(path, value, false, false, retrieved);
+}
+
+ResultCode
+MessageVisitor::getField(
+  const SettingFieldPath &path,
+  SettingFieldVariant &value,
+  bool mustHave,
+  bool parentsMustHave,
+  bool& retrieved
+)
+{
   pb_field_iter_t iter;
   void* current_message = m_pMessage;
   const pb_msgdesc_t* current_desc = m_pDescriptor;
 
   uint32_t pathLength = path.size();
+  retrieved = false;
 
   // Traverse through all but the last field ID
   for (size_t i = 0; i < pathLength - 1; i++) {
@@ -662,6 +676,25 @@ MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &valu
     // Verify this is a submessage type
     if (!PB_LTYPE_IS_SUBMSG(iter.type)) {
       return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+
+    // Check parent presence if required
+    if (parentsMustHave) {
+      if (PB_HTYPE(iter.type) == PB_HTYPE_OPTIONAL) {
+        if (iter.pSize == nullptr || !*static_cast<const bool*>(iter.pSize)) {
+          // Parent is not present - return OK but with retrieved=false
+          return ResultCode::OK;
+        }
+      } else if (PB_HTYPE(iter.type) == PB_HTYPE_ONEOF) {
+        if (iter.pSize == nullptr) {
+          return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+        }
+        const pb_size_t which = *static_cast<const pb_size_t*>(iter.pSize);
+        if (which != iter.tag) {
+          // This oneof member is not selected - return OK but with retrieved=false
+          return ResultCode::OK;
+        }
+      }
     }
 
     // Get pointer to the submessage
@@ -693,7 +726,30 @@ MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &valu
     return ResultCode::ERR_SETTING_UNKNOWN_TAG;
   }
 
-  return getField(&iter, value);
+  // Check leaf presence if required
+  if (mustHave) {
+    if (PB_HTYPE(iter.type) == PB_HTYPE_OPTIONAL) {
+      if (iter.pSize == nullptr || !*static_cast<const bool*>(iter.pSize)) {
+        // Field is not present - return OK but with retrieved=false
+        return ResultCode::OK;
+      }
+    } else if (PB_HTYPE(iter.type) == PB_HTYPE_ONEOF) {
+      if (iter.pSize == nullptr) {
+        return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+      }
+      const pb_size_t which = *static_cast<const pb_size_t*>(iter.pSize);
+      if (which != iter.tag) {
+        // This oneof member is not selected - return OK but with retrieved=false
+        return ResultCode::OK;
+      }
+    }
+  }
+
+  ResultCode rc = getField(&iter, value);
+  if (rc == ResultCode::OK) {
+    retrieved = true;
+  }
+  return rc;
 }
 
 ResultCode

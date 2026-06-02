@@ -1,5 +1,5 @@
 #pragma once
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "model/proto/RadioSettings.pb.h"
 #include "StringRef.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "BandCategoryList.h"
-#include "model/basic/SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "ModeList.h"
 
 class RadioCategories : public SettingsBase

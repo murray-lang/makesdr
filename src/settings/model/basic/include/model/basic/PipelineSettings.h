@@ -1,6 +1,6 @@
 #pragma once
 #include <CrossPlatformTypes.h>
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "RfSettings.h"
 #include "Band.h"
 

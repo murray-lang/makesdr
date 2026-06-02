@@ -1,5 +1,5 @@
 #pragma once
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "Band.h"
 #include "SteppableFloatSetting.h"
 #include "SteppableInt64Setting.h"

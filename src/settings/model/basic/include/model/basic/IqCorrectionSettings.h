@@ -1,6 +1,6 @@
 #pragma once
 #include "model/proto/RadioSettings.pb.h"
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "SteppableFloatSetting.h"
 
 class IqCorrectionSettings : public SettingsBase

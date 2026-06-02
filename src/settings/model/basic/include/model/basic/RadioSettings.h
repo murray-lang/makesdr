@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 #include "ReceiverSettings.h"
 #include "TransmitterSettings.h"
 #include "ResolveIndirection.h"

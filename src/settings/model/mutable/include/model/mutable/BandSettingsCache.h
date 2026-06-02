@@ -1,7 +1,7 @@
 #pragma once
 #include <ResultCode.h>
 #include "model/basic/BandSettings.h"
-#include "model/basic/SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 
 #define MAX_CACHE_ENTRIES 10
 

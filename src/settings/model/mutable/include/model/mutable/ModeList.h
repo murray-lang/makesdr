@@ -1,7 +1,7 @@
 #pragma once
 #include <CrossPlatformTypes.h>
 #include "model/basic/Mode.h"
-#include "model/basic/SettingsBase.h"
+#include "../../../../core/include/model/core/SettingsBase.h"
 
 #include <ResultCode.h>
 
