@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 4.1)
 
-set(AVAILABLE_EXAMPLES "play" "save" "restore" "websockets")
 
-set(AVAILABLE_PLATFORMS "linux-pc" "rpi" "stm32h745i")
+set_property(CACHE TARGET_PLATFORM PROPERTY STRINGS "linux-pc" "rpi" "stm32h745i-disco")
+set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
+        "play"
+        "save"
+        "restore"
+        "qt-json-config"
+)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 

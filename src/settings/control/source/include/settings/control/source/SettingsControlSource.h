@@ -19,7 +19,7 @@ public:
   ~SettingsControlSource() override = default;
   SettingsControlSource& operator=(SettingsControlSource&& rhs) noexcept = default;
 
-  void connectSink(RadioSettingsSink& sink) override
+  void connectRadioSettingsSink(RadioSettingsSink& sink) override
   {
     m_pSettingsSink.emplace(sink);
   }

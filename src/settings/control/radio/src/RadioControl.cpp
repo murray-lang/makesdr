@@ -29,7 +29,8 @@ RadioControl::configure(const Config::Control::Fields& config)
       rc = visit([this](auto&& s) -> ResultCode {
         using T = decay_t<decltype(s)>;
         if constexpr (!is_same_v<T, monostate>) {
-          s.connectSink(m_internalSink);
+          s.connectRadioSettingsSink(m_internalSink);
+          s.connectSettingFieldUpdateSink(m_internalSink);
           return ResultCode::OK;
         } else
         {
@@ -48,7 +49,7 @@ RadioControl::configure(const Config::Control::Fields& config)
 }
 
 void
-RadioControl::connectSink(RadioSettingsSink& sink)
+RadioControl::connectRadioSettingsSink(RadioSettingsSink& sink)
 {
   m_externalSettingsSink.emplace(sink);
 }

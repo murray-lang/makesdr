@@ -30,6 +30,34 @@
       }
     },
     {
+      "name": "qt-json-config-rpi-debug",
+      "displayName": "Qt JSON Config Debug (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-json-config-rpi-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "qt-json-config-rpi-release",
+      "displayName": "Qt JSON Config (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-json-config-rpi-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
       "name": "linux-play-debug",
       "displayName": "Play Debug (linux)",
       "binaryDir": "${sourceDir}/build-play-debug",
