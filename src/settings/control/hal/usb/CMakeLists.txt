@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(RadioSettingsProto-settings-control-hal-usb)
+project(makesdr-settings-control-hal-usb)
 
-if (TARGET_PLATFORM STREQUAL "linux")
+if (TARGET_PLATFORM STREQUAL "linux-pc" OR TARGET_PLATFORM STREQUAL "rpi")
     find_library(HIDAPI_LIBRARY hidapi-libusb)
     find_package(USB)
     if(NOT USB_FOUND)
@@ -19,26 +19,26 @@ if (TARGET_PLATFORM STREQUAL "linux")
 endif()
 
 set(USB_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/include/usb/UsbControl.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/usb/HidUsbControl.h
+        include/settings/control/usb/UsbControl.h
+        include/settings/control/usb/HidUsbControl.h
 )
 
 if (IS_LINUX)
     set(USB_SOURCES
             ${USB_SOURCES}
-            ${CMAKE_CURRENT_LIST_DIR}/include/usb/LibUsbControl.h
+            include/settings/control/usb/LibUsbControl.h
             ${CMAKE_CURRENT_LIST_DIR}/platform/linux/HidUsbControl.cpp
             ${CMAKE_CURRENT_LIST_DIR}/platform/linux/LibUsbControl.cpp
     )
 endif()
 
-add_library(RadioSettingsProto-settings-control-hal-usb STATIC ${USB_SOURCES} )
+add_library(makesdr-settings-control-hal-usb STATIC ${USB_SOURCES} )
 
 if(IS_LINUX)
-    target_link_libraries(RadioSettingsProto-settings-control-hal-usb PUBLIC usb-1.0 hidapi-libusb)
+    target_link_libraries(makesdr-settings-control-hal-usb PUBLIC usb-1.0 hidapi-libusb)
 endif()
 
-target_include_directories(RadioSettingsProto-settings-control-hal-usb PUBLIC
+target_include_directories(makesdr-settings-control-hal-usb PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
         /usr/include/hidapi/

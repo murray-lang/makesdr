@@ -3,12 +3,12 @@
 //
 
 #include "CrossPlatformTypes.h"
-#include "gpio/DigitalOutputTypes.h"
-#include "gpio/DigitalOutput.h"
+#include "settings/control/gpio/DigitalOutputTypes.h"
+#include "settings/control/gpio/DigitalOutput.h"
 
-#include "gpio/base/Gpio.h"
-#include "config/DigitalOutputConfig.h"
-#include "settings/MutableRadioSettings.h"
+#include "settings/control/gpio/base/Gpio.h"
+#include "config/struct/DigitalOutputConfig.h"
+#include "settings/model/core/RadioSettings.h"
 
 DigitalOutput::DigitalOutput() :
   GpioLines(Direction::OUTPUT)
@@ -24,7 +24,7 @@ DigitalOutput::configure(const Config::DigitalOutput::Fields& config)
   // return RadioSettings::getSettingUpdatePath(strSettingPath, m_settingPath);
   bool isIndirectOut;
   AutoCompleteTrigger triggerOut;
-  return MutableRadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
+  return RadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
 }
 
 ResultCode

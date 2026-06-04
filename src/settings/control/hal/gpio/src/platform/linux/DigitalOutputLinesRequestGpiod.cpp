@@ -1,6 +1,6 @@
 #include "CrossPlatformTypes.h"
-#include "gpio/DigitalOutputLinesRequest.h"
-#include "gpio/DigitalOutputTypes.h"
+#include "settings/control/gpio/DigitalOutputLinesRequest.h"
+#include "settings/control/gpio/DigitalOutputTypes.h"
 
 DigitalOutputLinesRequest::DigitalOutputLinesRequest():
   m_gpio(Gpio::getInstance()),

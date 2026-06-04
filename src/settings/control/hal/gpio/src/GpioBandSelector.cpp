@@ -1,6 +1,6 @@
-#include "gpio/base/Gpio.h"
-#include "model/MutableRadioSettings.h"
-#include "gpio/GpioBandSelector.h"
+#include "settings/control/gpio/base/Gpio.h"
+#include "settings/model/core/RadioSettings.h"
+#include "settings/control/gpio/GpioBandSelector.h"
 
 
 GpioBandSelector::GpioBandSelector() :
@@ -21,21 +21,17 @@ GpioBandSelector::configure(const Config::BandSelector::Fields& config)
 }
 
 ResultCode
-GpioBandSelector::applySettings(const BasicRadioSettings& settings)
+GpioBandSelector::applySettings(const RadioSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    const BasicActiveBandSettings& activeBandSettings = settings.activeBandSettings();
-    if (activeBandSettings.hasTxBandId()) {
-      const BasicBandSettings* pBandSettings = activeBandSettings.getTxBandSettings();
-      if (pBandSettings != nullptr && pBandSettings->hasTxPipeline()) {
-        const PipelineSettings& pipelineSettings = pBandSettings->txPipelineSettings().base();
-        if (pipelineSettings.hasRf()) {
-          const RfSettings& rfSettings = pipelineSettings.rfSettings();
-          if (rfSettings.hasVfoFrequency()) {
-            uint32_t frequency = rfSettings.vfoFrequency().value();
-            uint32_t output = getBandOutput(frequency);
-            applyOutput(output);
-          }
+    const RadioSettings_RxPipelineSettingsPb* txPipelineSettings = settings.getTxPipelineSettings();
+    if (txPipelineSettings != nullptr) {
+      if (txPipelineSettings->base.has_rf) {
+        const RadioSettings_RfSettingsPb& rfSettings = txPipelineSettings->base.rf;
+        if (rfSettings.has_vfo) {
+          uint32_t frequency = rfSettings.vfo.value;
+          uint32_t output = getBandOutput(frequency);
+          applyOutput(output);
         }
       }
     }

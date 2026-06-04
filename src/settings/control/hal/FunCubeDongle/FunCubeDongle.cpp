@@ -1,5 +1,6 @@
-#include "FunCubeDongle.h"
-#include "FCDHidCmd.h"
+#include "include/settings/control/FunCubeDongle/FunCubeDongle.h"
+#include "include/settings/control/FunCubeDongle/FCDHidCmd.h"
+#include <CrossPlatformTypes.h>
 
 #include <cmath>
 
@@ -17,47 +18,88 @@ FunCubeDongle::FunCubeDongle() :
 FunCubeDongle::~FunCubeDongle() = default;
 
 ResultCode
-FunCubeDongle::applySettings(const BasicRadioSettings& settings)
+FunCubeDongle::applySettings(const RadioSettings& settings)
 {
-  if (settings.hasActiveBands()) {
-    const BasicActiveBandSettings& activeBandSettings = settings.activeBandSettings();
-    if (activeBandSettings.hasFocusBandId()) {
-      const BasicBandSettings* pBandSettings = activeBandSettings.getFocusBandSettings();
-      if (pBandSettings != nullptr && pBandSettings->hasFocusPipelineId()) {
-        const BasicRxPipelineSettings* pipelineSettings = pBandSettings->getFocusPipelineSettings();
-        if (pipelineSettings != nullptr) {
-          if (pipelineSettings->base().hasRf()) {
-            const RfSettings& rfSettings = pipelineSettings->base().rfSettings();
-            if (rfSettings.hasVfoFrequency()) {
-              uint32_t centreFrequency = rfSettings.centreFrequency().value();
-              setFrequency(centreFrequency);
-              setRfFilter(centreFrequency);
-            }
-            if (rfSettings.hasGain()) {
-              float gain = rfSettings.gain().value();
-              setLnaGain(gain);
-              m_lastRfGain = gain;
-            }
-          }
-          if (pipelineSettings->hasIf_()) {
-            const IfSettings& ifSettings = pipelineSettings->ifSettings();
-            if (ifSettings.hasBandwidth()) {
-              setIfFilter(ifSettings.bandwidth());
-            }
-            if (ifSettings.hasGain()) {
-              float gain = ifSettings.gain().value();
-              setIfGain(gain);
-              m_lastIfGain = gain;
-            }
-          }
-        }
-      }
+  // uint32_t bandTag = settings.getFocusBandTag();
+  // if (bandTag == 0) {
+  //   return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_BAND;
+  // }
+  // uint32_t pipelineTag = settings.getFocusPipelineTag(bandTag);
+  // if (pipelineTag == 0) {
+  //   return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
+  // }
+  // SettingFieldPath centreFreqPath {
+  //   bandTag,
+  //   pipelineTag,
+  //   RadioSettings_PipelineSettingsPb_rf_tag,
+  //   RadioSettings_RfSettingsPb_centre_frequency_tag,
+  //   RadioSettings_SteppableInt64SettingPb_value_tag
+  // };
+  // SettingFieldVariant centreFreq;
+  // ResultCode rc = settings.getField(centreFreqPath, centreFreq);
+  // if (rc != ResultCode::OK) return rc;
+  // auto centreFrequency = get<int64_t>(centreFreq);
+  // setFrequency(centreFrequency);
+  // setRfFilter(centreFrequency);
+  //
+  // SettingFieldPath rfGainPath {
+  //   bandTag,
+  //   pipelineTag,
+  //   RadioSettings_PipelineSettingsPb_rf_tag,
+  //   RadioSettings_RfSettingsPb_gain_tag,
+  //   RadioSettings_SteppableFloatSettingPb_value_tag
+  // };
+  // SettingFieldVariant rfGainVar;
+  // rc = settings.getField(rfGainPath, rfGainVar);
+  // if (rc != ResultCode::OK) return rc;
+  // auto rfGain = get<float>(rfGainVar);
+  // setLnaGain(rfGain);
+  // m_lastRfGain = rfGain;
+  //
+  // SettingFieldPath ifGainPath {
+  //   bandTag,
+  //   pipelineTag,
+  //   RadioSettings_RxPipelineSettingsPb_if_tag,
+  //   RadioSettings_IfSettingsPb_gain_tag,
+  //   RadioSettings_SteppableFloatSettingPb_value_tag
+  // };
+  // SettingFieldVariant ifGainVar;
+  // rc = settings.getField(ifGainPath, ifGainVar);
+  // if (rc != ResultCode::OK) return rc;
+  // auto ifGain = get<float>(ifGainVar);
+  // setIfGain(ifGain);
+  // m_lastIfGain = ifGain;
+
+  const RadioSettings_RxPipelineSettingsPb* pipelineSettings = settings.getFocusBandFocusRxPipelineSettings();
+  if (pipelineSettings == nullptr) {
+    return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
+  }
+  if (pipelineSettings->base.has_rf) {
+    const RadioSettings_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
+    if (rfSettings.has_centre_frequency) {
+      uint32_t centreFrequency = rfSettings.centre_frequency.value;
+      setFrequency(centreFrequency);
+      setRfFilter(centreFrequency);
+    }
+    if (rfSettings.has_gain) {
+      float gain = rfSettings.gain.value;
+      setLnaGain(gain);
+      m_lastRfGain = gain;
     }
   }
-    // qDebug() << "FunCubeDongle::applySettings called";
 
-    //setRfFilter(TRFE_8_16);
-    //setIfFilter(TIFE_200KHZ);
+  if (pipelineSettings->has_if_) {
+    const RadioSettings_IfSettingsPb& ifSettings = pipelineSettings->if_;
+
+    if (ifSettings.has_bandwidth) {
+      setIfFilter(ifSettings.bandwidth);
+    }
+    if (ifSettings.has_gain) {
+      float gain = ifSettings.gain.value;
+      setIfGain(gain);
+      m_lastIfGain = gain;
+    }
+  }
   return ResultCode::OK;
 }
 

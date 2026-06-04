@@ -1,6 +1,6 @@
 #include <CrossPlatformTypes.h>
-#include "gpio/DigitalOutputs.h"
-#include "gpio/DigitalOutputFactory.h"
+#include "settings/control/gpio/DigitalOutputs.h"
+#include "settings/control/gpio/DigitalOutputFactory.h"
 
 
 ResultCode
@@ -65,7 +65,7 @@ DigitalOutputs::createOutputs(const Config::DigitalOutputs::Fields& config)
 }
 
 ResultCode
-DigitalOutputs::applySettings(const BasicRadioSettings& settings)
+DigitalOutputs::applySettings(const RadioSettings& settings)
 {
   for (auto& output : m_outputs) {
     const ResultCode rc = visit([&settings] (auto&& dov) -> ResultCode

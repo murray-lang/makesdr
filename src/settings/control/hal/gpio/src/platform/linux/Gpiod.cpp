@@ -1,8 +1,8 @@
 
 #include <gpiod.h>
 
-#include "gpio/base/Gpio.h"
-#include "gpio/base/GpioInputLinesRequest.h"
+#include "settings/control/gpio/base/Gpio.h"
+#include "settings/control/gpio/base/GpioInputLinesRequest.h"
 
 constexpr static auto defaultChipPath = "/dev/gpiochip0";
 

@@ -2,16 +2,13 @@ cmake_minimum_required(VERSION 4.1)
 
 set(AVAILABLE_EXAMPLES "play" "save" "restore" "websockets")
 
-set(AVAILABLE_PLATFORMS "linux" "rpi" "stm32h745i")
+set(AVAILABLE_PLATFORMS "linux-pc" "rpi" "stm32h745i")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
-project(RadioSettingsProto)
-
-set(USE_ETL ON)
+project(makesdr)
 
 add_definitions(
-        -DUSE_ETL
         # These lengths are one less than the corresponding string sizes in the proto options file ('\0')
 
         -DMAX_NAME_LENGTH=7
@@ -31,9 +28,19 @@ add_definitions(
         -DMAX_CONTROL_SOURCES=4
         -DMAX_GPIO_CONTEXT_LENGTH=16
         -DMAX_GPIO_EVENT_QUEUE_CAPACITY=64
-
-        -DUSE_GPIO
 )
+
+if(USE_ETL)
+    add_definitions(-DUSE_ETL)
+endif()
+
+if(USE_GPIO)
+    add_definitions(-DUSE_GPIO)
+endif()
+
+if(IS_QT)
+    add_definitions(-DIS_QT)
+endif()
 
 set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/third-party)
 set(NANOPB_DIR ${THIRD_PARTY_DIR}/nanopb)
@@ -50,5 +57,5 @@ add_subdirectory(src/core)
 add_subdirectory(src/settings)
 add_subdirectory(src/config)
 
-include(${CMAKE_SOURCE_DIR}/examples/${TARGET_EXAMPLE}/${TARGET_EXAMPLE}.cmake)
+include(${CMAKE_SOURCE_DIR}/examples/${TARGET_PLATFORM}/${TARGET_EXAMPLE}/${TARGET_EXAMPLE}.cmake)
 

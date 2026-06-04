@@ -1,5 +1,5 @@
-#include "model/core/MessageTagLookup.h"
-#include "model/proto/RadioSettings.pb.h"
+#include "settings/model/core/MessageTagLookup.h"
+#include "settings/model/proto/RadioSettings.pb.h"
 
 
 constexpr FieldEntry mode_fields[] = {

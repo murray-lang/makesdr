@@ -1,9 +1,9 @@
 #include <CrossPlatformTypes.h>
-#include "gpio/DigitalInputs.h"
+#include "settings/control/gpio/DigitalInputs.h"
 // #include "../../../ControlSourceFactory.h"
 // #include <qdebug.h>
 
-#include "gpio/DigitalInputFactory.h"
+#include "settings/control/gpio/DigitalInputFactory.h"
 // #include "gpio/GpioInputLinesVector.h"
 
 DigitalInputs::DigitalInputs(const char* consumer) :

@@ -1,5 +1,6 @@
-#include "../include/model/core/MessageVisitor.h"
-#include "../include/model/core/MessageTagLookup.h"
+#include <CrossPlatformTypes.h>
+#include "settings/model/core/MessageVisitor.h"
+#include "settings/model/core/MessageTagLookup.h"
 
 #include "pb_common.h"
 #include <cstring>
@@ -82,7 +83,7 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
   pb_type_t ltype = PB_LTYPE(iter->type);
   switch (ltype) {
   case PB_LTYPE_BOOL: {
-    const bool* pBoolValue = etl::get_if<bool>(&value);
+    const bool* pBoolValue = get_if<bool>(&value);
     if (pBoolValue == nullptr) {
       return ResultCode::ERR_SETTING_EXPECT_BOOL;
     }
@@ -92,13 +93,13 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
   case PB_LTYPE_VARINT:
   case PB_LTYPE_SVARINT:
     if (iter->data_size == sizeof(int32_t)) {
-      const int32_t* pInt32Value = etl::get_if<int32_t>(&value);
+      const int32_t* pInt32Value = get_if<int32_t>(&value);
       if (pInt32Value == nullptr) {
         return ResultCode::ERR_SETTING_EXPECT_INT32;
       }
       *static_cast<int32_t *>(target_ptr) = *pInt32Value;
     } else if (iter->data_size == sizeof(int64_t)) {
-      const int64_t* pInt64Value = etl::get_if<int64_t>(&value);
+      const int64_t* pInt64Value = get_if<int64_t>(&value);
       if (pInt64Value == nullptr) {
         return ResultCode::ERR_SETTING_EXPECT_INT64;
       }
@@ -108,22 +109,23 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
 
   case PB_LTYPE_UVARINT:
     if (iter->data_size == sizeof(uint32_t)) {
-      const uint32_t* pUint32Value = etl::get_if<uint32_t>(&value);
+      const uint32_t* pUint32Value = get_if<uint32_t>(&value);
       if (pUint32Value == nullptr) {
         return ResultCode::ERR_SETTING_EXPECT_UINT32;
       }
       *static_cast<uint32_t *>(target_ptr) = *pUint32Value;
     } else if (iter->data_size == sizeof(uint64_t)) {
-      const uint64_t* pUint64Value = etl::get_if<uint64_t>(&value);
-      if (pUint64Value == nullptr) {
-        return ResultCode::ERR_SETTING_EXPECT_UINT64;
-      }
-      *static_cast<uint64_t *>(target_ptr) = *pUint64Value;
+      return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+      // const uint64_t* pUint64Value = get_if<uint64_t>(&value);
+      // if (pUint64Value == nullptr) {
+      //   return ResultCode::ERR_SETTING_EXPECT_UINT64;
+      // }
+      // *static_cast<uint64_t *>(target_ptr) = *pUint64Value;
     }
     break;
 
   case PB_LTYPE_FIXED32: {
-    const float* pFloatValue = etl::get_if<float>(&value);
+    const float* pFloatValue = get_if<float>(&value);
     if (pFloatValue == nullptr) {
       return ResultCode::ERR_SETTING_EXPECT_FLOAT;
     }
@@ -131,12 +133,13 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
     break;
   }
   case PB_LTYPE_FIXED64: {
-    const double* pDoubleValue = etl::get_if<double>(&value);
-    if (pDoubleValue == nullptr) {
-      return ResultCode::ERR_SETTING_EXPECT_DOUBLE;
-    }
-    *static_cast<double *>(target_ptr) = *pDoubleValue;
-    break;
+      return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
+    // const double* pDoubleValue = get_if<double>(&value);
+    // if (pDoubleValue == nullptr) {
+    //   return ResultCode::ERR_SETTING_EXPECT_DOUBLE;
+    // }
+    // *static_cast<double *>(target_ptr) = *pDoubleValue;
+    // break;
   }
   case PB_LTYPE_STRING: {
     const StringValue stringValue = getStringValue(value);
@@ -218,7 +221,7 @@ MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVar
   bool useFine = *(bool*)use_fine;
 
   if (type == PB_LTYPE_FIXED32) {
-    const float* pDelta = etl::get_if<float>(&steppableValue);
+    const float* pDelta = get_if<float>(&steppableValue);
     if (pDelta == nullptr) {
       return ResultCode::ERR_SETTING_EXPECT_FLOAT;
     }
@@ -228,7 +231,7 @@ MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVar
     return updateField(&value_iter, result);
   }
   if (type == PB_LTYPE_VARINT) {
-    const int64_t* pDelta = etl::get_if<int64_t>(&steppableValue);
+    const int64_t* pDelta = get_if<int64_t>(&steppableValue);
     if (pDelta == nullptr) {
       return ResultCode::ERR_SETTING_EXPECT_INT64;
     }
@@ -579,7 +582,7 @@ MessageVisitor::mergePresentFields(
 }
 
 ResultCode
-MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
+MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value) const
 {
   void* source_ptr = iter->pData;
 
@@ -638,13 +641,27 @@ MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
 }
 
 ResultCode
-MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &value)
+MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &value) const
+{
+  bool retrieved;
+  return getField(path, value, false, false, retrieved);
+}
+
+ResultCode
+MessageVisitor::getField(
+  const SettingFieldPath &path,
+  SettingFieldVariant &value,
+  bool mustHave,
+  bool parentsMustHave,
+  bool& retrieved
+) const
 {
   pb_field_iter_t iter;
   void* current_message = m_pMessage;
   const pb_msgdesc_t* current_desc = m_pDescriptor;
 
   uint32_t pathLength = path.size();
+  retrieved = false;
 
   // Traverse through all but the last field ID
   for (size_t i = 0; i < pathLength - 1; i++) {
@@ -662,6 +679,25 @@ MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &valu
     // Verify this is a submessage type
     if (!PB_LTYPE_IS_SUBMSG(iter.type)) {
       return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+    }
+
+    // Check parent presence if required
+    if (parentsMustHave) {
+      if (PB_HTYPE(iter.type) == PB_HTYPE_OPTIONAL) {
+        if (iter.pSize == nullptr || !*static_cast<const bool*>(iter.pSize)) {
+          // Parent is not present - return OK but with retrieved=false
+          return ResultCode::OK;
+        }
+      } else if (PB_HTYPE(iter.type) == PB_HTYPE_ONEOF) {
+        if (iter.pSize == nullptr) {
+          return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+        }
+        const pb_size_t which = *static_cast<const pb_size_t*>(iter.pSize);
+        if (which != iter.tag) {
+          // This oneof member is not selected - return OK but with retrieved=false
+          return ResultCode::OK;
+        }
+      }
     }
 
     // Get pointer to the submessage
@@ -693,7 +729,30 @@ MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &valu
     return ResultCode::ERR_SETTING_UNKNOWN_TAG;
   }
 
-  return getField(&iter, value);
+  // Check leaf presence if required
+  if (mustHave) {
+    if (PB_HTYPE(iter.type) == PB_HTYPE_OPTIONAL) {
+      if (iter.pSize == nullptr || !*static_cast<const bool*>(iter.pSize)) {
+        // Field is not present - return OK but with retrieved=false
+        return ResultCode::OK;
+      }
+    } else if (PB_HTYPE(iter.type) == PB_HTYPE_ONEOF) {
+      if (iter.pSize == nullptr) {
+        return ResultCode::ERR_SETTING_EXPECT_OPTIONAL_OR_ONEOF;
+      }
+      const pb_size_t which = *static_cast<const pb_size_t*>(iter.pSize);
+      if (which != iter.tag) {
+        // This oneof member is not selected - return OK but with retrieved=false
+        return ResultCode::OK;
+      }
+    }
+  }
+
+  ResultCode rc = getField(&iter, value);
+  if (rc == ResultCode::OK) {
+    retrieved = true;
+  }
+  return rc;
 }
 
 ResultCode
@@ -787,6 +846,7 @@ ResultCode
   }
 }
 
+#ifdef USE_ETL
 MessageVisitor::StringValue
 MessageVisitor::StringValueVisitor::operator()(const NameString& value) const
 {
@@ -798,11 +858,18 @@ MessageVisitor::StringValueVisitor::operator()(const LabelString& value) const
 {
   return {value.c_str(), static_cast<pb_size_t>(value.size())};
 }
+#else
+MessageVisitor::StringValue
+MessageVisitor::StringValueVisitor::operator()(const std::string& value) const
+{
+  return {value.c_str(), static_cast<pb_size_t>(value.size())};
+}
+#endif
 
 MessageVisitor::StringValue
 MessageVisitor::getStringValue(const SettingFieldVariant& value)
 {
-  return etl::visit(StringValueVisitor{}, value);
+  return visit(StringValueVisitor{}, value);
 }
 
 

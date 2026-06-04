@@ -33,6 +33,7 @@ using etl::mutex;
 using etl::lock_guard;
 using etl::copy_n;
 using etl::atomic;
+using etl::in_place_type_t;
 // using etl::size_t
 
 #else
@@ -69,5 +70,6 @@ using std::mutex;
 using std::lock_guard;
 using std::copy_n;
 using std::atomic;
+using std::in_place_type_t;
 // using std::size_t;
 #endif

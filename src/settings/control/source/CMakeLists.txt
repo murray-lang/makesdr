@@ -1,24 +1,24 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(RadioSettingsProto-settings-control-source)
+project(makesdr-settings-control-source)
 
 set(SETTINGS_CONTROL_SOURCE_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/include/control/source/PttSource.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/control/source/SettingsControlSource.h
+        include/settings/control/source/PttSource.h
+        include/settings/control/source/SettingsControlSource.h
 )
 
-add_library(RadioSettingsProto-settings-control-source
-        STATIC
+add_library(makesdr-settings-control-source
+        INTERFACE
         ${SETTINGS_CONTROL_SOURCE_SOURCES}
 )
 
-target_include_directories(RadioSettingsProto-settings-control-source PUBLIC
+target_include_directories(makesdr-settings-control-source INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(RadioSettingsProto-settings-control-source PUBLIC
-        RadioSettingsProto-settings-control-base
-        RadioSettingsProto-settings-model-basic
-        RadioSettingsProto-settings-model-mutable
-)
+#target_link_libraries(makesdr-settings-control-source PUBLIC
+#        makesdr-settings-control-base
+#        makesdr-settings-model-basic
+#        makesdr-settings-model-mutable
+#)

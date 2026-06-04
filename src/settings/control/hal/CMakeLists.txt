@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(RadioSettingsProto-settings-control-hal)
+project(makesdr-settings-control-hal)
 
-if (NOT TARGET_PLATFORM STREQUAL "linux")
+if (USE_GPIO)
     add_subdirectory(gpio)
 endif()
 

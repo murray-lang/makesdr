@@ -1,5 +1,5 @@
 #include "CrossPlatformTypes.h"
-#include "gpio/DigitalInputLinesRequest.h"
+#include "settings/control/gpio/DigitalInputLinesRequest.h"
 
 #include <gpiod.h>
 
