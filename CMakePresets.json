@@ -2,63 +2,109 @@
   "version": 3,
   "configurePresets": [
     {
+      "name": "qt-json-config-debug",
+      "displayName": "Qt JSON Config Debug",
+      "binaryDir": "${sourceDir}/build-qt-json-config-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_PLATFORM": "linux-pc",
+        "IS_QT": "ON",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "OFF"
+      }
+    },
+    {
+      "name": "qt-json-config-release",
+      "displayName": "Qt JSON Config",
+      "binaryDir": "${sourceDir}/build-qt-json-config-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_PLATFORM": "linux-pc",
+        "IS_QT": "ON",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "OFF"
+      }
+    },
+    {
       "name": "linux-play-debug",
       "displayName": "Play Debug (linux)",
       "binaryDir": "${sourceDir}/build-play-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "play",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     },
     {
       "name": "linux-play-release",
       "displayName": "Play Release (linux)",
       "binaryDir": "${sourceDir}/build-play-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "play",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     },
     {
       "name": "linux-save-debug",
       "displayName": "Save Debug (linux)",
       "binaryDir": "${sourceDir}/build-save-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "save",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     },
     {
       "name": "linux-save-release",
       "displayName": "Save Release (linux)",
       "binaryDir": "${sourceDir}/build-save-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "save",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     },
     {
       "name": "linux-restore-debug",
       "displayName": "Restore Debug (linux)",
       "binaryDir": "${sourceDir}/build-restore-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "TARGET_EXAMPLE": "restore",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     },
     {
       "name": "linux-restore-release",
       "displayName": "Restore Release (linux)",
       "binaryDir": "${sourceDir}/build-restore-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "TARGET_EXAMPLE": "restore",
-        "TARGET_PLATFORM": "linux"
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
       }
     }
   ]

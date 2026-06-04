@@ -1,7 +1,7 @@
-#include "gpio/DigitalInput.h"
-#include "settings/MutableRadioSettings.h"
+#include "settings/control/gpio/DigitalInput.h"
+#include "settings/model/core/RadioSettings.h"
 
-#include "settings/SettingFieldUpdateSink.h"
+#include "settings/model/core/SettingFieldUpdateSink.h"
 
 DigitalInput::DigitalInput() :
   GpioInputLines(),
@@ -22,7 +22,7 @@ DigitalInput::configure(const Config::DigitalInput::Fields& config)
   setEdge(Edge::BOTH);
   bool isIndirectOut;
   AutoCompleteTrigger triggerOut;
-  return MutableRadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
+  return RadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
 }
 
 void

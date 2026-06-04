@@ -1,4 +1,4 @@
-#include "gpio/base/GpioEventQueue.h"
+#include "settings/control/gpio/base/GpioEventQueue.h"
 #include <gpiod.h>
 
 GpioEventQueue::GpioEventQueue(void* pRequest, uint32_t capacity)

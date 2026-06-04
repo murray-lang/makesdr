@@ -1,4 +1,4 @@
-#include "gpio/DigitalOutputFactory.h"
+#include "settings/control/gpio/DigitalOutputFactory.h"
 
 ResultCode
 DigitalOutputFactory::create(const  Config::DigitalOutputs::DigitalOutputConfigVariant& config, DigitalOutputVariant& output)

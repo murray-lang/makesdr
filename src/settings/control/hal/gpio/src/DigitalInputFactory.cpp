@@ -1,8 +1,11 @@
-#include "gpio/DigitalInputFactory.h"
+#include "settings/control/gpio/DigitalInputFactory.h"
 
 
 ResultCode
-DigitalInputFactory::create(const Config::DigitalInputs::DigitalInputConfigVariant& config, DigitalInputVariant& input)
+DigitalInputFactory::create(
+  const Config::DigitalInputs::DigitalInputConfigVariant& config,
+  DigitalInputVariant& input
+  )
 {
   ResultCode result = ResultCode::OK;
   if (holds_alternative<Config::DigitalInput::Fields>(config)) {

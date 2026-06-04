@@ -2,7 +2,7 @@
 // Created by murray on 12/04/23.
 //
 
-#include "usb/LibUsbControl.h"
+#include "settings/control/usb/LibUsbControl.h"
 #include <libusb-1.0/libusb.h>
 
 LibUsbControl::LibUsbControl(uint16_t vendorId, uint16_t productId)

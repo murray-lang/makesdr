@@ -1,5 +1,5 @@
 #include <ResultCode.h>
-#include "usb/HidUsbControl.h"
+#include "settings/control/usb/HidUsbControl.h"
 #include <hidapi.h>
 
 HidUsbControl::HidUsbControl(uint16_t vendorId, uint16_t productId)

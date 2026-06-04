@@ -2,10 +2,10 @@
 // Created by murray on 20/8/25.
 //
 
-#include "gpio/RotaryEncoder.h"
+#include "settings/control/gpio/RotaryEncoder.h"
 // #include <qdebug.h>
 
-#include "settings/SettingFieldUpdate.h"
+#include "settings/model/core/SettingFieldUpdate.h"
 
 RotaryEncoder::RotaryEncoder() : DigitalInput()
 {

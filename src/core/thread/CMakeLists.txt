@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(RadioSettingsProto-core-thread)
+project(makesdr-core-thread)
 
 set(THREAD_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/thread/Mutex.h
@@ -9,7 +9,7 @@ set(THREAD_SOURCES
 
 )
 
-if(TARGET_PLATFORM STREQUAL "linux" OR TARGET_PLATFORM STREQUAL "rpi")
+if(TARGET_PLATFORM STREQUAL "linux-pc" OR TARGET_PLATFORM STREQUAL "rpi")
     set(THREAD_SOURCES
             ${THREAD_SOURCES}
             ${CMAKE_CURRENT_LIST_DIR}/platform/MutexStd.cpp
@@ -23,9 +23,9 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i")
     )
 endif()
 
-add_library(RadioSettingsProto-core-thread STATIC ${THREAD_SOURCES})
+add_library(makesdr-core-thread STATIC ${THREAD_SOURCES})
 
-target_include_directories(RadioSettingsProto-core-thread PUBLIC
+target_include_directories(makesdr-core-thread PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
         ${INCLUDE_DIR}
 )

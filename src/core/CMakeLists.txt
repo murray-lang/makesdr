@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(RadioSettingsProto-core)
+project(makesdr-core)
 
 add_subdirectory(thread)

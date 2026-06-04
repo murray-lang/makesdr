@@ -1,4 +1,4 @@
 #pragma once
-#include "model/proto/RadioSettings.pb.h"
+#include "settings/model/proto/RadioSettings.pb.h"
 
 extern RadioSettings_RadioSettingsPb exampleRadioSettingsPb;

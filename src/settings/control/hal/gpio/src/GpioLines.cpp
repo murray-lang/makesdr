@@ -2,7 +2,7 @@
 // Created by murray on 29/9/25.
 //
 
-#include "../include/gpio/base/GpioLines.h"
+#include "settings/control/gpio/base/GpioLines.h"
 
 GpioLines::GpioLines() :
   m_direction(Direction::AS_IS),
