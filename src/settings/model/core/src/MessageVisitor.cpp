@@ -291,8 +291,8 @@ MessageVisitor::updateField(const SettingFieldPath &path, const SettingFieldVari
       current_message = iter.pData;
     }
 
-    // Tags over 1000 identify steppable fields
-    if (tag > 1000) {
+    // Tags over 1000 identify steppable fields...but the path leaf might be one of the fields within the steppable!
+    if (tag > 1000 && leafIsSteppable) {
       ResultCode rc = updateSteppable(&iter, value);
       if (rc == ResultCode::OK) {
         for (size_t i = 0; i < parent_count; i++) {

@@ -17,7 +17,7 @@ add_definitions(
         # These lengths are one less than the corresponding string sizes in the proto options file ('\0')
 
         -DMAX_NAME_LENGTH=7
-        -DMAX_FIELD_PATH_LENGTH=6
+        -DMAX_FIELD_PATH_LENGTH=8
         -DMAX_BAND_LABEL_LENGTH=9
         -DMAX_MODE_LABEL_LENGTH=14
         -DMAX_ID_LENGTH=16
