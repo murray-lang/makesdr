@@ -47,7 +47,6 @@ using etl::max;
 #include <algorithm>
 #include <functional>
 #include <mutex>
-#include <math>
 
 using std::variant;
 using std::holds_alternative;

@@ -108,7 +108,6 @@ public:
           return ResultCode::ERR_SETTING_BAND_SETTINGS_FOCUS_PIPELINE_NOT_SET;
         }
         nextIndex++;
-        return ResultCode::OK;
       }
       break;
     default: break;

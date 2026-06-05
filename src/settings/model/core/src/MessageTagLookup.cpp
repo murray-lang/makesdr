@@ -98,6 +98,7 @@ constexpr FieldEntry band_settings_fields[] = {
   {"is_multi_pipeline", RadioSettings_BandSettingsPb_is_multi_pipeline_tag,  nullptr, false, AutoCompleteTrigger::MULTI_PIPELINE},
   {"focus_pipeline_id", RadioSettings_BandSettingsPb_focus_pipeline_id_tag,  nullptr},
   {"tx_pipeline_id", RadioSettings_BandSettingsPb_tx_pipeline_id_tag,  nullptr},
+  {"focus_pipeline", RadioSettings_BandSettingsPb_focus_pipeline_tag,  rx_pipeline_fields, true},
   {nullptr, 0,  nullptr}
 };
 

@@ -22,7 +22,7 @@ RotaryEncoder::configure(const Config::RotaryEncoder::Fields& config)
 void
 RotaryEncoder::notifyMovement(const int movement)
 {
-  SettingFieldUpdate setting(m_settingPath, movement, SettingFieldUpdate::DELTA);
+  SettingFieldUpdate setting(m_settingPath, movement, SettingFieldUpdate::DELTA, m_isPathIndirect, m_autoCompleteTrigger);
   notifySettingFieldUpdate(setting);
 }
 
