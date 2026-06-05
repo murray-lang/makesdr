@@ -7,7 +7,10 @@
 #include <config/json/RadioConfig.json.h>
 #include <fstream>
 #include <settings/control/radio/RadioControl.h>
-#include "RadioControlSink.h"
+
+#include "RadioControlClient.h"
+
+
 
 ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& radioConfig)
 {
@@ -57,10 +60,12 @@ int main(int argc, char *argv[])
   if (rc != ResultCode::OK) {
     return -1;
   }
-  RadioControlSink radioControlSink;
+  RadioControlClient radioControlSink;
 
   radioControl.connectRadioSettingsSink(radioControlSink);
   radioControl.connectSettingFieldUpdateSink(radioControlSink);
+
+  radioControlSink.connectRadioSettingsSink(radioControl);
 
   Gpio& gpioInstance = Gpio::getInstance();
   rc = gpioInstance.open();

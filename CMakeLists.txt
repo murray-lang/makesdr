@@ -54,9 +54,12 @@ set(ARDUINO_JSON_DIR ${THIRD_PARTY_DIR}/ArduinoJson)
 
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-add_subdirectory(${ETL_DIR} etl)
+
 add_subdirectory(${NANOPB_DIR} nanopb)
 add_subdirectory(${ARDUINO_JSON_DIR} arduinoJson)
+
+add_subdirectory(${ETL_DIR} etl)
+target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't throw exceptions
 
 add_subdirectory(src/core)
 add_subdirectory(src/settings)

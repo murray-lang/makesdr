@@ -21,8 +21,10 @@ endif()
 
 set (PROJECT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/RadioControlSink.h
-        ${CMAKE_CURRENT_LIST_DIR}/RadioControlSink.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/RadioControlClient.h
+        ${CMAKE_CURRENT_LIST_DIR}/RadioControlClient.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 )
 
 add_executable(makesdr-example-qt-json-config

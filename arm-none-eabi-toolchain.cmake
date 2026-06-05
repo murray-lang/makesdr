@@ -12,3 +12,5 @@ set(CMAKE_ASM_COMPILER ${TOOL_PREFIX}gcc)
 set(CMAKE_OBJCOPY ${TOOL_PREFIX}objcopy)
 set(CMAKE_SIZE ${TOOL_PREFIX}size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+
+add_compile_options(-fno-exceptions -fno-rtti)
