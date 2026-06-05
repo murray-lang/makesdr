@@ -19,7 +19,7 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
     try {
       std::ifstream f(configPath.toStdString());
       JsonDocument doc;
-      DeserializationError error = deserializeJson(doc, f);
+      DeserializationError error = deserializeJson(doc, f, DeserializationOption::NestingLimit(12));
       if (error) {
         qDebug() << "Failed to parse config at" << configPath << ":" << error.c_str();
         rc = ResultCode::ERR_CONFIG_INVALID_JSON;
@@ -61,6 +61,17 @@ int main(int argc, char *argv[])
 
   radioControl.connectRadioSettingsSink(radioControlSink);
   radioControl.connectSettingFieldUpdateSink(radioControlSink);
+
+  Gpio& gpioInstance = Gpio::getInstance();
+  rc = gpioInstance.open();
+  if (rc != ResultCode::OK) {
+    qDebug() << "Failed to open GPIO interface";
+    return -1;
+  }
+  rc = radioControl.start();
+  if (rc != ResultCode::OK) {
+    return -1;
+  }
 
   return app.exec();
 }

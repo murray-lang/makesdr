@@ -3,6 +3,7 @@
 #include <gpiod.h>
 
 #include "GpioInputLinesRequest.h"
+#include "GpioOutputLinesRequest.h"
 #include "GpioLines.h"
 #include "GpioLinesRequestBase.h"
 /*
@@ -49,7 +50,7 @@ public:
   ResultCode requestOutput(
     const char * contextId,
     const GpioLines& output,
-    GpioLinesRequestBase& lr
+    GpioOutputLinesRequest& lr
   );
 
 protected:

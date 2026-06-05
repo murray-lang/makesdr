@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
 project(makesdr-settings-model-proto)
 
@@ -39,25 +39,19 @@ if (PROTO_PLATFORM STREQUAL "google")
 elseif(PROTO_PLATFORM STREQUAL "nanopb")
 
 
-    #    set(NANOPB_GENERATE_CPP_APPEND_PATH OFF)
-    #    set(NANOPB_OPTIONS -I${PROTO_DIR} --output-dir=${NANOPB_GEN_DIR})
-    #    set(NANOPB_OPTIONS "--options-file=${PROTO_DIR}/RadioSettings.options")
-    nanopb_generate_cpp(
-            PROTO_SRCS PROTO_HDRS
-            #            TARGET nanopb_lib
-            #            RELPATH ${PROTO_DIR}
-            ${CMAKE_CURRENT_LIST_DIR}/RadioSettings.proto
-    )
-    #    message(STATUS "Generated sources: ${PROTO_SRCS}")
-    #    message(STATUS "Generated headers: ${PROTO_HDRS}")
-    #    message(STATUS "NANOPB_OUT: ${NANOPB_OUT}")
+#     nanopb_generate_cpp(
+#             PROTO_SRCS PROTO_HDRS
+#             #            TARGET nanopb_lib
+#             #            RELPATH ${PROTO_DIR}
+#             ${CMAKE_CURRENT_LIST_DIR}/RadioSettings.proto
+#     )
 
-    add_custom_target(copy_nanopb_gen ALL
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${NANOPB_GEN_DIR}/
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h ${NANOPB_GEN_DIR}/
-            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h
-            COMMENT "Copying nanopb generated files to source tree"
-    )
+#     add_custom_target(copy_nanopb_gen ALL
+#             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${NANOPB_GEN_DIR}/
+#             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h ${NANOPB_GEN_DIR}/
+#             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.c ${CMAKE_CURRENT_BINARY_DIR}/RadioSettings.pb.h
+#             COMMENT "Copying nanopb generated files to source tree"
+#     )
 
     add_library(makesdr-settings-model-proto STATIC
             include/settings/model/proto/RadioSettings.pb.h
@@ -73,6 +67,6 @@ elseif(PROTO_PLATFORM STREQUAL "nanopb")
     target_link_libraries(makesdr-settings-model-proto PUBLIC
             protobuf-nanopb-static
     )
-    add_dependencies(makesdr-settings-model-proto copy_nanopb_gen)
+#     add_dependencies(makesdr-settings-model-proto copy_nanopb_gen)
 
 endif()

@@ -1,0 +1,517 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "src/settings/control/hal/gpio/libmakesdr-settings-control-hal-gpio.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"src/settings/control/hal/gpio/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 45,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 53,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 47,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 16,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 39,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 43,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 47,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g"
+				},
+				{
+					"fragment" : "-std=gnu++20"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "IS_QT"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BANDS_PER_CATEGORY=13"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_CATEGORIES=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_LABEL_LENGTH=9"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SINKS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SOURCES=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_INPUT_HANDLERS=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_INPUT_LINES_TOTAL=10"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_OUTPUT_HANDLERS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DOTTED_STRING_LENGTH=64"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_FIELD_PATH_LENGTH=6"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO=27"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_CONTEXT_LENGTH=16"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_EVENT_QUEUE_CAPACITY=64"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_LINES_PER_DEVICE=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_ID_LENGTH=16"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODE_LABEL_LENGTH=14"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_NAME_LENGTH=7"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_ETL"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "USE_GPIO"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 8,
+					"path" : "/home/murray/dev/code/sdr/makesdr/include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/hal/gpio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/config/struct/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/thread/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/source/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/sink/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/core/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/proto/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/nanopb"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/proto/gen/nanopb"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/etl/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "protobuf-nanopb-static::@c845ef696169b6be4d76"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-core-thread::@5245ef5a6b9da43dfcc7"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-settings-model-proto::@ca68e4c23759caae5d87"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-settings-model-core::@3c98b77ad1c1d09cd234"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-settings-control-base::@dadfd76efe4f40b526e1"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-settings-control-sink::@4f14c7fdf5c1515d3702"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-settings-control-source::@3f99f81cbce425e17719"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "makesdr-config-struct::@6b88641760919ad0bf90"
+		}
+	],
+	"id" : "makesdr-settings-control-hal-gpio::@70d8f6d8fe5bef480a86",
+	"name" : "makesdr-settings-control-hal-gpio",
+	"nameOnDisk" : "libmakesdr-settings-control-hal-gpio.a",
+	"paths" : 
+	{
+		"build" : "src/settings/control/hal/gpio",
+		"source" : "src/settings/control/hal/gpio"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				25,
+				26,
+				27,
+				28,
+				29,
+				30,
+				31
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/Gpio.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioLines.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioInputLines.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioEvent.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioEventQueue.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioLinesRequestBase.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioInputLinesRequest.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/base/GpioOutputLinesRequest.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalInputLinesRequest.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalOutputLinesRequest.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalInputTypes.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalInput.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/RotaryEncoder.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalInputs.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalInputFactory.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalOutput.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/GpioBandSelector.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalOutputs.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/gpio/include/settings/control/gpio/DigitalOutputFactory.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/GpioLines.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalInput.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/RotaryEncoder.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalInputs.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalInputFactory.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalOutput.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/GpioBandSelector.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalOutputs.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/DigitalOutputFactory.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/platform/linux/Gpiod.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/platform/linux/GpioEventQueueGpiod.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/platform/linux/DigitalInputLinesRequestGpiod.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/hal/gpio/src/platform/linux/DigitalOutputLinesRequestGpiod.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

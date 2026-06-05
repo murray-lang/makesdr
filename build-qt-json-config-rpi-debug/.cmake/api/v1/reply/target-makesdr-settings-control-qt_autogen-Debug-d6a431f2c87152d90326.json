@@ -1,0 +1,81 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/settings/control/qt/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "makesdr-settings-model-core::@3c98b77ad1c1d09cd234"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "makesdr-settings-control-base::@dadfd76efe4f40b526e1"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "makesdr-settings-control-sink::@4f14c7fdf5c1515d3702"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "makesdr-settings-control-source::@3f99f81cbce425e17719"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "makesdr-config-struct::@6b88641760919ad0bf90"
+		}
+	],
+	"id" : "makesdr-settings-control-qt_autogen::@4c8d7dbaa71a62265451",
+	"isGeneratorProvided" : true,
+	"name" : "makesdr-settings-control-qt_autogen",
+	"paths" : 
+	{
+		"build" : "src/settings/control/qt",
+		"source" : "src/settings/control/qt"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build-qt-json-config-rpi-debug/src/settings/control/qt/CMakeFiles/makesdr-settings-control-qt_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build-qt-json-config-rpi-debug/src/settings/control/qt/CMakeFiles/makesdr-settings-control-qt_autogen.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,207 @@
+{
+  "radio": {
+    "control": {
+        "sinks": [
+          {
+            "type": "funcube",
+            "config": {
+            }
+          },
+          {
+            "type": "digitalOutputs",
+            "config": {
+              "outputs": [
+                {
+                  "type": "digitalOutput",
+                  "config": {
+                    "lines": [23],
+                    "direction": "output",
+                    "settingPath": "ptt"
+                  }
+                },
+                {
+                  "type": "bandSelector",
+                  "config": {
+                    "lines": [9, 10, 11, 17],
+                    "direction": "output",
+                    "defaultOut": 8,
+                    "settingPath": "active_bands.band_1.pipeline_a.base.rf.center_frequency.value",
+                    "bands": [
+                      {
+                        "fromFrequency": 1800000,
+                        "toFrequency": 1875000,
+                        "out": 0
+                      },
+                      {
+                        "fromFrequency": 3500000,
+                        "toFrequency": 3800000,
+                        "out": 1
+                      },
+                      {
+                        "fromFrequency": 7000000,
+                        "toFrequency": 7300000,
+                        "out": 2
+                      },
+                      {
+                        "fromFrequency": 10100000,
+                        "toFrequency": 10150000,
+                        "out": 3
+                      },
+                      {
+                        "fromFrequency": 14000000,
+                        "toFrequency": 14350000,
+                        "out": 4
+                      },
+                      {
+                        "fromFrequency": 18068000,
+                        "toFrequency": 18168000,
+                        "out": 5
+                      },
+                      {
+                        "fromFrequency": 21000000,
+                        "toFrequency": 21450000,
+                        "out": 6
+                      },
+                      {
+                        "fromFrequency": 24890000,
+                        "toFrequency": 24990000,
+                        "out": 7
+                      },
+                      {
+                        "fromFrequency": 28000000,
+                        "toFrequency": 29700000,
+                        "out": 8
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "sources": [
+          {
+            "type": "digitalInputs",
+            "config": {
+              "inputs": [
+                  {
+                      "type": "digitalInput",
+                      "config": {
+                          "lines": [22],
+                          "direction": "input",
+                          "bias": "pull-up",
+                          "debounce": true,
+                          "settingPath": "ptt"
+                      }
+                  },
+                  {
+                      "type": "rotaryEncoder",
+                      "config": {
+                          "lines": [8, 7],
+                          "direction": "input",
+                          "bias": "pull-up",
+                          "debounce": true,
+                          "settingPath": "active_bands.band_1.pipeline_a.base.mode_request"
+                      }
+                  },
+                  {
+
+                      "type": "rotaryEncoder",
+                      "config": {
+                          "lines": [13, 12],
+                          "direction": "input",
+                          "bias": "pull-up",
+                          "debounce": true,
+                          "settingPath": "active_bands.band_1.band_request"
+                      }
+                  },
+                  {
+
+                      "type": "rotaryEncoder",
+                      "config": {
+                          "lines": [26, 16],
+                          "direction": "input",
+                          "bias": "pull-up",
+                          "debounce": true,
+                          "settingPath": "active_bands.band_1.pipeline_a.base.rf.centre_frequency.value"
+                      }
+                  },
+                  {
+
+                      "type": "rotaryEncoder",
+                      "config": {
+                          "lines": [15, 14],
+                          "direction": "input",
+                          "bias": "none",
+                          "debounce": false,
+                          "settingPath": "active_bands.band_1.pipeline_a.base.rf.vfo.value"
+                      }
+                  }
+              ]
+            }
+          }
+        ]
+      },
+    "receiver": {
+      "iqIo": {
+        "iqSource": {
+          "type": "audioSignalIqSource",
+          "config": {
+            "audioInput": {
+			  "isInput": true,
+			  "isIq": true,
+			  "soundApi": "alsa",
+			  "searchExpression": "FUNcube",
+			  "sampleRate": 192000,
+			  "channelCount": 2,
+			  "format": "float32"
+           },
+            "reverse": false
+          }
+        },
+        "audioOutput": {
+          "type": "audio",
+          "config": {
+			"isInput": false,
+			"isIq": false,
+            "soundApi": "alsa",
+            "searchExpression": "Modu",
+            "sampleRate": 48000,
+            "channelCount": 2,
+            "format": "sint16"
+          }
+        }
+      }
+    },
+    "transmitter": {
+      "iqIo": {
+        "iqSource": {
+          "type": "audioIqSource",
+          "config": {
+            "audioInput": {
+			  "isInput": true,
+			  "isIq": true,
+			  "soundApi": "alsa",
+			  "searchExpression": "Modu",
+              "sampleRate": 48000,
+              "channelCount": 1,
+              "format": "sint16"
+            }
+          }
+        },
+        "audioOutput": {
+          "type": "audio",
+          "config": {
+			"isInput": false,
+			"isIq": false,
+            "soundApi": "alsa",
+            "searchExpression": "HiFiBerry",
+            "sampleRate": 192000,
+            "channelCount": 2,
+            "format": "float32"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmakesdr-settings-model-proto.a "CMakeFiles/makesdr-settings-model-proto.dir/gen/nanopb/RadioSettings.pb.c.o"
+/usr/bin/ranlib libmakesdr-settings-model-proto.a

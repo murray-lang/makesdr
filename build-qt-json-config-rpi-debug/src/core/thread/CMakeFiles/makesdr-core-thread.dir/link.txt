@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmakesdr-core-thread.a "CMakeFiles/makesdr-core-thread.dir/platform/MutexStd.cpp.o" "CMakeFiles/makesdr-core-thread.dir/platform/ThreadStd.cpp.o"
+/usr/bin/ranlib libmakesdr-core-thread.a

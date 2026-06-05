@@ -1,0 +1,893 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						5,
+						7,
+						23
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "etl",
+					"jsonFile" : "directory-etl-Debug-89ee0b100e0191b77ba2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "third-party/etl"
+				},
+				{
+					"build" : "nanopb",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-nanopb-Debug-c416941fcaac897139be.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "third-party/nanopb",
+					"targetIndexes" : 
+					[
+						18,
+						19
+					]
+				},
+				{
+					"build" : "arduinoJson",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-arduinoJson-Debug-4553d6ba73fca72e8ff1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "third-party/ArduinoJson"
+				},
+				{
+					"build" : "arduinoJson/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-arduinoJson.src-Debug-d99b3ff3caf093040126.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 3,
+					"source" : "third-party/ArduinoJson/src"
+				},
+				{
+					"build" : "src/core",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-src.core-Debug-36daa2e54a8600f0fb49.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "src/core"
+				},
+				{
+					"build" : "src/core/thread",
+					"jsonFile" : "directory-src.core.thread-Debug-401e7f26c04e0d6dcad2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 5,
+					"source" : "src/core/thread",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "src/settings",
+					"childIndexes" : 
+					[
+						8,
+						12
+					],
+					"jsonFile" : "directory-src.settings-Debug-d686f8452699a83ea06e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 6,
+					"source" : "src/settings"
+				},
+				{
+					"build" : "src/settings/model",
+					"childIndexes" : 
+					[
+						9,
+						10,
+						11
+					],
+					"jsonFile" : "directory-src.settings.model-Debug-747f14c086f747fd69aa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 7,
+					"source" : "src/settings/model"
+				},
+				{
+					"build" : "src/settings/model/proto",
+					"jsonFile" : "directory-src.settings.model.proto-Debug-acbc5875ce96c7884e9c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 8,
+					"source" : "src/settings/model/proto",
+					"targetIndexes" : 
+					[
+						16,
+						17
+					]
+				},
+				{
+					"build" : "src/settings/model/core",
+					"jsonFile" : "directory-src.settings.model.core-Debug-6ae8b7b4359b996eb994.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 9,
+					"source" : "src/settings/model/core",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "src/settings/model/extra",
+					"jsonFile" : "directory-src.settings.model.extra-Debug-a7f9c08c07844d5a461f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 8,
+					"projectIndex" : 10,
+					"source" : "src/settings/model/extra",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "src/settings/control",
+					"childIndexes" : 
+					[
+						13,
+						14,
+						15,
+						16,
+						20,
+						21,
+						22
+					],
+					"jsonFile" : "directory-src.settings.control-Debug-c546d59368e08d3803cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 11,
+					"source" : "src/settings/control"
+				},
+				{
+					"build" : "src/settings/control/base",
+					"jsonFile" : "directory-src.settings.control.base-Debug-e0504e92d1b634427636.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 12,
+					"source" : "src/settings/control/base",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "src/settings/control/sink",
+					"jsonFile" : "directory-src.settings.control.sink-Debug-a8ff7d63d43556213136.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 13,
+					"source" : "src/settings/control/sink",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "src/settings/control/source",
+					"jsonFile" : "directory-src.settings.control.source-Debug-5928b4d1989d2ca9bb23.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 14,
+					"source" : "src/settings/control/source",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "src/settings/control/hal",
+					"childIndexes" : 
+					[
+						17,
+						18,
+						19
+					],
+					"jsonFile" : "directory-src.settings.control.hal-Debug-81dc921a276e2b450d69.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 15,
+					"source" : "src/settings/control/hal"
+				},
+				{
+					"build" : "src/settings/control/hal/gpio",
+					"jsonFile" : "directory-src.settings.control.hal.gpio-Debug-2af1c1d9fc1e974f74cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 16,
+					"source" : "src/settings/control/hal/gpio",
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"build" : "src/settings/control/hal/usb",
+					"jsonFile" : "directory-src.settings.control.hal.usb-Debug-3a92cfa7385312415b62.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 17,
+					"source" : "src/settings/control/hal/usb",
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"build" : "src/settings/control/hal/FunCubeDongle",
+					"jsonFile" : "directory-src.settings.control.hal.FunCubeDongle-Debug-81fcf9b0c4fa6b778c37.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 18,
+					"source" : "src/settings/control/hal/FunCubeDongle",
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"build" : "src/settings/control/radio",
+					"jsonFile" : "directory-src.settings.control.radio-Debug-375e352347d031e008fe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 19,
+					"source" : "src/settings/control/radio",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "src/settings/control/qt",
+					"jsonFile" : "directory-src.settings.control.qt-Debug-befa5b9970f352cb83e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 20,
+					"source" : "src/settings/control/qt",
+					"targetIndexes" : 
+					[
+						9,
+						10
+					]
+				},
+				{
+					"build" : "src/settings/control/factory",
+					"jsonFile" : "directory-src.settings.control.factory-Debug-e2f5285ccad5b1da183d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 21,
+					"source" : "src/settings/control/factory",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "src/config",
+					"childIndexes" : 
+					[
+						24,
+						25
+					],
+					"jsonFile" : "directory-src.config-Debug-eb0c43d13011ce5cd845.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 22,
+					"source" : "src/config"
+				},
+				{
+					"build" : "src/config/struct",
+					"jsonFile" : "directory-src.config.struct-Debug-e343f7dad3c6cb72b49f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 23,
+					"projectIndex" : 23,
+					"source" : "src/config/struct",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "src/config/json",
+					"jsonFile" : "directory-src.config.json-Debug-ac69fa6bc778f1b7552a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"parentIndex" : 23,
+					"projectIndex" : 24,
+					"source" : "src/config/json",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						6,
+						22
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "makesdr-example-qt-json-config",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "etl",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "nanopb",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						18,
+						19
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4
+					],
+					"name" : "ArduinoJson",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						5
+					],
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "makesdr-core",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "makesdr-core-thread",
+					"parentIndex" : 4,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						7,
+						11
+					],
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "makesdr-settings",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						8,
+						9,
+						10
+					],
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "makesdr-settings-model",
+					"parentIndex" : 6
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "makesdr-settings-model-proto",
+					"parentIndex" : 7,
+					"targetIndexes" : 
+					[
+						16,
+						17
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10
+					],
+					"name" : "makesdr-settings-model-core",
+					"parentIndex" : 7,
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "makesdr-settings-model-extra",
+					"parentIndex" : 7,
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						12,
+						13,
+						14,
+						15,
+						19,
+						20,
+						21
+					],
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "makesdr-settings-control",
+					"parentIndex" : 6
+				},
+				{
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "makesdr-settings-control-base",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14
+					],
+					"name" : "makesdr-settings-control-sink",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						15
+					],
+					"name" : "makesdr-settings-control-source",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						16,
+						17,
+						18
+					],
+					"directoryIndexes" : 
+					[
+						16
+					],
+					"name" : "makesdr-settings-control-hal",
+					"parentIndex" : 11
+				},
+				{
+					"directoryIndexes" : 
+					[
+						17
+					],
+					"name" : "makesdr-settings-control-hal-gpio",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						18
+					],
+					"name" : "makesdr-settings-control-hal-usb",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						19
+					],
+					"name" : "makesdr-settings-control-hal-funcube",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						20
+					],
+					"name" : "makesdr-settings-control-radio",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						21
+					],
+					"name" : "makesdr-settings-control-qt",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						9,
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						22
+					],
+					"name" : "makesdr-settings-control-factory",
+					"parentIndex" : 11,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						23,
+						24
+					],
+					"directoryIndexes" : 
+					[
+						23
+					],
+					"name" : "makesdr-config",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						24
+					],
+					"name" : "makesdr-config-struct",
+					"parentIndex" : 22,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						25
+					],
+					"name" : "makesdr-config-json",
+					"parentIndex" : 22,
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 25,
+					"id" : "makesdr-config-json::@72312929dbf3680b6f4a",
+					"jsonFile" : "target-makesdr-config-json-Debug-bf67ffbe81870247e061.json",
+					"name" : "makesdr-config-json",
+					"projectIndex" : 24
+				},
+				{
+					"directoryIndex" : 24,
+					"id" : "makesdr-config-struct::@6b88641760919ad0bf90",
+					"jsonFile" : "target-makesdr-config-struct-Debug-c7de1e6d7f9392b6693d.json",
+					"name" : "makesdr-config-struct",
+					"projectIndex" : 23
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "makesdr-core-thread::@5245ef5a6b9da43dfcc7",
+					"jsonFile" : "target-makesdr-core-thread-Debug-ec88ddd70a33a613b77b.json",
+					"name" : "makesdr-core-thread",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "makesdr-example-qt-json-config::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-makesdr-example-qt-json-config-Debug-19ad31f2b8444cd04b35.json",
+					"name" : "makesdr-example-qt-json-config",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "makesdr-settings-control-base::@dadfd76efe4f40b526e1",
+					"jsonFile" : "target-makesdr-settings-control-base-Debug-5827253f3c5b07e2ec00.json",
+					"name" : "makesdr-settings-control-base",
+					"projectIndex" : 12
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "makesdr-settings-control-factory::@119f9f35167341283564",
+					"jsonFile" : "target-makesdr-settings-control-factory-Debug-c7c28746acaa95228130.json",
+					"name" : "makesdr-settings-control-factory",
+					"projectIndex" : 21
+				},
+				{
+					"directoryIndex" : 19,
+					"id" : "makesdr-settings-control-hal-funcube::@a447883060c81db3c78c",
+					"jsonFile" : "target-makesdr-settings-control-hal-funcube-Debug-56f99743c826904d016b.json",
+					"name" : "makesdr-settings-control-hal-funcube",
+					"projectIndex" : 18
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "makesdr-settings-control-hal-gpio::@70d8f6d8fe5bef480a86",
+					"jsonFile" : "target-makesdr-settings-control-hal-gpio-Debug-08068fef37735c5d840c.json",
+					"name" : "makesdr-settings-control-hal-gpio",
+					"projectIndex" : 16
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "makesdr-settings-control-hal-usb::@6161d97f015178cde3ba",
+					"jsonFile" : "target-makesdr-settings-control-hal-usb-Debug-bb032a930bc92c0f2620.json",
+					"name" : "makesdr-settings-control-hal-usb",
+					"projectIndex" : 17
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "makesdr-settings-control-qt::@4c8d7dbaa71a62265451",
+					"jsonFile" : "target-makesdr-settings-control-qt-Debug-24a8fca2e5bf8cfe7401.json",
+					"name" : "makesdr-settings-control-qt",
+					"projectIndex" : 20
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "makesdr-settings-control-qt_autogen::@4c8d7dbaa71a62265451",
+					"jsonFile" : "target-makesdr-settings-control-qt_autogen-Debug-d6a431f2c87152d90326.json",
+					"name" : "makesdr-settings-control-qt_autogen",
+					"projectIndex" : 20
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "makesdr-settings-control-radio::@fea1638bae2a75222c63",
+					"jsonFile" : "target-makesdr-settings-control-radio-Debug-d93ba194cc7c574d70ee.json",
+					"name" : "makesdr-settings-control-radio",
+					"projectIndex" : 19
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "makesdr-settings-control-sink::@4f14c7fdf5c1515d3702",
+					"jsonFile" : "target-makesdr-settings-control-sink-Debug-a878bc6261e6443fc440.json",
+					"name" : "makesdr-settings-control-sink",
+					"projectIndex" : 13
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "makesdr-settings-control-source::@3f99f81cbce425e17719",
+					"jsonFile" : "target-makesdr-settings-control-source-Debug-e2347c6e41d6fe3e76be.json",
+					"name" : "makesdr-settings-control-source",
+					"projectIndex" : 14
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "makesdr-settings-model-core::@3c98b77ad1c1d09cd234",
+					"jsonFile" : "target-makesdr-settings-model-core-Debug-ed5ce82a9d8729fca53c.json",
+					"name" : "makesdr-settings-model-core",
+					"projectIndex" : 9
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "makesdr-settings-model-extra::@b6859e55c83090c963cb",
+					"jsonFile" : "target-makesdr-settings-model-extra-Debug-dc867fba00d3f050bd1a.json",
+					"name" : "makesdr-settings-model-extra",
+					"projectIndex" : 10
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "makesdr-settings-model-proto::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-makesdr-settings-model-proto-Debug-d619d55e0b2c607ee601.json",
+					"name" : "makesdr-settings-model-proto",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "nanopb::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-nanopb-Debug-8585657c92bc053db5a0.json",
+					"name" : "nanopb",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "nanopb_generator::@c845ef696169b6be4d76",
+					"jsonFile" : "target-nanopb_generator-Debug-7a303d4b6ef1e9d8177a.json",
+					"name" : "nanopb_generator",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "protobuf-nanopb-static::@c845ef696169b6be4d76",
+					"jsonFile" : "target-protobuf-nanopb-static-Debug-d56b38ed37194de450e5.json",
+					"name" : "protobuf-nanopb-static",
+					"projectIndex" : 2
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/murray/dev/code/sdr/makesdr/build-qt-json-config-rpi-debug",
+		"source" : "/home/murray/dev/code/sdr/makesdr"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+d4f4377a44dd9cd4e5db9fdbb6194043 nanopb/CMakeFiles/nanopb_generator
+78a999408f128422610eb455e1dc5028 src/settings/control/qt/CMakeFiles/makesdr-settings-control-qt_autogen
+234d94e855ed4756d4be909271c5efdb src/settings/model/proto/nanopb/generator/nanopb_generator.py
+26085ab9e669c6ec016a464af9a590de src/settings/model/proto/nanopb/generator/proto/nanopb_pb2.py

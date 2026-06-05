@@ -117,12 +117,12 @@ ResultCode
 Gpio::requestOutput(
   const char * contextId,
   const GpioLines& output,
-  GpioLinesRequestBase& dolr
+  GpioOutputLinesRequest& dolr
 )
 {
   if (!m_pChip) {
     return ResultCode::ERR_SETTING_CONTROL_GPIOD_CHIP_NOT_OPENED;
   }
   dolr.initialise(m_pChip, contextId);
-  return ResultCode::OK; //dolr.request(contextId, output);
+  return dolr.request(contextId, output);
 }
