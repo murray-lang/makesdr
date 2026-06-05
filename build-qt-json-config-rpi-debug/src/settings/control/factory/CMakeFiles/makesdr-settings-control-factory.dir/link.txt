@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-control-factory.a "CMakeFiles/makesdr-settings-control-factory.dir/src/SettingsControlSinkFactory.cpp.o" "CMakeFiles/makesdr-settings-control-factory.dir/src/SettingsControlSourceFactory.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-control-factory.a

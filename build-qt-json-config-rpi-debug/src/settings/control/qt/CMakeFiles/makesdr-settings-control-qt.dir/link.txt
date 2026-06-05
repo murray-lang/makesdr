@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-control-qt.a "CMakeFiles/makesdr-settings-control-qt.dir/makesdr-settings-control-qt_autogen/mocs_compilation.cpp.o" "CMakeFiles/makesdr-settings-control-qt.dir/src/QtSettingsControlSink.cpp.o" "CMakeFiles/makesdr-settings-control-qt.dir/src/QtSettingsControlSource.cpp.o" "CMakeFiles/makesdr-settings-control-qt.dir/src/QtGlobalControlEventTargets.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-control-qt.a

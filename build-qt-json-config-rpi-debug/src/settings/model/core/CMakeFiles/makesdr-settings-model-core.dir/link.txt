@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-model-core.a "CMakeFiles/makesdr-settings-model-core.dir/src/MessageTagLookup.cpp.o" "CMakeFiles/makesdr-settings-model-core.dir/src/MessageVisitor.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-model-core.a

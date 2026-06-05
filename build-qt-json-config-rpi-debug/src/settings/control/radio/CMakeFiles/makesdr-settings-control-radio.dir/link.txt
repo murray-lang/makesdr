@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-control-radio.a "CMakeFiles/makesdr-settings-control-radio.dir/src/RadioControl.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-control-radio.a

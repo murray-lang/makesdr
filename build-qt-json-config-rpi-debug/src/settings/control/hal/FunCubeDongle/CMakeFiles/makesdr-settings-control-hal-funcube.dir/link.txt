@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-control-hal-funcube.a "CMakeFiles/makesdr-settings-control-hal-funcube.dir/FunCubeDongle.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-control-hal-funcube.a

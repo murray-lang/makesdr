@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmakesdr-settings-model-util.a "CMakeFiles/makesdr-settings-model-util.dir/src/GenerateResolvedPathSourceFiles.cpp.o" "CMakeFiles/makesdr-settings-model-util.dir/src/defaultRadioCategories.cpp.o"
-/usr/bin/ranlib libmakesdr-settings-model-util.a
