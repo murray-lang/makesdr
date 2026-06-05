@@ -5,7 +5,9 @@
 
 DigitalInput::DigitalInput() :
   GpioInputLines(),
-  m_detectEdge(false)
+  m_detectEdge(false),
+  m_isPathIndirect(false),
+  m_autoCompleteTrigger(AutoCompleteTrigger::NONE)
 {
 }
 
@@ -20,9 +22,12 @@ DigitalInput::configure(const Config::DigitalInput::Fields& config)
   const Config::SettingPathString& strSettingPath = config.settingPath;
   m_id = strSettingPath;
   setEdge(Edge::BOTH);
-  bool isIndirectOut;
-  AutoCompleteTrigger triggerOut;
-  return RadioSettings::resolveDottedPath(strSettingPath.c_str(), m_settingPath, &isIndirectOut, &triggerOut);
+  return RadioSettings::resolveDottedPath(
+    strSettingPath.c_str(),
+    m_settingPath,
+    &m_isPathIndirect,
+    &m_autoCompleteTrigger
+    );
 }
 
 void
@@ -62,6 +67,6 @@ void
 DigitalInput::notifyChange(const DigitalInputLinesRequest::LineState& lineState)
 {
   bool active = m_activeHigh ? !!lineState.value : !lineState.value;
-  SettingFieldUpdate setting(m_settingPath, static_cast<bool>(active), SettingFieldUpdate::VALUE);
+  SettingFieldUpdate setting(m_settingPath, active, SettingFieldUpdate::VALUE, m_isPathIndirect, m_autoCompleteTrigger);
   notifySettingFieldUpdate(setting);
 }

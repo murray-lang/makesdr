@@ -95,6 +95,23 @@ private:
     }
   };
 
+  template<typename TargetType, ResultCode ErrorCode>
+  struct PromotingIntUpdateVisitor
+  {
+    void* target_ptr;
+
+    template<typename T>
+    ResultCode operator()(T value) const {
+      if constexpr (std::is_integral_v<T>) {
+        if constexpr (std::is_same_v<std::common_type_t<T, TargetType>, TargetType>) {
+          *static_cast<TargetType*>(target_ptr) = static_cast<TargetType>(value);
+          return ResultCode::OK;
+        }
+      }
+      return ErrorCode;
+    }
+  };
+
   static StringValue getStringValue(const SettingFieldVariant& value);
   void* m_pMessage;
   const pb_msgdesc_t *m_pDescriptor;

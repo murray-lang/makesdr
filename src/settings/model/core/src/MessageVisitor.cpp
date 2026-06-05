@@ -99,11 +99,7 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
       }
       *static_cast<int32_t *>(target_ptr) = *pInt32Value;
     } else if (iter->data_size == sizeof(int64_t)) {
-      const int64_t* pInt64Value = get_if<int64_t>(&value);
-      if (pInt64Value == nullptr) {
-        return ResultCode::ERR_SETTING_EXPECT_INT64;
-      }
-      *static_cast<int64_t *>(target_ptr) = *pInt64Value;
+      return visit(PromotingIntUpdateVisitor<int64_t, ResultCode::ERR_SETTING_EXPECT_INT64>{target_ptr}, value);
     }
     break;
 
@@ -115,12 +111,7 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
       }
       *static_cast<uint32_t *>(target_ptr) = *pUint32Value;
     } else if (iter->data_size == sizeof(uint64_t)) {
-      return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
-      // const uint64_t* pUint64Value = get_if<uint64_t>(&value);
-      // if (pUint64Value == nullptr) {
-      //   return ResultCode::ERR_SETTING_EXPECT_UINT64;
-      // }
-      // *static_cast<uint64_t *>(target_ptr) = *pUint64Value;
+      return visit(PromotingIntUpdateVisitor<uint64_t, ResultCode::ERR_SETTING_EXPECT_UINT64>{target_ptr}, value);
     }
     break;
 
@@ -231,12 +222,13 @@ MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVar
     return updateField(&value_iter, result);
   }
   if (type == PB_LTYPE_VARINT) {
-    const int64_t* pDelta = get_if<int64_t>(&steppableValue);
-    if (pDelta == nullptr) {
-      return ResultCode::ERR_SETTING_EXPECT_INT64;
+    int64_t delta;
+    ResultCode rc = visit(PromotingIntUpdateVisitor<int64_t, ResultCode::ERR_SETTING_EXPECT_INT64>{&delta}, steppableValue);
+    if (rc != ResultCode::OK) {
+      return rc;
     }
     int64_t result;
-    pb_calc_steppable_int64(*(int64_t*)value, *pDelta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
+    pb_calc_steppable_int64(*(int64_t*)value, delta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
 
     return updateField(&value_iter, result);
   }

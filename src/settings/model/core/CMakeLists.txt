@@ -19,6 +19,7 @@ set(CORE_SETTINGS_SOURCES
         include/settings/model/core/SplitBandId.h
         include/settings/model/core/PipelineId.h
 
+        src/RadioSettings.cpp
         src/MessageTagLookup.cpp
         src/MessageVisitor.cpp
 )
