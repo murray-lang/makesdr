@@ -1,4 +1,4 @@
 #pragma once
 #include "settings/model/proto/RadioSettings.pb.h"
 
-extern RadioSettings_RadioCategoriesPb defaultRadioCategoriesPb;
+extern RadioSettings_BandCategoryListPb mostBandCategories;

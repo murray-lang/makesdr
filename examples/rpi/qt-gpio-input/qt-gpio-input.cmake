@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-example-qt-json-config VERSION 0.1 LANGUAGES CXX)
+project(makesdr-example-qt-gpio-input VERSION 0.1 LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_LIST_DIR}/qt.cmake)
 
@@ -27,7 +27,7 @@ set (PROJECT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 )
 
-add_executable(makesdr-example-qt-json-config
+add_executable(makesdr-example-qt-gpio-input
         ${PROJECT_SOURCES}
 )
 
@@ -54,13 +54,13 @@ if(USE_ETL)
     set(PROJECT_LIBRARIES ${PROJECT_LIBRARIES} etl::etl)
 endif()
 
-target_include_directories(makesdr-example-qt-json-config PUBLIC
+target_include_directories(makesdr-example-qt-gpio-input PUBLIC
         ${INCLUDE_DIR}
 )
 
-target_link_libraries(makesdr-example-qt-json-config PRIVATE ${PROJECT_LIBRARIES})
+target_link_libraries(makesdr-example-qt-gpio-input PRIVATE ${PROJECT_LIBRARIES})
 
-#set_target_properties(makesdr-example-qt-json-config PROPERTIES
+#set_target_properties(makesdr-example-qt-gpio-input PROPERTIES
 #        MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
 #        MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
 #        MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -69,8 +69,8 @@ target_link_libraries(makesdr-example-qt-json-config PRIVATE ${PROJECT_LIBRARIES
 #        AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}"
 #)
 #
-#install(TARGETS makesdr-example-qt-json-config
+#install(TARGETS makesdr-example-qt-gpio-input
 #        BUNDLE DESTINATION .
 #        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 #
-#qt_finalize_executable(makesdr-example-qt-json-config)
+#qt_finalize_executable(makesdr-example-qt-gpio-input)

@@ -33,5 +33,6 @@ target_include_directories(makesdr-settings-model-core PUBLIC
 
 target_link_libraries(makesdr-settings-model-core PUBLIC
         makesdr-settings-model-proto
+        makesdr-settings-model-meta
         etl
 )

@@ -6,16 +6,19 @@ set(BASIC_SETTINGS_SOURCES
         ${PROTO_SRCS}
         ${PROTO_HDRS}
         include/settings/model/extra/StringRef.h
+        ../meta/include/settings/model/meta/RadioMeta.h
         include/settings/model/extra/ActiveBandSettings.h
         include/settings/model/extra/BandSettings.h
         include/settings/model/extra/BandSettings.h
-        include/settings/model/extra/Band.h
         include/settings/model/extra/ResolveIndirection.h
+
+        include/settings/model/extra/Band.h
+        include/settings/model/extra/BandCategory.h
+        include/settings/model/extra/Mode.h
 
         include/settings/model/extra/SteppableInt64Setting.h
         include/settings/model/extra/SteppableFloatSetting.h
         include/settings/model/extra/SteppableVariant.h
-        include/settings/model/extra/Mode.h
         include/settings/model/extra/PipelineSettings.h
         include/settings/model/extra/IqCorrectionSettings.h
         include/settings/model/extra/MicrophoneSettings.h
@@ -31,11 +34,8 @@ set(BASIC_SETTINGS_SOURCES
         include/settings/model/extra/TransmitterSettings.h
 
         src/ActiveBandSettings.cpp
-        src/BandCategoryList.cpp
-        src/BandList.cpp
         src/BandSettings.cpp
         src/BandSettingsCache.cpp
-        src/ModeList.cpp
         src/PipelineSettings.cpp
         src/RadioSettingsEx.cpp
 )

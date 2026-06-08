@@ -30,13 +30,13 @@
       }
     },
     {
-      "name": "qt-json-config-rpi-debug",
-      "displayName": "Qt JSON Config Debug (RPi)",
-      "binaryDir": "${sourceDir}/build-qt-json-config-rpi-debug",
+      "name": "qt-gpio-input-rpi-debug",
+      "displayName": "Qt GPIO input Debug (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-gpio-input-rpi-debug",
       "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_EXAMPLE": "qt-gpio-input",
         "TARGET_PLATFORM": "rpi",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
@@ -44,16 +44,42 @@
       }
     },
     {
-      "name": "qt-json-config-rpi-release",
-      "displayName": "Qt JSON Config (RPi)",
-      "binaryDir": "${sourceDir}/build-qt-json-config-rpi-release",
+      "name": "qt-gpio-input-rpi-release",
+      "displayName": "Qt GPIO input (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-gpio-input-rpi-release",
       "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "TARGET_EXAMPLE": "qt-json-config",
+        "TARGET_EXAMPLE": "qt-gpio-input",
         "TARGET_PLATFORM": "rpi",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-indirect-update-debug",
+      "displayName": "Indirect Update Debug (linux)",
+      "binaryDir": "${sourceDir}/build-indirect-update-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-indirect-update-release",
+      "displayName": "Indirect Update Release (linux)",
+      "binaryDir": "${sourceDir}/build-indirect-update-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
         "USE_ETL": "ON"
       }
     },

@@ -93,7 +93,7 @@ public:
  ) override
   {
     if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_RESOLVE_INDIRECTION_PATH_INVALID;
+      return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
     }
     uint32_t nextIndex = startingAtIndex;
     switch (indirectPath[startingAtIndex]) {
@@ -119,7 +119,7 @@ public:
     return ResultCode::OK;
   }
 
-  void setCategories(RadioCategories* categories)
+  void setCategories(RadioMeta* categories)
   {
     m_categories = categories;
     m_pipelineA.base().setCategories(categories);
@@ -165,5 +165,5 @@ protected:
   TxPipelineSettings m_txPipeline;
   // BandVector m_bands;
 
-  RadioCategories* m_categories;
+  RadioMeta* m_categories;
 };

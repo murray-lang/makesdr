@@ -71,7 +71,7 @@ public:
   ) override
   {
     if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_RESOLVE_INDIRECTION_PATH_INVALID;
+      return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
     }
     switch (indirectPath[startingAtIndex]) {
     case RadioSettings_ActiveBandSettingsPb_focus_band_tag:
@@ -96,7 +96,7 @@ public:
     return ResultCode::OK;
   }
 
-  void setCategories(RadioCategories* categories)
+  void setCategories(RadioMeta* categories)
   {
     m_bandOneSettings.setCategories(categories);
     m_bandTwoSettings.setCategories(categories);

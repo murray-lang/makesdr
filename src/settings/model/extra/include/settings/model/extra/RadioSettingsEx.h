@@ -13,14 +13,14 @@
 class RadioSettingsEx : public RadioSettings, public ResolveIndirection, public AutoComplete
 {
 public:
-  RadioSettingsEx(RadioSettings_RadioSettingsPb& raw, const RadioCategories& categories)
-    : RadioSettings(raw)
+  RadioSettingsEx(RadioSettings_RadioSettingsPb& raw, const RadioMeta& meta)
+    : RadioSettings(raw, meta.raw())
     , m_activeBandSettings(m_rawSettings.active_bands)
     , m_receiverSettings(m_rawSettings.receiver)
     , m_transmitterSettings(m_rawSettings.transmitter)
-    , m_categories(categories)
+    , m_meta(meta)
   {
-    m_activeBandSettings.setCategories(&m_categories);
+    m_activeBandSettings.setCategories(&m_meta);
   }
 
   RadioSettings_RadioSettingsPb& rawSettings() { return m_rawSettings; }
@@ -48,7 +48,7 @@ public:
   ) override
   {
     if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_RESOLVE_INDIRECTION_PATH_INVALID;
+      return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
     }
     switch (indirectPath[startingAtIndex]) {
     case RadioSettings_RadioSettingsPb_active_bands_tag:
@@ -88,6 +88,6 @@ protected:
   ReceiverSettings m_receiverSettings;
   TransmitterSettings m_transmitterSettings;
 
-  RadioCategories m_categories;
+  RadioMeta m_meta;
   BandSettingsCache m_bandSettingsCache;
 };

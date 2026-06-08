@@ -1,7 +1,7 @@
-#include "settings/model/util/defaultRadioCategories.h"
+#include "settings/model/meta/generalCoverageRadioMeta.h"
 
 
-RadioSettings_RadioCategoriesPb defaultRadioCategoriesPb = {
+RadioSettings_RadioMetaPb generalCoverageRadioMeta = {
   .has_bands = true,
   .bands = {
     .categories_count = 7,

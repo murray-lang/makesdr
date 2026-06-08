@@ -6,9 +6,6 @@ set(MODEL_UTIL_SOURCES
 
         include/settings/model/util/GenerateResolvedPathSourceFiles.h
         src/GenerateResolvedPathSourceFiles.cpp
-
-        include/settings/model/util/defaultRadioCategories.h
-        src/defaultRadioCategories.cpp
 )
 
 add_library(makesdr-settings-model-util

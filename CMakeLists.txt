@@ -7,6 +7,7 @@ set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
         "save"
         "restore"
         "qt-json-config"
+        "qt-gpio-input"
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
@@ -20,6 +21,7 @@ add_definitions(
         -DMAX_FIELD_PATH_LENGTH=8
         -DMAX_BAND_LABEL_LENGTH=9
         -DMAX_MODE_LABEL_LENGTH=14
+        -DMAX_MODES=10
         -DMAX_ID_LENGTH=16
         -DMAX_DOTTED_STRING_LENGTH=64
         -DMAX_BAND_CATEGORIES=8

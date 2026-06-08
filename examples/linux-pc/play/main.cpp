@@ -7,7 +7,7 @@
 
 #include "settings/model/proto/RadioSettings.pb.h"
 #include <settings/model/extra/BandSettingsCache.h>
-#include <settings/model/util/defaultRadioCategories.h>
+#include <settings/model/meta/generalCoverageRadioMeta.h>
 // #include "../settings/util/ResolvedFieldPaths.h"
 
 using RadioSettingsPb = RadioSettings_RadioSettingsPb;
@@ -26,9 +26,9 @@ int main()
   // generateResolvedPathSourceFiles(active_bands_fields, "ResolvedActiveBandsFieldPaths");
 
 
-  RadioCategories categories(defaultRadioCategoriesPb);
+  RadioMeta radioMeta(generalCoverageRadioMeta);
 
-  RadioSettingsEx radioSettings(exampleRadioSettingsPb, categories);
+  RadioSettingsEx radioSettings(exampleRadioSettingsPb, radioMeta);
   // radioSettings.setBands(&availableBandsPb);
   // radioSettings.setModes(&availableModesPb);
 
@@ -72,6 +72,14 @@ int main()
 
   SettingFieldUpdate multiPipelineUpdate(multiPipelinePath, true, SettingFieldUpdate::VALUE, isIndirect, trigger);
   rc = radioSettings.applyUpdate(multiPipelineUpdate);
+  if (rc != ResultCode::OK) return -1;
+
+  SettingFieldPath frequencyPath;
+  rc = RadioSettings::resolveDottedPath("active_bands.focus_band.focus_pipeline.base.rf.centre_frequency", frequencyPath, &isIndirect, &trigger);
+  if (rc != ResultCode::OK) return -1;
+
+  SettingFieldUpdate frequencyUpdate(frequencyPath, 1, SettingFieldUpdate::DELTA, isIndirect, trigger);
+  rc = radioSettings.applyUpdate(frequencyUpdate);
   if (rc != ResultCode::OK) return -1;
   return 0;
 }

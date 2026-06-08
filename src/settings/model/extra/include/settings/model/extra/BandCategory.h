@@ -1,6 +1,6 @@
 #pragma once
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "BandList.h"
+#include "../../../../../meta/include/settings/model/meta/BandList.h"
 
 class BandCategory
 {

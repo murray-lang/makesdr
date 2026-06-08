@@ -24,7 +24,7 @@ PB_BIND(RadioSettings_BandCategoryPb, RadioSettings_BandCategoryPb, 2)
 PB_BIND(RadioSettings_BandCategoryListPb, RadioSettings_BandCategoryListPb, 4)
 
 
-PB_BIND(RadioSettings_RadioCategoriesPb, RadioSettings_RadioCategoriesPb, 4)
+PB_BIND(RadioSettings_RadioMetaPb, RadioSettings_RadioMetaPb, 4)
 
 
 PB_BIND(RadioSettings_SteppableInt64SettingPb, RadioSettings_SteppableInt64SettingPb, AUTO)

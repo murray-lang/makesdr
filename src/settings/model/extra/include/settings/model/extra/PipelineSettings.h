@@ -5,7 +5,7 @@
 #include "settings/model/core/SettingsBase.h"
 #include "RfSettings.h"
 #include "Band.h"
-#include "RadioCategories.h"
+#include "../../../../../meta/include/settings/model/meta/RadioMeta.h"
 
 
 using ModeOrRequestVariant = variant<monostate, Mode::Type, Mode>;
@@ -26,7 +26,7 @@ public:
   RfSettings& rfSettings() { return m_rfSettings; }
   [[nodiscard]] const RfSettings& rfSettings() const { return m_rfSettings; }
 
-  void setCategories(RadioCategories* categories) { m_categories = categories; }
+  void setCategories(RadioMeta* categories) { m_categories = categories; }
 
   ResultCode applyBandDefaults(const Band* pBand, const ModeList& modeInfo);
 
@@ -45,5 +45,5 @@ protected:
   ModeOrRequestVariant m_modeOrRequest;
   RfSettings m_rfSettings;
 
-  RadioCategories* m_categories;
+  RadioMeta* m_categories;
 };

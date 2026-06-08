@@ -41,10 +41,10 @@ PipelineSettings::autoCompleteMode()
     if (m_categories == nullptr) return ResultCode::ERR_SETTING_BAND_SETTINGS_NO_INFO;
 
     const ModeList& modeList =  m_categories->modes();
-    const Mode* pMode = modeList.findModeByType(static_cast<Mode::Type>(m_rawSettings.mode_or_request.mode_request));
+    const RadioSettings_ModePb* pMode = modeList.findModeByType(m_rawSettings.mode_or_request.mode_request);
     if (pMode == nullptr) return ResultCode::ERR_SETTING_AUTOCOMPLETE_MODE_NOT_FOUND;
 
-    m_rawSettings.mode_or_request.mode = pMode->raw();
+    m_rawSettings.mode_or_request.mode = *pMode;
     m_rawSettings.which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_tag;
   }
   return ResultCode::OK;
@@ -55,11 +55,11 @@ PipelineSettings::applyBandDefaults(const Band* pBand, const ModeList& modeInfo)
 {
   if (pBand != nullptr) {
     Mode::Type defaultMode = pBand->defaultMode();
-    const Mode* pNewMode = modeInfo.findModeByType(defaultMode);
+    const RadioSettings_ModePb* pNewMode = modeInfo.findModeByType(static_cast<RadioSettings_ModeType>(defaultMode));
     if (pNewMode == nullptr) {
       return ResultCode::ERR_SETTING_MODE_TYPE_UNAVAILABLE;
     }
-    m_modeOrRequest.emplace<Mode>(*pNewMode);
+    // m_modeOrRequest.emplace<Mode>(*pNewMode);
     m_rfSettings.applyBandDefaults(pBand);
   }
   return ResultCode::OK;

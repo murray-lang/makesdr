@@ -8,6 +8,10 @@
 #include <fstream>
 #include <settings/control/radio/RadioControl.h>
 
+#include "RadioControlClient.h"
+
+
+
 ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& radioConfig)
 {
   ResultCode rc = ResultCode::OK;
@@ -18,7 +22,7 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
     try {
       std::ifstream f(configPath.toStdString());
       JsonDocument doc;
-      DeserializationError error = deserializeJson(doc, f);
+      DeserializationError error = deserializeJson(doc, f, DeserializationOption::NestingLimit(12));
       if (error) {
         qDebug() << "Failed to parse config at" << configPath << ":" << error.c_str();
         rc = ResultCode::ERR_CONFIG_INVALID_JSON;
@@ -42,8 +46,6 @@ ResultCode loadRadioConfig(const QString& configHome, Config::Radio::Fields& rad
 
 int main(int argc, char *argv[])
 {
-  QCoreApplication app(argc, argv);
-
   const QString configHome = QDir::homePath() + "/.config/nexusdr";
   Config::Radio::Fields radioConfig;
   ResultCode rc = loadRadioConfig(configHome, radioConfig);
@@ -56,5 +58,6 @@ int main(int argc, char *argv[])
   if (rc != ResultCode::OK) {
     return -1;
   }
-  return app.exec();
+
+  return 0;
 }

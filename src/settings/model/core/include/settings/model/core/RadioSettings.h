@@ -7,13 +7,18 @@
 #include "MessageVisitor.h"
 #include "SplitBandId.h"
 #include "PipelineId.h"
+#include "SettingFieldUpdateSink.h"
+#include "settings/model/meta/RadioMeta.h"
 
-class RadioSettings : public SettingsBase
+class RadioSettings : public SettingsBase, public SettingFieldUpdateSink
 {
 public:
-  RadioSettings(RadioSettings_RadioSettingsPb& raw);
+  RadioSettings(RadioSettings_RadioSettingsPb& raw, const RadioSettings_RadioMetaPb& meta);
 
-  ResultCode updateField(const SettingFieldUpdate &settingUpdate);
+
+  ResultCode applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate) override;
+
+  ResultCode updateIndirectField(const SettingFieldUpdate &settingUpdate, uint32_t startingAtIndex);
   ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value);
   ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value) const;
   ResultCode getField(
@@ -81,30 +86,51 @@ public:
   [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getTxPipelineSettings() const;
   [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getFocusBandFocusRxPipelineSettings() const;
 
+
 protected:
   void InitBandAndPipelineIdsWithDefaults();
-  ResultCode resolveIndirection(
-    const SettingFieldPath& indirectPath,
-    uint32_t startingAtIndex,
-    SettingFieldPath& resolvedPath
+
+  ResultCode updateIndirectActiveBandsField(
+    RadioSettings_ActiveBandSettingsPb& rawBandSettings,
+    const SettingFieldUpdate &settingUpdate,
+    uint32_t startingAtIndex
     );
 
-  ResultCode resolveActiveBandsIndirection(
-    const RadioSettings_ActiveBandSettingsPb& rawActiveBands,
-    const SettingFieldPath& indirectPath,
-    uint32_t startingAtIndex,
-    SettingFieldPath& resolvedPath
-    );
-
-  ResultCode resolveBandIndirection(
-    const RadioSettings_BandSettingsPb& rawBandSettings,
-    const SettingFieldPath& indirectPath,
-    uint32_t startingAtIndex,
-    SettingFieldPath& resolvedPath
+  ResultCode updateIndirectBandField(
+    RadioSettings_BandSettingsPb& rawBandSettings,
+    const SettingFieldUpdate &settingUpdate,
+    uint32_t startingAtIndex
   );
+
+  ResultCode autoComplete(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoCompleteActiveBands(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoCompleteBand(
+    RadioSettings_BandSettingsPb& rawBandSettings,
+    const SettingFieldPath& path,
+    uint32_t startingAtIndex,
+    AutoCompleteTrigger trigger
+  );
+  ResultCode autoCompleteSplit(RadioSettings_ActiveBandSettingsPb& rawActiveBandSettings);
+  ResultCode autoCompleteBandRequest(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoCompleteMultiPipeline(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoCompletePipeline(
+    RadioSettings_PipelineSettingsPb& rawPipelineSettings,
+    const SettingFieldPath& path,
+    uint32_t startingAtIndex,
+    AutoCompleteTrigger trigger
+  );
+  ResultCode autoCompleteMode(RadioSettings_PipelineSettingsPb& rawPipelineSettings);
+
+  ResultCode autoComplete();
+  ResultCode autoComplete(RadioSettings_ActiveBandSettingsPb& rawActiveBandSettings);
+  ResultCode autoComplete(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoComplete(RadioSettings_PipelineSettingsPb& rawPipelineSettings);
+
 
 protected:
   RadioSettings_RadioSettingsPb& m_rawSettings;
 
   MessageVisitor m_visitor;
+
+  RadioMeta m_meta;
 };
