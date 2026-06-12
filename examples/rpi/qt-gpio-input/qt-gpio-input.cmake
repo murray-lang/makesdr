@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-example-qt-gpio-input VERSION 0.1 LANGUAGES CXX)
+project(example-qt-gpio-input VERSION 0.1 LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_LIST_DIR}/qt.cmake)
 
@@ -27,7 +27,7 @@ set (PROJECT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 )
 
-add_executable(makesdr-example-qt-gpio-input
+add_executable(example-qt-gpio-input
         ${PROJECT_SOURCES}
 )
 
@@ -39,9 +39,9 @@ set(PROJECT_LIBRARIES
         hidapi-libusb
         Qt${QT_VERSION_MAJOR}::Core
 
-        makesdr-config-struct
-        makesdr-config-json
-        makesdr-settings-control-radio
+        config-struct
+        config-json
+        settings-control-radio
         ArduinoJson
 
 )
@@ -54,13 +54,13 @@ if(USE_ETL)
     set(PROJECT_LIBRARIES ${PROJECT_LIBRARIES} etl::etl)
 endif()
 
-target_include_directories(makesdr-example-qt-gpio-input PUBLIC
+target_include_directories(example-qt-gpio-input PUBLIC
         ${INCLUDE_DIR}
 )
 
-target_link_libraries(makesdr-example-qt-gpio-input PRIVATE ${PROJECT_LIBRARIES})
+target_link_libraries(example-qt-gpio-input PRIVATE ${PROJECT_LIBRARIES})
 
-#set_target_properties(makesdr-example-qt-gpio-input PROPERTIES
+#set_target_properties(example-qt-gpio-input PROPERTIES
 #        MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
 #        MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
 #        MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -69,8 +69,8 @@ target_link_libraries(makesdr-example-qt-gpio-input PRIVATE ${PROJECT_LIBRARIES}
 #        AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}"
 #)
 #
-#install(TARGETS makesdr-example-qt-gpio-input
+#install(TARGETS example-qt-gpio-input
 #        BUNDLE DESTINATION .
 #        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 #
-#qt_finalize_executable(makesdr-example-qt-gpio-input)
+#qt_finalize_executable(example-qt-gpio-input)

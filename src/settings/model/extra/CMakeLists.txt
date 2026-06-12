@@ -1,16 +1,15 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-model-extra)
+project(settings-model-extra)
 
 set(BASIC_SETTINGS_SOURCES
         ${PROTO_SRCS}
         ${PROTO_HDRS}
-        include/settings/model/extra/StringRef.h
+        ../core/include/settings/model/core/StringRef.h
         ../meta/include/settings/model/meta/RadioMeta.h
         include/settings/model/extra/ActiveBandSettings.h
         include/settings/model/extra/BandSettings.h
         include/settings/model/extra/BandSettings.h
-        include/settings/model/extra/ResolveIndirection.h
 
         include/settings/model/extra/Band.h
         include/settings/model/extra/BandCategory.h
@@ -35,20 +34,20 @@ set(BASIC_SETTINGS_SOURCES
 
         src/ActiveBandSettings.cpp
         src/BandSettings.cpp
-        src/BandSettingsCache.cpp
+        ../core/src/BandSettingsCache.cpp
         src/PipelineSettings.cpp
         src/RadioSettingsEx.cpp
 )
 
-add_library(makesdr-settings-model-extra STATIC ${BASIC_SETTINGS_SOURCES})
+add_library(settings-model-extra STATIC ${BASIC_SETTINGS_SOURCES})
 
-target_include_directories(makesdr-settings-model-extra PUBLIC
+target_include_directories(settings-model-extra PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(makesdr-settings-model-extra PUBLIC
-        makesdr-settings-model-proto
-        makesdr-settings-model-core
+target_link_libraries(settings-model-extra PUBLIC
+        settings-model-proto
+        settings-model-core
         etl
 )

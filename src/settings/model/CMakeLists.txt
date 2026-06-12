@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-model)
+project(settings-model)
 
 add_definitions(-DMAX_BANDS=34)
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-model-proto)
+project(settings-model-proto)
 
 set(PROTO_PLATFORMS "nanopb" "google")
 set(PROTO_PLATFORM "nanopb")
@@ -26,9 +26,9 @@ elseif(PROTO_PLATFORM STREQUAL "nanopb")
 endif()
 
 if (PROTO_PLATFORM STREQUAL "google")
-    add_library(makesdr-settings-model-proto OBJECT ${PROTO_DIR}/RadioSettings.proto)
-    target_link_libraries(makesdr-settings-model-proto PUBLIC protobuf::libprotobuf)
-    target_include_directories(makesdr-settings-model-proto PUBLIC ${GOOGLE_GEN_DIR})
+    add_library(settings-model-proto OBJECT ${PROTO_DIR}/RadioSettings.proto)
+    target_link_libraries(settings-model-proto PUBLIC protobuf::libprotobuf)
+    target_include_directories(settings-model-proto PUBLIC ${GOOGLE_GEN_DIR})
 
     protobuf_generate(
             TARGET proto_lib
@@ -36,7 +36,7 @@ if (PROTO_PLATFORM STREQUAL "google")
             ${CMAKE_CURRENT_LIST_DIR}/RadioSettings.proto
             PROTOC_OUT_DIR ${GOOGLE_GEN_DIR}
     )
-    add_dependencies(makesdr-settings-model-proto proto_lib)
+    add_dependencies(settings-model-proto proto_lib)
 elseif(PROTO_PLATFORM STREQUAL "nanopb")
 
 
@@ -54,20 +54,21 @@ elseif(PROTO_PLATFORM STREQUAL "nanopb")
              COMMENT "Copying nanopb generated files to source tree"
      )
 
-    add_library(makesdr-settings-model-proto STATIC
+    add_library(settings-model-proto STATIC
             include/settings/model/proto/RadioSettings.pb.h
+            include/settings/model/proto/ProtobufIo.h
             ${NANOPB_GEN_DIR}/RadioSettings.pb.c
     )
-    target_include_directories(makesdr-settings-model-proto PUBLIC
+    target_include_directories(settings-model-proto PUBLIC
             ${INCLUDE_DIR}
             ${CMAKE_CURRENT_LIST_DIR}/include
             ${NANOPB_DIR}
             ${NANOPB_GEN_DIR}
     )
 
-    target_link_libraries(makesdr-settings-model-proto PUBLIC
+    target_link_libraries(settings-model-proto PUBLIC
             protobuf-nanopb-static
     )
-     add_dependencies(makesdr-settings-model-proto copy_nanopb_gen)
+     add_dependencies(settings-model-proto copy_nanopb_gen)
 
 endif()

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-config-struct)
+project(config-struct)
 
 
 set(CONFIG_STRUCT_SOURCES
@@ -29,9 +29,9 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/UiConfig.h
 )
 
-add_library(makesdr-config-struct INTERFACE ${CONFIG_STRUCT_SOURCES})
+add_library(config-struct INTERFACE ${CONFIG_STRUCT_SOURCES})
 
-target_include_directories(makesdr-config-struct INTERFACE
+target_include_directories(config-struct INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )

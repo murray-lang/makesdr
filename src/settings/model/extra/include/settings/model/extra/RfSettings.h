@@ -1,5 +1,5 @@
 #pragma once
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 #include "Band.h"
 #include "SteppableFloatSetting.h"
 #include "SteppableInt64Setting.h"
@@ -41,8 +41,7 @@ public:
 
   void applyBandDefaults(const Band* pBand)
   {
-      uint64_t freqPlusOffset = m_centreFrequency.value() + m_vfoFrequency.value();
-      if (!hasCentreFrequency() || !hasVfoFrequency() || !pBand->containsFrequency(freqPlusOffset)) {
+      if (!hasCentreFrequency() || !hasVfoFrequency() || !pBand->containsFrequency(m_centreFrequency.value())) {
         m_rawSettings.has_centre_frequency = true;
         m_rawSettings.has_vfo = true;
         m_rawSettings.centre_frequency.value = pBand->landingFrequency();

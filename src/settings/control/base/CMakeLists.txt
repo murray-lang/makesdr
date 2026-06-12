@@ -1,21 +1,21 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-control-base)
+project(settings-control-base)
 
 set(SETTINGS_CONTROL_BASE_SOURCES
         include/settings/control/SettingsControlBase.h
 )
 
-add_library(makesdr-settings-control-base
+add_library(settings-control-base
         INTERFACE
         ${SETTINGS_CONTROL_BASE_SOURCES}
 )
 
-target_include_directories(makesdr-settings-control-base INTERFACE
+target_include_directories(settings-control-base INTERFACE
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-#target_link_libraries(makesdr-settings-control-base PUBLIC
-#        makesdr-config
+#target_link_libraries(settings-control-base PUBLIC
+#        config
 #)

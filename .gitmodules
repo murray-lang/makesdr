@@ -7,3 +7,15 @@
 [submodule "third-party/ArduinoJson"]
 	path = third-party/ArduinoJson
 	url = https://github.com/bblanchon/ArduinoJson.git
+[submodule "third-party/libwebsockets"]
+	path = third-party/libwebsockets
+	url = https://github.com/warmcat/libwebsockets.git
+[submodule "third-party/lvgl"]
+	path = third-party/lvgl
+	url = https://github.com/lvgl/lvgl.git
+[submodule "third-party/FreeRTOS-Kernel"]
+	path = third-party/FreeRTOS-Kernel
+	url = https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+[submodule "third-party/tinyusb_src"]
+	path = third-party/tinyusb_src
+	url = https://github.com/hathach/tinyusb_src.git

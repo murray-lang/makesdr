@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-config-json)
+project(config-json)
 
 set(CONFIG_SOURCES
         include/config/json/AudioConfig.json.h
@@ -51,16 +51,16 @@ set(CONFIG_SOURCES
         src/ui/UiConfig.json.cpp
 )
 
-add_library(makesdr-config-json STATIC ${CONFIG_SOURCES})
+add_library(config-json STATIC ${CONFIG_SOURCES})
 
-target_include_directories(makesdr-config-json PUBLIC
+target_include_directories(config-json PUBLIC
         ${INCLUDE_DIR}
 #        ${ARDUINO_JSON_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(makesdr-config-json PUBLIC
-        makesdr-config-struct
+target_link_libraries(config-json PUBLIC
+        config-struct
         ArduinoJson
         etl)
 

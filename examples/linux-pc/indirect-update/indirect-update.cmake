@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-example-indirect-update)
+project(example-linux-indirect-update)
 
 set(PLAY_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
@@ -8,16 +8,16 @@ set(PLAY_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 )
 
-add_executable(makesdr-example-indirect-update
+add_executable(example-linux-indirect-update
      ${PLAY_SOURCES}
 )
 
-target_include_directories(makesdr-example-indirect-update PUBLIC
+target_include_directories(example-linux-indirect-update PUBLIC
         ${INCLUDE_DIR}
 )
 
-target_link_libraries(makesdr-example-indirect-update PUBLIC
-        makesdr-settings-model-proto
-        makesdr-settings-model-core
-        makesdr-settings-model-meta
+target_link_libraries(example-linux-indirect-update PUBLIC
+        settings-model-proto
+        settings-model-core
+        settings-model-meta
 )

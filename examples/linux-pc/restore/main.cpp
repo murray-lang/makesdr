@@ -9,7 +9,7 @@
 // #include "util/GenerateResolvedPathSourceFiles.h"
 
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "settings/model/core/ProtobufIo.h"
+#include "settings/model/proto/ProtobufIo.h"
 
 #include "../../data/exampleRadioSettings.h"
 

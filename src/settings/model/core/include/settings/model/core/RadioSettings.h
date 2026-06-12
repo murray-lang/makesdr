@@ -1,8 +1,6 @@
 #pragma once
 
-
-#include "SettingsBase.h"
-#include "SettingFieldPath.h"
+#include "BandSettingsCache.h"
 #include "SettingFieldVariant.h"
 #include "MessageVisitor.h"
 #include "SplitBandId.h"
@@ -10,10 +8,14 @@
 #include "SettingFieldUpdateSink.h"
 #include "settings/model/meta/RadioMeta.h"
 
-class RadioSettings : public SettingsBase, public SettingFieldUpdateSink
+class RadioSettings : public SettingFieldUpdateSink
 {
 public:
-  RadioSettings(RadioSettings_RadioSettingsPb& raw, const RadioSettings_RadioMetaPb& meta);
+  RadioSettings(
+    RadioSettings_RadioSettingsPb& raw,
+    const RadioSettings_RadioMetaPb& meta,
+    BandSettingsCache& cache
+  );
 
 
   ResultCode applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate) override;
@@ -126,6 +128,10 @@ protected:
   ResultCode autoComplete(RadioSettings_BandSettingsPb& rawBandSettings);
   ResultCode autoComplete(RadioSettings_PipelineSettingsPb& rawPipelineSettings);
 
+  ResultCode applyBandDefaults(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_PipelineSettingsPb& rawPipeline);
+  ResultCode applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_RfSettingsPb& rawRf);
+
 
 protected:
   RadioSettings_RadioSettingsPb& m_rawSettings;
@@ -133,4 +139,5 @@ protected:
   MessageVisitor m_visitor;
 
   RadioMeta m_meta;
+  BandSettingsCache& m_cache;
 };

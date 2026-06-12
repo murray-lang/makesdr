@@ -2,11 +2,13 @@
 
 RadioSettings::RadioSettings(
   RadioSettings_RadioSettingsPb& raw,
-  const RadioSettings_RadioMetaPb& meta
+  const RadioSettings_RadioMetaPb& meta,
+  BandSettingsCache& cache
   )
     : m_rawSettings(raw)
     , m_visitor(&raw, &RadioSettings_RadioSettingsPb_msg)
     , m_meta(meta)
+    , m_cache(cache)
   {
     InitBandAndPipelineIdsWithDefaults();
   }
@@ -332,7 +334,7 @@ RadioSettings::autoCompleteActiveBands(
   case RadioSettings_ActiveBandSettingsPb_band_1_tag:
     return autoCompleteBand(m_rawSettings.active_bands.band_1, path, startingAtIndex + 1, trigger);
   case RadioSettings_ActiveBandSettingsPb_band_2_tag:
-    return autoCompleteBand(m_rawSettings.active_bands.band_1, path, startingAtIndex + 1, trigger);
+    return autoCompleteBand(m_rawSettings.active_bands.band_2, path, startingAtIndex + 1, trigger);
   case RadioSettings_ActiveBandSettingsPb_is_split_tag:
     if (trigger == AutoCompleteTrigger::SPLIT_BAND) {
       return autoCompleteSplit(m_rawSettings.active_bands);
@@ -419,14 +421,27 @@ RadioSettings::autoCompleteBandRequest(RadioSettings_BandSettingsPb& rawBandSett
 {
 
   if (rawBandSettings.which_band_or_request == RadioSettings_BandSettingsPb_band_request_tag) {
-    if (!m_meta.hasBands()) return ResultCode::ERR_SETTING_BAND_SETTINGS_NO_INFO;
-
+    if (!m_meta.hasBands()) {
+      return ResultCode::ERR_SETTING_BAND_SETTINGS_NO_INFO;
+    }
+    // Try the cache first
+    ResultCode rc = m_cache.get(&rawBandSettings);
+    if (rc == ResultCode::OK) {
+      // TODO: Set has_* = true on the band's fields
+      rawBandSettings.which_band_or_request = RadioSettings_BandSettingsPb_band_tag;
+      return rc;
+    }
+    // Not found in the cache. Get band info.
     const BandCategoryList& bandInfo = m_meta.bands();
     const RadioSettings_BandPb* pBand = bandInfo.findBand(rawBandSettings.band_or_request.band_request);
     if (pBand == nullptr) return ResultCode::ERR_SETTING_AUTOCOMPLETE_BAND_NOT_FOUND;
 
     rawBandSettings.band_or_request.band = *pBand;
     rawBandSettings.which_band_or_request = RadioSettings_BandSettingsPb_band_tag;
+
+    applyBandDefaults(rawBandSettings);
+
+    m_cache.set(&rawBandSettings); // This might fail due to being full, but ignore that.
 
     return ResultCode::OK;
   }
@@ -539,4 +554,40 @@ ResultCode
 RadioSettings::autoComplete(RadioSettings_PipelineSettingsPb& rawPipelineSettings)
 {
   return autoCompleteMode(rawPipelineSettings);
+}
+
+ResultCode
+RadioSettings::applyBandDefaults(RadioSettings_BandSettingsPb& rawBandSettings)
+{
+  ResultCode rc = applyBandDefaults(rawBandSettings.band_or_request.band, rawBandSettings.tx_pipeline.base);
+  if (rc != ResultCode::OK) return rc;
+  rc = applyBandDefaults(rawBandSettings.band_or_request.band, rawBandSettings.pipeline_a.base);
+  if (rc != ResultCode::OK) return rc;
+  return applyBandDefaults(rawBandSettings.band_or_request.band, rawBandSettings.pipeline_b.base);
+}
+
+ResultCode
+RadioSettings::applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_PipelineSettingsPb& rawPipeline)
+{
+  const RadioSettings_ModePb* pMode = m_meta.modes().findModeByType(rawBand.default_mode);
+  if (pMode == nullptr) {
+    return ResultCode::ERR_SETTING_MODE_TYPE_UNAVAILABLE;
+  }
+  rawPipeline.mode_or_request.mode = *pMode;
+  rawPipeline.which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_tag;
+  return applyBandDefaults(rawBand, rawPipeline.rf);
+}
+
+ResultCode
+RadioSettings::applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_RfSettingsPb& rawRf)
+{
+  rawRf.has_centre_frequency = true;
+  rawRf.has_vfo = true;
+  rawRf.centre_frequency.value = rawBand.landing_frequency;
+  rawRf.centre_frequency.coarse_delta = rawBand.default_coarse_step;
+  rawRf.centre_frequency.fine_delta = rawBand.default_fine_step;
+  rawRf.vfo.value = rawBand.landing_frequency;
+  rawRf.vfo.coarse_delta = rawBand.default_coarse_step;
+  rawRf.vfo.fine_delta =rawBand.default_fine_step;
+  return ResultCode::OK;
 }

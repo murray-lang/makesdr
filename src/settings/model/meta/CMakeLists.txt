@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-model-meta)
+project(settings-model-meta)
 
 set(META_SOURCES
         include/settings/model/meta/RadioMeta.h
@@ -20,14 +20,14 @@ set(META_SOURCES
         src/mostBandCategories.cpp
 )
 
-add_library(makesdr-settings-model-meta STATIC ${META_SOURCES})
+add_library(settings-model-meta STATIC ${META_SOURCES})
 
-target_include_directories(makesdr-settings-model-meta PUBLIC
+target_include_directories(settings-model-meta PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(makesdr-settings-model-meta PUBLIC
-        makesdr-settings-model-proto
+target_link_libraries(settings-model-meta PUBLIC
+        settings-model-proto
         etl
 )

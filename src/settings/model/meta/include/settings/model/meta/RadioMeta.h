@@ -1,9 +1,8 @@
 #pragma once
 #include "BandCategoryList.h"
-#include "settings/model/core/SettingsBase.h"
 #include "ModeList.h"
 
-class RadioMeta : public SettingsBase
+class RadioMeta
 {
 public:
   RadioMeta(const RadioSettings_RadioMetaPb& raw)

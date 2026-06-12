@@ -1,20 +1,19 @@
 #pragma once
 
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 #include "ReceiverSettings.h"
 #include "TransmitterSettings.h"
-#include "ResolveIndirection.h"
 #include "AutoComplete.h"
 #include "ActiveBandSettings.h"
 #include "settings/model/core/RadioSettings.h"
-#include "settings/model/core/ProtobufIo.h"
-#include "BandSettingsCache.h"
+#include "settings/model/proto/ProtobufIo.h"
+#include "settings/model/core/BandSettingsCache.h"
 
-class RadioSettingsEx : public RadioSettings, public ResolveIndirection, public AutoComplete
+class RadioSettingsEx : public RadioSettings, public AutoComplete
 {
 public:
-  RadioSettingsEx(RadioSettings_RadioSettingsPb& raw, const RadioMeta& meta)
-    : RadioSettings(raw, meta.raw())
+  RadioSettingsEx(RadioSettings_RadioSettingsPb& raw, const RadioMeta& meta, BandSettingsCache& cache)
+    : RadioSettings(raw, meta.raw(), cache)
     , m_activeBandSettings(m_rawSettings.active_bands)
     , m_receiverSettings(m_rawSettings.receiver)
     , m_transmitterSettings(m_rawSettings.transmitter)
@@ -40,27 +39,6 @@ public:
   [[nodiscard]] const TransmitterSettings& transmitterSettings() const { return m_transmitterSettings; }
 
   [[nodiscard]] bool getPtt() const { return m_rawSettings.ptt; }
-
-  ResultCode resolveIndirection(
-    const SettingFieldPath& indirectPath,
-    uint32_t startingAtIndex,
-    SettingFieldPath& resolvedPath
-  ) override
-  {
-    if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
-    }
-    switch (indirectPath[startingAtIndex]) {
-    case RadioSettings_RadioSettingsPb_active_bands_tag:
-      resolvedPath.emplace_back(RadioSettings_RadioSettingsPb_active_bands_tag);
-      return m_activeBandSettings.resolveIndirection(indirectPath, startingAtIndex + 1, resolvedPath);
-    }
-    for (uint32_t i = startingAtIndex; i < indirectPath.size(); i++) {
-      resolvedPath.emplace_back(indirectPath[i]);
-    }
-    return ResultCode::OK;
-
-  }
 
   ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length) {
     return ProtobufIo::readProtobuf<RadioSettings_RadioSettingsPb>(

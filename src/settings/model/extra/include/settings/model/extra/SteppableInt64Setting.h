@@ -1,5 +1,5 @@
 #pragma once
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 
 class SteppableInt64Setting : public SettingsBase
 {

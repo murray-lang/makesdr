@@ -1,7 +1,7 @@
 #pragma once
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "StringRef.h"
+#include "../../../../../core/include/settings/model/core/StringRef.h"
 
 class Mode : public SettingsBase
 {

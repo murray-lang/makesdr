@@ -1,15 +1,15 @@
 #pragma once
 #include <CrossPlatformTypes.h>
 #include "Band.h"
-#include "../../../../../core/include/settings/model/core/PipelineId.h"
-#include "settings/model/core/SettingsBase.h"
-#include "ResolveIndirection.h"
+#include "settings/model/core/PipelineId.h"
+#include "settings/model/core/SettingFieldVariant.h"
+#include "SettingsBase.h"
 #include "RxPipelineSettings.h"
 #include "TxPipelineSettings.h"
 
 using BandOrRequestVariant = variant<monostate, StringRef, Band>;
 
-class BandSettings : public SettingsBase, public ResolveIndirection, public AutoComplete
+class BandSettings : public SettingsBase, public AutoComplete
 {
 public:
   BandSettings(RadioSettings_BandSettingsPb& raw)
@@ -85,39 +85,6 @@ public:
 
   RadioSettings_BandSettingsPb& raw() { return m_rawSettings; }
   [[nodiscard]] const RadioSettings_BandSettingsPb& raw() const { return m_rawSettings; }
-
-  ResultCode resolveIndirection(
-   const SettingFieldPath& indirectPath,
-   uint32_t startingAtIndex,
-   SettingFieldPath& resolvedPath
- ) override
-  {
-    if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
-    }
-    uint32_t nextIndex = startingAtIndex;
-    switch (indirectPath[startingAtIndex]) {
-    case RadioSettings_BandSettingsPb_focus_pipeline_tag:
-      {
-        PipelineId pipelineId = focusPipelineId();
-        if (pipelineId == PipelineId::A) {
-          resolvedPath.emplace_back(RadioSettings_BandSettingsPb_pipeline_a_tag);
-        } else if (pipelineId == PipelineId::B) {
-          resolvedPath.emplace_back(RadioSettings_BandSettingsPb_pipeline_b_tag);
-        } else {
-          return ResultCode::ERR_SETTING_BAND_SETTINGS_FOCUS_PIPELINE_NOT_SET;
-        }
-        nextIndex++;
-      }
-      break;
-    default: break;
-    }
-    // We happen to know that pipelines have no indirect paths (for now). Just copy the rest.
-    for (uint32_t i = nextIndex; i < indirectPath.size(); i++) {
-      resolvedPath.emplace_back(indirectPath[i]);
-    }
-    return ResultCode::OK;
-  }
 
   void setCategories(RadioMeta* categories)
   {

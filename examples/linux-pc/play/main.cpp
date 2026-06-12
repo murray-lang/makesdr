@@ -6,13 +6,13 @@
 // #include "util/GenerateResolvedPathSourceFiles.h"
 
 #include "settings/model/proto/RadioSettings.pb.h"
-#include <settings/model/extra/BandSettingsCache.h>
+#include <../../../src/settings/model/core/include/settings/model/core/BandSettingsCache.h>
 #include <settings/model/meta/generalCoverageRadioMeta.h>
 // #include "../settings/util/ResolvedFieldPaths.h"
 
 using RadioSettingsPb = RadioSettings_RadioSettingsPb;
 
-#include <settings/model/core/ProtobufIo.h>
+#include <settings/model/proto/ProtobufIo.h>
 // #include <settings/MessageTagLookup.h>
 #include "../../data/exampleRadioSettings.h"
 

@@ -2,7 +2,7 @@
 #include <CrossPlatformTypes.h>
 
 #include "AutoComplete.h"
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 #include "RfSettings.h"
 #include "Band.h"
 #include "../../../../../meta/include/settings/model/meta/RadioMeta.h"
