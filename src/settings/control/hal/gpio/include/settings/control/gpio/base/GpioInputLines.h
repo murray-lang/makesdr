@@ -33,7 +33,7 @@ protected:
 
 #ifdef USE_ETL
 #include <etl/vector.h>
-using GpioInputLinesVector = etl::vector<GpioInputLines, MAX_GPIO_LINES_PER_DEVICE>;
+using GpioInputLinesVector = etl::vector<GpioInputLines, MAX_DIGITAL_INPUT_HANDLERS>;
 #else
 #include <vector>
 using GpioInputLinesVector = std::vector<GpioInputLines>;

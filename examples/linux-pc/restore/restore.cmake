@@ -1,16 +1,16 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-example-restore)
+project(example-restore)
 
-add_executable(makesdr-example-restore
+add_executable(example-restore
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
 )
 
-target_include_directories(makesdr-example-restore PUBLIC
+target_include_directories(example-restore PUBLIC
         ${INCLUDE_DIR}
 )
 
-target_link_libraries(makesdr-example-restore PRIVATE
-        makesdr-settings-model-proto
-        makesdr-settings-model-core
+target_link_libraries(example-restore PRIVATE
+        settings-model-proto
+        settings-model-core
 )

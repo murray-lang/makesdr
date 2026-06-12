@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-config)
+project(config)
 
 add_subdirectory(struct)
 add_subdirectory(json)

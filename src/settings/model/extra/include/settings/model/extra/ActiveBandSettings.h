@@ -1,13 +1,13 @@
 #pragma once
 
-#include "settings/model/core/SettingsBase.h"
+#include "SettingsBase.h"
 #include "settings/model/core/SettingFieldPath.h"
 #include "settings/model/core/AutoCompleteTrigger.h"
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "BandSettings.h"
-#include "../../../../../core/include/settings/model/core/SplitBandId.h"
+#include "settings/model/core/SplitBandId.h"
 
-class ActiveBandSettings : public SettingsBase, public ResolveIndirection, public AutoComplete
+class ActiveBandSettings : public SettingsBase, public AutoComplete
 {
 public:
   ActiveBandSettings(RadioSettings_ActiveBandSettingsPb& raw)
@@ -64,39 +64,7 @@ public:
   [[nodiscard]] const BandSettings& bandOneSettings() const { return m_bandOneSettings; }
   [[nodiscard]] const BandSettings& bandTwoSettings() const { return m_bandTwoSettings; }
 
-  ResultCode resolveIndirection(
-    const SettingFieldPath& indirectPath,
-    uint32_t startingAtIndex,
-    SettingFieldPath& resolvedPath
-  ) override
-  {
-    if (startingAtIndex >= indirectPath.size()) {
-      return ResultCode::ERR_SETTING_RESOLVE_INDIRECTION_PATH_INVALID;
-    }
-    switch (indirectPath[startingAtIndex]) {
-    case RadioSettings_ActiveBandSettingsPb_focus_band_tag:
-      {
-        SplitBandId bandId = focusBandId();
-        if (bandId == SplitBandId::One) {
-          resolvedPath.emplace_back(RadioSettings_ActiveBandSettingsPb_band_1_tag);
-          return m_bandOneSettings.resolveIndirection(indirectPath, startingAtIndex + 1, resolvedPath);
-        }
-        if (bandId == SplitBandId::Two) {
-          resolvedPath.emplace_back(RadioSettings_ActiveBandSettingsPb_band_2_tag);
-          return m_bandTwoSettings.resolveIndirection(indirectPath, startingAtIndex + 1, resolvedPath);
-        }
-        return ResultCode::ERR_SETTING_BAND_SETTINGS_FOCUS_BAND_NOT_SET;
-      }
-      break;
-    default: break;
-    }
-    for (uint32_t i = startingAtIndex; i < indirectPath.size(); i++) {
-      resolvedPath.emplace_back(indirectPath[i]);
-    }
-    return ResultCode::OK;
-  }
-
-  void setCategories(RadioCategories* categories)
+  void setCategories(RadioMeta* categories)
   {
     m_bandOneSettings.setCategories(categories);
     m_bandTwoSettings.setCategories(categories);

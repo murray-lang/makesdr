@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings)
+project(settings)
 
 add_subdirectory(model)
 add_subdirectory(control)

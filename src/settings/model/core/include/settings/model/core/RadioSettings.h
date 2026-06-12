@@ -1,78 +1,47 @@
 #pragma once
 
-
-#include "SettingsBase.h"
-#include "SettingFieldPath.h"
+#include "BandSettingsCache.h"
 #include "SettingFieldVariant.h"
 #include "MessageVisitor.h"
 #include "SplitBandId.h"
 #include "PipelineId.h"
+#include "SettingFieldUpdateSink.h"
+#include "settings/model/meta/RadioMeta.h"
 
-class RadioSettings : public SettingsBase
+class RadioSettings : public SettingFieldUpdateSink
 {
 public:
-  RadioSettings(RadioSettings_RadioSettingsPb& raw)
-    : m_rawSettings(raw)
-    , m_visitor(&raw, &RadioSettings_RadioSettingsPb_msg)
-  {
-    InitBandAndPipelineIdsWithDefaults();
-  }
+  RadioSettings(
+    RadioSettings_RadioSettingsPb& raw,
+    const RadioSettings_RadioMetaPb& meta,
+    BandSettingsCache& cache
+  );
 
-  ResultCode updateField(const SettingFieldUpdate &settingUpdate)
-  {
-    return m_visitor.updateField(settingUpdate);
-  }
 
-  ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
-  {
-    return m_visitor.updateField(path, value);
-  }
+  ResultCode applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate) override;
 
-  ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value) const
-  {
-    return m_visitor.getField(path, value);
-  }
-
+  ResultCode updateIndirectField(const SettingFieldUpdate &settingUpdate, uint32_t startingAtIndex);
+  ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value);
+  ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value) const;
   ResultCode getField(
     const SettingFieldPath &path,
     SettingFieldVariant &value,
     bool mustHave,
     bool parentsMustHave,
     bool& retrieved
-  )
-  {
-    return m_visitor.getField(path, value, mustHave, parentsMustHave, retrieved);
-  }
+  );
 
-  ResultCode setFieldPresence(const SettingFieldPath &path, bool present)
-  {
-    return m_visitor.setFieldPresence(path, present);
-  }
-
-  ResultCode mergePresentFields(const void* pRhsMessage)
-  {
-    return m_visitor.mergePresentFields(pRhsMessage);
-  }
+  ResultCode setFieldPresence(const SettingFieldPath &path, bool present);
+  ResultCode mergePresentFields(const void* pRhsMessage);
 
   static ResultCode resolveDottedPath(
     const char *dottedPath,
     SettingFieldPath &path,
     bool* isIndirectOut,
     AutoCompleteTrigger* triggerOut
-  )
-  {
-    return MessageVisitor::resolveDottedPath(dottedPath, path, isIndirectOut, triggerOut);
-  }
+  );
 
-  [[nodiscard]] const RadioSettings_BandSettingsPb* getBandSettings(SplitBandId bandId) const
-  {
-    switch (bandId)
-    {
-    case SplitBandId::One: return &m_rawSettings.active_bands.band_1;
-    case SplitBandId::Two: return &m_rawSettings.active_bands.band_2;
-    default: return nullptr;
-    }
-  }
+  [[nodiscard]] const RadioSettings_BandSettingsPb* getBandSettings(SplitBandId bandId) const;
 
   // [[nodiscard]] uint32_t getFocusBandTag() const
   // {
@@ -104,113 +73,71 @@ public:
   //   }
   // }
 
-  void ptt(bool on)
-  {
-    m_rawSettings.ptt = on;
-    m_rawSettings.has_ptt = true;
-  }
-
+  void ptt(bool on);
   bool hasActiveBands() const { return m_rawSettings.has_active_bands; }
 
   [[nodiscard]] SplitBandId getFocusBandId() const { return static_cast<SplitBandId>(m_rawSettings.active_bands.focus_band_id); }
   [[nodiscard]] SplitBandId getRxBandId() const { return static_cast<SplitBandId>(m_rawSettings.active_bands.rx_band_id); }
   [[nodiscard]] SplitBandId getTxBandId() const { return static_cast<SplitBandId>(m_rawSettings.active_bands.tx_band_id); }
 
-  [[nodiscard]] PipelineId getFocusPipelineId(SplitBandId bandId) const
-  {
-    switch (bandId) {
-    case SplitBandId::One: return static_cast<PipelineId>(m_rawSettings.active_bands.band_1.focus_pipeline_id);
-    case SplitBandId::Two: return static_cast<PipelineId>(m_rawSettings.active_bands.band_2.focus_pipeline_id);
-    default: return PipelineId::NONE;
-    }
-  }
-
-  [[nodiscard]] PipelineId getFocusBandFocusPipelineId() const
-  {
-    switch (m_rawSettings.active_bands.focus_band_id) {
-    case RadioSettings_SplitBandId_SPLIT_BAND_ONE:
-      return static_cast<PipelineId>(m_rawSettings.active_bands.band_1.focus_pipeline_id);
-    case RadioSettings_SplitBandId_SPLIT_BAND_TWO:
-      return static_cast<PipelineId>(m_rawSettings.active_bands.band_2.focus_pipeline_id);
-    default: return PipelineId::NONE;
-    }
-  }
-
-  [[nodiscard]] const RadioSettings_BandSettingsPb* getFocusBandSettings() const
-  {
-    return getBandSettings(static_cast<SplitBandId>(m_rawSettings.active_bands.focus_band_id));
-  }
-
-  [[nodiscard]] const RadioSettings_BandSettingsPb* getTxBandSettings() const
-  {
-    return getBandSettings(static_cast<SplitBandId>(m_rawSettings.active_bands.tx_band_id));
-  }
-
-  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getFocusRxPipelineSettings(SplitBandId bandId) const
-  {
-    const RadioSettings_BandSettingsPb* pBandSettings = getBandSettings(bandId);
-    if (pBandSettings == nullptr) return nullptr;
-    switch (pBandSettings->focus_pipeline_id)
-    {
-      case RadioSettings_PipelineId_PIPELINE_A: return &pBandSettings->pipeline_a;
-      case RadioSettings_PipelineId_PIPELINE_B: return &pBandSettings->pipeline_b;
-      default: return nullptr;
-    }
-  }
-
-  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getTxPipelineSettings() const
-  {
-    const RadioSettings_BandSettingsPb* pBandSettings = getTxBandSettings();
-    if (pBandSettings == nullptr) return nullptr;
-    switch (pBandSettings->tx_pipeline_id)
-    {
-    case RadioSettings_PipelineId_PIPELINE_A: return &pBandSettings->pipeline_a;
-    case RadioSettings_PipelineId_PIPELINE_B: return &pBandSettings->pipeline_b;
-    default: return nullptr;
-    }
-  }
-
-  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getFocusBandFocusRxPipelineSettings() const
-  {
-    return getFocusRxPipelineSettings(static_cast<SplitBandId>(m_rawSettings.active_bands.focus_band_id));
-  }
+  [[nodiscard]] PipelineId getFocusPipelineId(SplitBandId bandId) const;
+  [[nodiscard]] PipelineId getFocusBandFocusPipelineId() const;
+  [[nodiscard]] const RadioSettings_BandSettingsPb* getFocusBandSettings() const;
+  [[nodiscard]] const RadioSettings_BandSettingsPb* getTxBandSettings() const;
+  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getFocusRxPipelineSettings(SplitBandId bandId) const;
+  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getTxPipelineSettings() const;
+  [[nodiscard]] const RadioSettings_RxPipelineSettingsPb* getFocusBandFocusRxPipelineSettings() const;
 
 
 protected:
-  void InitBandAndPipelineIdsWithDefaults()
-  {
-    if (m_rawSettings.active_bands.focus_band_id == RadioSettings_SplitBandId_SPLIT_BAND_NONE) {
-      m_rawSettings.active_bands.focus_band_id = RadioSettings_SplitBandId_SPLIT_BAND_ONE;
-      m_rawSettings.active_bands.has_focus_band_id = true;
-    }
-    if (m_rawSettings.active_bands.rx_band_id == RadioSettings_SplitBandId_SPLIT_BAND_NONE) {
-      m_rawSettings.active_bands.rx_band_id = RadioSettings_SplitBandId_SPLIT_BAND_ONE;
-      m_rawSettings.active_bands.has_rx_band_id = true;
-    }
-    if (m_rawSettings.active_bands.tx_band_id == RadioSettings_SplitBandId_SPLIT_BAND_NONE) {
-      m_rawSettings.active_bands.tx_band_id = RadioSettings_SplitBandId_SPLIT_BAND_ONE;
-      m_rawSettings.active_bands.has_tx_band_id = true;
-    }
-    if (m_rawSettings.active_bands.band_1.focus_pipeline_id == RadioSettings_PipelineId_PIPELINE_NONE) {
-      m_rawSettings.active_bands.band_1.focus_pipeline_id = RadioSettings_PipelineId_PIPELINE_A;
-      m_rawSettings.active_bands.band_1.has_focus_pipeline_id = true;
-    }
-    if (m_rawSettings.active_bands.band_2.focus_pipeline_id == RadioSettings_PipelineId_PIPELINE_NONE) {
-      m_rawSettings.active_bands.band_2.focus_pipeline_id = RadioSettings_PipelineId_PIPELINE_A;
-      m_rawSettings.active_bands.band_2.has_focus_pipeline_id = true;
-    }
-    if (m_rawSettings.active_bands.band_1.tx_pipeline_id == RadioSettings_PipelineId_PIPELINE_NONE) {
-      m_rawSettings.active_bands.band_1.tx_pipeline_id = RadioSettings_PipelineId_PIPELINE_A;
-      m_rawSettings.active_bands.band_1.has_tx_pipeline_id = true;
-    }
-    if (m_rawSettings.active_bands.band_2.tx_pipeline_id == RadioSettings_PipelineId_PIPELINE_NONE) {
-      m_rawSettings.active_bands.band_2.tx_pipeline_id = RadioSettings_PipelineId_PIPELINE_A;
-      m_rawSettings.active_bands.band_2.has_tx_pipeline_id = true;
-    }
-  }
+  void InitBandAndPipelineIdsWithDefaults();
+
+  ResultCode updateIndirectActiveBandsField(
+    RadioSettings_ActiveBandSettingsPb& rawBandSettings,
+    const SettingFieldUpdate &settingUpdate,
+    uint32_t startingAtIndex
+    );
+
+  ResultCode updateIndirectBandField(
+    RadioSettings_BandSettingsPb& rawBandSettings,
+    const SettingFieldUpdate &settingUpdate,
+    uint32_t startingAtIndex
+  );
+
+  ResultCode autoComplete(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoCompleteActiveBands(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoCompleteBand(
+    RadioSettings_BandSettingsPb& rawBandSettings,
+    const SettingFieldPath& path,
+    uint32_t startingAtIndex,
+    AutoCompleteTrigger trigger
+  );
+  ResultCode autoCompleteSplit(RadioSettings_ActiveBandSettingsPb& rawActiveBandSettings);
+  ResultCode autoCompleteBandRequest(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoCompleteMultiPipeline(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoCompletePipeline(
+    RadioSettings_PipelineSettingsPb& rawPipelineSettings,
+    const SettingFieldPath& path,
+    uint32_t startingAtIndex,
+    AutoCompleteTrigger trigger
+  );
+  ResultCode autoCompleteMode(RadioSettings_PipelineSettingsPb& rawPipelineSettings);
+
+  ResultCode autoComplete();
+  ResultCode autoComplete(RadioSettings_ActiveBandSettingsPb& rawActiveBandSettings);
+  ResultCode autoComplete(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode autoComplete(RadioSettings_PipelineSettingsPb& rawPipelineSettings);
+
+  ResultCode applyBandDefaults(RadioSettings_BandSettingsPb& rawBandSettings);
+  ResultCode applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_PipelineSettingsPb& rawPipeline);
+  ResultCode applyBandDefaults(const RadioSettings_BandPb& rawBand, RadioSettings_RfSettingsPb& rawRf);
+
 
 protected:
   RadioSettings_RadioSettingsPb& m_rawSettings;
 
   MessageVisitor m_visitor;
+
+  RadioMeta m_meta;
+  BandSettingsCache& m_cache;
 };

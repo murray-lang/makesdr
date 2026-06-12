@@ -22,29 +22,6 @@ void printPath(const SettingFieldPath& v)
 }
 
 ResultCode
-RadioSettingsEx::applyUpdate(const SettingFieldUpdate& update)
-{
-  const SettingFieldPath& path = update.path();
-  ResultCode rc = ResultCode::OK;
-  if (update.isIndirect()) {
-    SettingFieldPath resolvedPath;
-    rc = resolveIndirection(path, 0, resolvedPath);
-    if (rc != ResultCode::OK) return rc;
-    rc = m_visitor.updateField(resolvedPath, update.value());
-    if (rc == ResultCode::OK && update.trigger() != AutoCompleteTrigger::NONE) {
-      return autoComplete(resolvedPath, 0, update.trigger());
-    }
-  } else {
-    rc = m_visitor.updateField(update);
-    if (rc == ResultCode::OK && update.trigger() != AutoCompleteTrigger::NONE) {
-      return autoComplete(update.path(), 0, update.trigger());
-    }
-  }
-
-  return rc;
-}
-
-ResultCode
 RadioSettingsEx::autoComplete(
   const SettingFieldPath& path,
   uint32_t startingAtIndex,

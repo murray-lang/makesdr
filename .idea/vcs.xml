@@ -3,7 +3,11 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/ArduinoJson" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third-party/FreeRTOS-Kernel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/etl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third-party/libwebsockets" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third-party/lvgl" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/nanopb" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third-party/tinyusb_src" vcs="Git" />
   </component>
 </project>

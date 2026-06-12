@@ -69,7 +69,7 @@ typedef struct _RadioSettings_BandPb {
 
 typedef struct _RadioSettings_BandListPb {
     pb_size_t bands_count;
-    RadioSettings_BandPb bands[34];
+    RadioSettings_BandPb bands[13];
 } RadioSettings_BandListPb;
 
 typedef struct _RadioSettings_BandCategoryPb {
@@ -84,12 +84,12 @@ typedef struct _RadioSettings_BandCategoryListPb {
     RadioSettings_BandCategoryPb categories[8];
 } RadioSettings_BandCategoryListPb;
 
-typedef struct _RadioSettings_RadioCategoriesPb {
+typedef struct _RadioSettings_RadioMetaPb {
     bool has_bands;
     RadioSettings_BandCategoryListPb bands;
     bool has_modes;
     RadioSettings_ModeListPb modes;
-} RadioSettings_RadioCategoriesPb;
+} RadioSettings_RadioMetaPb;
 
 typedef struct _RadioSettings_SteppableInt64SettingPb {
     int64_t value;
@@ -299,10 +299,10 @@ extern "C" {
 #define RadioSettings_ModePb_init_default        {_RadioSettings_ModeType_MIN, "", "", 0, 0, 0}
 #define RadioSettings_ModeListPb_init_default    {0, {RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default}}
 #define RadioSettings_BandPb_init_default        {"", "", 0, 0, 0, 0, 0, _RadioSettings_ModeType_MIN}
-#define RadioSettings_BandListPb_init_default    {0, {RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default}}
+#define RadioSettings_BandListPb_init_default    {0, {RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default}}
 #define RadioSettings_BandCategoryPb_init_default {"", "", false, RadioSettings_BandListPb_init_default}
 #define RadioSettings_BandCategoryListPb_init_default {0, {RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default}}
-#define RadioSettings_RadioCategoriesPb_init_default {false, RadioSettings_BandCategoryListPb_init_default, false, RadioSettings_ModeListPb_init_default}
+#define RadioSettings_RadioMetaPb_init_default   {false, RadioSettings_BandCategoryListPb_init_default, false, RadioSettings_ModeListPb_init_default}
 #define RadioSettings_SteppableInt64SettingPb_init_default {0, 0, 0, 0}
 #define RadioSettings_SteppableFloatSettingPb_init_default {0, 0, 0, 0}
 #define RadioSettings_IqCorrectionSettingsPb_init_default {false, RadioSettings_SteppableFloatSettingPb_init_default, false, RadioSettings_SteppableFloatSettingPb_init_default}
@@ -322,10 +322,10 @@ extern "C" {
 #define RadioSettings_ModePb_init_zero           {_RadioSettings_ModeType_MIN, "", "", 0, 0, 0}
 #define RadioSettings_ModeListPb_init_zero       {0, {RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero}}
 #define RadioSettings_BandPb_init_zero           {"", "", 0, 0, 0, 0, 0, _RadioSettings_ModeType_MIN}
-#define RadioSettings_BandListPb_init_zero       {0, {RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero}}
+#define RadioSettings_BandListPb_init_zero       {0, {RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero}}
 #define RadioSettings_BandCategoryPb_init_zero   {"", "", false, RadioSettings_BandListPb_init_zero}
 #define RadioSettings_BandCategoryListPb_init_zero {0, {RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero}}
-#define RadioSettings_RadioCategoriesPb_init_zero {false, RadioSettings_BandCategoryListPb_init_zero, false, RadioSettings_ModeListPb_init_zero}
+#define RadioSettings_RadioMetaPb_init_zero      {false, RadioSettings_BandCategoryListPb_init_zero, false, RadioSettings_ModeListPb_init_zero}
 #define RadioSettings_SteppableInt64SettingPb_init_zero {0, 0, 0, 0}
 #define RadioSettings_SteppableFloatSettingPb_init_zero {0, 0, 0, 0}
 #define RadioSettings_IqCorrectionSettingsPb_init_zero {false, RadioSettings_SteppableFloatSettingPb_init_zero, false, RadioSettings_SteppableFloatSettingPb_init_zero}
@@ -364,8 +364,8 @@ extern "C" {
 #define RadioSettings_BandCategoryPb_label_tag   2
 #define RadioSettings_BandCategoryPb_bands_tag   3
 #define RadioSettings_BandCategoryListPb_categories_tag 1
-#define RadioSettings_RadioCategoriesPb_bands_tag 1
-#define RadioSettings_RadioCategoriesPb_modes_tag 2
+#define RadioSettings_RadioMetaPb_bands_tag      1
+#define RadioSettings_RadioMetaPb_modes_tag      2
 #define RadioSettings_SteppableInt64SettingPb_value_tag 1
 #define RadioSettings_SteppableInt64SettingPb_coarse_delta_tag 2
 #define RadioSettings_SteppableInt64SettingPb_fine_delta_tag 3
@@ -468,13 +468,13 @@ X(a, STATIC,   REPEATED, MESSAGE,  categories,        1)
 #define RadioSettings_BandCategoryListPb_DEFAULT NULL
 #define RadioSettings_BandCategoryListPb_categories_MSGTYPE RadioSettings_BandCategoryPb
 
-#define RadioSettings_RadioCategoriesPb_FIELDLIST(X, a) \
+#define RadioSettings_RadioMetaPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  bands,             1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  modes,             2)
-#define RadioSettings_RadioCategoriesPb_CALLBACK NULL
-#define RadioSettings_RadioCategoriesPb_DEFAULT NULL
-#define RadioSettings_RadioCategoriesPb_bands_MSGTYPE RadioSettings_BandCategoryListPb
-#define RadioSettings_RadioCategoriesPb_modes_MSGTYPE RadioSettings_ModeListPb
+#define RadioSettings_RadioMetaPb_CALLBACK NULL
+#define RadioSettings_RadioMetaPb_DEFAULT NULL
+#define RadioSettings_RadioMetaPb_bands_MSGTYPE RadioSettings_BandCategoryListPb
+#define RadioSettings_RadioMetaPb_modes_MSGTYPE RadioSettings_ModeListPb
 
 #define RadioSettings_SteppableInt64SettingPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT64,    value,             1) \
@@ -624,7 +624,7 @@ extern const pb_msgdesc_t RadioSettings_BandPb_msg;
 extern const pb_msgdesc_t RadioSettings_BandListPb_msg;
 extern const pb_msgdesc_t RadioSettings_BandCategoryPb_msg;
 extern const pb_msgdesc_t RadioSettings_BandCategoryListPb_msg;
-extern const pb_msgdesc_t RadioSettings_RadioCategoriesPb_msg;
+extern const pb_msgdesc_t RadioSettings_RadioMetaPb_msg;
 extern const pb_msgdesc_t RadioSettings_SteppableInt64SettingPb_msg;
 extern const pb_msgdesc_t RadioSettings_SteppableFloatSettingPb_msg;
 extern const pb_msgdesc_t RadioSettings_IqCorrectionSettingsPb_msg;
@@ -649,7 +649,7 @@ extern const pb_msgdesc_t RadioSettings_RadioSettingsPb_msg;
 #define RadioSettings_BandListPb_fields &RadioSettings_BandListPb_msg
 #define RadioSettings_BandCategoryPb_fields &RadioSettings_BandCategoryPb_msg
 #define RadioSettings_BandCategoryListPb_fields &RadioSettings_BandCategoryListPb_msg
-#define RadioSettings_RadioCategoriesPb_fields &RadioSettings_RadioCategoriesPb_msg
+#define RadioSettings_RadioMetaPb_fields &RadioSettings_RadioMetaPb_msg
 #define RadioSettings_SteppableInt64SettingPb_fields &RadioSettings_SteppableInt64SettingPb_msg
 #define RadioSettings_SteppableFloatSettingPb_fields &RadioSettings_SteppableFloatSettingPb_msg
 #define RadioSettings_IqCorrectionSettingsPb_fields &RadioSettings_IqCorrectionSettingsPb_msg
@@ -668,11 +668,11 @@ extern const pb_msgdesc_t RadioSettings_RadioSettingsPb_msg;
 #define RadioSettings_RadioSettingsPb_fields &RadioSettings_RadioSettingsPb_msg
 
 /* Maximum encoded size of messages (where known) */
-#define RADIOSETTINGS_RADIOSETTINGS_PB_H_MAX_SIZE RadioSettings_RadioCategoriesPb_size
+#define RADIOSETTINGS_RADIOSETTINGS_PB_H_MAX_SIZE RadioSettings_RadioMetaPb_size
 #define RadioSettings_ActiveBandSettingsPb_size  1446
-#define RadioSettings_BandCategoryListPb_size    21696
-#define RadioSettings_BandCategoryPb_size        2709
-#define RadioSettings_BandListPb_size            2686
+#define RadioSettings_BandCategoryListPb_size    8424
+#define RadioSettings_BandCategoryPb_size        1050
+#define RadioSettings_BandListPb_size            1027
 #define RadioSettings_BandPb_size                77
 #define RadioSettings_BandSettingsCachePb_BandSettingsEntry_size 727
 #define RadioSettings_BandSettingsCachePb_size   7300
@@ -683,7 +683,7 @@ extern const pb_msgdesc_t RadioSettings_RadioSettingsPb_msg;
 #define RadioSettings_ModeListPb_size            620
 #define RadioSettings_ModePb_size                60
 #define RadioSettings_PipelineSettingsPb_size    182
-#define RadioSettings_RadioCategoriesPb_size     22323
+#define RadioSettings_RadioMetaPb_size           9050
 #define RadioSettings_RadioSettingsPb_size       1561
 #define RadioSettings_ReceiverSettings_size      42
 #define RadioSettings_RfSettingsPb_size          118

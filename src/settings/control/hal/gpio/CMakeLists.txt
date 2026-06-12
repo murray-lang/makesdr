@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-settings-control-hal-gpio)
+project(settings-control-hal-gpio)
 
 set(GPIO_SOURCES
         include/settings/control/gpio/base/Gpio.h
@@ -42,20 +42,20 @@ set(GPIO_LINUX_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/DigitalOutputLinesRequestGpiod.cpp
 )
 
-add_library(makesdr-settings-control-hal-gpio STATIC ${GPIO_SOURCES} ${GPIO_LINUX_SOURCES})
+add_library(settings-control-hal-gpio STATIC ${GPIO_SOURCES} ${GPIO_LINUX_SOURCES})
 
-target_include_directories(makesdr-settings-control-hal-gpio PUBLIC
+target_include_directories(settings-control-hal-gpio PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
 #        ${CMAKE_SOURCE_DIR}/src/core/thread/include
 )
 
-target_link_libraries(makesdr-settings-control-hal-gpio PUBLIC
-        makesdr-config-struct
-        makesdr-core-thread
-        makesdr-settings-control-base
-        makesdr-settings-control-source
-        makesdr-settings-control-sink
-        makesdr-settings-model-core
+target_link_libraries(settings-control-hal-gpio PUBLIC
+        config-struct
+        core-thread
+        settings-control-base
+        settings-control-source
+        settings-control-sink
+        settings-model-core
         etl
 )

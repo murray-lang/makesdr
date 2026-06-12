@@ -1,3 +1,4 @@
+#include <CrossPlatformTypes.h>
 #include "config/json/AudioConfig.json.h"
 
 namespace Config::Audio
@@ -31,7 +32,7 @@ namespace Config::Audio
       return ResultCode::ERR_CONFIG_AUDIO_MISSING_SAMPLE_RATE;
     }
     if (json["channelCount"].is<JsonVariantConst>()) {
-      fields.channelCount = std::min(json["channelCount"].as<uint32_t>(), static_cast<uint32_t>(2));
+      fields.channelCount = min(json["channelCount"].as<uint32_t>(), static_cast<uint32_t>(2));
     } else {
       return ResultCode::ERR_CONFIG_AUDIO_MISSING_CHANNELS;
     }

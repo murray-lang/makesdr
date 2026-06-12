@@ -99,11 +99,7 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
       }
       *static_cast<int32_t *>(target_ptr) = *pInt32Value;
     } else if (iter->data_size == sizeof(int64_t)) {
-      const int64_t* pInt64Value = get_if<int64_t>(&value);
-      if (pInt64Value == nullptr) {
-        return ResultCode::ERR_SETTING_EXPECT_INT64;
-      }
-      *static_cast<int64_t *>(target_ptr) = *pInt64Value;
+      return visit(PromotingIntUpdateVisitor<int64_t, ResultCode::ERR_SETTING_EXPECT_INT64>{target_ptr}, value);
     }
     break;
 
@@ -115,12 +111,7 @@ MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &va
       }
       *static_cast<uint32_t *>(target_ptr) = *pUint32Value;
     } else if (iter->data_size == sizeof(uint64_t)) {
-      return ResultCode::ERR_SETTING_UNSUPPORTED_TYPE;
-      // const uint64_t* pUint64Value = get_if<uint64_t>(&value);
-      // if (pUint64Value == nullptr) {
-      //   return ResultCode::ERR_SETTING_EXPECT_UINT64;
-      // }
-      // *static_cast<uint64_t *>(target_ptr) = *pUint64Value;
+      return visit(PromotingIntUpdateVisitor<uint64_t, ResultCode::ERR_SETTING_EXPECT_UINT64>{target_ptr}, value);
     }
     break;
 
@@ -231,12 +222,13 @@ MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVar
     return updateField(&value_iter, result);
   }
   if (type == PB_LTYPE_VARINT) {
-    const int64_t* pDelta = get_if<int64_t>(&steppableValue);
-    if (pDelta == nullptr) {
-      return ResultCode::ERR_SETTING_EXPECT_INT64;
+    int64_t delta;
+    ResultCode rc = visit(PromotingIntUpdateVisitor<int64_t, ResultCode::ERR_SETTING_EXPECT_INT64>{&delta}, steppableValue);
+    if (rc != ResultCode::OK) {
+      return rc;
     }
     int64_t result;
-    pb_calc_steppable_int64(*(int64_t*)value, *pDelta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
+    pb_calc_steppable_int64(*(int64_t*)value, delta, *(int64_t*)coarse_delta, *(int64_t*)fine_delta, useFine, &result);
 
     return updateField(&value_iter, result);
   }
@@ -244,11 +236,17 @@ MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVar
 }
 
 ResultCode
-MessageVisitor::updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
+MessageVisitor::updateField(
+  void* pMessage,
+  const pb_msgdesc_t *pDescriptor,
+  const SettingFieldPath &path,
+  const SettingFieldVariant &value,
+  uint32_t startingAtIndex
+)
 {
   pb_field_iter_t iter;
-  void* current_message = m_pMessage;
-  const pb_msgdesc_t* current_desc = m_pDescriptor;
+  void* current_message = pMessage;
+  const pb_msgdesc_t* current_desc = pDescriptor;
 
   uint32_t pathLength = path.size();
   // Array to store parent iterators for updating pSize later
@@ -259,7 +257,7 @@ MessageVisitor::updateField(const SettingFieldPath &path, const SettingFieldVari
   // If the value is a Steppable message then include that in the traversal
   bool leafIsSteppable = path.back() > 1000;
   size_t messageCount = leafIsSteppable ? pathLength : pathLength - 1;
-  for (size_t i = 0; i < messageCount; i++) {
+  for (size_t i = startingAtIndex; i < messageCount; i++) {
     if (!pb_field_iter_begin(&iter, current_desc, current_message)) {
       return ResultCode::ERR_SETTING_EMPTY_MESSAGE;
     }
@@ -291,8 +289,8 @@ MessageVisitor::updateField(const SettingFieldPath &path, const SettingFieldVari
       current_message = iter.pData;
     }
 
-    // Tags over 1000 identify steppable fields
-    if (tag > 1000) {
+    // Tags over 1000 identify steppable fields...but the path leaf might be one of the fields within the steppable!
+    if (tag > 1000 && leafIsSteppable) {
       ResultCode rc = updateSteppable(&iter, value);
       if (rc == ResultCode::OK) {
         for (size_t i = 0; i < parent_count; i++) {
@@ -582,7 +580,7 @@ MessageVisitor::mergePresentFields(
 }
 
 ResultCode
-MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value) const
+MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
 {
   void* source_ptr = iter->pData;
 
@@ -640,25 +638,34 @@ MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value) cons
   return ResultCode::OK;
 }
 
+
+
 ResultCode
-MessageVisitor::getField(const SettingFieldPath &path, SettingFieldVariant &value) const
+MessageVisitor::getField(
+  void* pMessage,
+  const pb_msgdesc_t *pDescriptor,
+  const SettingFieldPath &path,
+  SettingFieldVariant &value
+  )
 {
   bool retrieved;
-  return getField(path, value, false, false, retrieved);
+  return getField(pMessage, pDescriptor, path, value, false, false, retrieved);
 }
 
 ResultCode
 MessageVisitor::getField(
+  void* pMessage,
+  const pb_msgdesc_t *pDescriptor,
   const SettingFieldPath &path,
   SettingFieldVariant &value,
   bool mustHave,
   bool parentsMustHave,
   bool& retrieved
-) const
+)
 {
   pb_field_iter_t iter;
-  void* current_message = m_pMessage;
-  const pb_msgdesc_t* current_desc = m_pDescriptor;
+  void* current_message = pMessage;
+  const pb_msgdesc_t* current_desc = pDescriptor;
 
   uint32_t pathLength = path.size();
   retrieved = false;
@@ -756,11 +763,15 @@ MessageVisitor::getField(
 }
 
 ResultCode
- MessageVisitor::setFieldPresence(const SettingFieldPath &path, bool present)
+MessageVisitor::setFieldPresence(
+  void* pMessage,
+  const pb_msgdesc_t *pDescriptor,
+  const SettingFieldPath &path,
+  bool present)
 {
   pb_field_iter_t iter;
-  void* current_message = m_pMessage;
-  const pb_msgdesc_t* current_desc = m_pDescriptor;
+  void* current_message = pMessage;
+  const pb_msgdesc_t* current_desc = pDescriptor;
 
   uint32_t pathLength = path.size();
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <settings/model/proto/RadioSettings.pb.h>
-#include "StringRef.h"
+#include "../../../../../core/include/settings/model/core/StringRef.h"
 #include "Mode.h"
 
 class Band

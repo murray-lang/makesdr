@@ -94,10 +94,10 @@ BandSettings::autoCompleteBandRequest()
     if (m_categories == nullptr) return ResultCode::ERR_SETTING_BAND_SETTINGS_NO_INFO;
 
     const BandCategoryList& bandInfo = m_categories->bands();
-    const Band* pBand = bandInfo.findBand(m_rawSettings.band_or_request.band_request);
+    const RadioSettings_BandPb* pBand = bandInfo.findBand(m_rawSettings.band_or_request.band_request);
     if (pBand == nullptr) return ResultCode::ERR_SETTING_AUTOCOMPLETE_BAND_NOT_FOUND;
 
-    m_rawSettings.band_or_request.band = pBand->raw();
+    m_rawSettings.band_or_request.band = *pBand;
     m_rawSettings.which_band_or_request = RadioSettings_BandSettingsPb_band_tag;
 
     return ResultCode::OK;

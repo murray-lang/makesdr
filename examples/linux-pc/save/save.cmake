@@ -1,19 +1,19 @@
-cmake_minimum_required(VERSION 4.1)
+cmake_minimum_required(VERSION 3.25)
 
-project(makesdr-example-save)
+project(example-save)
 
-add_executable(makesdr-example-save
+add_executable(example-save
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
         ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 
 )
 
-target_include_directories(makesdr-example-save PUBLIC
+target_include_directories(example-save PUBLIC
         ${INCLUDE_DIR}
 )
 
-target_link_libraries(makesdr-example-save PRIVATE
-        makesdr-settings-model-proto
-        makesdr-settings-model-core
+target_link_libraries(example-save PRIVATE
+        settings-model-proto
+        settings-model-core
 )

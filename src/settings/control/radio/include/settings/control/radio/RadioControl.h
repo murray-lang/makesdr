@@ -39,7 +39,7 @@ public:
   ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override;
 
 
-  void connectSink(RadioSettingsSink& sink) override;
+  void connectRadioSettingsSink(RadioSettingsSink& sink) override;
   void connectSettingFieldUpdateSink(SettingFieldUpdateSink& sink) override;
 
   ResultCode notifySettings(const RadioSettings& settings) override;

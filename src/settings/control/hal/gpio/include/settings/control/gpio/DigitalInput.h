@@ -44,5 +44,7 @@ protected:
   IdString m_id;
   bool m_detectEdge;
   SettingFieldPath m_settingPath;
+  bool m_isPathIndirect;
+  AutoCompleteTrigger m_autoCompleteTrigger;
   optional<reference_wrapper<SettingFieldUpdateSink>> m_pSink;
 };

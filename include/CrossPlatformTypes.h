@@ -8,6 +8,7 @@
 #include "etl/algorithm.h"
 #include "etl/functional.h"
 #include "etl/mutex.h"
+#include "etl/math.h"
 using etl::variant;
 using etl::holds_alternative;
 using etl::get;
@@ -34,6 +35,8 @@ using etl::lock_guard;
 using etl::copy_n;
 using etl::atomic;
 using etl::in_place_type_t;
+using etl::min;
+using etl::max;
 // using etl::size_t
 
 #else
@@ -71,5 +74,8 @@ using std::lock_guard;
 using std::copy_n;
 using std::atomic;
 using std::in_place_type_t;
+using std::min;
+using std::max;
+
 // using std::size_t;
 #endif

@@ -11,7 +11,7 @@ RadioSettings.BandSettingsCachePb.band_settings max_count: 10
 RadioSettings.BandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
 
-RadioSettings.BandListPb.bands max_count: 34
+RadioSettings.BandListPb.bands max_count: 13
 
 RadioSettings.ModeListPb.modes max_count: 10
 

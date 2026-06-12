@@ -76,7 +76,7 @@ message BandCategoryListPb {
   repeated BandCategoryPb categories = 1;
 }
 
-message RadioCategoriesPb {
+message RadioMetaPb {
   BandCategoryListPb bands = 1;
   ModeListPb modes = 2;
 }

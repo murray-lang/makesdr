@@ -30,6 +30,120 @@
       }
     },
     {
+      "name": "qt-gpio-input-rpi-debug",
+      "displayName": "Qt GPIO input Debug (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-gpio-input-rpi-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "qt-gpio-input",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "qt-gpio-input-rpi-release",
+      "displayName": "Qt GPIO input (RPi)",
+      "binaryDir": "${sourceDir}/build-qt-gpio-input-rpi-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "qt-gpio-input",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-indirect-update-debug",
+      "displayName": "Indirect Update Debug (linux)",
+      "binaryDir": "${sourceDir}/build-linux-indirect-update-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-indirect-update-release",
+      "displayName": "Indirect Update Release (linux)",
+      "binaryDir": "${sourceDir}/build-linux-indirect-update-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "CM7-indirect-update-debug",
+      "displayName": "Indirect Update Debug (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-indirect-update-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM7-indirect-update-release",
+      "displayName": "Indirect Update Release (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-indirect-update-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM4-indirect-update-debug",
+      "displayName": "Indirect Update Debug (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-indirect-update-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM4-indirect-update-release",
+      "displayName": "Indirect Update Release (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-indirect-update-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "indirect-update",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
       "name": "linux-play-debug",
       "displayName": "Play Debug (linux)",
       "binaryDir": "${sourceDir}/build-play-debug",

@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/RadioSettingsProto.iml" filepath="$PROJECT_DIR$/.idea/RadioSettingsProto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/makesdr.iml" filepath="$PROJECT_DIR$/.idea/makesdr.iml" />
+    </modules>
+  </component>
+  <component name="makesdr">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/makesdr.iml" filepath="$PROJECT_DIR$/.idea/makesdr.iml" />
     </modules>
   </component>
 </project>
