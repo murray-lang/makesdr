@@ -19,8 +19,8 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h7xx_it.h"
-#include "main.h"
+#include "sys/stm32h745i/app/common/stm32h7xx_it.h"
+#include "sys/stm32h745i/drivers/hal/stm32h7xx_hal.h"
 
 #ifdef USE_FREERTOS
 #include <FreeRTOS.h>

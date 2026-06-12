@@ -25,18 +25,23 @@ set(DISCO_SOURCES
 
 add_definitions(-DUSE_STM32H745I_DISCO)
 
-add_library(core-sys-stm32h745i-drivers-bsp-disco-cm7 STATIC ${DISCO_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-bsp-disco-cm7 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-bsp-disco-cm7 PUBLIC
-        core-sys-stm32h745i-drivers-bsp-components-cm7
-)
 
-add_library(core-sys-stm32h745i-drivers-bsp-disco-cm4 STATIC ${DISCO_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-bsp-disco-cm4 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-bsp-disco-cm4 PUBLIC
-        core-sys-stm32h745i-drivers-bsp-components-cm4
-)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_library(core-sys-stm32h745i-drivers-bsp-disco-cm7 STATIC ${DISCO_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-bsp-disco-cm7 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-bsp-disco-cm7 PUBLIC
+            core-sys-stm32h745i-drivers-bsp-components-cm7
+    )
+endif()
+
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    add_library(core-sys-stm32h745i-drivers-bsp-disco-cm4 STATIC ${DISCO_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-bsp-disco-cm4 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-bsp-disco-cm4 PUBLIC
+            core-sys-stm32h745i-drivers-bsp-components-cm4
+    )
+endif()

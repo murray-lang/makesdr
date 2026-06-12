@@ -26,18 +26,22 @@ set(STM32_BSP_COMPONENTS_SOURCES
         src/mt48lc4m32b2/mt48lc4m32b2.c
 )
 
-add_library(core-sys-stm32h745i-drivers-bsp-components-cm7 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-bsp-components-cm7 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-bsp-components-cm7 PUBLIC
-        core-sys-stm32h745i-drivers-hal-cm7
-)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_library(core-sys-stm32h745i-drivers-bsp-components-cm7 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-bsp-components-cm7 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-bsp-components-cm7 PUBLIC
+            core-sys-stm32h745i-drivers-hal-cm7
+    )
+endif()
 
-add_library(core-sys-stm32h745i-drivers-bsp-components-cm4 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-bsp-components-cm4 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-bsp-components-cm4 PUBLIC
-        core-sys-stm32h745i-drivers-hal-cm4
-)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    add_library(core-sys-stm32h745i-drivers-bsp-components-cm4 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-bsp-components-cm4 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-bsp-components-cm4 PUBLIC
+            core-sys-stm32h745i-drivers-hal-cm4
+    )
+endif()

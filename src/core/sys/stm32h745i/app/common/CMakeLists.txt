@@ -17,7 +17,6 @@ set(STM32_APP_COMMON_SOURCES
         src/misc_utils.c
         src/mmc_diskio.c
         src/mpu_config.c
-        src/msc_disk.c
         src/syscalls.c
         src/sysmem.c
         src/system_stm32h7xx_dualcore_boot_cm4_cm7.c
@@ -42,6 +41,12 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
             core-sys-stm32h745i-tinyusb-cm7
             core-sys-stm32h745i-fatfs-cm7
     )
+    # Force whole archive to ensure syscalls are linked
+    target_link_options(core-sys-stm32h745i-app-common-cm7 INTERFACE
+            -Wl,--whole-archive
+            $<TARGET_FILE:core-sys-stm32h745i-app-common-cm7>
+            -Wl,--no-whole-archive
+    )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
 
     add_library(core-sys-stm32h745i-app-common-cm4 STATIC ${STM32_APP_COMMON_SOURCES})
@@ -60,6 +65,10 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
             core-sys-stm32h745i-freertos-cm4
             core-sys-stm32h745i-tinyusb-cm4
             core-sys-stm32h745i-fatfs-cm4
+    )
+    # Force whole archive to ensure syscalls are linked
+    target_link_options(core-sys-stm32h745i-app-common-cm4 INTERFACE
+            -Wl,--whole-archive $<TARGET_FILE:core-sys-stm32h745i-app-common-cm4> -Wl,--no-whole-archive
     )
 endif()
 

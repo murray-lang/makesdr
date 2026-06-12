@@ -1,6 +1,10 @@
 #pragma once
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 extern void USB_Device_Init(void);
 
 //--------------------------------------------------------------------+
@@ -17,3 +21,7 @@ extern void tud_suspend_cb(bool remote_wakeup_en);
 
 // Invoked when usb bus is resumed
 extern void tud_resume_cb(void);
+
+#ifdef __cplusplus
+}
+#endif

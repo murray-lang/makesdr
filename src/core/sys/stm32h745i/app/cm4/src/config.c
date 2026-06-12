@@ -1,5 +1,5 @@
-#include "config.h"
-#include "misc_utils.h"
+#include "sys/stm32h745i/app/cm4/config.h"
+#include "sys/stm32h745i/app/common/misc_utils.h"
 // #include "tusb.h"
 // #include "stm32h7xx_hal_adc.h"
 // #include "stm32h7xx_hal_dac.h"

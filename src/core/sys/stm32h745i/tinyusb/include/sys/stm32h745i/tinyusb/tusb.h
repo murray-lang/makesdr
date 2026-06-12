@@ -16,6 +16,10 @@
 #define CFG_TUSB_MCU  OPT_MCU_STM32H7
 #endif
 
+#ifndef CFG_TUSB_CONFIG_FILE
+  #define CFG_TUSB_CONFIG_FILE "sys/stm32h745i/tinyusb/tusb_config.h"
+#endif
+
 // Now include the actual TinyUSB header
 #include <tusb.h>
 

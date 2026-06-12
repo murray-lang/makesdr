@@ -102,21 +102,24 @@ set(STM32_HAL_SOURCES
         src/stm32h7xx_ll_usb.c
 )
 
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_library(core-sys-stm32h745i-drivers-hal-cm7 STATIC ${STM32_HAL_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-hal-cm7 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-hal-cm7 PUBLIC
+            core-sys-stm32h745i-drivers-conf
+            core-sys-stm32h745i-drivers-cmsis-cm7
+    )
+endif()
 
-add_library(core-sys-stm32h745i-drivers-hal-cm7 STATIC ${STM32_HAL_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-hal-cm7 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-hal-cm7 PUBLIC
-        core-sys-stm32h745i-drivers-conf
-        core-sys-stm32h745i-drivers-cmsis-cm7
-)
-
-add_library(core-sys-stm32h745i-drivers-hal-cm4 STATIC ${STM32_HAL_SOURCES})
-target_include_directories(core-sys-stm32h745i-drivers-hal-cm4 PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/include
-)
-target_link_libraries(core-sys-stm32h745i-drivers-hal-cm4 PUBLIC
-        core-sys-stm32h745i-drivers-conf
-        core-sys-stm32h745i-drivers-cmsis-cm4
-)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    add_library(core-sys-stm32h745i-drivers-hal-cm4 STATIC ${STM32_HAL_SOURCES})
+    target_include_directories(core-sys-stm32h745i-drivers-hal-cm4 PUBLIC
+            ${CMAKE_CURRENT_LIST_DIR}/include
+    )
+    target_link_libraries(core-sys-stm32h745i-drivers-hal-cm4 PUBLIC
+            core-sys-stm32h745i-drivers-conf
+            core-sys-stm32h745i-drivers-cmsis-cm4
+    )
+endif()

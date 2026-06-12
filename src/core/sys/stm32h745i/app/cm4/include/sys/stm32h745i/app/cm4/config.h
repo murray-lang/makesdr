@@ -2,10 +2,10 @@
 #define __CONFIG_H__
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h7xx_hal.h"
-#include "stm32h745i_discovery.h"
-#include "ff_gen_drv.h"
-#include "mmc_diskio.h"
+#include "sys/stm32h745i/drivers/hal/stm32h7xx_hal.h"
+#include "sys/stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
+#include "sys/stm32h745i/fatfs/ff_gen_drv.h"
+#include "sys/stm32h745i/app/common/mmc_diskio.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

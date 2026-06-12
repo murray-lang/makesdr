@@ -13,6 +13,7 @@ set(CM7_APP_SOURCES
         src/config.c
         src/stm32h7xx_it.c
         src/usb_msc.c
+        src/stm32h7xx_hal_msp.c
 )
 
 add_library(core-sys-stm32h745i-app-cm7-startup OBJECT ${STARTUP_FILE})
@@ -32,5 +33,6 @@ target_link_libraries(core-sys-stm32h745i-app-cm7 PUBLIC
         -T${LD_FILE}
         core-sys-stm32h745i-app-common-cm7
         core-sys-stm32h745i-lvgl-cm7
+        core-sys-stm32h745i-tinyusb-cm7
         $<TARGET_OBJECTS:core-sys-stm32h745i-app-cm7-startup>
 )

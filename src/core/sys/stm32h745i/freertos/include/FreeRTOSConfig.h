@@ -100,6 +100,7 @@ void vGenerateCore2Interrupt( void * xUpdatedMessageBuffer );
 #define configMESSAGE_BUFFER_LENGTH_TYPE         size_t
 
 #define configSUPPORT_STATIC_ALLOCATION         1
+#define configKERNEL_PROVIDED_STATIC_MEMORY     1
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                   0
 #define configMAX_CO_ROUTINE_PRIORITIES         ( 2 )

@@ -46,26 +46,32 @@ add_library(core-sys-stm32h745i-drivers-cmsis INTERFACE EXCLUDE_FROM_ALL
 
 target_include_directories(core-sys-stm32h745i-drivers-cmsis INTERFACE
         ${CMAKE_CURRENT_LIST_DIR}/include
+        # Also expose device headers directly for libraries expecting standard ST layout
+        ${CMAKE_CURRENT_LIST_DIR}/include/sys/stm32h745i/drivers/cmsis/device
 )
 
+
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
 # CM7-specific variant
-add_library(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE)
-target_link_libraries(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE
-        core-sys-stm32h745i-drivers-cmsis
-)
-target_compile_definitions(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE
-        CORE_CM7
-        STM32H745xx
-)
+    add_library(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE)
+    target_link_libraries(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE
+            core-sys-stm32h745i-drivers-cmsis
+    )
+    target_compile_definitions(core-sys-stm32h745i-drivers-cmsis-cm7 INTERFACE
+            CORE_CM7
+            STM32H745xx
+    )
+endif()
 
-# CM4-specific variant
-add_library(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE)
-target_link_libraries(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE
-        core-sys-stm32h745i-drivers-cmsis
-)
-target_compile_definitions(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE
-        CORE_CM4
-        STM32H745xx
-)
-
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    # CM4-specific variant
+    add_library(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE)
+    target_link_libraries(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE
+            core-sys-stm32h745i-drivers-cmsis
+    )
+    target_compile_definitions(core-sys-stm32h745i-drivers-cmsis-cm4 INTERFACE
+            CORE_CM4
+            STM32H745xx
+    )
+endif()
 

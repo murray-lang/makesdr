@@ -15,11 +15,11 @@ add_subdirectory(drivers)
 add_subdirectory(middlewares/third-party/FatFs)
 add_subdirectory(tinyusb)
 add_subdirectory(freertos)
-add_subdirectory(app/common)
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     add_subdirectory(lvgl)
-    add_subdirectory(app/cm7)
 endif()
+
+add_subdirectory(app)
 
 
