@@ -4,7 +4,10 @@ project(core-sys-stm32h745i-tinyusb)
 
 set(FAMILY stm32h7)
 
-add_definitions( -DCFG_TUSB_MCU=OPT_MCU_STM32H7 )
+add_definitions(
+        -DCFG_TUSB_MCU=OPT_MCU_STM32H7
+        -DCFG_TUSB_CONFIG_FILE="${CMAKE_CURRENT_LIST_DIR}/include/sys/stm32h745i/tinyusb/tusb_config.h"
+)
 
 add_subdirectory(${TINYUSB_DIR} ${CMAKE_BINARY_DIR}/tinyusb)
 
