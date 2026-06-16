@@ -1,42 +1,60 @@
 #pragma once
 
 #include "BandSettingsCache.h"
-#include "SettingFieldVariant.h"
+#include "SettingUpdateVariant.h"
 #include "MessageVisitor.h"
 #include "SplitBandId.h"
 #include "PipelineId.h"
-#include "SettingFieldUpdateSink.h"
+#include "SettingUpdateSink.h"
 #include "settings/model/meta/RadioMeta.h"
 
-class RadioSettings : public SettingFieldUpdateSink
+class RadioSettings : public SettingUpdateSink
 {
 public:
+  RadioSettings(
+    const RadioSettings_RadioMetaPb& meta,
+    BandSettingsCache& cache
+  );
+
   RadioSettings(
     RadioSettings_RadioSettingsPb& raw,
     const RadioSettings_RadioMetaPb& meta,
     BandSettingsCache& cache
   );
 
+  RadioSettings_RadioSettingsPb& raw() { return m_rawSettings; }
+  [[nodiscard]] const RadioSettings_RadioSettingsPb& raw() const { return m_rawSettings; }
 
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate) override;
 
-  ResultCode updateIndirectField(const SettingFieldUpdate &settingUpdate, uint32_t startingAtIndex);
-  ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value);
-  ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value) const;
+  void replace(RadioSettings_RadioSettingsPb& update, bool assumeComplete = false);
+  ResultCode merge(const RadioSettings_RadioSettingsPb& update);
+
+  ResultCode setAllFieldsPresence(bool present);
+
+  void assumeComplete(bool assumeComplete) { m_assumeComplete = assumeComplete; }
+  [[nodiscard]] bool assumeComplete() const { return m_assumeComplete; }
+
+  void copyTo(RadioSettings_RadioSettingsPb& out) const;
+
+  ResultCode applySettingUpdate(const SettingUpdate &settingUpdate) override;
+
+  ResultCode updateIndirectField(const SettingUpdate &settingUpdate, uint32_t startingAtIndex);
+  ResultCode updateField(const SettingPath &path, const SettingUpdateVariant &value);
+  ResultCode getField(const SettingPath &path, SettingUpdateVariant &value) const;
   ResultCode getField(
-    const SettingFieldPath &path,
-    SettingFieldVariant &value,
+    const SettingPath &path,
+    SettingUpdateVariant &value,
     bool mustHave,
     bool parentsMustHave,
     bool& retrieved
   );
 
-  ResultCode setFieldPresence(const SettingFieldPath &path, bool present);
+  ResultCode setFieldPresence(const SettingPath &path, bool present);
   ResultCode mergePresentFields(const void* pRhsMessage);
 
   static ResultCode resolveDottedPath(
     const char *dottedPath,
-    SettingFieldPath &path,
+    SettingPath &path,
     bool* isIndirectOut,
     AutoCompleteTrigger* triggerOut
   );
@@ -94,21 +112,21 @@ protected:
 
   ResultCode updateIndirectActiveBandsField(
     RadioSettings_ActiveBandSettingsPb& rawBandSettings,
-    const SettingFieldUpdate &settingUpdate,
+    const SettingUpdate &settingUpdate,
     uint32_t startingAtIndex
     );
 
   ResultCode updateIndirectBandField(
     RadioSettings_BandSettingsPb& rawBandSettings,
-    const SettingFieldUpdate &settingUpdate,
+    const SettingUpdate &settingUpdate,
     uint32_t startingAtIndex
   );
 
-  ResultCode autoComplete(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
-  ResultCode autoCompleteActiveBands(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoComplete(const SettingPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
+  ResultCode autoCompleteActiveBands(const SettingPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger);
   ResultCode autoCompleteBand(
     RadioSettings_BandSettingsPb& rawBandSettings,
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger
   );
@@ -117,7 +135,7 @@ protected:
   ResultCode autoCompleteMultiPipeline(RadioSettings_BandSettingsPb& rawBandSettings);
   ResultCode autoCompletePipeline(
     RadioSettings_PipelineSettingsPb& rawPipelineSettings,
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger
   );
@@ -134,7 +152,8 @@ protected:
 
 
 protected:
-  RadioSettings_RadioSettingsPb& m_rawSettings;
+  bool m_assumeComplete;
+  RadioSettings_RadioSettingsPb m_rawSettings;
 
   MessageVisitor m_visitor;
 

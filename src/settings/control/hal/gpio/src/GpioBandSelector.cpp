@@ -40,7 +40,7 @@ GpioBandSelector::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-GpioBandSelector::applySettingFieldUpdate(const SettingFieldUpdate& setting)
+GpioBandSelector::applySettingUpdate(const SettingUpdate& setting)
 {
   if (setting.path() == m_settingPath) {
     uint32_t frequency = get<uint32_t>(setting.value());

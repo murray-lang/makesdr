@@ -14,7 +14,7 @@ public:
   ResultCode configure(const Config::BandSelector::Fields& config);
 
   ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& setting) override;
+  ResultCode applySettingUpdate(const SettingUpdate& setting) override;
   void ptt(bool on) override {};
 
 protected:

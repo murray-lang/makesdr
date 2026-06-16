@@ -3,7 +3,7 @@
 
 ResultCode
 ActiveBandSettings::autoComplete(
-  const SettingFieldPath& path,
+  const SettingPath& path,
   uint32_t startingAtIndex,
   AutoCompleteTrigger trigger
 )

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package RadioSettings;
+
+import "RadioSettings.proto";
+
+enum RadioPayloadType {
+  PAYLOAD_NONE = 0;
+  PAYLOAD_SETTINGS = 1;
+  PAYLOAD_META = 3;
+  PAYLOAD_CACHE = 4;
+}
+
+enum RadioPayloadPurpose {
+  PURPOSE_NONE = 0;
+  PURPOSE_MERGE = 1;
+  PURPOSE_REPLACE = 2;
+}
+
+message RadioSettingsPayloadPb {
+  RadioPayloadType payloadType = 1;
+  RadioPayloadPurpose purpose = 2;
+  RadioSettingsPb settings = 3;
+//  oneof payload {
+//    RadioSettingsPb settings = 2;
+//    RadioMetaPb meta = 3;
+//    BandSettingsCachePb cache = 4;
+//  }
+}
+
+message RadioMetaPayloadPb {
+  RadioPayloadType payloadType = 1;
+  RadioMetaPb meta = 2;
+}
+
+message RadioCachePayloadPb {
+  RadioPayloadType payloadType = 1;
+  RadioMetaPb cache = 2;
+}
+

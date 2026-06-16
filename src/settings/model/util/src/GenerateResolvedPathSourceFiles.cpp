@@ -59,7 +59,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
     // Generate header file
     std::ofstream hFile(headerFile);
     hFile << "#pragma once\n";
-    hFile << "#include \"../base/SettingFieldPath.h\"\n\n";
+    hFile << "#include \"../base/SettingPath.h\"\n\n";
     hFile << "// Auto-generated pre-resolved field paths\n";
     hFile << "// Uncomment the ones you need, likewise in " << sourceFile << "\n";
     // hFile << "namespace FieldPaths {\n\n";
@@ -71,7 +71,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
             if (c == '.') c = '_';
         }
 
-        hFile << "extern const SettingFieldPath " << identifier << ";\n";
+        hFile << "extern const SettingPath " << identifier << ";\n";
     }
 
     // hFile << "\n} // namespace FieldPaths\n";
@@ -92,7 +92,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
         }
 
         // Generate the tag array directly
-        cppFile << "const SettingFieldPath " << identifier << " = {";
+        cppFile << "const SettingPath " << identifier << " = {";
         for (size_t i = 0; i < path.tags.size(); ++i) {
             if (i > 0) cppFile << ", ";
             cppFile << path.tags[i];

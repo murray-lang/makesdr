@@ -7,9 +7,9 @@
 #include "config/struct/FunCubeConfig.h"
 #include "FCDHidCmd.h"
 
-class SettingFieldUpdate;
+class SettingUpdate;
 
-class FunCubeDongle : public SettingsControlSink, public SettingFieldUpdateSink
+class FunCubeDongle : public SettingsControlSink, public SettingUpdateSink
 {
 public:
   FunCubeDongle();
@@ -19,7 +19,7 @@ public:
     // void readSettings(RadioSettings& radioSettings) override;
   // void applySettings(const RadioSettings& radioSettings, BandSettings* pBandSettings) override;
   ResultCode applySettings(const RadioSettings& radioSettings) override;
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& update) override
+  ResultCode applySettingUpdate(const SettingUpdate& update) override
   {
     return ResultCode::OK; //ignore for now.
   }

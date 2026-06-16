@@ -26,7 +26,9 @@ int main()
     RadioSettings_RadioSettingsPb_size,
     &written,
     &RadioSettings_RadioSettingsPb_msg,
-    exampleRadioSettingsPb);
+    exampleRadioSettingsPb
+    );
+
   std::string settingFilePath(homeDir);
   if (rc != ResultCode::OK) {
     std::cerr << "Failed to serialize radio settings " << (uint32_t)rc << std::endl;

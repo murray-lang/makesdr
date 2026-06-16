@@ -36,49 +36,49 @@ int main()
   if (rc != ResultCode::OK) return -1;
   // ResultCode rc = setMode(radioSettings, SplitBandId::One, PipelineId::A, Mode::Type::FMN);
   // ResultCode rc = radioSettings.setFocusMode(Mode::Type::FMN);
-  SettingFieldPath band1BandPath;
+  SettingPath band1BandPath;
   bool isIndirect = false;
   AutoCompleteTrigger trigger;
   rc = RadioSettings::resolveDottedPath("active_bands.band_1.band_request", band1BandPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
   NameString band1Name = "160m";
-  SettingFieldUpdate band1RequestUpdate(band1BandPath, band1Name, SettingFieldUpdate::VALUE, isIndirect, trigger);
+  SettingUpdate band1RequestUpdate(band1BandPath, band1Name, SettingUpdate::VALUE, isIndirect, trigger);
 
   rc = radioSettings.applyUpdate(band1RequestUpdate);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldPath band2BandPath;
+  SettingPath band2BandPath;
   rc = RadioSettings::resolveDottedPath("active_bands.band_2.band_request", band2BandPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
   NameString band2Name = "30m";
-  SettingFieldUpdate band2RequestUpdate(band2BandPath, band2Name, SettingFieldUpdate::VALUE, isIndirect, trigger);
+  SettingUpdate band2RequestUpdate(band2BandPath, band2Name, SettingUpdate::VALUE, isIndirect, trigger);
 
   rc = radioSettings.applyUpdate(band2RequestUpdate);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldPath splitPath;
+  SettingPath splitPath;
   rc = RadioSettings::resolveDottedPath("active_bands.is_split", splitPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldUpdate splitUpdate(splitPath, true, SettingFieldUpdate::VALUE, isIndirect, trigger);
+  SettingUpdate splitUpdate(splitPath, true, SettingUpdate::VALUE, isIndirect, trigger);
   rc = radioSettings.applyUpdate(splitUpdate);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldPath multiPipelinePath;
+  SettingPath multiPipelinePath;
   rc = RadioSettings::resolveDottedPath("active_bands.focus_band.is_multi_pipeline", multiPipelinePath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldUpdate multiPipelineUpdate(multiPipelinePath, true, SettingFieldUpdate::VALUE, isIndirect, trigger);
+  SettingUpdate multiPipelineUpdate(multiPipelinePath, true, SettingUpdate::VALUE, isIndirect, trigger);
   rc = radioSettings.applyUpdate(multiPipelineUpdate);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldPath frequencyPath;
+  SettingPath frequencyPath;
   rc = RadioSettings::resolveDottedPath("active_bands.focus_band.focus_pipeline.base.rf.centre_frequency", frequencyPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
-  SettingFieldUpdate frequencyUpdate(frequencyPath, 1, SettingFieldUpdate::DELTA, isIndirect, trigger);
+  SettingUpdate frequencyUpdate(frequencyPath, 1, SettingUpdate::DELTA, isIndirect, trigger);
   rc = radioSettings.applyUpdate(frequencyUpdate);
   if (rc != ResultCode::OK) return -1;
   return 0;

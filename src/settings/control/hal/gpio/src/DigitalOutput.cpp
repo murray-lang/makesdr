@@ -28,7 +28,7 @@ DigitalOutput::configure(const Config::DigitalOutput::Fields& config)
 }
 
 ResultCode
-DigitalOutput::applySettingFieldUpdate(const SettingFieldUpdate& setting)
+DigitalOutput::applySettingUpdate(const SettingUpdate& setting)
 {
   if (setting.path() == m_settingPath) {
     bool value = get<bool>(setting.value());

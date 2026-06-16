@@ -7,6 +7,13 @@ package RadioSettings;
 
 //import "nanopb.proto";
 
+enum MessageTarget {
+  MESSAGE_TARGET_NONE = 0;
+  MESSAGE_TARGET_RADIO = 2;
+  MESSAGE_TARGET_META = 3;
+
+}
+
 enum SplitBandId {
   SPLIT_BAND_NONE = 0;
   SPLIT_BAND_ONE = 1;

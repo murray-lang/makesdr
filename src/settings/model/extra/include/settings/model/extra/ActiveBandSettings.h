@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SettingsBase.h"
-#include "settings/model/core/SettingFieldPath.h"
+#include "settings/model/core/SettingPath.h"
 #include "settings/model/core/AutoCompleteTrigger.h"
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "BandSettings.h"
@@ -71,7 +71,7 @@ public:
   }
 
   ResultCode autoComplete(
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger) override;
 

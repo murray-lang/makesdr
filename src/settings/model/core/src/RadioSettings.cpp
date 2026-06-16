@@ -1,20 +1,64 @@
 #include "settings/model/core/RadioSettings.h"
 
+
+RadioSettings::RadioSettings(
+  const RadioSettings_RadioMetaPb& meta,
+  BandSettingsCache& cache
+  )
+  : m_assumeComplete(false)
+  , m_rawSettings(RadioSettings_RadioSettingsPb_init_zero)
+  , m_visitor(&m_rawSettings, &RadioSettings_RadioSettingsPb_msg)
+  , m_meta(meta)
+  , m_cache(cache)
+{
+}
+
 RadioSettings::RadioSettings(
   RadioSettings_RadioSettingsPb& raw,
   const RadioSettings_RadioMetaPb& meta,
   BandSettingsCache& cache
   )
-    : m_rawSettings(raw)
-    , m_visitor(&raw, &RadioSettings_RadioSettingsPb_msg)
-    , m_meta(meta)
-    , m_cache(cache)
-  {
-    InitBandAndPipelineIdsWithDefaults();
-  }
+  : m_assumeComplete(false)
+  , m_rawSettings(raw)
+  , m_visitor(&m_rawSettings, &RadioSettings_RadioSettingsPb_msg)
+  , m_meta(meta)
+  , m_cache(cache)
+{
+  InitBandAndPipelineIdsWithDefaults();
+}
+
+void
+RadioSettings::replace(RadioSettings_RadioSettingsPb& update, bool assumeComplete)
+{
+  m_rawSettings = update;
+  m_assumeComplete = assumeComplete;
+  autoComplete();
+};
 
 ResultCode
-RadioSettings::applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate)
+RadioSettings::merge(const RadioSettings_RadioSettingsPb& update)
+{
+  ResultCode rc = m_visitor.mergePresentFields(&update);
+  if (rc == ResultCode::OK) {
+    return autoComplete();
+  }
+  return rc;
+}
+
+ResultCode
+RadioSettings::setAllFieldsPresence(bool present)
+{
+  return m_visitor.setAllFieldsPresence(present);
+}
+
+void
+RadioSettings::copyTo(RadioSettings_RadioSettingsPb& out) const
+{
+  out = m_rawSettings;
+}
+
+ResultCode
+RadioSettings::applySettingUpdate(const SettingUpdate &settingUpdate)
 {
   ResultCode rc = ResultCode::OK;
   if (settingUpdate.isIndirect()) {
@@ -31,21 +75,21 @@ RadioSettings::applySettingFieldUpdate(const SettingFieldUpdate &settingUpdate)
 }
 
 ResultCode
-RadioSettings::updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
+RadioSettings::updateField(const SettingPath &path, const SettingUpdateVariant &value)
 {
   return m_visitor.updateField(path, value);
 }
 
 ResultCode
-RadioSettings::getField(const SettingFieldPath &path, SettingFieldVariant &value) const
+RadioSettings::getField(const SettingPath &path, SettingUpdateVariant &value) const
 {
   return m_visitor.getField(path, value);
 }
 
 ResultCode
 RadioSettings::getField(
-  const SettingFieldPath &path,
-  SettingFieldVariant &value,
+  const SettingPath &path,
+  SettingUpdateVariant &value,
   bool mustHave,
   bool parentsMustHave,
   bool& retrieved
@@ -55,7 +99,7 @@ RadioSettings::getField(
 }
 
 ResultCode
-RadioSettings::setFieldPresence(const SettingFieldPath &path, bool present)
+RadioSettings::setFieldPresence(const SettingPath &path, bool present)
 {
   return m_visitor.setFieldPresence(path, present);
 }
@@ -69,7 +113,7 @@ RadioSettings::mergePresentFields(const void* pRhsMessage)
 ResultCode
 RadioSettings::resolveDottedPath(
   const char *dottedPath,
-  SettingFieldPath &path,
+  SettingPath &path,
   bool* isIndirectOut,
   AutoCompleteTrigger* triggerOut
 )
@@ -195,9 +239,9 @@ RadioSettings::InitBandAndPipelineIdsWithDefaults()
 }
 
 ResultCode
-RadioSettings::updateIndirectField(const SettingFieldUpdate &settingUpdate, uint32_t startingAtIndex)
+RadioSettings::updateIndirectField(const SettingUpdate &settingUpdate, uint32_t startingAtIndex)
 {
-  const SettingFieldPath& path = settingUpdate.path();
+  const SettingPath& path = settingUpdate.path();
   if (path[startingAtIndex] == RadioSettings_RadioSettingsPb_active_bands_tag) {
     return updateIndirectActiveBandsField(m_rawSettings.active_bands, settingUpdate, startingAtIndex + 1);
   }
@@ -207,11 +251,11 @@ RadioSettings::updateIndirectField(const SettingFieldUpdate &settingUpdate, uint
 ResultCode
 RadioSettings::updateIndirectActiveBandsField(
     RadioSettings_ActiveBandSettingsPb& rawActiveBands,
-    const SettingFieldUpdate &settingUpdate,
+    const SettingUpdate &settingUpdate,
     uint32_t startingAtIndex
     )
 {
-  const SettingFieldPath& path = settingUpdate.path();
+  const SettingPath& path = settingUpdate.path();
   if (startingAtIndex >= path.size()) {
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }
@@ -251,11 +295,11 @@ RadioSettings::updateIndirectActiveBandsField(
 ResultCode
 RadioSettings::updateIndirectBandField(
     RadioSettings_BandSettingsPb& rawBandSettings,
-    const SettingFieldUpdate &settingUpdate,
+    const SettingUpdate &settingUpdate,
     uint32_t startingAtIndex
   )
 {
-  const SettingFieldPath& path = settingUpdate.path();
+  const SettingPath& path = settingUpdate.path();
   if (startingAtIndex >= path.size()) {
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }
@@ -299,7 +343,7 @@ RadioSettings::updateIndirectBandField(
 }
 
 ResultCode
-RadioSettings::autoComplete(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger)
+RadioSettings::autoComplete(const SettingPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger)
 {
   if (startingAtIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
@@ -312,7 +356,7 @@ RadioSettings::autoComplete(const SettingFieldPath& path, uint32_t startingAtInd
 
 ResultCode
 RadioSettings::autoCompleteActiveBands(
-  const SettingFieldPath& path,
+  const SettingPath& path,
   uint32_t startingAtIndex,
   AutoCompleteTrigger trigger
 )
@@ -347,7 +391,7 @@ RadioSettings::autoCompleteActiveBands(
 ResultCode
 RadioSettings::autoCompleteBand(
   RadioSettings_BandSettingsPb& rawBandSettings,
-  const SettingFieldPath& path,
+  const SettingPath& path,
   uint32_t startingAtIndex,
   AutoCompleteTrigger trigger
   )
@@ -452,13 +496,23 @@ ResultCode
 RadioSettings::autoCompleteMultiPipeline(RadioSettings_BandSettingsPb& rawBandSettings)
 {
   if (rawBandSettings.is_multi_pipeline) {
-    rawBandSettings.pipeline_b = rawBandSettings.pipeline_a;
-    rawBandSettings.has_pipeline_b = true;
-    rawBandSettings.tx_pipeline_id = RadioSettings_PipelineId_PIPELINE_B;
-    rawBandSettings.has_tx_pipeline_id = true;
-    rawBandSettings.tx_pipeline.base = rawBandSettings.pipeline_b.base; // Copy basics for tx tracking
-    rawBandSettings.focus_pipeline_id = RadioSettings_PipelineId_PIPELINE_B;
-    rawBandSettings.has_focus_pipeline_id = true;
+    if (!rawBandSettings.has_pipeline_b) {
+      rawBandSettings.pipeline_b = rawBandSettings.pipeline_a;
+      rawBandSettings.has_pipeline_b = true;
+    }
+    if (!rawBandSettings.has_tx_pipeline_id) {
+      rawBandSettings.tx_pipeline_id = RadioSettings_PipelineId_PIPELINE_B;
+      rawBandSettings.has_tx_pipeline_id = true;
+      rawBandSettings.tx_pipeline.base = rawBandSettings.pipeline_b.base; // Copy basics for tx tracking
+    } else if (!rawBandSettings.has_tx_pipeline) {
+      rawBandSettings.tx_pipeline.base =
+        rawBandSettings.tx_pipeline_id == RadioSettings_PipelineId_PIPELINE_A ?
+        rawBandSettings.pipeline_a.base : rawBandSettings.pipeline_b.base;
+    }
+    if (!rawBandSettings.has_focus_pipeline_id) {
+      rawBandSettings.focus_pipeline_id = RadioSettings_PipelineId_PIPELINE_B;
+      rawBandSettings.has_focus_pipeline_id = true;
+    }
     return ResultCode::OK;
   } else {
     rawBandSettings.tx_pipeline_id = RadioSettings_PipelineId_PIPELINE_A;
@@ -473,7 +527,7 @@ RadioSettings::autoCompleteMultiPipeline(RadioSettings_BandSettingsPb& rawBandSe
 ResultCode
 RadioSettings::autoCompletePipeline(
   RadioSettings_PipelineSettingsPb& rawPipelineSettings,
-  const SettingFieldPath& path,
+  const SettingPath& path,
   uint32_t startingAtIndex,
   AutoCompleteTrigger trigger
 )

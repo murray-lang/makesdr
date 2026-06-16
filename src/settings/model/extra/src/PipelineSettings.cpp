@@ -13,7 +13,7 @@ PipelineSettings::PipelineSettings(RadioSettings_PipelineSettingsPb& rawSettings
 
 ResultCode
 PipelineSettings::autoComplete(
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger)
 {

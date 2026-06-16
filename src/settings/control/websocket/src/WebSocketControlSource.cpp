@@ -151,18 +151,18 @@ ResultCode WebSocketControlSource::processMessage(const uint8_t* data, size_t le
     return notifySettings(settings);
   }
 
-  // Try to decode as SettingFieldUpdate
-  SettingFieldUpdate update = SettingFieldUpdate_init_zero;
+  // Try to decode as SettingUpdate
+  SettingUpdate update = SettingUpdate_init_zero;
   result = ProtobufIo::readProtobuf(
     data,
     len,
-    SettingFieldUpdate_fields,
-    SettingFieldUpdate_init_zero,
+    SettingUpdate_fields,
+    SettingUpdate_init_zero,
     update
   );
 
   if (result == ResultCode::OK) {
-    return notifySettingFieldUpdate(update);
+    return notifySettingUpdate(update);
   }
   */
   return ResultCode::ERR_SETTING_READING_PROTOBUF;

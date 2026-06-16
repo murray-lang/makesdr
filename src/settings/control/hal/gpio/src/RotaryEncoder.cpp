@@ -5,7 +5,7 @@
 #include "settings/control/gpio/RotaryEncoder.h"
 // #include <qdebug.h>
 
-#include "settings/model/core/SettingFieldUpdate.h"
+#include "settings/model/core/SettingUpdate.h"
 
 RotaryEncoder::RotaryEncoder() : DigitalInput()
 {
@@ -22,8 +22,8 @@ RotaryEncoder::configure(const Config::RotaryEncoder::Fields& config)
 void
 RotaryEncoder::notifyMovement(const int movement)
 {
-  SettingFieldUpdate setting(m_settingPath, movement, SettingFieldUpdate::DELTA, m_isPathIndirect, m_autoCompleteTrigger);
-  notifySettingFieldUpdate(setting);
+  SettingUpdate setting(m_settingPath, movement, SettingUpdate::DELTA, m_isPathIndirect, m_autoCompleteTrigger);
+  notifySettingUpdate(setting);
 }
 
 bool

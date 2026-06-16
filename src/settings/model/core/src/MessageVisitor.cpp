@@ -9,7 +9,7 @@
 ResultCode
 MessageVisitor::resolveDottedPath(
   const char* dottedPath,
-  SettingFieldPath& path,
+  SettingPath& path,
   bool* isIndirectOut,
   AutoCompleteTrigger* triggerOut
 )
@@ -67,7 +67,7 @@ MessageVisitor::resolveDottedPath(
 }
 
 ResultCode
-MessageVisitor::updateField(pb_field_iter_t* iter, const SettingFieldVariant &value)
+MessageVisitor::updateField(pb_field_iter_t* iter, const SettingUpdateVariant &value)
 {
    void* target_ptr = iter->pData;
 
@@ -174,7 +174,7 @@ MessageVisitor::pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t
 }
 
 ResultCode
-MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingFieldVariant& steppableValue)
+MessageVisitor::updateSteppable(pb_field_iter_t* msg_iter, const SettingUpdateVariant& steppableValue)
 {
   void* steppable_msg = msg_iter->pData;
   const pb_msgdesc_t* steppable_desc = msg_iter->submsg_desc;
@@ -239,8 +239,8 @@ ResultCode
 MessageVisitor::updateField(
   void* pMessage,
   const pb_msgdesc_t *pDescriptor,
-  const SettingFieldPath &path,
-  const SettingFieldVariant &value,
+  const SettingPath &path,
+  const SettingUpdateVariant &value,
   uint32_t startingAtIndex
 )
 {
@@ -580,7 +580,7 @@ MessageVisitor::mergePresentFields(
 }
 
 ResultCode
-MessageVisitor::getField(pb_field_iter_t* iter, SettingFieldVariant& value)
+MessageVisitor::getField(pb_field_iter_t* iter, SettingUpdateVariant& value)
 {
   void* source_ptr = iter->pData;
 
@@ -644,8 +644,8 @@ ResultCode
 MessageVisitor::getField(
   void* pMessage,
   const pb_msgdesc_t *pDescriptor,
-  const SettingFieldPath &path,
-  SettingFieldVariant &value
+  const SettingPath &path,
+  SettingUpdateVariant &value
   )
 {
   bool retrieved;
@@ -656,8 +656,8 @@ ResultCode
 MessageVisitor::getField(
   void* pMessage,
   const pb_msgdesc_t *pDescriptor,
-  const SettingFieldPath &path,
-  SettingFieldVariant &value,
+  const SettingPath &path,
+  SettingUpdateVariant &value,
   bool mustHave,
   bool parentsMustHave,
   bool& retrieved
@@ -766,7 +766,7 @@ ResultCode
 MessageVisitor::setFieldPresence(
   void* pMessage,
   const pb_msgdesc_t *pDescriptor,
-  const SettingFieldPath &path,
+  const SettingPath &path,
   bool present)
 {
   pb_field_iter_t iter;
@@ -857,6 +857,60 @@ MessageVisitor::setFieldPresence(
   }
 }
 
+ResultCode
+MessageVisitor::setAllFieldsPresence(
+  void* pMessage,
+  const pb_msgdesc_t *pDescriptor,
+  bool present)
+{
+  if (pMessage == nullptr || pDescriptor == nullptr) {
+    return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
+  }
+
+  pb_field_iter_t iter;
+  if (!pb_field_iter_begin(&iter, pDescriptor, pMessage)) {
+    return ResultCode::OK; // Empty message is OK
+  }
+
+  do {
+    // Set presence for this field if it has presence tracking
+    if (iter.pSize != nullptr) {
+      pb_type_t htype = PB_HTYPE(iter.type);
+
+      if (htype == PB_HTYPE_OPTIONAL) {
+        *static_cast<bool*>(iter.pSize) = present;
+      } else if (htype == PB_HTYPE_ONEOF) {
+        if (present) {
+          *static_cast<pb_size_t*>(iter.pSize) = iter.tag;
+        } else {
+          *static_cast<pb_size_t*>(iter.pSize) = 0;
+        }
+      }
+    }
+
+    // Recursively process submessages
+    if (PB_LTYPE_IS_SUBMSG(iter.type)) {
+      void* submsg_ptr = iter.pData;
+
+      if (PB_ATYPE(iter.type) == PB_ATYPE_POINTER) {
+        submsg_ptr = *(void**)iter.pData;
+        if (!submsg_ptr) {
+          continue; // Skip null pointers
+        }
+      }
+
+      if (iter.submsg_desc != nullptr) {
+        ResultCode rc = setAllFieldsPresence(submsg_ptr, iter.submsg_desc, present);
+        if (rc != ResultCode::OK) {
+          return rc;
+        }
+      }
+    }
+  } while (pb_field_iter_next(&iter));
+
+  return ResultCode::OK;
+}
+
 #ifdef USE_ETL
 MessageVisitor::StringValue
 MessageVisitor::StringValueVisitor::operator()(const NameString& value) const
@@ -878,7 +932,7 @@ MessageVisitor::StringValueVisitor::operator()(const std::string& value) const
 #endif
 
 MessageVisitor::StringValue
-MessageVisitor::getStringValue(const SettingFieldVariant& value)
+MessageVisitor::getStringValue(const SettingUpdateVariant& value)
 {
   return visit(StringValueVisitor{}, value);
 }

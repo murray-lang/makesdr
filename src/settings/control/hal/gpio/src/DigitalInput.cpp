@@ -1,7 +1,7 @@
 #include "settings/control/gpio/DigitalInput.h"
 #include "settings/model/core/RadioSettings.h"
 
-#include "settings/model/core/SettingFieldUpdateSink.h"
+#include "settings/model/core/SettingUpdateSink.h"
 
 DigitalInput::DigitalInput() :
   GpioInputLines(),
@@ -31,15 +31,15 @@ DigitalInput::configure(const Config::DigitalInput::Fields& config)
 }
 
 void
-DigitalInput::connectSettingFieldUpdateSink(SettingFieldUpdateSink& pSink)
+DigitalInput::connectSettingUpdateSink(SettingUpdateSink& pSink)
 {
   m_pSink.emplace(pSink);
 }
 ResultCode
-DigitalInput::notifySettingFieldUpdate(const SettingFieldUpdate& settingUpdate)
+DigitalInput::notifySettingUpdate(const SettingUpdate& settingUpdate)
 {
   if (m_pSink) {
-    m_pSink->get().applySettingFieldUpdate(settingUpdate); //.applySettingFieldUpdate(settingDelta);
+    m_pSink->get().applySettingUpdate(settingUpdate); //.applySettingUpdate(settingDelta);
   }
   return ResultCode::OK;
 }
@@ -67,6 +67,6 @@ void
 DigitalInput::notifyChange(const DigitalInputLinesRequest::LineState& lineState)
 {
   bool active = m_activeHigh ? !!lineState.value : !lineState.value;
-  SettingFieldUpdate setting(m_settingPath, active, SettingFieldUpdate::VALUE, m_isPathIndirect, m_autoCompleteTrigger);
-  notifySettingFieldUpdate(setting);
+  SettingUpdate setting(m_settingPath, active, SettingUpdate::VALUE, m_isPathIndirect, m_autoCompleteTrigger);
+  notifySettingUpdate(setting);
 }

@@ -52,13 +52,13 @@ public:
 
   static ResultCode resolveDottedPath(
     const char *dottedPath,
-    SettingFieldPath &path,
+    SettingPath &path,
     bool* isIndirectOut,
     AutoCompleteTrigger* triggerOut
   );
 
-  ResultCode applyUpdate(const SettingFieldUpdate& update);
-  ResultCode autoComplete(const SettingFieldPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger) override;
+  ResultCode applyUpdate(const SettingUpdate& update);
+  ResultCode autoComplete(const SettingPath& path, uint32_t startingAtIndex, AutoCompleteTrigger trigger) override;
   ResultCode autoComplete() override;
 
 protected:

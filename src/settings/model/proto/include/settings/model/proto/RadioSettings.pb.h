@@ -10,6 +10,12 @@
 #endif
 
 /* Enum definitions */
+typedef enum _RadioSettings_MessageTarget {
+    RadioSettings_MessageTarget_MESSAGE_TARGET_NONE = 0,
+    RadioSettings_MessageTarget_MESSAGE_TARGET_RADIO = 2,
+    RadioSettings_MessageTarget_MESSAGE_TARGET_META = 3
+} RadioSettings_MessageTarget;
+
 typedef enum _RadioSettings_SplitBandId {
     RadioSettings_SplitBandId_SPLIT_BAND_NONE = 0,
     RadioSettings_SplitBandId_SPLIT_BAND_ONE = 1,
@@ -244,6 +250,10 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
+#define _RadioSettings_MessageTarget_MIN RadioSettings_MessageTarget_MESSAGE_TARGET_NONE
+#define _RadioSettings_MessageTarget_MAX RadioSettings_MessageTarget_MESSAGE_TARGET_META
+#define _RadioSettings_MessageTarget_ARRAYSIZE ((RadioSettings_MessageTarget)(RadioSettings_MessageTarget_MESSAGE_TARGET_META+1))
+
 #define _RadioSettings_SplitBandId_MIN RadioSettings_SplitBandId_SPLIT_BAND_NONE
 #define _RadioSettings_SplitBandId_MAX RadioSettings_SplitBandId_SPLIT_BAND_TWO
 #define _RadioSettings_SplitBandId_ARRAYSIZE ((RadioSettings_SplitBandId)(RadioSettings_SplitBandId_SPLIT_BAND_TWO+1))

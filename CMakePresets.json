@@ -84,6 +84,32 @@
       }
     },
     {
+      "name": "linux-payload-update-debug",
+      "displayName": "Payload Update Debug (linux)",
+      "binaryDir": "${sourceDir}/build-linux-payload-update-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-payload-update-release",
+      "displayName": "Payload Update Release (linux)",
+      "binaryDir": "${sourceDir}/build-linux-payload-update-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
       "name": "CM7-usb-mmc-debug",
       "displayName": "USB/MMC Debug (CM7)",
       "binaryDir": "${sourceDir}/build-cm7-usb-mmc-debug",

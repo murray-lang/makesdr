@@ -41,14 +41,14 @@ protected:
 
   void reconnectInputSinks();
 
-  class InternalSink : public SettingFieldUpdateSink
+  class InternalSink : public SettingUpdateSink
   {
   public:
     explicit InternalSink(DigitalInputs& group) : m_group(group) {}
 
-    ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override
+    ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override
     {
-      return m_group.get().notifySettingFieldUpdate(settingDelta);
+      return m_group.get().notifySettingUpdate(settingDelta);
     }
 
   protected:

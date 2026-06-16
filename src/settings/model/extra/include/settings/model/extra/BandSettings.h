@@ -2,7 +2,7 @@
 #include <CrossPlatformTypes.h>
 #include "Band.h"
 #include "settings/model/core/PipelineId.h"
-#include "settings/model/core/SettingFieldVariant.h"
+#include "settings/model/core/SettingUpdateVariant.h"
 #include "SettingsBase.h"
 #include "RxPipelineSettings.h"
 #include "TxPipelineSettings.h"
@@ -99,7 +99,7 @@ public:
   ResultCode applyBandDefaults(const ModeList& modeInfo);
 
   ResultCode autoComplete(
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger) override;
 

@@ -2,13 +2,13 @@
 #include "settings/control/SettingsControlBase.h"
 #include "settings/model/core/RadioSettingsSource.h"
 #include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingFieldUpdateSource.h"
-#include "settings/model/core/SettingFieldUpdateSink.h"
+#include "settings/model/core/SettingUpdateSource.h"
+#include "settings/model/core/SettingUpdateSink.h"
 
 class SettingsControlSource :
   public SettingsControlBase,
   public RadioSettingsSource,
-  public SettingFieldUpdateSource
+  public SettingUpdateSource
 {
 public:
   SettingsControlSource()
@@ -24,7 +24,7 @@ public:
     m_pSettingsSink.emplace(sink);
   }
 
-  void connectSettingFieldUpdateSink(SettingFieldUpdateSink& sink) override
+  void connectSettingUpdateSink(SettingUpdateSink& sink) override
   {
     m_pFieldUpdateSink.emplace(sink);
   }
@@ -38,15 +38,15 @@ protected:
   }
 
 
-  ResultCode notifySettingFieldUpdate(const SettingFieldUpdate& update) override
+  ResultCode notifySettingUpdate(const SettingUpdate& update) override
   {
     if (m_pFieldUpdateSink) {
-      m_pFieldUpdateSink->get().applySettingFieldUpdate(update);
+      m_pFieldUpdateSink->get().applySettingUpdate(update);
     }
     return ResultCode::OK;
   }
 
 protected:
   optional<reference_wrapper<RadioSettingsSink>> m_pSettingsSink;
-  optional<reference_wrapper<SettingFieldUpdateSink>> m_pFieldUpdateSink;
+  optional<reference_wrapper<SettingUpdateSink>> m_pFieldUpdateSink;
 };

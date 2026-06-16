@@ -1,19 +1,19 @@
 #pragma once
 #include <CrossPlatformTypes.h>
-#include "SettingFieldPath.h"
-#include "SettingFieldVariant.h"
+#include "SettingPath.h"
+#include "SettingUpdateVariant.h"
 #include "AutoCompleteTrigger.h"
 
 #define MAX_SETTING_UPDATE_SEQUENCE 4
 
-class SettingFieldUpdate
+class SettingUpdate
 {
 public:
 
   enum Meaning { NONE = 0, VALUE, DELTA };
 
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     Meaning meaning,
     bool isIndirect = false,
     const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
@@ -24,9 +24,9 @@ public:
     , m_trigger(trigger)
   {}
 
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
-    const SettingFieldVariant& value,
+  SettingUpdate(
+    const SettingPath& path,
+    const SettingUpdateVariant& value,
     Meaning meaning,
     bool isIndirect = false,
     const AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE
@@ -38,8 +38,8 @@ public:
     , m_trigger(trigger)
   {}
 #ifdef USE_ETL
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     const NameString& value,
     Meaning meaning,
     bool isIndirect = false,
@@ -52,8 +52,8 @@ public:
     , m_trigger(trigger)
   {}
 
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     const LabelString& value,
     Meaning meaning,
     bool isIndirect = false,
@@ -66,8 +66,8 @@ public:
     , m_trigger(trigger)
   {}
 #else
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     const std::string& value,
     Meaning meaning,
     bool isIndirect = false,
@@ -81,8 +81,8 @@ public:
   {}
 #endif
 
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     int32_t value,
     Meaning meaning,
     bool isIndirect = false,
@@ -94,8 +94,8 @@ public:
     , m_isIndirect(isIndirect)
     , m_trigger(trigger)
   {}
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     uint32_t value,
     Meaning meaning,
     bool isIndirect = false,
@@ -107,8 +107,8 @@ public:
     , m_isIndirect(isIndirect)
     , m_trigger(trigger)
   {}
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     int64_t value,
     Meaning meaning,
     bool isIndirect = false,
@@ -120,8 +120,8 @@ public:
     , m_isIndirect(isIndirect)
     , m_trigger(trigger)
   {}
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     float value,
     Meaning meaning,
     bool isIndirect = false,
@@ -133,8 +133,8 @@ public:
     , m_isIndirect(isIndirect)
     , m_trigger(trigger)
   {}
-  SettingFieldUpdate(
-    const SettingFieldPath& path,
+  SettingUpdate(
+    const SettingPath& path,
     bool value,
     Meaning meaning,
     bool isIndirect = false,
@@ -147,9 +147,9 @@ public:
     , m_trigger(trigger)
   {}
 
-  [[nodiscard]] const SettingFieldPath& path() const { return m_path; }
+  [[nodiscard]] const SettingPath& path() const { return m_path; }
   [[nodiscard]] Meaning meaning() const { return m_meaning; }
-  [[nodiscard]] const SettingFieldVariant& value() const { return m_value; }
+  [[nodiscard]] const SettingUpdateVariant& value() const { return m_value; }
   [[nodiscard]] bool isIndirect() const { return m_isIndirect; }
   [[nodiscard]] AutoCompleteTrigger trigger() const { return m_trigger; }
 
@@ -166,11 +166,11 @@ public:
   void setValue(bool value) { m_value = value; }
 
 protected:
-  SettingFieldPath m_path;
-  SettingFieldVariant m_value;
+  SettingPath m_path;
+  SettingUpdateVariant m_value;
   Meaning m_meaning;
   bool m_isIndirect;
   AutoCompleteTrigger m_trigger;
 };
 
-using SettingFieldUpdateVector = etl::vector<SettingFieldUpdate, MAX_SETTING_UPDATE_SEQUENCE>;
+using SettingUpdateVector = etl::vector<SettingUpdate, MAX_SETTING_UPDATE_SEQUENCE>;
