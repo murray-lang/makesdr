@@ -84,6 +84,66 @@
       }
     },
     {
+      "name": "CM7-usb-mmc-debug",
+      "displayName": "USB/MMC Debug (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-usb-mmc-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "usb-mmc",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM7-usb-mmc-release",
+      "displayName": "USB/MMC Release (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-usb-mmc-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "usb-mmc",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM4-usb-mmc-debug",
+      "displayName": "USB/MMC Debug (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-usb-mmc-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "usb-mmc",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
+      "name": "CM4-usb-mmc-release",
+      "displayName": "USB/MMC Release (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-usb-mmc-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "usb-mmc",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON",
+        "NO_STL": "ON",
+        "NO_SYSTEM_INCLUDE": "ON"
+      }
+    },
+    {
       "name": "CM7-indirect-update-debug",
       "displayName": "Indirect Update Debug (CM7)",
       "binaryDir": "${sourceDir}/build-cm7-indirect-update-debug",

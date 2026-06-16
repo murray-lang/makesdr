@@ -15,7 +15,6 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 # Common ARM embedded compiler flags
 add_compile_options(
     -fno-exceptions
-    -fno-rtti
     -ffunction-sections
     -fdata-sections
     -Wall
@@ -25,6 +24,9 @@ add_compile_options(
     -MMD
     -MP
 )
+
+# C++ specific flags
+add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>)
 
 # Common ARM embedded linker flags
 add_link_options(

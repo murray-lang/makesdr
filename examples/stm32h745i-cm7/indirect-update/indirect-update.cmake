@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 project(example-cm7-indirect-update)
 
@@ -23,7 +23,7 @@ target_include_directories(example-cm7-indirect-update PUBLIC
 
 target_link_libraries(example-cm7-indirect-update PUBLIC
         settings-model-core
-        core-sys-stm32h745i-app-cm7
+        core-stm32h745i-app-setup-example1-cm7
 )
 
 add_custom_command(TARGET example-cm7-indirect-update POST_BUILD

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 project(core-thread)
 
@@ -31,7 +31,7 @@ target_include_directories(core-thread PUBLIC
 )
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
-    target_link_libraries(core-thread PUBLIC core-sys-stm32h745i-freertos-cm7)
+    target_link_libraries(core-thread PUBLIC core-stm32h745i-freertos-cm7)
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
-    target_link_libraries(core-thread PUBLIC core-sys-stm32h745i-freertos-cm4)
+    target_link_libraries(core-thread PUBLIC core-stm32h745i-freertos-cm4)
 endif()

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 project(core)
 
-add_subdirectory(sys)
+add_subdirectory(platform)
 add_subdirectory(thread)
