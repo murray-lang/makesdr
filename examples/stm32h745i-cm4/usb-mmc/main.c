@@ -19,8 +19,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include <stdio.h>
-#include <sys/stm32h745i/app/common/misc_utils.h>
-#include <sys/stm32h745i/app/common/mpu_config.h>
+#include <stm32h745i/app/support/safe_printf.h>
+#include <stm32h745i/app/cm4/mpu_config.h>
 
 #ifdef USE_FREERTOS
 #ifdef __cplusplus
@@ -90,7 +90,6 @@ int main(void)
   BSP_LED_Init(LED_GREEN);
   BSP_LED_Init(LED_RED);
 
-
   HAL_StatusTypeDef halRc = HAL_Init();
   if (halRc != HAL_OK) {
     Error_Handler();
@@ -108,13 +107,14 @@ int main(void)
   */
   HAL_PWREx_ClearPendingEvent();
   HAL_PWREx_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFE, PWR_D2_DOMAIN);
-  //BSP_LED_On(LED_RED);
+
 
   /* Clear HSEM flag */
   __HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
   SystemCoreClockUpdate();
 
   UART_Config();  /* USART3 on PB10/PB11 - no conflict with USB on PA11/PA12 */
+  SAFE_PRINTF("[CM4]:\tUART_Config() returned.\r\n");
 
   MX_GPIO_Init();
 
@@ -144,9 +144,11 @@ int main(void)
   //     HAL_Delay(250);
   //   }
   // }
+
 #ifdef USE_FREERTOS
   BaseType_t rc = xTaskCreate( prvBlinkTask, "Blink", configMINIMAL_STACK_SIZE*5, NULL, tskIDLE_PRIORITY, NULL );
   if (rc == pdPASS) {
+    BSP_LED_On(LED_RED);
     SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
   } else {
     SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", rc);
@@ -231,14 +233,14 @@ static void FS_FileOperations(void)
   f_close(&CM4_File);
 
   /* Compare read data with the expected data */
-  if(compareBufs(rtext, (uint8_t *)wtext,  byteswritten) == 0)
-  {
-    SAFE_PRINTF("[CM4]:\t%s => '>  %s <'\n", CM4_FILE, rtext);
-  }
-  else
-  {
-    goto error;
-  }
+  // if(compareBufs(rtext, (uint8_t *)wtext,  byteswritten) == 0)
+  // {
+  //   SAFE_PRINTF("[CM4]:\t%s => '>  %s <'\n", CM4_FILE, rtext);
+  // }
+  // else
+  // {
+  //   goto error;
+  // }
 
 error:
   Error_Handler();

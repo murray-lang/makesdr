@@ -23,28 +23,35 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <sys/stm32h745i/drivers/bsp/disco/stm32h745i_discovery_qspi.h>
-#include "sys/stm32h745i/drivers/bsp/disco/stm32h745i_discovery_sdram.h"
+
+#include <stm32h745i/drivers/cmsis/device//stm32h745xx.h>
+#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery_qspi.h>
+#include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery_sdram.h"
+// #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery_mmc.h>
+
 #include <lvgl/lvgl.h>
 #include <lvgl_port_lcd.h>
 #include <lvgl_port_touchpad.h>
 #include <demos/lv_demos.h>
 // }
-#include <sys/stm32h745i/app/common/misc_utils.h>
-#include <sys/stm32h745i/app/common/mpu_config.h>
-#include <stdio.h>
-#include <sys/stm32h745i/drivers/bsp/disco/stm32h745i_discovery_mmc.h>
-#include <string.h>
-#include <sys/stm32h745i/app/common/usb_manager.h>
-#include <sys/stm32h745i/tinyusb/device/usbd.h>
+#include <stm32h745i/app/support/safe_printf.h>
+#include <stm32h745i/app/cm7/mpu_config.h>
 
-#include "sys/stm32h745i/app/cm7/usb_msc.h"
+
+#include <stdio.h>
+
+#include <string.h>
+#include <stm32h745i/app/support/usb_manager.h>
+#include <stm32h745i/tinyusb/device/usbd.h>
+
+#include "stm32h745i/app/support/usb_msc.h"
 // #include <ArduinoJson.h>
 
 #ifdef USE_FREERTOS
 #ifdef __cplusplus
  extern "C" {
 #endif
+
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -184,17 +191,20 @@ int main(void)
   // BSP_QSPI_EnableMemoryMappedMode(0);
 
   UART_Config();
+  SAFE_PRINTF("[CM7]:\tUART_Config() returned.\r\n");
 
   // MX_GPIO_Init();
   MX_DMA_Init();
+  SAFE_PRINTF("[CM7]:\tMX_DMA_Init() returned\r\n");
   MX_FMC_Init();
-
+  SAFE_PRINTF("[CM7]:\tMX_FMC_Init() returned\r\n");
   // MX_SDMMC1_MMC_Init();
   MX_USB_OTG_FS_USB_Init();
   // UART_Config();
-
+  SAFE_PRINTF("[CM7]:\tMX_USB_OTG_FS_USB_Init() returned\r\n");
   USB_Manager_Init();
   // MX_SDMMC1_MMC_Init();
+  SAFE_PRINTF("[CM7]:\tUSB_Manager_Init() returned\r\n");
 
   LOCK_HSEM(HSEM_ID_0);
   UNLOCK_HSEM(HSEM_ID_0);// This signals the CM4 to wake up

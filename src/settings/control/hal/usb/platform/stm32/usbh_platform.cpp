@@ -6,7 +6,7 @@
   */
 
 #include "usbh_core.h"
-#include "sys/stm32h745i/drivers/hal/stm32h7xx_hal.h"
+#include "stm32h745i/drivers/hal/stm32h7xx_hal.h"
 
 // External HCD (Host Controller Driver) handle - must be defined in main application
 extern HCD_HandleTypeDef hhcd;

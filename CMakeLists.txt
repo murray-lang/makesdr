@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 
 set_property(CACHE TARGET_PLATFORM PROPERTY STRINGS "linux-pc" "rpi" "stm32h745i-cm7" "stm32h745i-cm4")

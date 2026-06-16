@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 project(example-cm4-indirect-update)
 
@@ -23,7 +23,7 @@ target_include_directories(example-cm4-indirect-update PUBLIC
 
 target_link_libraries(example-cm4-indirect-update PUBLIC
         settings-model-core
-        core-sys-stm32h745i-app-cm4
+        core-stm32h745i-app-setup-example1-cm4
 )
 
 add_custom_command(TARGET example-cm4-indirect-update POST_BUILD

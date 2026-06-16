@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 4.1)
 
 set(PROTO_DIR ${CMAKE_SOURCE_DIR}/proto)
 set(GEN_DIR ${CMAKE_SOURCE_DIR}/gen)
