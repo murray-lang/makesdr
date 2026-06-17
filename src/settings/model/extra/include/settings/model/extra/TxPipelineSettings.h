@@ -4,7 +4,7 @@
 class TxPipelineSettings : public SettingsBase
 {
 public:
-  TxPipelineSettings(RadioSettings_TxPipelineSettingsPb& rawSettings)
+  TxPipelineSettings(makesdr_TxPipelineSettingsPb& rawSettings)
     : m_base(rawSettings.base)
     , m_rawSettings(rawSettings)
   {}
@@ -13,6 +13,6 @@ public:
   const PipelineSettings& base() const { return m_base; }
 
 protected:
-  RadioSettings_TxPipelineSettingsPb& m_rawSettings;
+  makesdr_TxPipelineSettingsPb& m_rawSettings;
   PipelineSettings m_base;
 };

@@ -6,7 +6,7 @@
 class Band
 {
 public:
-  Band(RadioSettings_BandPb& raw)
+  Band(makesdr_BandPb& raw)
     : m_rawSettings(raw)
     , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_label{raw.label, raw.label, sizeof(m_rawSettings.label)}
@@ -25,8 +25,8 @@ public:
   [[nodiscard]] int32_t defaultCoarseStep() const { return m_rawSettings.default_coarse_step; }
   [[nodiscard]] Mode::Type defaultMode() const { return static_cast<Mode::Type>(m_rawSettings.default_mode); }
 
-  RadioSettings_BandPb& raw() { return m_rawSettings; }
-  [[nodiscard]] const RadioSettings_BandPb& raw() const { return m_rawSettings; }
+  makesdr_BandPb& raw() { return m_rawSettings; }
+  [[nodiscard]] const makesdr_BandPb& raw() const { return m_rawSettings; }
 
   [[nodiscard]] bool containsFrequency(uint64_t frequency) const
   {
@@ -35,7 +35,7 @@ public:
 
 protected:
 
-  RadioSettings_BandPb& m_rawSettings;
+  makesdr_BandPb& m_rawSettings;
   const StringRef m_name;
   const StringRef m_label;
 };

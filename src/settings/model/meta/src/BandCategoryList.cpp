@@ -4,13 +4,13 @@
 
 // #include "settings/model/core/ProtobufIo.h"
 
-BandCategoryList::BandCategoryList(const RadioSettings_BandCategoryListPb& raw)
+BandCategoryList::BandCategoryList(const makesdr_BandCategoryListPb& raw)
   : m_rawSettings(raw)
   , m_categories(raw.categories, MAX_BAND_CATEGORIES)
 {
 }
 
-const RadioSettings_BandCategoryPb*
+const makesdr_BandCategoryPb*
 BandCategoryList::findCategory(const BandCategoryName& name) const
 {
   uint32_t max = count();
@@ -22,13 +22,13 @@ BandCategoryList::findCategory(const BandCategoryName& name) const
   return nullptr;
 }
 
-const RadioSettings_BandPb*
+const makesdr_BandPb*
 BandCategoryList::findBand(const BandName& name) const
 {
   uint32_t max = count();
   for (uint32_t i = 0; i < max; i++) {
     BandList bands(m_categories.at(i).bands);
-    const RadioSettings_BandPb* band = bands.findBand(name);
+    const makesdr_BandPb* band = bands.findBand(name);
     if (band != nullptr) {
       return band;
     }
@@ -38,11 +38,11 @@ BandCategoryList::findBand(const BandName& name) const
 
 // ResultCode
 // BandCategoryList::readProtobuf(const uint8_t *buffer, size_t msg_length) {
-//   return ProtobufIo::readProtobuf<RadioSettings_BandCategoryListPb>(
+//   return ProtobufIo::readProtobuf<makesdr_BandCategoryListPb>(
 //     buffer,
 //     msg_length,
-//     RadioSettings_BandCategoryListPb_fields,
-//     RadioSettings_BandCategoryListPb_init_zero,
+//     makesdr_BandCategoryListPb_fields,
+//     makesdr_BandCategoryListPb_init_zero,
 //     m_rawSettings
 //   );
 // }

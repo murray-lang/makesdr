@@ -1,10 +1,10 @@
 #pragma once
 #include "settings/model/proto/RadioSettings.pb.h"
-#include "SettingFieldPath.h"
+#include "SettingPath.h"
 #include <etl/string.h>
 #include <ResultCode.h>
-#include "SettingFieldUpdate.h"
-#include "SettingFieldVariant.h"
+#include "SettingUpdate.h"
+#include "SettingUpdateVariant.h"
 
 class MessageVisitor
 {
@@ -16,7 +16,7 @@ public:
   static ResultCode updateField(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    const SettingFieldUpdate &settingUpdate,
+    const SettingUpdate &settingUpdate,
     uint32_t startingAtIndex = 0
     )
   {
@@ -26,23 +26,23 @@ public:
   static ResultCode updateField(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    const SettingFieldPath &path,
-    const SettingFieldVariant &value,
+    const SettingPath &path,
+    const SettingUpdateVariant &value,
     uint32_t startingAtIndex = 0
     );
 
   static ResultCode getField(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    const SettingFieldPath &path,
-    SettingFieldVariant &value
+    const SettingPath &path,
+    SettingUpdateVariant &value
   );
 
   static ResultCode getField(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    const SettingFieldPath &path,
-    SettingFieldVariant &value,
+    const SettingPath &path,
+    SettingUpdateVariant &value,
     bool mustHave,
     bool parentsMustHave,
     bool& retrieved
@@ -51,27 +51,33 @@ public:
   static ResultCode setFieldPresence(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    const SettingFieldPath &path, bool present
+    const SettingPath &path, bool present
   );
 
-  ResultCode updateField(const SettingFieldUpdate &settingUpdate)
+  static ResultCode setAllFieldsPresence(
+    void* pMessage,
+    const pb_msgdesc_t *pDescriptor,
+    bool present
+  );
+
+  ResultCode updateField(const SettingUpdate &settingUpdate)
   {
     return updateField(m_pMessage, m_pDescriptor, settingUpdate.path(), settingUpdate.value());
   }
 
-  ResultCode updateField(const SettingFieldPath &path, const SettingFieldVariant &value)
+  ResultCode updateField(const SettingPath &path, const SettingUpdateVariant &value)
   {
     return updateField(m_pMessage, m_pDescriptor, path, value);
   }
 
-  ResultCode getField(const SettingFieldPath &path, SettingFieldVariant &value) const
+  ResultCode getField(const SettingPath &path, SettingUpdateVariant &value) const
   {
     return getField(m_pMessage, m_pDescriptor, path, value);
   }
 
   ResultCode getField(
-    const SettingFieldPath &path,
-    SettingFieldVariant &value,
+    const SettingPath &path,
+    SettingUpdateVariant &value,
     bool mustHave,
     bool parentsMustHave,
     bool& retrieved
@@ -80,24 +86,29 @@ public:
     return getField(m_pMessage, m_pDescriptor, path, value, mustHave, parentsMustHave, retrieved);
   }
 
-  ResultCode setFieldPresence(const SettingFieldPath &path, bool present)
+  ResultCode setFieldPresence(const SettingPath &path, bool present)
   {
     return setFieldPresence(m_pMessage, m_pDescriptor, path, present);
+  }
+
+  ResultCode setAllFieldsPresence(bool present)
+  {
+    return setAllFieldsPresence(m_pMessage, m_pDescriptor, present);
   }
 
   ResultCode mergePresentFields(const void* pRhsMessage);
 
   static ResultCode resolveDottedPath(
     const char *dottedPath,
-    SettingFieldPath &path,
+    SettingPath &path,
     bool* isIndirectOut,
     AutoCompleteTrigger* triggerOut
   );
 
 protected:
-  static ResultCode updateField(pb_field_iter_t* iter, const SettingFieldVariant& value);
-  static ResultCode updateSteppable(pb_field_iter_t* iter, const SettingFieldVariant& value);
-  static ResultCode getField(pb_field_iter_t* iter, SettingFieldVariant& value) ;
+  static ResultCode updateField(pb_field_iter_t* iter, const SettingUpdateVariant& value);
+  static ResultCode updateSteppable(pb_field_iter_t* iter, const SettingUpdateVariant& value);
+  static ResultCode getField(pb_field_iter_t* iter, SettingUpdateVariant& value) ;
   static ResultCode markFieldPresent(const pb_field_iter_t* iter);
 
   static ResultCode mergePresentFields(
@@ -165,7 +176,7 @@ private:
     }
   };
 
-  static StringValue getStringValue(const SettingFieldVariant& value);
+  static StringValue getStringValue(const SettingUpdateVariant& value);
   void* m_pMessage;
   const pb_msgdesc_t *m_pDescriptor;
 };

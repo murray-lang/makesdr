@@ -5,7 +5,7 @@
 class IfSettings : public SettingsBase
 {
 public:
-  IfSettings(RadioSettings_IfSettingsPb& rawSettings)
+  IfSettings(makesdr_IfSettingsPb& rawSettings)
     : m_rawSettings(rawSettings)
     , m_gain(rawSettings.gain)
   {}
@@ -18,6 +18,6 @@ public:
   [[nodiscard]] const SteppableFloatSetting& gain() const { return m_gain; }
 
 protected:
-  RadioSettings_IfSettingsPb& m_rawSettings;
+  makesdr_IfSettingsPb& m_rawSettings;
   SteppableFloatSetting m_gain;
 };

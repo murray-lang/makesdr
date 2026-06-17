@@ -11,15 +11,15 @@
 #include <etl/span.h>
 
 
-using ModeSpan = etl::span<const RadioSettings_ModePb, MAX_MODE_COUNT>;
+using ModeSpan = etl::span<const makesdr_ModePb, MAX_MODE_COUNT>;
 #else
-using ModeSpan = std::span<RadioSettings_ModePb>;
+using ModeSpan = std::span<makesdr_ModePb>;
 #endif
 
 class ModeList
 {
 public:
-  ModeList(const RadioSettings_ModeListPb& raw);
+  ModeList(const makesdr_ModeListPb& raw);
 
   // Allow moving if needed
   ModeList(ModeList&&)  noexcept = default;
@@ -27,9 +27,9 @@ public:
 
   [[nodiscard]] const ModeSpan& modes() const { return m_modes; }
 
-  [[nodiscard]] const RadioSettings_ModePb* findModeByType(RadioSettings_ModeType type) const;
+  [[nodiscard]] const makesdr_ModePb* findModeByType(makesdr_ModeType type) const;
 
 protected:
-  const RadioSettings_ModeListPb& m_rawSettings;
+  const makesdr_ModeListPb& m_rawSettings;
   ModeSpan m_modes;
 };

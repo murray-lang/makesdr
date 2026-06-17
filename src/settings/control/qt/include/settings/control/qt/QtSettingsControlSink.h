@@ -4,7 +4,7 @@
 #include "config/struct/QtControlSinkConfig.h"
 #include "settings/control/sink/SettingsControlSink.h"
 
-class QtSettingsControlSink : public QObject, public SettingsControlSink, public SettingFieldUpdateSink
+class QtSettingsControlSink : public QObject, public SettingsControlSink, public SettingUpdateSink
 {
   Q_OBJECT
 public:
@@ -22,7 +22,7 @@ public:
   void exit() override;
 
   ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingUpdate) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingUpdate) override;
 
   void ptt(bool on) override {}
 

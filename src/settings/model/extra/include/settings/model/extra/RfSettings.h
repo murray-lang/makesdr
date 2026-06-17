@@ -7,7 +7,7 @@
 class RfSettings : public SettingsBase
 {
 public:
-  RfSettings(RadioSettings_RfSettingsPb& raw)
+  RfSettings(makesdr_RfSettingsPb& raw)
     : m_rawSettings(raw)
     , m_gain(raw.gain)
     , m_centreFrequency(raw.centre_frequency)
@@ -54,7 +54,7 @@ public:
   }
 
 protected:
-  RadioSettings_RfSettingsPb& m_rawSettings;
+  makesdr_RfSettingsPb& m_rawSettings;
   SteppableFloatSetting m_gain;
   SteppableInt64Setting m_centreFrequency;
   SteppableInt64Setting m_vfoFrequency;

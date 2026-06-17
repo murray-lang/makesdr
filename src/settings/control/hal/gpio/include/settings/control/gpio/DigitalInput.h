@@ -1,8 +1,8 @@
 #pragma once
-#include "settings/model/core/SettingFieldUpdate.h"
+#include "settings/model/core/SettingUpdate.h"
 #include "config/struct/DigitalInputConfig.h"
-#include "settings/model/core/SettingFieldPath.h"
-#include "settings/model/core/SettingFieldUpdateSource.h"
+#include "settings/model/core/SettingPath.h"
+#include "settings/model/core/SettingUpdateSource.h"
 
 #include "settings/control/gpio/DigitalInputLinesRequest.h"
 #include "settings/control/gpio/base/GpioInputLines.h"
@@ -17,7 +17,7 @@ using IdString = etl::string<MAX_ID_LENGTH>;
 using IdString = std::string;
 #endif
 
-class DigitalInput : public GpioInputLines, public SettingFieldUpdateSource
+class DigitalInput : public GpioInputLines, public SettingUpdateSource
 {
 public:
 
@@ -32,19 +32,19 @@ public:
   [[nodiscard]] const IdString& getId() const { return m_id; }
   [[nodiscard]] bool getDetectEdge() const { return m_detectEdge; }
   // [[nodiscard]] const GpioLines& getLines() const { return m_lines; }
-  [[nodiscard]] const SettingFieldPath& getSettingFieldPath() const { return m_settingPath; }
+  [[nodiscard]] const SettingPath& getSettingPath() const { return m_settingPath; }
 
   virtual bool handleLineChange(DigitalInputLinesRequest::LineStateVector& changedLines);
 
-  void connectSettingFieldUpdateSink(SettingFieldUpdateSink& sink) override;
+  void connectSettingUpdateSink(SettingUpdateSink& sink) override;
 protected:
   void notifyChange(const DigitalInputLinesRequest::LineState& lineState);
-  ResultCode notifySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override;
+  ResultCode notifySettingUpdate(const SettingUpdate& settingDelta) override;
 
   IdString m_id;
   bool m_detectEdge;
-  SettingFieldPath m_settingPath;
+  SettingPath m_settingPath;
   bool m_isPathIndirect;
   AutoCompleteTrigger m_autoCompleteTrigger;
-  optional<reference_wrapper<SettingFieldUpdateSink>> m_pSink;
+  optional<reference_wrapper<SettingUpdateSink>> m_pSink;
 };

@@ -24,10 +24,10 @@ ResultCode
 GpioBandSelector::applySettings(const RadioSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    const RadioSettings_RxPipelineSettingsPb* txPipelineSettings = settings.getTxPipelineSettings();
+    const makesdr_RxPipelineSettingsPb* txPipelineSettings = settings.getTxPipelineSettings();
     if (txPipelineSettings != nullptr) {
       if (txPipelineSettings->base.has_rf) {
-        const RadioSettings_RfSettingsPb& rfSettings = txPipelineSettings->base.rf;
+        const makesdr_RfSettingsPb& rfSettings = txPipelineSettings->base.rf;
         if (rfSettings.has_vfo) {
           uint32_t frequency = rfSettings.vfo.value;
           uint32_t output = getBandOutput(frequency);
@@ -40,7 +40,7 @@ GpioBandSelector::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-GpioBandSelector::applySettingFieldUpdate(const SettingFieldUpdate& setting)
+GpioBandSelector::applySettingUpdate(const SettingUpdate& setting)
 {
   if (setting.path() == m_settingPath) {
     uint32_t frequency = get<uint32_t>(setting.value());

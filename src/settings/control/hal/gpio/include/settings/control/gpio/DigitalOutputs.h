@@ -3,7 +3,7 @@
 #include "settings/control/sink/SettingsControlSink.h"
 #include "config/struct/DigitalOutputsConfig.h"
 
-class DigitalOutputs : public SettingsControlSink, public SettingFieldUpdateSink
+class DigitalOutputs : public SettingsControlSink, public SettingUpdateSink
 {
 public:
   DigitalOutputs() = default;
@@ -20,7 +20,7 @@ public:
   void exit() override;
 
   ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
 
   void ptt(bool on) override;
 

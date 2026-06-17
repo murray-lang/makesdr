@@ -5,7 +5,7 @@
 class BandCategory
 {
 public:
-  BandCategory(RadioSettings_BandCategoryPb& raw)
+  BandCategory(makesdr_BandCategoryPb& raw)
     : m_rawSettings(raw)
     , m_name{raw.name, raw.name, sizeof(raw.name)}
     , m_label{raw.label, raw.label, sizeof(raw.label)}
@@ -37,7 +37,7 @@ public:
 
 protected:
 
-  RadioSettings_BandCategoryPb& m_rawSettings;
+  makesdr_BandCategoryPb& m_rawSettings;
   const StringRef m_name;
   const StringRef m_label;
   BandList m_bands;

@@ -1,24 +1,24 @@
 
-RadioSettings.ModePb.name max_size: 8
-RadioSettings.ModePb.label max_size: 15
+makesdr.ModePb.name max_size: 8
+makesdr.ModePb.label max_size: 15
 
-RadioSettings.BandPb.name max_size: 8
-RadioSettings.BandPb.label max_size: 10
+makesdr.BandPb.name max_size: 8
+makesdr.BandPb.label max_size: 10
 
-RadioSettings.BandSettingsPb.band_request max_size: 8
+makesdr.BandSettingsPb.band_request max_size: 8
 
-RadioSettings.BandSettingsCachePb.band_settings max_count: 10
-RadioSettings.BandSettingsCachePb.BandSettingsEntry.key max_size: 8
+makesdr.BandSettingsCachePb.band_settings max_count: 10
+makesdr.BandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
 
-RadioSettings.BandListPb.bands max_count: 13
+makesdr.BandListPb.bands max_count: 13
 
-RadioSettings.ModeListPb.modes max_count: 10
+makesdr.ModeListPb.modes max_count: 10
 
-RadioSettings.BandCategoryPb.name max_size: 8
-RadioSettings.BandCategoryPb.label max_size: 10
-RadioSettings.BandCategoryPb.bands max_count: 13
+makesdr.BandCategoryPb.name max_size: 8
+makesdr.BandCategoryPb.label max_size: 10
+makesdr.BandCategoryPb.bands max_count: 13
 
-RadioSettings.BandCategoryListPb.categories max_count: 8
+makesdr.BandCategoryListPb.categories max_count: 8
 
-RadioSettings.BandSettingsPb.band_request max_size: 8
+makesdr.BandSettingsPb.band_request max_size: 8

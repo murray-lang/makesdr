@@ -84,6 +84,32 @@
       }
     },
     {
+      "name": "linux-payload-update-debug",
+      "displayName": "Payload Update Debug (linux)",
+      "binaryDir": "${sourceDir}/build-linux-payload-update-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "linux-payload-update-release",
+      "displayName": "Payload Update Release (linux)",
+      "binaryDir": "${sourceDir}/build-linux-payload-update-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "linux-pc",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
       "name": "CM7-usb-mmc-debug",
       "displayName": "USB/MMC Debug (CM7)",
       "binaryDir": "${sourceDir}/build-cm7-usb-mmc-debug",
@@ -173,6 +199,34 @@
         "NO_SYSTEM_INCLUDE": "ON"
       }
     },
+
+    {
+      "name": "CM7-payload-update-debug",
+      "displayName": "Payload Update Debug (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-payload-update-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "CM7-payload-update-release",
+      "displayName": "Payload Update Release (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-payload-update-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "payload-update",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "OFF",
+        "USE_ETL": "ON"
+      }
+    },
+
     {
       "name": "CM4-indirect-update-debug",
       "displayName": "Indirect Update Debug (CM4)",

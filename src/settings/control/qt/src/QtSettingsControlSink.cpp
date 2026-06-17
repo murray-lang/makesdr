@@ -63,7 +63,7 @@ QtSettingsControlSink::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-QtSettingsControlSink::applySettingFieldUpdate(const SettingFieldUpdate& settingUpdate)
+QtSettingsControlSink::applySettingUpdate(const SettingUpdate& settingUpdate)
 {
   // if (globalControlClientEventTarget != nullptr) {
   //   auto* sue = new SettingUpdateEvent(settingDelta, SettingEventBase::BACK_END);

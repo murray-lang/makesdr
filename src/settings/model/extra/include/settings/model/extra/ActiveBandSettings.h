@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SettingsBase.h"
-#include "settings/model/core/SettingFieldPath.h"
+#include "settings/model/core/SettingPath.h"
 #include "settings/model/core/AutoCompleteTrigger.h"
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "BandSettings.h"
@@ -10,7 +10,7 @@
 class ActiveBandSettings : public SettingsBase, public AutoComplete
 {
 public:
-  ActiveBandSettings(RadioSettings_ActiveBandSettingsPb& raw)
+  ActiveBandSettings(makesdr_ActiveBandSettingsPb& raw)
     : m_rawSettings(raw)
     , m_bandOneSettings(raw.band_1)
     , m_bandTwoSettings(raw.band_2)
@@ -71,7 +71,7 @@ public:
   }
 
   ResultCode autoComplete(
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger) override;
 
@@ -80,7 +80,7 @@ public:
 protected:
   ResultCode autoCompleteSplit();
 
-  RadioSettings_ActiveBandSettingsPb& m_rawSettings;
+  makesdr_ActiveBandSettingsPb& m_rawSettings;
   BandSettings m_bandOneSettings;
   BandSettings m_bandTwoSettings;
 

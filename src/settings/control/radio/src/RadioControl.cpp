@@ -30,7 +30,7 @@ RadioControl::configure(const Config::Control::Fields& config)
         using T = decay_t<decltype(s)>;
         if constexpr (!is_same_v<T, monostate>) {
           s.connectRadioSettingsSink(m_internalSink);
-          s.connectSettingFieldUpdateSink(m_internalSink);
+          s.connectSettingUpdateSink(m_internalSink);
           return ResultCode::OK;
         } else
         {
@@ -55,7 +55,7 @@ RadioControl::connectRadioSettingsSink(RadioSettingsSink& sink)
 }
 
 void
-RadioControl::connectSettingFieldUpdateSink(SettingFieldUpdateSink& sink)
+RadioControl::connectSettingUpdateSink(SettingUpdateSink& sink)
 {
   m_externalFieldUpdateSink.emplace(sink);
 }
@@ -70,10 +70,10 @@ RadioControl::notifySettings(const RadioSettings& radioSettings)
 }
 
 ResultCode
-RadioControl::notifySettingFieldUpdate(const SettingFieldUpdate& settingDelta)
+RadioControl::notifySettingUpdate(const SettingUpdate& settingDelta)
 {
   if (m_externalFieldUpdateSink) {
-    return m_externalFieldUpdateSink->get().applySettingFieldUpdate(settingDelta);
+    return m_externalFieldUpdateSink->get().applySettingUpdate(settingDelta);
   }
   return ResultCode::OK;
 }
@@ -94,12 +94,12 @@ RadioControl::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-RadioControl::applySettingFieldUpdate(const SettingFieldUpdate& setting)
+RadioControl::applySettingUpdate(const SettingUpdate& setting)
 {
   for (auto& sinkVar : m_controlSinks) {
     const ResultCode rc = visit([&setting] (auto&& sink) -> ResultCode
     {
-      return sink.applySettingFieldUpdate(setting);
+      return sink.applySettingUpdate(setting);
     }, sinkVar);
     if (rc != ResultCode::OK) {
       return rc;
@@ -158,7 +158,7 @@ RadioControl::stop()
 void
 RadioControl::ptt(bool on)
 {
-  SettingFieldPath path{RadioSettings_RadioSettingsPb_ptt_tag};
-  SettingFieldUpdate setting(path, on, SettingFieldUpdate::VALUE);
-  applySettingFieldUpdate(setting);
+  SettingPath path{makesdr_RadioSettingsPb_ptt_tag};
+  SettingUpdate setting(path, on, SettingUpdate::VALUE);
+  applySettingUpdate(setting);
 }

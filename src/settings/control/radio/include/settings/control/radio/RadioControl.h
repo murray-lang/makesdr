@@ -23,8 +23,8 @@ using ControlSourceVector = std::vector<SettingsControlSourceVariant>;
 class RadioControl :
   public RadioSettingsSource,
   public RadioSettingsSink,
-  public SettingFieldUpdateSink,
-  public SettingFieldUpdateSource,
+  public SettingUpdateSink,
+  public SettingUpdateSource,
   public PttSink
 {
 public:
@@ -36,14 +36,14 @@ public:
   void stop();
 
   ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override;
+  ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
 
 
   void connectRadioSettingsSink(RadioSettingsSink& sink) override;
-  void connectSettingFieldUpdateSink(SettingFieldUpdateSink& sink) override;
+  void connectSettingUpdateSink(SettingUpdateSink& sink) override;
 
   ResultCode notifySettings(const RadioSettings& settings) override;
-  ResultCode notifySettingFieldUpdate(const SettingFieldUpdate& settingUpdate) override;
+  ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate) override;
 
   // PttSink Method
   void ptt(bool on) override;
@@ -53,7 +53,7 @@ protected:
   // Intercepts settings from m_controlSources for anything relevant to this RadioControl mechanism
   // One of these gets connect()ed to each control source
   // ControlSources have no concept of BandSettings, since these are internal to the radio.
-  class InternalSink : public RadioSettingsSink, public SettingFieldUpdateSink
+  class InternalSink : public RadioSettingsSink, public SettingUpdateSink
   {
   public:
     explicit InternalSink(RadioControl* pControl) : m_pControl(pControl) {}
@@ -64,10 +64,10 @@ protected:
       }
       return ResultCode::OK;
     }
-    ResultCode applySettingFieldUpdate(const SettingFieldUpdate& settingDelta) override
+    ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override
     {
       if (m_pControl) {
-        return m_pControl->notifySettingFieldUpdate(settingDelta); // Notify external sink
+        return m_pControl->notifySettingUpdate(settingDelta); // Notify external sink
       }
       return ResultCode::OK;
     }
@@ -80,5 +80,5 @@ protected:
   ControlSourceVector m_controlSources;
   InternalSink m_internalSink;
   optional<reference_wrapper<RadioSettingsSink>> m_externalSettingsSink;
-  optional<reference_wrapper<SettingFieldUpdateSink>> m_externalFieldUpdateSink;
+  optional<reference_wrapper<SettingUpdateSink>> m_externalFieldUpdateSink;
 };

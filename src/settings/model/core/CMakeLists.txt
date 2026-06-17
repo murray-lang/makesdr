@@ -7,14 +7,15 @@ set(CORE_SETTINGS_SOURCES
         include/settings/model/core/BandSettingsCache.h
         include/settings/model/core/MessageTagLookup.h
         include/settings/model/core/MessageVisitor.h
+        include/settings/model/core/RadioPayloadBase.h
         include/settings/model/core/RadioSettings.h
         include/settings/model/core/RadioSettingsSink.h
         include/settings/model/core/RadioSettingsSource.h
-        include/settings/model/core/SettingFieldPath.h
-        include/settings/model/core/SettingFieldUpdate.h
-        include/settings/model/core/SettingFieldUpdateSink.h
-        include/settings/model/core/SettingFieldUpdateSource.h
-        include/settings/model/core/SettingFieldVariant.h
+        include/settings/model/core/SettingPath.h
+        include/settings/model/core/SettingUpdate.h
+        include/settings/model/core/SettingUpdateSink.h
+        include/settings/model/core/SettingUpdateSource.h
+        include/settings/model/core/SettingUpdateVariant.h
         include/settings/model/core/SplitBandId.h
         include/settings/model/core/PipelineId.h
 

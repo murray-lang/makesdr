@@ -5,7 +5,7 @@
 ResultCode
 RadioSettingsEx::resolveDottedPath(
   const char *dottedPath,
-  SettingFieldPath &path,
+  SettingPath &path,
   bool* isIndirectOut,
   AutoCompleteTrigger* triggerOut
 )
@@ -13,7 +13,7 @@ RadioSettingsEx::resolveDottedPath(
   return MessageVisitor::resolveDottedPath(dottedPath, path, isIndirectOut, triggerOut);
 }
 
-void printPath(const SettingFieldPath& v)
+void printPath(const SettingPath& v)
 {
   for (uint32_t i : v) {
     printf("%d ", i);
@@ -23,7 +23,7 @@ void printPath(const SettingFieldPath& v)
 
 ResultCode
 RadioSettingsEx::autoComplete(
-  const SettingFieldPath& path,
+  const SettingPath& path,
   uint32_t startingAtIndex,
   AutoCompleteTrigger trigger
 )
@@ -32,7 +32,7 @@ RadioSettingsEx::autoComplete(
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   switch (path[startingAtIndex]) {
-  case RadioSettings_RadioSettingsPb_active_bands_tag:
+  case makesdr_RadioSettingsPb_active_bands_tag:
     return m_activeBandSettings.autoComplete(path, startingAtIndex + 1, trigger);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;

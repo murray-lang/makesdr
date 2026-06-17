@@ -102,7 +102,7 @@ DigitalInputs::createInputs(const Config::DigitalInputs::Fields& config)
     rc = DigitalInputFactory::create(inputConfig, digitalInput);
     if (rc == ResultCode::OK) {
       visit([this, rc](auto&& di) {
-        di.connectSettingFieldUpdateSink(m_internalSink);
+        di.connectSettingUpdateSink(m_internalSink);
       }, digitalInput);
       m_inputs.emplace_back(move(digitalInput));
     } else {
@@ -136,7 +136,7 @@ DigitalInputs::reconnectInputSinks()
 {
   for (auto& input : m_inputs) {
     visit([this](auto&& di) {
-      di.connectSettingFieldUpdateSink(m_internalSink);
+      di.connectSettingUpdateSink(m_internalSink);
     }, input);
   }
 }

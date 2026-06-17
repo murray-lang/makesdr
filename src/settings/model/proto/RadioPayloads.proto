@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package makesdr;
+
+import "RadioSettings.proto";
+
+enum RadioPayloadType {
+  PAYLOAD_NONE = 0;
+  PAYLOAD_SETTINGS = 1;
+  PAYLOAD_META = 3;
+  PAYLOAD_CACHE = 4;
+}
+
+enum RadioPayloadPurpose {
+  PURPOSE_NONE = 0;
+  PURPOSE_MERGE = 1;
+  PURPOSE_REPLACE = 2;
+}
+
+message RadioPayloadHeaderPb {
+  RadioPayloadType payloadType = 1;
+}
+
+message RadioPayloadBasePb {
+    RadioPayloadHeaderPb header = 1;
+}
+
+message RadioSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioPayloadPurpose purpose = 2;
+  RadioSettingsPb body = 3;
+}
+
+message RadioMetaPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  RadioMetaPb body = 2;
+}
+
+message RadioCachePayloadPb {
+  RadioPayloadType payloadType = 1;
+  RadioMetaPb body = 2;
+}
+

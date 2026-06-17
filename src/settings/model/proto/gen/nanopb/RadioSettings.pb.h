@@ -10,53 +10,53 @@
 #endif
 
 /* Enum definitions */
-typedef enum _RadioSettings_SplitBandId {
-    RadioSettings_SplitBandId_SPLIT_BAND_NONE = 0,
-    RadioSettings_SplitBandId_SPLIT_BAND_ONE = 1,
-    RadioSettings_SplitBandId_SPLIT_BAND_TWO = 2
-} RadioSettings_SplitBandId;
+typedef enum _makesdr_SplitBandId {
+    makesdr_SplitBandId_SPLIT_BAND_NONE = 0,
+    makesdr_SplitBandId_SPLIT_BAND_ONE = 1,
+    makesdr_SplitBandId_SPLIT_BAND_TWO = 2
+} makesdr_SplitBandId;
 
-typedef enum _RadioSettings_PipelineId {
-    RadioSettings_PipelineId_PIPELINE_NONE = 0,
-    RadioSettings_PipelineId_PIPELINE_A = 1,
-    RadioSettings_PipelineId_PIPELINE_B = 2
-} RadioSettings_PipelineId;
+typedef enum _makesdr_PipelineId {
+    makesdr_PipelineId_PIPELINE_NONE = 0,
+    makesdr_PipelineId_PIPELINE_A = 1,
+    makesdr_PipelineId_PIPELINE_B = 2
+} makesdr_PipelineId;
 
-typedef enum _RadioSettings_ModeType {
-    RadioSettings_ModeType_MODE_NONE = 0,
-    RadioSettings_ModeType_MODE_AMN = 1,
-    RadioSettings_ModeType_MODE_AMW = 2,
-    RadioSettings_ModeType_MODE_LSB = 3,
-    RadioSettings_ModeType_MODE_USB = 4,
-    RadioSettings_ModeType_MODE_FMN = 5,
-    RadioSettings_ModeType_MODE_FMW = 6,
-    RadioSettings_ModeType_MODE_CWL = 7,
-    RadioSettings_ModeType_MODE_CWU = 8
-} RadioSettings_ModeType;
+typedef enum _makesdr_ModeType {
+    makesdr_ModeType_MODE_NONE = 0,
+    makesdr_ModeType_MODE_AMN = 1,
+    makesdr_ModeType_MODE_AMW = 2,
+    makesdr_ModeType_MODE_LSB = 3,
+    makesdr_ModeType_MODE_USB = 4,
+    makesdr_ModeType_MODE_FMN = 5,
+    makesdr_ModeType_MODE_FMW = 6,
+    makesdr_ModeType_MODE_CWL = 7,
+    makesdr_ModeType_MODE_CWU = 8
+} makesdr_ModeType;
 
-typedef enum _RadioSettings_AgcSpeed {
-    RadioSettings_AgcSpeed_AGC_OFF = 0,
-    RadioSettings_AgcSpeed_AGC_SLOW = 1,
-    RadioSettings_AgcSpeed_AGC_MEDIUM = 2,
-    RadioSettings_AgcSpeed_AGC_FAST = 3
-} RadioSettings_AgcSpeed;
+typedef enum _makesdr_AgcSpeed {
+    makesdr_AgcSpeed_AGC_OFF = 0,
+    makesdr_AgcSpeed_AGC_SLOW = 1,
+    makesdr_AgcSpeed_AGC_MEDIUM = 2,
+    makesdr_AgcSpeed_AGC_FAST = 3
+} makesdr_AgcSpeed;
 
 /* Struct definitions */
-typedef struct _RadioSettings_ModePb {
-    RadioSettings_ModeType type;
+typedef struct _makesdr_ModePb {
+    makesdr_ModeType type;
     char name[8];
     char label[15];
     int32_t lo_cut;
     int32_t hi_cut;
     int32_t offset;
-} RadioSettings_ModePb;
+} makesdr_ModePb;
 
-typedef struct _RadioSettings_ModeListPb {
+typedef struct _makesdr_ModeListPb {
     pb_size_t modes_count;
-    RadioSettings_ModePb modes[10];
-} RadioSettings_ModeListPb;
+    makesdr_ModePb modes[10];
+} makesdr_ModeListPb;
 
-typedef struct _RadioSettings_BandPb {
+typedef struct _makesdr_BandPb {
     char name[8];
     char label[10];
     int64_t lowest_frequency;
@@ -64,179 +64,179 @@ typedef struct _RadioSettings_BandPb {
     int64_t landing_frequency;
     int32_t default_fine_step;
     int32_t default_coarse_step;
-    RadioSettings_ModeType default_mode;
-} RadioSettings_BandPb;
+    makesdr_ModeType default_mode;
+} makesdr_BandPb;
 
-typedef struct _RadioSettings_BandListPb {
+typedef struct _makesdr_BandListPb {
     pb_size_t bands_count;
-    RadioSettings_BandPb bands[13];
-} RadioSettings_BandListPb;
+    makesdr_BandPb bands[13];
+} makesdr_BandListPb;
 
-typedef struct _RadioSettings_BandCategoryPb {
+typedef struct _makesdr_BandCategoryPb {
     char name[8];
     char label[10];
     bool has_bands;
-    RadioSettings_BandListPb bands;
-} RadioSettings_BandCategoryPb;
+    makesdr_BandListPb bands;
+} makesdr_BandCategoryPb;
 
-typedef struct _RadioSettings_BandCategoryListPb {
+typedef struct _makesdr_BandCategoryListPb {
     pb_size_t categories_count;
-    RadioSettings_BandCategoryPb categories[8];
-} RadioSettings_BandCategoryListPb;
+    makesdr_BandCategoryPb categories[8];
+} makesdr_BandCategoryListPb;
 
-typedef struct _RadioSettings_RadioMetaPb {
+typedef struct _makesdr_RadioMetaPb {
     bool has_bands;
-    RadioSettings_BandCategoryListPb bands;
+    makesdr_BandCategoryListPb bands;
     bool has_modes;
-    RadioSettings_ModeListPb modes;
-} RadioSettings_RadioMetaPb;
+    makesdr_ModeListPb modes;
+} makesdr_RadioMetaPb;
 
-typedef struct _RadioSettings_SteppableInt64SettingPb {
+typedef struct _makesdr_SteppableInt64SettingPb {
     int64_t value;
     int64_t coarse_delta;
     int64_t fine_delta;
     bool use_fine;
-} RadioSettings_SteppableInt64SettingPb;
+} makesdr_SteppableInt64SettingPb;
 
-typedef struct _RadioSettings_SteppableFloatSettingPb {
+typedef struct _makesdr_SteppableFloatSettingPb {
     float value;
     float coarse_delta;
     float fine_delta;
     bool use_fine;
-} RadioSettings_SteppableFloatSettingPb;
+} makesdr_SteppableFloatSettingPb;
 
-typedef struct _RadioSettings_IqCorrectionSettingsPb {
+typedef struct _makesdr_IqCorrectionSettingsPb {
     bool has_amplitude;
-    RadioSettings_SteppableFloatSettingPb amplitude;
+    makesdr_SteppableFloatSettingPb amplitude;
     bool has_phase;
-    RadioSettings_SteppableFloatSettingPb phase;
-} RadioSettings_IqCorrectionSettingsPb;
+    makesdr_SteppableFloatSettingPb phase;
+} makesdr_IqCorrectionSettingsPb;
 
-typedef struct _RadioSettings_RfSettingsPb {
+typedef struct _makesdr_RfSettingsPb {
     bool has_max_negative_vfo_offset;
     int32_t max_negative_vfo_offset;
     bool has_max_positive_vfo_offset;
     int32_t max_positive_vfo_offset;
     bool has_gain;
-    RadioSettings_SteppableFloatSettingPb gain;
+    makesdr_SteppableFloatSettingPb gain;
     bool has_centre_frequency;
-    RadioSettings_SteppableInt64SettingPb centre_frequency;
+    makesdr_SteppableInt64SettingPb centre_frequency;
     bool has_vfo;
-    RadioSettings_SteppableInt64SettingPb vfo;
-} RadioSettings_RfSettingsPb;
+    makesdr_SteppableInt64SettingPb vfo;
+} makesdr_RfSettingsPb;
 
-typedef struct _RadioSettings_IfSettingsPb {
+typedef struct _makesdr_IfSettingsPb {
     bool has_bandwidth;
     uint32_t bandwidth;
     bool has_gain;
-    RadioSettings_SteppableFloatSettingPb gain;
-} RadioSettings_IfSettingsPb;
+    makesdr_SteppableFloatSettingPb gain;
+} makesdr_IfSettingsPb;
 
-typedef struct _RadioSettings_MicrophoneSettingsPb {
+typedef struct _makesdr_MicrophoneSettingsPb {
     bool has_gain;
-    RadioSettings_SteppableFloatSettingPb gain;
-} RadioSettings_MicrophoneSettingsPb;
+    makesdr_SteppableFloatSettingPb gain;
+} makesdr_MicrophoneSettingsPb;
 
-typedef struct _RadioSettings_ReceiverSettings {
+typedef struct _makesdr_ReceiverSettings {
     bool has_iq_corrections;
-    RadioSettings_IqCorrectionSettingsPb iq_corrections;
-} RadioSettings_ReceiverSettings;
+    makesdr_IqCorrectionSettingsPb iq_corrections;
+} makesdr_ReceiverSettings;
 
-typedef struct _RadioSettings_TransmitterSettingsPb {
+typedef struct _makesdr_TransmitterSettingsPb {
     bool has_iq_corrections;
-    RadioSettings_IqCorrectionSettingsPb iq_corrections;
+    makesdr_IqCorrectionSettingsPb iq_corrections;
     bool has_mic;
-    RadioSettings_MicrophoneSettingsPb mic;
-} RadioSettings_TransmitterSettingsPb;
+    makesdr_MicrophoneSettingsPb mic;
+} makesdr_TransmitterSettingsPb;
 
-typedef struct _RadioSettings_PipelineSettingsPb {
+typedef struct _makesdr_PipelineSettingsPb {
     pb_size_t which_mode_or_request;
-    union _RadioSettings_PipelineSettingsPb_mode_or_request {
-        RadioSettings_ModeType mode_request;
-        RadioSettings_ModePb mode;
+    union _makesdr_PipelineSettingsPb_mode_or_request {
+        makesdr_ModeType mode_request;
+        makesdr_ModePb mode;
     } mode_or_request;
     bool has_rf;
-    RadioSettings_RfSettingsPb rf;
-} RadioSettings_PipelineSettingsPb;
+    makesdr_RfSettingsPb rf;
+} makesdr_PipelineSettingsPb;
 
-typedef struct _RadioSettings_RxPipelineSettingsPb {
+typedef struct _makesdr_RxPipelineSettingsPb {
     bool has_base;
-    RadioSettings_PipelineSettingsPb base;
+    makesdr_PipelineSettingsPb base;
     bool has_if_;
-    RadioSettings_IfSettingsPb if_;
+    makesdr_IfSettingsPb if_;
     bool has_mute;
     bool mute;
     bool has_agc_speed;
-    RadioSettings_AgcSpeed agc_speed;
-} RadioSettings_RxPipelineSettingsPb;
+    makesdr_AgcSpeed agc_speed;
+} makesdr_RxPipelineSettingsPb;
 
-typedef struct _RadioSettings_TxPipelineSettingsPb {
+typedef struct _makesdr_TxPipelineSettingsPb {
     bool has_base;
-    RadioSettings_PipelineSettingsPb base;
-} RadioSettings_TxPipelineSettingsPb;
+    makesdr_PipelineSettingsPb base;
+} makesdr_TxPipelineSettingsPb;
 
-typedef struct _RadioSettings_BandSettingsPb {
+typedef struct _makesdr_BandSettingsPb {
     pb_size_t which_band_or_request;
-    union _RadioSettings_BandSettingsPb_band_or_request {
+    union _makesdr_BandSettingsPb_band_or_request {
         char band_request[8];
-        RadioSettings_BandPb band;
+        makesdr_BandPb band;
     } band_or_request;
     bool has_pipeline_a;
-    RadioSettings_RxPipelineSettingsPb pipeline_a;
+    makesdr_RxPipelineSettingsPb pipeline_a;
     bool has_pipeline_b;
-    RadioSettings_RxPipelineSettingsPb pipeline_b;
+    makesdr_RxPipelineSettingsPb pipeline_b;
     bool has_tx_pipeline;
-    RadioSettings_TxPipelineSettingsPb tx_pipeline;
+    makesdr_TxPipelineSettingsPb tx_pipeline;
     bool has_is_multi_pipeline;
     bool is_multi_pipeline;
     bool has_focus_pipeline_id;
-    RadioSettings_PipelineId focus_pipeline_id;
+    makesdr_PipelineId focus_pipeline_id;
     bool has_tx_pipeline_id;
-    RadioSettings_PipelineId tx_pipeline_id;
+    makesdr_PipelineId tx_pipeline_id;
     /* This is a dummy pipeline that is used to set either pipeline_a or pipeline_b depending on focus_pipeline_id.
  It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
-    RadioSettings_PipelineId focus_pipeline;
-} RadioSettings_BandSettingsPb;
+    makesdr_PipelineId focus_pipeline;
+} makesdr_BandSettingsPb;
 
-typedef struct _RadioSettings_ActiveBandSettingsPb {
+typedef struct _makesdr_ActiveBandSettingsPb {
     bool has_focus_band_id;
-    RadioSettings_SplitBandId focus_band_id;
+    makesdr_SplitBandId focus_band_id;
     bool has_tx_band_id;
-    RadioSettings_SplitBandId tx_band_id;
+    makesdr_SplitBandId tx_band_id;
     bool has_rx_band_id;
-    RadioSettings_SplitBandId rx_band_id;
+    makesdr_SplitBandId rx_band_id;
     bool has_band_1;
-    RadioSettings_BandSettingsPb band_1;
+    makesdr_BandSettingsPb band_1;
     bool has_band_2;
-    RadioSettings_BandSettingsPb band_2;
+    makesdr_BandSettingsPb band_2;
     bool has_is_split;
     bool is_split;
     /* This is a dummy band that is used to set either band_1 or Band_2 depending on focus_band_id.
  It exists for the purpose of path lookups, and the tag is detected in code for the above purpose. */
-    RadioSettings_SplitBandId focus_band;
-} RadioSettings_ActiveBandSettingsPb;
+    makesdr_SplitBandId focus_band;
+} makesdr_ActiveBandSettingsPb;
 
-typedef struct _RadioSettings_BandSettingsCachePb_BandSettingsEntry {
+typedef struct _makesdr_BandSettingsCachePb_BandSettingsEntry {
     char key[8];
     bool has_value;
-    RadioSettings_BandSettingsPb value;
-} RadioSettings_BandSettingsCachePb_BandSettingsEntry;
+    makesdr_BandSettingsPb value;
+} makesdr_BandSettingsCachePb_BandSettingsEntry;
 
-typedef struct _RadioSettings_BandSettingsCachePb {
+typedef struct _makesdr_BandSettingsCachePb {
     pb_size_t band_settings_count;
-    RadioSettings_BandSettingsCachePb_BandSettingsEntry band_settings[10];
-} RadioSettings_BandSettingsCachePb;
+    makesdr_BandSettingsCachePb_BandSettingsEntry band_settings[10];
+} makesdr_BandSettingsCachePb;
 
-typedef struct _RadioSettings_RadioSettingsPb {
+typedef struct _makesdr_RadioSettingsPb {
     bool has_receiver;
-    RadioSettings_ReceiverSettings receiver;
+    makesdr_ReceiverSettings receiver;
     bool has_transmitter;
-    RadioSettings_TransmitterSettingsPb transmitter;
+    makesdr_TransmitterSettingsPb transmitter;
     bool has_active_bands;
-    RadioSettings_ActiveBandSettingsPb active_bands;
+    makesdr_ActiveBandSettingsPb active_bands;
     bool has_ptt;
     bool ptt;
-} RadioSettings_RadioSettingsPb;
+} makesdr_RadioSettingsPb;
 
 
 #ifdef __cplusplus
@@ -244,28 +244,26 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
-#define _RadioSettings_SplitBandId_MIN RadioSettings_SplitBandId_SPLIT_BAND_NONE
-#define _RadioSettings_SplitBandId_MAX RadioSettings_SplitBandId_SPLIT_BAND_TWO
-#define _RadioSettings_SplitBandId_ARRAYSIZE ((RadioSettings_SplitBandId)(RadioSettings_SplitBandId_SPLIT_BAND_TWO+1))
+#define _makesdr_SplitBandId_MIN makesdr_SplitBandId_SPLIT_BAND_NONE
+#define _makesdr_SplitBandId_MAX makesdr_SplitBandId_SPLIT_BAND_TWO
+#define _makesdr_SplitBandId_ARRAYSIZE ((makesdr_SplitBandId)(makesdr_SplitBandId_SPLIT_BAND_TWO+1))
 
-#define _RadioSettings_PipelineId_MIN RadioSettings_PipelineId_PIPELINE_NONE
-#define _RadioSettings_PipelineId_MAX RadioSettings_PipelineId_PIPELINE_B
-#define _RadioSettings_PipelineId_ARRAYSIZE ((RadioSettings_PipelineId)(RadioSettings_PipelineId_PIPELINE_B+1))
+#define _makesdr_PipelineId_MIN makesdr_PipelineId_PIPELINE_NONE
+#define _makesdr_PipelineId_MAX makesdr_PipelineId_PIPELINE_B
+#define _makesdr_PipelineId_ARRAYSIZE ((makesdr_PipelineId)(makesdr_PipelineId_PIPELINE_B+1))
 
-#define _RadioSettings_ModeType_MIN RadioSettings_ModeType_MODE_NONE
-#define _RadioSettings_ModeType_MAX RadioSettings_ModeType_MODE_CWU
-#define _RadioSettings_ModeType_ARRAYSIZE ((RadioSettings_ModeType)(RadioSettings_ModeType_MODE_CWU+1))
+#define _makesdr_ModeType_MIN makesdr_ModeType_MODE_NONE
+#define _makesdr_ModeType_MAX makesdr_ModeType_MODE_CWU
+#define _makesdr_ModeType_ARRAYSIZE ((makesdr_ModeType)(makesdr_ModeType_MODE_CWU+1))
 
-#define _RadioSettings_AgcSpeed_MIN RadioSettings_AgcSpeed_AGC_OFF
-#define _RadioSettings_AgcSpeed_MAX RadioSettings_AgcSpeed_AGC_FAST
-#define _RadioSettings_AgcSpeed_ARRAYSIZE ((RadioSettings_AgcSpeed)(RadioSettings_AgcSpeed_AGC_FAST+1))
+#define _makesdr_AgcSpeed_MIN makesdr_AgcSpeed_AGC_OFF
+#define _makesdr_AgcSpeed_MAX makesdr_AgcSpeed_AGC_FAST
+#define _makesdr_AgcSpeed_ARRAYSIZE ((makesdr_AgcSpeed)(makesdr_AgcSpeed_AGC_FAST+1))
 
-#define RadioSettings_ModePb_type_ENUMTYPE RadioSettings_ModeType
-
-
-#define RadioSettings_BandPb_default_mode_ENUMTYPE RadioSettings_ModeType
+#define makesdr_ModePb_type_ENUMTYPE makesdr_ModeType
 
 
+#define makesdr_BandPb_default_mode_ENUMTYPE makesdr_ModeType
 
 
 
@@ -277,166 +275,168 @@ extern "C" {
 
 
 
-#define RadioSettings_PipelineSettingsPb_mode_or_request_mode_request_ENUMTYPE RadioSettings_ModeType
-
-#define RadioSettings_RxPipelineSettingsPb_agc_speed_ENUMTYPE RadioSettings_AgcSpeed
 
 
-#define RadioSettings_BandSettingsPb_focus_pipeline_id_ENUMTYPE RadioSettings_PipelineId
-#define RadioSettings_BandSettingsPb_tx_pipeline_id_ENUMTYPE RadioSettings_PipelineId
-#define RadioSettings_BandSettingsPb_focus_pipeline_ENUMTYPE RadioSettings_PipelineId
+#define makesdr_PipelineSettingsPb_mode_or_request_mode_request_ENUMTYPE makesdr_ModeType
 
-#define RadioSettings_ActiveBandSettingsPb_focus_band_id_ENUMTYPE RadioSettings_SplitBandId
-#define RadioSettings_ActiveBandSettingsPb_tx_band_id_ENUMTYPE RadioSettings_SplitBandId
-#define RadioSettings_ActiveBandSettingsPb_rx_band_id_ENUMTYPE RadioSettings_SplitBandId
-#define RadioSettings_ActiveBandSettingsPb_focus_band_ENUMTYPE RadioSettings_SplitBandId
+#define makesdr_RxPipelineSettingsPb_agc_speed_ENUMTYPE makesdr_AgcSpeed
+
+
+#define makesdr_BandSettingsPb_focus_pipeline_id_ENUMTYPE makesdr_PipelineId
+#define makesdr_BandSettingsPb_tx_pipeline_id_ENUMTYPE makesdr_PipelineId
+#define makesdr_BandSettingsPb_focus_pipeline_ENUMTYPE makesdr_PipelineId
+
+#define makesdr_ActiveBandSettingsPb_focus_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_ActiveBandSettingsPb_tx_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_ActiveBandSettingsPb_rx_band_id_ENUMTYPE makesdr_SplitBandId
+#define makesdr_ActiveBandSettingsPb_focus_band_ENUMTYPE makesdr_SplitBandId
 
 
 
 
 
 /* Initializer values for message structs */
-#define RadioSettings_ModePb_init_default        {_RadioSettings_ModeType_MIN, "", "", 0, 0, 0}
-#define RadioSettings_ModeListPb_init_default    {0, {RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default, RadioSettings_ModePb_init_default}}
-#define RadioSettings_BandPb_init_default        {"", "", 0, 0, 0, 0, 0, _RadioSettings_ModeType_MIN}
-#define RadioSettings_BandListPb_init_default    {0, {RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default, RadioSettings_BandPb_init_default}}
-#define RadioSettings_BandCategoryPb_init_default {"", "", false, RadioSettings_BandListPb_init_default}
-#define RadioSettings_BandCategoryListPb_init_default {0, {RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default, RadioSettings_BandCategoryPb_init_default}}
-#define RadioSettings_RadioMetaPb_init_default   {false, RadioSettings_BandCategoryListPb_init_default, false, RadioSettings_ModeListPb_init_default}
-#define RadioSettings_SteppableInt64SettingPb_init_default {0, 0, 0, 0}
-#define RadioSettings_SteppableFloatSettingPb_init_default {0, 0, 0, 0}
-#define RadioSettings_IqCorrectionSettingsPb_init_default {false, RadioSettings_SteppableFloatSettingPb_init_default, false, RadioSettings_SteppableFloatSettingPb_init_default}
-#define RadioSettings_RfSettingsPb_init_default  {false, 0, false, 0, false, RadioSettings_SteppableFloatSettingPb_init_default, false, RadioSettings_SteppableInt64SettingPb_init_default, false, RadioSettings_SteppableInt64SettingPb_init_default}
-#define RadioSettings_IfSettingsPb_init_default  {false, 0, false, RadioSettings_SteppableFloatSettingPb_init_default}
-#define RadioSettings_MicrophoneSettingsPb_init_default {false, RadioSettings_SteppableFloatSettingPb_init_default}
-#define RadioSettings_ReceiverSettings_init_default {false, RadioSettings_IqCorrectionSettingsPb_init_default}
-#define RadioSettings_TransmitterSettingsPb_init_default {false, RadioSettings_IqCorrectionSettingsPb_init_default, false, RadioSettings_MicrophoneSettingsPb_init_default}
-#define RadioSettings_PipelineSettingsPb_init_default {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_default}
-#define RadioSettings_RxPipelineSettingsPb_init_default {false, RadioSettings_PipelineSettingsPb_init_default, false, RadioSettings_IfSettingsPb_init_default, false, 0, false, _RadioSettings_AgcSpeed_MIN}
-#define RadioSettings_TxPipelineSettingsPb_init_default {false, RadioSettings_PipelineSettingsPb_init_default}
-#define RadioSettings_BandSettingsPb_init_default {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_RxPipelineSettingsPb_init_default, false, RadioSettings_TxPipelineSettingsPb_init_default, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN, _RadioSettings_PipelineId_MIN}
-#define RadioSettings_ActiveBandSettingsPb_init_default {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_default, false, RadioSettings_BandSettingsPb_init_default, false, 0, _RadioSettings_SplitBandId_MIN}
-#define RadioSettings_BandSettingsCachePb_init_default {0, {RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default}}
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_default {"", false, RadioSettings_BandSettingsPb_init_default}
-#define RadioSettings_RadioSettingsPb_init_default {false, RadioSettings_ReceiverSettings_init_default, false, RadioSettings_TransmitterSettingsPb_init_default, false, RadioSettings_ActiveBandSettingsPb_init_default, false, 0}
-#define RadioSettings_ModePb_init_zero           {_RadioSettings_ModeType_MIN, "", "", 0, 0, 0}
-#define RadioSettings_ModeListPb_init_zero       {0, {RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero, RadioSettings_ModePb_init_zero}}
-#define RadioSettings_BandPb_init_zero           {"", "", 0, 0, 0, 0, 0, _RadioSettings_ModeType_MIN}
-#define RadioSettings_BandListPb_init_zero       {0, {RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero, RadioSettings_BandPb_init_zero}}
-#define RadioSettings_BandCategoryPb_init_zero   {"", "", false, RadioSettings_BandListPb_init_zero}
-#define RadioSettings_BandCategoryListPb_init_zero {0, {RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero, RadioSettings_BandCategoryPb_init_zero}}
-#define RadioSettings_RadioMetaPb_init_zero      {false, RadioSettings_BandCategoryListPb_init_zero, false, RadioSettings_ModeListPb_init_zero}
-#define RadioSettings_SteppableInt64SettingPb_init_zero {0, 0, 0, 0}
-#define RadioSettings_SteppableFloatSettingPb_init_zero {0, 0, 0, 0}
-#define RadioSettings_IqCorrectionSettingsPb_init_zero {false, RadioSettings_SteppableFloatSettingPb_init_zero, false, RadioSettings_SteppableFloatSettingPb_init_zero}
-#define RadioSettings_RfSettingsPb_init_zero     {false, 0, false, 0, false, RadioSettings_SteppableFloatSettingPb_init_zero, false, RadioSettings_SteppableInt64SettingPb_init_zero, false, RadioSettings_SteppableInt64SettingPb_init_zero}
-#define RadioSettings_IfSettingsPb_init_zero     {false, 0, false, RadioSettings_SteppableFloatSettingPb_init_zero}
-#define RadioSettings_MicrophoneSettingsPb_init_zero {false, RadioSettings_SteppableFloatSettingPb_init_zero}
-#define RadioSettings_ReceiverSettings_init_zero {false, RadioSettings_IqCorrectionSettingsPb_init_zero}
-#define RadioSettings_TransmitterSettingsPb_init_zero {false, RadioSettings_IqCorrectionSettingsPb_init_zero, false, RadioSettings_MicrophoneSettingsPb_init_zero}
-#define RadioSettings_PipelineSettingsPb_init_zero {0, {_RadioSettings_ModeType_MIN}, false, RadioSettings_RfSettingsPb_init_zero}
-#define RadioSettings_RxPipelineSettingsPb_init_zero {false, RadioSettings_PipelineSettingsPb_init_zero, false, RadioSettings_IfSettingsPb_init_zero, false, 0, false, _RadioSettings_AgcSpeed_MIN}
-#define RadioSettings_TxPipelineSettingsPb_init_zero {false, RadioSettings_PipelineSettingsPb_init_zero}
-#define RadioSettings_BandSettingsPb_init_zero   {0, {""}, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_RxPipelineSettingsPb_init_zero, false, RadioSettings_TxPipelineSettingsPb_init_zero, false, 0, false, _RadioSettings_PipelineId_MIN, false, _RadioSettings_PipelineId_MIN, _RadioSettings_PipelineId_MIN}
-#define RadioSettings_ActiveBandSettingsPb_init_zero {false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, _RadioSettings_SplitBandId_MIN, false, RadioSettings_BandSettingsPb_init_zero, false, RadioSettings_BandSettingsPb_init_zero, false, 0, _RadioSettings_SplitBandId_MIN}
-#define RadioSettings_BandSettingsCachePb_init_zero {0, {RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero, RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero}}
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_init_zero {"", false, RadioSettings_BandSettingsPb_init_zero}
-#define RadioSettings_RadioSettingsPb_init_zero  {false, RadioSettings_ReceiverSettings_init_zero, false, RadioSettings_TransmitterSettingsPb_init_zero, false, RadioSettings_ActiveBandSettingsPb_init_zero, false, 0}
+#define makesdr_ModePb_init_default        {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
+#define makesdr_ModeListPb_init_default    {0, {makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default}}
+#define makesdr_BandPb_init_default        {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
+#define makesdr_BandListPb_init_default    {0, {makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default, makesdr_BandPb_init_default}}
+#define makesdr_BandCategoryPb_init_default {"", "", false, makesdr_BandListPb_init_default}
+#define makesdr_BandCategoryListPb_init_default {0, {makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default, makesdr_BandCategoryPb_init_default}}
+#define makesdr_RadioMetaPb_init_default   {false, makesdr_BandCategoryListPb_init_default, false, makesdr_ModeListPb_init_default}
+#define makesdr_SteppableInt64SettingPb_init_default {0, 0, 0, 0}
+#define makesdr_SteppableFloatSettingPb_init_default {0, 0, 0, 0}
+#define makesdr_IqCorrectionSettingsPb_init_default {false, makesdr_SteppableFloatSettingPb_init_default, false, makesdr_SteppableFloatSettingPb_init_default}
+#define makesdr_RfSettingsPb_init_default  {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_default, false, makesdr_SteppableInt64SettingPb_init_default, false, makesdr_SteppableInt64SettingPb_init_default}
+#define makesdr_IfSettingsPb_init_default  {false, 0, false, makesdr_SteppableFloatSettingPb_init_default}
+#define makesdr_MicrophoneSettingsPb_init_default {false, makesdr_SteppableFloatSettingPb_init_default}
+#define makesdr_ReceiverSettings_init_default {false, makesdr_IqCorrectionSettingsPb_init_default}
+#define makesdr_TransmitterSettingsPb_init_default {false, makesdr_IqCorrectionSettingsPb_init_default, false, makesdr_MicrophoneSettingsPb_init_default}
+#define makesdr_PipelineSettingsPb_init_default {0, {_makesdr_ModeType_MIN}, false, makesdr_RfSettingsPb_init_default}
+#define makesdr_RxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, 0, false, _makesdr_AgcSpeed_MIN}
+#define makesdr_TxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default}
+#define makesdr_BandSettingsPb_init_default {0, {""}, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_TxPipelineSettingsPb_init_default, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
+#define makesdr_ActiveBandSettingsPb_init_default {false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, makesdr_BandSettingsPb_init_default, false, makesdr_BandSettingsPb_init_default, false, 0, _makesdr_SplitBandId_MIN}
+#define makesdr_BandSettingsCachePb_init_default {0, {makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BandSettingsCachePb_BandSettingsEntry_init_default}}
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_BandSettingsPb_init_default}
+#define makesdr_RadioSettingsPb_init_default {false, makesdr_ReceiverSettings_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, makesdr_ActiveBandSettingsPb_init_default, false, 0}
+#define makesdr_ModePb_init_zero           {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
+#define makesdr_ModeListPb_init_zero       {0, {makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero}}
+#define makesdr_BandPb_init_zero           {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
+#define makesdr_BandListPb_init_zero       {0, {makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero, makesdr_BandPb_init_zero}}
+#define makesdr_BandCategoryPb_init_zero   {"", "", false, makesdr_BandListPb_init_zero}
+#define makesdr_BandCategoryListPb_init_zero {0, {makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero, makesdr_BandCategoryPb_init_zero}}
+#define makesdr_RadioMetaPb_init_zero      {false, makesdr_BandCategoryListPb_init_zero, false, makesdr_ModeListPb_init_zero}
+#define makesdr_SteppableInt64SettingPb_init_zero {0, 0, 0, 0}
+#define makesdr_SteppableFloatSettingPb_init_zero {0, 0, 0, 0}
+#define makesdr_IqCorrectionSettingsPb_init_zero {false, makesdr_SteppableFloatSettingPb_init_zero, false, makesdr_SteppableFloatSettingPb_init_zero}
+#define makesdr_RfSettingsPb_init_zero     {false, 0, false, 0, false, makesdr_SteppableFloatSettingPb_init_zero, false, makesdr_SteppableInt64SettingPb_init_zero, false, makesdr_SteppableInt64SettingPb_init_zero}
+#define makesdr_IfSettingsPb_init_zero     {false, 0, false, makesdr_SteppableFloatSettingPb_init_zero}
+#define makesdr_MicrophoneSettingsPb_init_zero {false, makesdr_SteppableFloatSettingPb_init_zero}
+#define makesdr_ReceiverSettings_init_zero {false, makesdr_IqCorrectionSettingsPb_init_zero}
+#define makesdr_TransmitterSettingsPb_init_zero {false, makesdr_IqCorrectionSettingsPb_init_zero, false, makesdr_MicrophoneSettingsPb_init_zero}
+#define makesdr_PipelineSettingsPb_init_zero {0, {_makesdr_ModeType_MIN}, false, makesdr_RfSettingsPb_init_zero}
+#define makesdr_RxPipelineSettingsPb_init_zero {false, makesdr_PipelineSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, 0, false, _makesdr_AgcSpeed_MIN}
+#define makesdr_TxPipelineSettingsPb_init_zero {false, makesdr_PipelineSettingsPb_init_zero}
+#define makesdr_BandSettingsPb_init_zero   {0, {""}, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_TxPipelineSettingsPb_init_zero, false, 0, false, _makesdr_PipelineId_MIN, false, _makesdr_PipelineId_MIN, _makesdr_PipelineId_MIN}
+#define makesdr_ActiveBandSettingsPb_init_zero {false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, makesdr_BandSettingsPb_init_zero, false, makesdr_BandSettingsPb_init_zero, false, 0, _makesdr_SplitBandId_MIN}
+#define makesdr_BandSettingsCachePb_init_zero {0, {makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero}}
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_BandSettingsPb_init_zero}
+#define makesdr_RadioSettingsPb_init_zero  {false, makesdr_ReceiverSettings_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, makesdr_ActiveBandSettingsPb_init_zero, false, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define RadioSettings_ModePb_type_tag            1
-#define RadioSettings_ModePb_name_tag            2
-#define RadioSettings_ModePb_label_tag           3
-#define RadioSettings_ModePb_lo_cut_tag          4
-#define RadioSettings_ModePb_hi_cut_tag          5
-#define RadioSettings_ModePb_offset_tag          6
-#define RadioSettings_ModeListPb_modes_tag       1
-#define RadioSettings_BandPb_name_tag            1
-#define RadioSettings_BandPb_label_tag           2
-#define RadioSettings_BandPb_lowest_frequency_tag 3
-#define RadioSettings_BandPb_highest_frequency_tag 4
-#define RadioSettings_BandPb_landing_frequency_tag 5
-#define RadioSettings_BandPb_default_fine_step_tag 6
-#define RadioSettings_BandPb_default_coarse_step_tag 7
-#define RadioSettings_BandPb_default_mode_tag    8
-#define RadioSettings_BandListPb_bands_tag       1
-#define RadioSettings_BandCategoryPb_name_tag    1
-#define RadioSettings_BandCategoryPb_label_tag   2
-#define RadioSettings_BandCategoryPb_bands_tag   3
-#define RadioSettings_BandCategoryListPb_categories_tag 1
-#define RadioSettings_RadioMetaPb_bands_tag      1
-#define RadioSettings_RadioMetaPb_modes_tag      2
-#define RadioSettings_SteppableInt64SettingPb_value_tag 1
-#define RadioSettings_SteppableInt64SettingPb_coarse_delta_tag 2
-#define RadioSettings_SteppableInt64SettingPb_fine_delta_tag 3
-#define RadioSettings_SteppableInt64SettingPb_use_fine_tag 4
-#define RadioSettings_SteppableFloatSettingPb_value_tag 1
-#define RadioSettings_SteppableFloatSettingPb_coarse_delta_tag 2
-#define RadioSettings_SteppableFloatSettingPb_fine_delta_tag 3
-#define RadioSettings_SteppableFloatSettingPb_use_fine_tag 4
-#define RadioSettings_IqCorrectionSettingsPb_amplitude_tag 1001
-#define RadioSettings_IqCorrectionSettingsPb_phase_tag 1002
-#define RadioSettings_RfSettingsPb_max_negative_vfo_offset_tag 4
-#define RadioSettings_RfSettingsPb_max_positive_vfo_offset_tag 5
-#define RadioSettings_RfSettingsPb_gain_tag      1001
-#define RadioSettings_RfSettingsPb_centre_frequency_tag 1002
-#define RadioSettings_RfSettingsPb_vfo_tag       1003
-#define RadioSettings_IfSettingsPb_bandwidth_tag 2
-#define RadioSettings_IfSettingsPb_gain_tag      1001
-#define RadioSettings_MicrophoneSettingsPb_gain_tag 1001
-#define RadioSettings_ReceiverSettings_iq_corrections_tag 1
-#define RadioSettings_TransmitterSettingsPb_iq_corrections_tag 1
-#define RadioSettings_TransmitterSettingsPb_mic_tag 2
-#define RadioSettings_PipelineSettingsPb_mode_request_tag 1
-#define RadioSettings_PipelineSettingsPb_mode_tag 2
-#define RadioSettings_PipelineSettingsPb_rf_tag  3
-#define RadioSettings_RxPipelineSettingsPb_base_tag 1
-#define RadioSettings_RxPipelineSettingsPb_if_tag 2
-#define RadioSettings_RxPipelineSettingsPb_mute_tag 3
-#define RadioSettings_RxPipelineSettingsPb_agc_speed_tag 4
-#define RadioSettings_TxPipelineSettingsPb_base_tag 1
-#define RadioSettings_BandSettingsPb_band_request_tag 1
-#define RadioSettings_BandSettingsPb_band_tag    2
-#define RadioSettings_BandSettingsPb_pipeline_a_tag 3
-#define RadioSettings_BandSettingsPb_pipeline_b_tag 4
-#define RadioSettings_BandSettingsPb_tx_pipeline_tag 5
-#define RadioSettings_BandSettingsPb_is_multi_pipeline_tag 6
-#define RadioSettings_BandSettingsPb_focus_pipeline_id_tag 7
-#define RadioSettings_BandSettingsPb_tx_pipeline_id_tag 8
-#define RadioSettings_BandSettingsPb_focus_pipeline_tag 9
-#define RadioSettings_ActiveBandSettingsPb_focus_band_id_tag 1
-#define RadioSettings_ActiveBandSettingsPb_tx_band_id_tag 2
-#define RadioSettings_ActiveBandSettingsPb_rx_band_id_tag 3
-#define RadioSettings_ActiveBandSettingsPb_band_1_tag 4
-#define RadioSettings_ActiveBandSettingsPb_band_2_tag 5
-#define RadioSettings_ActiveBandSettingsPb_is_split_tag 6
-#define RadioSettings_ActiveBandSettingsPb_focus_band_tag 7
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_key_tag 1
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_value_tag 2
-#define RadioSettings_BandSettingsCachePb_band_settings_tag 1
-#define RadioSettings_RadioSettingsPb_receiver_tag 1
-#define RadioSettings_RadioSettingsPb_transmitter_tag 2
-#define RadioSettings_RadioSettingsPb_active_bands_tag 3
-#define RadioSettings_RadioSettingsPb_ptt_tag    4
+#define makesdr_ModePb_type_tag            1
+#define makesdr_ModePb_name_tag            2
+#define makesdr_ModePb_label_tag           3
+#define makesdr_ModePb_lo_cut_tag          4
+#define makesdr_ModePb_hi_cut_tag          5
+#define makesdr_ModePb_offset_tag          6
+#define makesdr_ModeListPb_modes_tag       1
+#define makesdr_BandPb_name_tag            1
+#define makesdr_BandPb_label_tag           2
+#define makesdr_BandPb_lowest_frequency_tag 3
+#define makesdr_BandPb_highest_frequency_tag 4
+#define makesdr_BandPb_landing_frequency_tag 5
+#define makesdr_BandPb_default_fine_step_tag 6
+#define makesdr_BandPb_default_coarse_step_tag 7
+#define makesdr_BandPb_default_mode_tag    8
+#define makesdr_BandListPb_bands_tag       1
+#define makesdr_BandCategoryPb_name_tag    1
+#define makesdr_BandCategoryPb_label_tag   2
+#define makesdr_BandCategoryPb_bands_tag   3
+#define makesdr_BandCategoryListPb_categories_tag 1
+#define makesdr_RadioMetaPb_bands_tag      1
+#define makesdr_RadioMetaPb_modes_tag      2
+#define makesdr_SteppableInt64SettingPb_value_tag 1
+#define makesdr_SteppableInt64SettingPb_coarse_delta_tag 2
+#define makesdr_SteppableInt64SettingPb_fine_delta_tag 3
+#define makesdr_SteppableInt64SettingPb_use_fine_tag 4
+#define makesdr_SteppableFloatSettingPb_value_tag 1
+#define makesdr_SteppableFloatSettingPb_coarse_delta_tag 2
+#define makesdr_SteppableFloatSettingPb_fine_delta_tag 3
+#define makesdr_SteppableFloatSettingPb_use_fine_tag 4
+#define makesdr_IqCorrectionSettingsPb_amplitude_tag 1001
+#define makesdr_IqCorrectionSettingsPb_phase_tag 1002
+#define makesdr_RfSettingsPb_max_negative_vfo_offset_tag 4
+#define makesdr_RfSettingsPb_max_positive_vfo_offset_tag 5
+#define makesdr_RfSettingsPb_gain_tag      1001
+#define makesdr_RfSettingsPb_centre_frequency_tag 1002
+#define makesdr_RfSettingsPb_vfo_tag       1003
+#define makesdr_IfSettingsPb_bandwidth_tag 2
+#define makesdr_IfSettingsPb_gain_tag      1001
+#define makesdr_MicrophoneSettingsPb_gain_tag 1001
+#define makesdr_ReceiverSettings_iq_corrections_tag 1
+#define makesdr_TransmitterSettingsPb_iq_corrections_tag 1
+#define makesdr_TransmitterSettingsPb_mic_tag 2
+#define makesdr_PipelineSettingsPb_mode_request_tag 1
+#define makesdr_PipelineSettingsPb_mode_tag 2
+#define makesdr_PipelineSettingsPb_rf_tag  3
+#define makesdr_RxPipelineSettingsPb_base_tag 1
+#define makesdr_RxPipelineSettingsPb_if_tag 2
+#define makesdr_RxPipelineSettingsPb_mute_tag 3
+#define makesdr_RxPipelineSettingsPb_agc_speed_tag 4
+#define makesdr_TxPipelineSettingsPb_base_tag 1
+#define makesdr_BandSettingsPb_band_request_tag 1
+#define makesdr_BandSettingsPb_band_tag    2
+#define makesdr_BandSettingsPb_pipeline_a_tag 3
+#define makesdr_BandSettingsPb_pipeline_b_tag 4
+#define makesdr_BandSettingsPb_tx_pipeline_tag 5
+#define makesdr_BandSettingsPb_is_multi_pipeline_tag 6
+#define makesdr_BandSettingsPb_focus_pipeline_id_tag 7
+#define makesdr_BandSettingsPb_tx_pipeline_id_tag 8
+#define makesdr_BandSettingsPb_focus_pipeline_tag 9
+#define makesdr_ActiveBandSettingsPb_focus_band_id_tag 1
+#define makesdr_ActiveBandSettingsPb_tx_band_id_tag 2
+#define makesdr_ActiveBandSettingsPb_rx_band_id_tag 3
+#define makesdr_ActiveBandSettingsPb_band_1_tag 4
+#define makesdr_ActiveBandSettingsPb_band_2_tag 5
+#define makesdr_ActiveBandSettingsPb_is_split_tag 6
+#define makesdr_ActiveBandSettingsPb_focus_band_tag 7
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_key_tag 1
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_value_tag 2
+#define makesdr_BandSettingsCachePb_band_settings_tag 1
+#define makesdr_RadioSettingsPb_receiver_tag 1
+#define makesdr_RadioSettingsPb_transmitter_tag 2
+#define makesdr_RadioSettingsPb_active_bands_tag 3
+#define makesdr_RadioSettingsPb_ptt_tag    4
 
 /* Struct field encoding specification for nanopb */
-#define RadioSettings_ModePb_FIELDLIST(X, a) \
+#define makesdr_ModePb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   SINGULAR, STRING,   name,              2) \
 X(a, STATIC,   SINGULAR, STRING,   label,             3) \
 X(a, STATIC,   SINGULAR, INT32,    lo_cut,            4) \
 X(a, STATIC,   SINGULAR, INT32,    hi_cut,            5) \
 X(a, STATIC,   SINGULAR, INT32,    offset,            6)
-#define RadioSettings_ModePb_CALLBACK NULL
-#define RadioSettings_ModePb_DEFAULT NULL
+#define makesdr_ModePb_CALLBACK NULL
+#define makesdr_ModePb_DEFAULT NULL
 
-#define RadioSettings_ModeListPb_FIELDLIST(X, a) \
+#define makesdr_ModeListPb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  modes,             1)
-#define RadioSettings_ModeListPb_CALLBACK NULL
-#define RadioSettings_ModeListPb_DEFAULT NULL
-#define RadioSettings_ModeListPb_modes_MSGTYPE RadioSettings_ModePb
+#define makesdr_ModeListPb_CALLBACK NULL
+#define makesdr_ModeListPb_DEFAULT NULL
+#define makesdr_ModeListPb_modes_MSGTYPE makesdr_ModePb
 
-#define RadioSettings_BandPb_FIELDLIST(X, a) \
+#define makesdr_BandPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, STRING,   label,             2) \
 X(a, STATIC,   SINGULAR, INT64,    lowest_frequency,   3) \
@@ -445,126 +445,126 @@ X(a, STATIC,   SINGULAR, INT64,    landing_frequency,   5) \
 X(a, STATIC,   SINGULAR, INT32,    default_fine_step,   6) \
 X(a, STATIC,   SINGULAR, INT32,    default_coarse_step,   7) \
 X(a, STATIC,   SINGULAR, UENUM,    default_mode,      8)
-#define RadioSettings_BandPb_CALLBACK NULL
-#define RadioSettings_BandPb_DEFAULT NULL
+#define makesdr_BandPb_CALLBACK NULL
+#define makesdr_BandPb_DEFAULT NULL
 
-#define RadioSettings_BandListPb_FIELDLIST(X, a) \
+#define makesdr_BandListPb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  bands,             1)
-#define RadioSettings_BandListPb_CALLBACK NULL
-#define RadioSettings_BandListPb_DEFAULT NULL
-#define RadioSettings_BandListPb_bands_MSGTYPE RadioSettings_BandPb
+#define makesdr_BandListPb_CALLBACK NULL
+#define makesdr_BandListPb_DEFAULT NULL
+#define makesdr_BandListPb_bands_MSGTYPE makesdr_BandPb
 
-#define RadioSettings_BandCategoryPb_FIELDLIST(X, a) \
+#define makesdr_BandCategoryPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   name,              1) \
 X(a, STATIC,   SINGULAR, STRING,   label,             2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  bands,             3)
-#define RadioSettings_BandCategoryPb_CALLBACK NULL
-#define RadioSettings_BandCategoryPb_DEFAULT NULL
-#define RadioSettings_BandCategoryPb_bands_MSGTYPE RadioSettings_BandListPb
+#define makesdr_BandCategoryPb_CALLBACK NULL
+#define makesdr_BandCategoryPb_DEFAULT NULL
+#define makesdr_BandCategoryPb_bands_MSGTYPE makesdr_BandListPb
 
-#define RadioSettings_BandCategoryListPb_FIELDLIST(X, a) \
+#define makesdr_BandCategoryListPb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  categories,        1)
-#define RadioSettings_BandCategoryListPb_CALLBACK NULL
-#define RadioSettings_BandCategoryListPb_DEFAULT NULL
-#define RadioSettings_BandCategoryListPb_categories_MSGTYPE RadioSettings_BandCategoryPb
+#define makesdr_BandCategoryListPb_CALLBACK NULL
+#define makesdr_BandCategoryListPb_DEFAULT NULL
+#define makesdr_BandCategoryListPb_categories_MSGTYPE makesdr_BandCategoryPb
 
-#define RadioSettings_RadioMetaPb_FIELDLIST(X, a) \
+#define makesdr_RadioMetaPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  bands,             1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  modes,             2)
-#define RadioSettings_RadioMetaPb_CALLBACK NULL
-#define RadioSettings_RadioMetaPb_DEFAULT NULL
-#define RadioSettings_RadioMetaPb_bands_MSGTYPE RadioSettings_BandCategoryListPb
-#define RadioSettings_RadioMetaPb_modes_MSGTYPE RadioSettings_ModeListPb
+#define makesdr_RadioMetaPb_CALLBACK NULL
+#define makesdr_RadioMetaPb_DEFAULT NULL
+#define makesdr_RadioMetaPb_bands_MSGTYPE makesdr_BandCategoryListPb
+#define makesdr_RadioMetaPb_modes_MSGTYPE makesdr_ModeListPb
 
-#define RadioSettings_SteppableInt64SettingPb_FIELDLIST(X, a) \
+#define makesdr_SteppableInt64SettingPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, INT64,    value,             1) \
 X(a, STATIC,   SINGULAR, INT64,    coarse_delta,      2) \
 X(a, STATIC,   SINGULAR, INT64,    fine_delta,        3) \
 X(a, STATIC,   SINGULAR, BOOL,     use_fine,          4)
-#define RadioSettings_SteppableInt64SettingPb_CALLBACK NULL
-#define RadioSettings_SteppableInt64SettingPb_DEFAULT NULL
+#define makesdr_SteppableInt64SettingPb_CALLBACK NULL
+#define makesdr_SteppableInt64SettingPb_DEFAULT NULL
 
-#define RadioSettings_SteppableFloatSettingPb_FIELDLIST(X, a) \
+#define makesdr_SteppableFloatSettingPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, FLOAT,    value,             1) \
 X(a, STATIC,   SINGULAR, FLOAT,    coarse_delta,      2) \
 X(a, STATIC,   SINGULAR, FLOAT,    fine_delta,        3) \
 X(a, STATIC,   SINGULAR, BOOL,     use_fine,          4)
-#define RadioSettings_SteppableFloatSettingPb_CALLBACK NULL
-#define RadioSettings_SteppableFloatSettingPb_DEFAULT NULL
+#define makesdr_SteppableFloatSettingPb_CALLBACK NULL
+#define makesdr_SteppableFloatSettingPb_DEFAULT NULL
 
-#define RadioSettings_IqCorrectionSettingsPb_FIELDLIST(X, a) \
+#define makesdr_IqCorrectionSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  amplitude,       1001) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  phase,           1002)
-#define RadioSettings_IqCorrectionSettingsPb_CALLBACK NULL
-#define RadioSettings_IqCorrectionSettingsPb_DEFAULT NULL
-#define RadioSettings_IqCorrectionSettingsPb_amplitude_MSGTYPE RadioSettings_SteppableFloatSettingPb
-#define RadioSettings_IqCorrectionSettingsPb_phase_MSGTYPE RadioSettings_SteppableFloatSettingPb
+#define makesdr_IqCorrectionSettingsPb_CALLBACK NULL
+#define makesdr_IqCorrectionSettingsPb_DEFAULT NULL
+#define makesdr_IqCorrectionSettingsPb_amplitude_MSGTYPE makesdr_SteppableFloatSettingPb
+#define makesdr_IqCorrectionSettingsPb_phase_MSGTYPE makesdr_SteppableFloatSettingPb
 
-#define RadioSettings_RfSettingsPb_FIELDLIST(X, a) \
+#define makesdr_RfSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, INT32,    max_negative_vfo_offset,   4) \
 X(a, STATIC,   OPTIONAL, INT32,    max_positive_vfo_offset,   5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  gain,            1001) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  centre_frequency, 1002) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  vfo,             1003)
-#define RadioSettings_RfSettingsPb_CALLBACK NULL
-#define RadioSettings_RfSettingsPb_DEFAULT NULL
-#define RadioSettings_RfSettingsPb_gain_MSGTYPE RadioSettings_SteppableFloatSettingPb
-#define RadioSettings_RfSettingsPb_centre_frequency_MSGTYPE RadioSettings_SteppableInt64SettingPb
-#define RadioSettings_RfSettingsPb_vfo_MSGTYPE RadioSettings_SteppableInt64SettingPb
+#define makesdr_RfSettingsPb_CALLBACK NULL
+#define makesdr_RfSettingsPb_DEFAULT NULL
+#define makesdr_RfSettingsPb_gain_MSGTYPE makesdr_SteppableFloatSettingPb
+#define makesdr_RfSettingsPb_centre_frequency_MSGTYPE makesdr_SteppableInt64SettingPb
+#define makesdr_RfSettingsPb_vfo_MSGTYPE makesdr_SteppableInt64SettingPb
 
-#define RadioSettings_IfSettingsPb_FIELDLIST(X, a) \
+#define makesdr_IfSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, UINT32,   bandwidth,         2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  gain,            1001)
-#define RadioSettings_IfSettingsPb_CALLBACK NULL
-#define RadioSettings_IfSettingsPb_DEFAULT NULL
-#define RadioSettings_IfSettingsPb_gain_MSGTYPE RadioSettings_SteppableFloatSettingPb
+#define makesdr_IfSettingsPb_CALLBACK NULL
+#define makesdr_IfSettingsPb_DEFAULT NULL
+#define makesdr_IfSettingsPb_gain_MSGTYPE makesdr_SteppableFloatSettingPb
 
-#define RadioSettings_MicrophoneSettingsPb_FIELDLIST(X, a) \
+#define makesdr_MicrophoneSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  gain,            1001)
-#define RadioSettings_MicrophoneSettingsPb_CALLBACK NULL
-#define RadioSettings_MicrophoneSettingsPb_DEFAULT NULL
-#define RadioSettings_MicrophoneSettingsPb_gain_MSGTYPE RadioSettings_SteppableFloatSettingPb
+#define makesdr_MicrophoneSettingsPb_CALLBACK NULL
+#define makesdr_MicrophoneSettingsPb_DEFAULT NULL
+#define makesdr_MicrophoneSettingsPb_gain_MSGTYPE makesdr_SteppableFloatSettingPb
 
-#define RadioSettings_ReceiverSettings_FIELDLIST(X, a) \
+#define makesdr_ReceiverSettings_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  iq_corrections,    1)
-#define RadioSettings_ReceiverSettings_CALLBACK NULL
-#define RadioSettings_ReceiverSettings_DEFAULT NULL
-#define RadioSettings_ReceiverSettings_iq_corrections_MSGTYPE RadioSettings_IqCorrectionSettingsPb
+#define makesdr_ReceiverSettings_CALLBACK NULL
+#define makesdr_ReceiverSettings_DEFAULT NULL
+#define makesdr_ReceiverSettings_iq_corrections_MSGTYPE makesdr_IqCorrectionSettingsPb
 
-#define RadioSettings_TransmitterSettingsPb_FIELDLIST(X, a) \
+#define makesdr_TransmitterSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  iq_corrections,    1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  mic,               2)
-#define RadioSettings_TransmitterSettingsPb_CALLBACK NULL
-#define RadioSettings_TransmitterSettingsPb_DEFAULT NULL
-#define RadioSettings_TransmitterSettingsPb_iq_corrections_MSGTYPE RadioSettings_IqCorrectionSettingsPb
-#define RadioSettings_TransmitterSettingsPb_mic_MSGTYPE RadioSettings_MicrophoneSettingsPb
+#define makesdr_TransmitterSettingsPb_CALLBACK NULL
+#define makesdr_TransmitterSettingsPb_DEFAULT NULL
+#define makesdr_TransmitterSettingsPb_iq_corrections_MSGTYPE makesdr_IqCorrectionSettingsPb
+#define makesdr_TransmitterSettingsPb_mic_MSGTYPE makesdr_MicrophoneSettingsPb
 
-#define RadioSettings_PipelineSettingsPb_FIELDLIST(X, a) \
+#define makesdr_PipelineSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    UENUM,    (mode_or_request,mode_request,mode_or_request.mode_request),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (mode_or_request,mode,mode_or_request.mode),   2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  rf,                3)
-#define RadioSettings_PipelineSettingsPb_CALLBACK NULL
-#define RadioSettings_PipelineSettingsPb_DEFAULT NULL
-#define RadioSettings_PipelineSettingsPb_mode_or_request_mode_MSGTYPE RadioSettings_ModePb
-#define RadioSettings_PipelineSettingsPb_rf_MSGTYPE RadioSettings_RfSettingsPb
+#define makesdr_PipelineSettingsPb_CALLBACK NULL
+#define makesdr_PipelineSettingsPb_DEFAULT NULL
+#define makesdr_PipelineSettingsPb_mode_or_request_mode_MSGTYPE makesdr_ModePb
+#define makesdr_PipelineSettingsPb_rf_MSGTYPE makesdr_RfSettingsPb
 
-#define RadioSettings_RxPipelineSettingsPb_FIELDLIST(X, a) \
+#define makesdr_RxPipelineSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  base,              1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  if_,               2) \
 X(a, STATIC,   OPTIONAL, BOOL,     mute,              3) \
 X(a, STATIC,   OPTIONAL, UENUM,    agc_speed,         4)
-#define RadioSettings_RxPipelineSettingsPb_CALLBACK NULL
-#define RadioSettings_RxPipelineSettingsPb_DEFAULT NULL
-#define RadioSettings_RxPipelineSettingsPb_base_MSGTYPE RadioSettings_PipelineSettingsPb
-#define RadioSettings_RxPipelineSettingsPb_if__MSGTYPE RadioSettings_IfSettingsPb
+#define makesdr_RxPipelineSettingsPb_CALLBACK NULL
+#define makesdr_RxPipelineSettingsPb_DEFAULT NULL
+#define makesdr_RxPipelineSettingsPb_base_MSGTYPE makesdr_PipelineSettingsPb
+#define makesdr_RxPipelineSettingsPb_if__MSGTYPE makesdr_IfSettingsPb
 
-#define RadioSettings_TxPipelineSettingsPb_FIELDLIST(X, a) \
+#define makesdr_TxPipelineSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  base,              1)
-#define RadioSettings_TxPipelineSettingsPb_CALLBACK NULL
-#define RadioSettings_TxPipelineSettingsPb_DEFAULT NULL
-#define RadioSettings_TxPipelineSettingsPb_base_MSGTYPE RadioSettings_PipelineSettingsPb
+#define makesdr_TxPipelineSettingsPb_CALLBACK NULL
+#define makesdr_TxPipelineSettingsPb_DEFAULT NULL
+#define makesdr_TxPipelineSettingsPb_base_MSGTYPE makesdr_PipelineSettingsPb
 
-#define RadioSettings_BandSettingsPb_FIELDLIST(X, a) \
+#define makesdr_BandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    STRING,   (band_or_request,band_request,band_or_request.band_request),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (band_or_request,band,band_or_request.band),   2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  pipeline_a,        3) \
@@ -574,14 +574,14 @@ X(a, STATIC,   OPTIONAL, BOOL,     is_multi_pipeline,   6) \
 X(a, STATIC,   OPTIONAL, UENUM,    focus_pipeline_id,   7) \
 X(a, STATIC,   OPTIONAL, UENUM,    tx_pipeline_id,    8) \
 X(a, STATIC,   SINGULAR, UENUM,    focus_pipeline,    9)
-#define RadioSettings_BandSettingsPb_CALLBACK NULL
-#define RadioSettings_BandSettingsPb_DEFAULT NULL
-#define RadioSettings_BandSettingsPb_band_or_request_band_MSGTYPE RadioSettings_BandPb
-#define RadioSettings_BandSettingsPb_pipeline_a_MSGTYPE RadioSettings_RxPipelineSettingsPb
-#define RadioSettings_BandSettingsPb_pipeline_b_MSGTYPE RadioSettings_RxPipelineSettingsPb
-#define RadioSettings_BandSettingsPb_tx_pipeline_MSGTYPE RadioSettings_TxPipelineSettingsPb
+#define makesdr_BandSettingsPb_CALLBACK NULL
+#define makesdr_BandSettingsPb_DEFAULT NULL
+#define makesdr_BandSettingsPb_band_or_request_band_MSGTYPE makesdr_BandPb
+#define makesdr_BandSettingsPb_pipeline_a_MSGTYPE makesdr_RxPipelineSettingsPb
+#define makesdr_BandSettingsPb_pipeline_b_MSGTYPE makesdr_RxPipelineSettingsPb
+#define makesdr_BandSettingsPb_tx_pipeline_MSGTYPE makesdr_TxPipelineSettingsPb
 
-#define RadioSettings_ActiveBandSettingsPb_FIELDLIST(X, a) \
+#define makesdr_ActiveBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, UENUM,    focus_band_id,     1) \
 X(a, STATIC,   OPTIONAL, UENUM,    tx_band_id,        2) \
 X(a, STATIC,   OPTIONAL, UENUM,    rx_band_id,        3) \
@@ -589,109 +589,109 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  band_1,            4) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  band_2,            5) \
 X(a, STATIC,   OPTIONAL, BOOL,     is_split,          6) \
 X(a, STATIC,   SINGULAR, UENUM,    focus_band,        7)
-#define RadioSettings_ActiveBandSettingsPb_CALLBACK NULL
-#define RadioSettings_ActiveBandSettingsPb_DEFAULT NULL
-#define RadioSettings_ActiveBandSettingsPb_band_1_MSGTYPE RadioSettings_BandSettingsPb
-#define RadioSettings_ActiveBandSettingsPb_band_2_MSGTYPE RadioSettings_BandSettingsPb
+#define makesdr_ActiveBandSettingsPb_CALLBACK NULL
+#define makesdr_ActiveBandSettingsPb_DEFAULT NULL
+#define makesdr_ActiveBandSettingsPb_band_1_MSGTYPE makesdr_BandSettingsPb
+#define makesdr_ActiveBandSettingsPb_band_2_MSGTYPE makesdr_BandSettingsPb
 
-#define RadioSettings_BandSettingsCachePb_FIELDLIST(X, a) \
+#define makesdr_BandSettingsCachePb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  band_settings,     1)
-#define RadioSettings_BandSettingsCachePb_CALLBACK NULL
-#define RadioSettings_BandSettingsCachePb_DEFAULT NULL
-#define RadioSettings_BandSettingsCachePb_band_settings_MSGTYPE RadioSettings_BandSettingsCachePb_BandSettingsEntry
+#define makesdr_BandSettingsCachePb_CALLBACK NULL
+#define makesdr_BandSettingsCachePb_DEFAULT NULL
+#define makesdr_BandSettingsCachePb_band_settings_MSGTYPE makesdr_BandSettingsCachePb_BandSettingsEntry
 
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   key,               1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_CALLBACK NULL
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_value_MSGTYPE RadioSettings_BandSettingsPb
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_CALLBACK NULL
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_BandSettingsPb
 
-#define RadioSettings_RadioSettingsPb_FIELDLIST(X, a) \
+#define makesdr_RadioSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      3) \
 X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define RadioSettings_RadioSettingsPb_CALLBACK NULL
-#define RadioSettings_RadioSettingsPb_DEFAULT NULL
-#define RadioSettings_RadioSettingsPb_receiver_MSGTYPE RadioSettings_ReceiverSettings
-#define RadioSettings_RadioSettingsPb_transmitter_MSGTYPE RadioSettings_TransmitterSettingsPb
-#define RadioSettings_RadioSettingsPb_active_bands_MSGTYPE RadioSettings_ActiveBandSettingsPb
+#define makesdr_RadioSettingsPb_CALLBACK NULL
+#define makesdr_RadioSettingsPb_DEFAULT NULL
+#define makesdr_RadioSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettings
+#define makesdr_RadioSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+#define makesdr_RadioSettingsPb_active_bands_MSGTYPE makesdr_ActiveBandSettingsPb
 
-extern const pb_msgdesc_t RadioSettings_ModePb_msg;
-extern const pb_msgdesc_t RadioSettings_ModeListPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandListPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandCategoryPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandCategoryListPb_msg;
-extern const pb_msgdesc_t RadioSettings_RadioMetaPb_msg;
-extern const pb_msgdesc_t RadioSettings_SteppableInt64SettingPb_msg;
-extern const pb_msgdesc_t RadioSettings_SteppableFloatSettingPb_msg;
-extern const pb_msgdesc_t RadioSettings_IqCorrectionSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_RfSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_IfSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_MicrophoneSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_ReceiverSettings_msg;
-extern const pb_msgdesc_t RadioSettings_TransmitterSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_PipelineSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_RxPipelineSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_TxPipelineSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_ActiveBandSettingsPb_msg;
-extern const pb_msgdesc_t RadioSettings_BandSettingsCachePb_msg;
-extern const pb_msgdesc_t RadioSettings_BandSettingsCachePb_BandSettingsEntry_msg;
-extern const pb_msgdesc_t RadioSettings_RadioSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_ModePb_msg;
+extern const pb_msgdesc_t makesdr_ModeListPb_msg;
+extern const pb_msgdesc_t makesdr_BandPb_msg;
+extern const pb_msgdesc_t makesdr_BandListPb_msg;
+extern const pb_msgdesc_t makesdr_BandCategoryPb_msg;
+extern const pb_msgdesc_t makesdr_BandCategoryListPb_msg;
+extern const pb_msgdesc_t makesdr_RadioMetaPb_msg;
+extern const pb_msgdesc_t makesdr_SteppableInt64SettingPb_msg;
+extern const pb_msgdesc_t makesdr_SteppableFloatSettingPb_msg;
+extern const pb_msgdesc_t makesdr_IqCorrectionSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_RfSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_IfSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_MicrophoneSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_ReceiverSettings_msg;
+extern const pb_msgdesc_t makesdr_TransmitterSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_PipelineSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_RxPipelineSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_TxPipelineSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_BandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_ActiveBandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_BandSettingsCachePb_msg;
+extern const pb_msgdesc_t makesdr_BandSettingsCachePb_BandSettingsEntry_msg;
+extern const pb_msgdesc_t makesdr_RadioSettingsPb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
-#define RadioSettings_ModePb_fields &RadioSettings_ModePb_msg
-#define RadioSettings_ModeListPb_fields &RadioSettings_ModeListPb_msg
-#define RadioSettings_BandPb_fields &RadioSettings_BandPb_msg
-#define RadioSettings_BandListPb_fields &RadioSettings_BandListPb_msg
-#define RadioSettings_BandCategoryPb_fields &RadioSettings_BandCategoryPb_msg
-#define RadioSettings_BandCategoryListPb_fields &RadioSettings_BandCategoryListPb_msg
-#define RadioSettings_RadioMetaPb_fields &RadioSettings_RadioMetaPb_msg
-#define RadioSettings_SteppableInt64SettingPb_fields &RadioSettings_SteppableInt64SettingPb_msg
-#define RadioSettings_SteppableFloatSettingPb_fields &RadioSettings_SteppableFloatSettingPb_msg
-#define RadioSettings_IqCorrectionSettingsPb_fields &RadioSettings_IqCorrectionSettingsPb_msg
-#define RadioSettings_RfSettingsPb_fields &RadioSettings_RfSettingsPb_msg
-#define RadioSettings_IfSettingsPb_fields &RadioSettings_IfSettingsPb_msg
-#define RadioSettings_MicrophoneSettingsPb_fields &RadioSettings_MicrophoneSettingsPb_msg
-#define RadioSettings_ReceiverSettings_fields &RadioSettings_ReceiverSettings_msg
-#define RadioSettings_TransmitterSettingsPb_fields &RadioSettings_TransmitterSettingsPb_msg
-#define RadioSettings_PipelineSettingsPb_fields &RadioSettings_PipelineSettingsPb_msg
-#define RadioSettings_RxPipelineSettingsPb_fields &RadioSettings_RxPipelineSettingsPb_msg
-#define RadioSettings_TxPipelineSettingsPb_fields &RadioSettings_TxPipelineSettingsPb_msg
-#define RadioSettings_BandSettingsPb_fields &RadioSettings_BandSettingsPb_msg
-#define RadioSettings_ActiveBandSettingsPb_fields &RadioSettings_ActiveBandSettingsPb_msg
-#define RadioSettings_BandSettingsCachePb_fields &RadioSettings_BandSettingsCachePb_msg
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_fields &RadioSettings_BandSettingsCachePb_BandSettingsEntry_msg
-#define RadioSettings_RadioSettingsPb_fields &RadioSettings_RadioSettingsPb_msg
+#define makesdr_ModePb_fields &makesdr_ModePb_msg
+#define makesdr_ModeListPb_fields &makesdr_ModeListPb_msg
+#define makesdr_BandPb_fields &makesdr_BandPb_msg
+#define makesdr_BandListPb_fields &makesdr_BandListPb_msg
+#define makesdr_BandCategoryPb_fields &makesdr_BandCategoryPb_msg
+#define makesdr_BandCategoryListPb_fields &makesdr_BandCategoryListPb_msg
+#define makesdr_RadioMetaPb_fields &makesdr_RadioMetaPb_msg
+#define makesdr_SteppableInt64SettingPb_fields &makesdr_SteppableInt64SettingPb_msg
+#define makesdr_SteppableFloatSettingPb_fields &makesdr_SteppableFloatSettingPb_msg
+#define makesdr_IqCorrectionSettingsPb_fields &makesdr_IqCorrectionSettingsPb_msg
+#define makesdr_RfSettingsPb_fields &makesdr_RfSettingsPb_msg
+#define makesdr_IfSettingsPb_fields &makesdr_IfSettingsPb_msg
+#define makesdr_MicrophoneSettingsPb_fields &makesdr_MicrophoneSettingsPb_msg
+#define makesdr_ReceiverSettings_fields &makesdr_ReceiverSettings_msg
+#define makesdr_TransmitterSettingsPb_fields &makesdr_TransmitterSettingsPb_msg
+#define makesdr_PipelineSettingsPb_fields &makesdr_PipelineSettingsPb_msg
+#define makesdr_RxPipelineSettingsPb_fields &makesdr_RxPipelineSettingsPb_msg
+#define makesdr_TxPipelineSettingsPb_fields &makesdr_TxPipelineSettingsPb_msg
+#define makesdr_BandSettingsPb_fields &makesdr_BandSettingsPb_msg
+#define makesdr_ActiveBandSettingsPb_fields &makesdr_ActiveBandSettingsPb_msg
+#define makesdr_BandSettingsCachePb_fields &makesdr_BandSettingsCachePb_msg
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_fields &makesdr_BandSettingsCachePb_BandSettingsEntry_msg
+#define makesdr_RadioSettingsPb_fields &makesdr_RadioSettingsPb_msg
 
 /* Maximum encoded size of messages (where known) */
-#define RADIOSETTINGS_RADIOSETTINGS_PB_H_MAX_SIZE RadioSettings_RadioMetaPb_size
-#define RadioSettings_ActiveBandSettingsPb_size  1446
-#define RadioSettings_BandCategoryListPb_size    8424
-#define RadioSettings_BandCategoryPb_size        1050
-#define RadioSettings_BandListPb_size            1027
-#define RadioSettings_BandPb_size                77
-#define RadioSettings_BandSettingsCachePb_BandSettingsEntry_size 727
-#define RadioSettings_BandSettingsCachePb_size   7300
-#define RadioSettings_BandSettingsPb_size        715
-#define RadioSettings_IfSettingsPb_size          26
-#define RadioSettings_IqCorrectionSettingsPb_size 40
-#define RadioSettings_MicrophoneSettingsPb_size  20
-#define RadioSettings_ModeListPb_size            620
-#define RadioSettings_ModePb_size                60
-#define RadioSettings_PipelineSettingsPb_size    182
-#define RadioSettings_RadioMetaPb_size           9050
-#define RadioSettings_RadioSettingsPb_size       1561
-#define RadioSettings_ReceiverSettings_size      42
-#define RadioSettings_RfSettingsPb_size          118
-#define RadioSettings_RxPipelineSettingsPb_size  217
-#define RadioSettings_SteppableFloatSettingPb_size 17
-#define RadioSettings_SteppableInt64SettingPb_size 35
-#define RadioSettings_TransmitterSettingsPb_size 64
-#define RadioSettings_TxPipelineSettingsPb_size  185
+#define RADIOSETTINGS_RADIOSETTINGS_PB_H_MAX_SIZE makesdr_RadioMetaPb_size
+#define makesdr_ActiveBandSettingsPb_size  1446
+#define makesdr_BandCategoryListPb_size    8424
+#define makesdr_BandCategoryPb_size        1050
+#define makesdr_BandListPb_size            1027
+#define makesdr_BandPb_size                77
+#define makesdr_BandSettingsCachePb_BandSettingsEntry_size 727
+#define makesdr_BandSettingsCachePb_size   7300
+#define makesdr_BandSettingsPb_size        715
+#define makesdr_IfSettingsPb_size          26
+#define makesdr_IqCorrectionSettingsPb_size 40
+#define makesdr_MicrophoneSettingsPb_size  20
+#define makesdr_ModeListPb_size            620
+#define makesdr_ModePb_size                60
+#define makesdr_PipelineSettingsPb_size    182
+#define makesdr_RadioMetaPb_size           9050
+#define makesdr_RadioSettingsPb_size       1561
+#define makesdr_ReceiverSettings_size      42
+#define makesdr_RfSettingsPb_size          118
+#define makesdr_RxPipelineSettingsPb_size  217
+#define makesdr_SteppableFloatSettingPb_size 17
+#define makesdr_SteppableInt64SettingPb_size 35
+#define makesdr_TransmitterSettingsPb_size 64
+#define makesdr_TxPipelineSettingsPb_size  185
 
 #ifdef __cplusplus
 } /* extern "C" */

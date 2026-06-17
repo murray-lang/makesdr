@@ -2,7 +2,7 @@
 #include <CrossPlatformTypes.h>
 #include "Band.h"
 #include "settings/model/core/PipelineId.h"
-#include "settings/model/core/SettingFieldVariant.h"
+#include "settings/model/core/SettingUpdateVariant.h"
 #include "SettingsBase.h"
 #include "RxPipelineSettings.h"
 #include "TxPipelineSettings.h"
@@ -12,7 +12,7 @@ using BandOrRequestVariant = variant<monostate, StringRef, Band>;
 class BandSettings : public SettingsBase, public AutoComplete
 {
 public:
-  BandSettings(RadioSettings_BandSettingsPb& raw)
+  BandSettings(makesdr_BandSettingsPb& raw)
   : m_rawSettings(raw)
     , m_pipelineA(raw.pipeline_a)
     , m_pipelineB(raw.pipeline_b)
@@ -29,7 +29,7 @@ public:
     return *this;
   }
 
-  BandSettings& operator=(const RadioSettings_BandSettingsPb& rhs) noexcept
+  BandSettings& operator=(const makesdr_BandSettingsPb& rhs) noexcept
   {
     m_rawSettings = rhs;
     setBandOrRequestVariant(m_rawSettings);
@@ -83,8 +83,8 @@ public:
     return getPipelineSettings(focusPipelineId());
   }
 
-  RadioSettings_BandSettingsPb& raw() { return m_rawSettings; }
-  [[nodiscard]] const RadioSettings_BandSettingsPb& raw() const { return m_rawSettings; }
+  makesdr_BandSettingsPb& raw() { return m_rawSettings; }
+  [[nodiscard]] const makesdr_BandSettingsPb& raw() const { return m_rawSettings; }
 
   void setCategories(RadioMeta* categories)
   {
@@ -99,7 +99,7 @@ public:
   ResultCode applyBandDefaults(const ModeList& modeInfo);
 
   ResultCode autoComplete(
-    const SettingFieldPath& path,
+    const SettingPath& path,
     uint32_t startingAtIndex,
     AutoCompleteTrigger trigger) override;
 
@@ -109,23 +109,23 @@ public:
   ResultCode autoCompleteMultiPipeline();
 
 protected:
-  void copyBasicsForTxTracking(RadioSettings_RxPipelineSettingsPb& rxPipeline);
+  void copyBasicsForTxTracking(makesdr_RxPipelineSettingsPb& rxPipeline);
 
-  void setBandOrRequestVariant(RadioSettings_BandSettingsPb& raw)
+  void setBandOrRequestVariant(makesdr_BandSettingsPb& raw)
   {
-    if (raw.which_band_or_request == RadioSettings_BandSettingsPb_band_request_tag) {
+    if (raw.which_band_or_request == makesdr_BandSettingsPb_band_request_tag) {
       m_bandOrRequest.emplace<StringRef>(
         raw.band_or_request.band_request,
         raw.band_or_request.band_request,
         sizeof(raw.band_or_request.band_request)
       );
-    } else if (raw.which_band_or_request == RadioSettings_BandSettingsPb_band_tag) {
+    } else if (raw.which_band_or_request == makesdr_BandSettingsPb_band_tag) {
       m_bandOrRequest.emplace<Band>(raw.band_or_request.band);
     }
   }
   void setBandOrRequestVariant() { setBandOrRequestVariant(m_rawSettings); }
 
-  RadioSettings_BandSettingsPb& m_rawSettings;
+  makesdr_BandSettingsPb& m_rawSettings;
   BandOrRequestVariant m_bandOrRequest;
   RxPipelineSettings m_pipelineA;
   RxPipelineSettings m_pipelineB;

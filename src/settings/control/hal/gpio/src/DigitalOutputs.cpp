@@ -80,12 +80,12 @@ DigitalOutputs::applySettings(const RadioSettings& settings)
 }
 
 ResultCode
-DigitalOutputs::applySettingFieldUpdate(const SettingFieldUpdate& settingDelta)
+DigitalOutputs::applySettingUpdate(const SettingUpdate& settingDelta)
 {
   for (auto& output : m_outputs) {
     const ResultCode rc = visit([&settingDelta] (auto&& dov) -> ResultCode
     {
-      return dov.applySettingFieldUpdate(settingDelta);
+      return dov.applySettingUpdate(settingDelta);
     }, output);
     if (rc != ResultCode::OK) {
       return rc;

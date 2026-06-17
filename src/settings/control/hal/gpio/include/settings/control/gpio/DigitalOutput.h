@@ -5,10 +5,10 @@
 #include "settings/control/sink/SettingsControlSink.h"
 #include "settings/control/gpio/base/GpioLines.h"
 #include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingFieldPath.h"
+#include "settings/model/core/SettingPath.h"
 #include "settings/control/gpio/DigitalOutputLinesRequest.h"
-#include "settings/model/core/SettingFieldUpdate.h"
-#include "settings/model/core/SettingFieldUpdateSink.h"
+#include "settings/model/core/SettingUpdate.h"
+#include "settings/model/core/SettingUpdateSink.h"
 
 #ifdef USE_ETL
 #include "etl/memory.h"
@@ -19,7 +19,7 @@ using std::unique_ptr;
 #endif
 
 
-class DigitalOutput : public GpioLines, public SettingsControlSink, public SettingFieldUpdateSink
+class DigitalOutput : public GpioLines, public SettingsControlSink, public SettingUpdateSink
 {
 public:
   DigitalOutput();
@@ -40,13 +40,13 @@ public:
   // to respond here as well would be circular.
   void ptt(bool on) override {};
 
-  ResultCode applySettingFieldUpdate(const SettingFieldUpdate& setting) override;
+  ResultCode applySettingUpdate(const SettingUpdate& setting) override;
   ResultCode applySettings(const RadioSettings& radioSettings) override { return ResultCode::OK; }
 
   void setValue(bool value);
 
 protected:
-  SettingFieldPath m_settingPath;
+  SettingPath m_settingPath;
   optional<DigitalOutputLinesRequest> m_linesRequest;
 
 };

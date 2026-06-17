@@ -7,7 +7,7 @@
 using NameString = etl::string<MAX_NAME_LENGTH>;
 using LabelString = etl::string<MAX_MODE_LABEL_LENGTH>;
 
-using SettingFieldVariant = variant<
+using SettingUpdateVariant = variant<
   monostate,
   NameString,
   LabelString,
@@ -23,7 +23,7 @@ using SettingFieldVariant = variant<
 using NameString = std::string;
 using LabelString = std::string;
 
-using SettingFieldVariant = variant<
+using SettingUpdateVariant = variant<
   monostate,
   std::string,
   int32_t,

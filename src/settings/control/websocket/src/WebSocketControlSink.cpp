@@ -88,7 +88,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
   //   m_txBuffer + LWS_PRE,
   //   MAX_MESSAGE_SIZE,
   //   &bytes_written,
-  //   RadioSettings_fields,
+  //   makesdr_fields,
   //   settings
   // );
   return ResultCode::ERR_SETTING_WEBSOCKET_INIT_FAILED; // For now
@@ -99,7 +99,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
   // return broadcastMessage(m_txBuffer + LWS_PRE, bytes_written);
 }
 
-// ResultCode WebSocketControlSink::applySettingFieldUpdate(const SettingFieldUpdate& update)
+// ResultCode WebSocketControlSink::applySettingUpdate(const SettingUpdate& update)
 // {
 //   // Serialize the field update to protobuf
 //   size_t bytes_written = 0;
@@ -107,7 +107,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
 //     m_txBuffer + LWS_PRE,
 //     MAX_MESSAGE_SIZE,
 //     &bytes_written,
-//     SettingFieldUpdate_fields,
+//     SettingUpdate_fields,
 //     update
 //   );
 //
