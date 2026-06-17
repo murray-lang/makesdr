@@ -3,7 +3,7 @@
 
 enum class SplitBandId
 {
-  None = RadioSettings_SplitBandId_SPLIT_BAND_NONE,
-  One = RadioSettings_SplitBandId_SPLIT_BAND_ONE,
-  Two = RadioSettings_SplitBandId_SPLIT_BAND_TWO
+  None = makesdr_SplitBandId_SPLIT_BAND_NONE,
+  One = makesdr_SplitBandId_SPLIT_BAND_ONE,
+  Two = makesdr_SplitBandId_SPLIT_BAND_TWO
 };

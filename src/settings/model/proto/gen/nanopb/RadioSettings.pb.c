@@ -6,73 +6,73 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(RadioSettings_ModePb, RadioSettings_ModePb, AUTO)
+PB_BIND(makesdr_ModePb, makesdr_ModePb, AUTO)
 
 
-PB_BIND(RadioSettings_ModeListPb, RadioSettings_ModeListPb, 2)
+PB_BIND(makesdr_ModeListPb, makesdr_ModeListPb, 2)
 
 
-PB_BIND(RadioSettings_BandPb, RadioSettings_BandPb, AUTO)
+PB_BIND(makesdr_BandPb, makesdr_BandPb, AUTO)
 
 
-PB_BIND(RadioSettings_BandListPb, RadioSettings_BandListPb, 2)
+PB_BIND(makesdr_BandListPb, makesdr_BandListPb, 2)
 
 
-PB_BIND(RadioSettings_BandCategoryPb, RadioSettings_BandCategoryPb, 2)
+PB_BIND(makesdr_BandCategoryPb, makesdr_BandCategoryPb, 2)
 
 
-PB_BIND(RadioSettings_BandCategoryListPb, RadioSettings_BandCategoryListPb, 4)
+PB_BIND(makesdr_BandCategoryListPb, makesdr_BandCategoryListPb, 4)
 
 
-PB_BIND(RadioSettings_RadioMetaPb, RadioSettings_RadioMetaPb, 4)
+PB_BIND(makesdr_RadioMetaPb, makesdr_RadioMetaPb, 4)
 
 
-PB_BIND(RadioSettings_SteppableInt64SettingPb, RadioSettings_SteppableInt64SettingPb, AUTO)
+PB_BIND(makesdr_SteppableInt64SettingPb, makesdr_SteppableInt64SettingPb, AUTO)
 
 
-PB_BIND(RadioSettings_SteppableFloatSettingPb, RadioSettings_SteppableFloatSettingPb, AUTO)
+PB_BIND(makesdr_SteppableFloatSettingPb, makesdr_SteppableFloatSettingPb, AUTO)
 
 
-PB_BIND(RadioSettings_IqCorrectionSettingsPb, RadioSettings_IqCorrectionSettingsPb, 2)
+PB_BIND(makesdr_IqCorrectionSettingsPb, makesdr_IqCorrectionSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_RfSettingsPb, RadioSettings_RfSettingsPb, 2)
+PB_BIND(makesdr_RfSettingsPb, makesdr_RfSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_IfSettingsPb, RadioSettings_IfSettingsPb, 2)
+PB_BIND(makesdr_IfSettingsPb, makesdr_IfSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_MicrophoneSettingsPb, RadioSettings_MicrophoneSettingsPb, 2)
+PB_BIND(makesdr_MicrophoneSettingsPb, makesdr_MicrophoneSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_ReceiverSettings, RadioSettings_ReceiverSettings, AUTO)
+PB_BIND(makesdr_ReceiverSettings, makesdr_ReceiverSettings, AUTO)
 
 
-PB_BIND(RadioSettings_TransmitterSettingsPb, RadioSettings_TransmitterSettingsPb, AUTO)
+PB_BIND(makesdr_TransmitterSettingsPb, makesdr_TransmitterSettingsPb, AUTO)
 
 
-PB_BIND(RadioSettings_PipelineSettingsPb, RadioSettings_PipelineSettingsPb, AUTO)
+PB_BIND(makesdr_PipelineSettingsPb, makesdr_PipelineSettingsPb, AUTO)
 
 
-PB_BIND(RadioSettings_RxPipelineSettingsPb, RadioSettings_RxPipelineSettingsPb, AUTO)
+PB_BIND(makesdr_RxPipelineSettingsPb, makesdr_RxPipelineSettingsPb, AUTO)
 
 
-PB_BIND(RadioSettings_TxPipelineSettingsPb, RadioSettings_TxPipelineSettingsPb, AUTO)
+PB_BIND(makesdr_TxPipelineSettingsPb, makesdr_TxPipelineSettingsPb, AUTO)
 
 
-PB_BIND(RadioSettings_BandSettingsPb, RadioSettings_BandSettingsPb, 2)
+PB_BIND(makesdr_BandSettingsPb, makesdr_BandSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_ActiveBandSettingsPb, RadioSettings_ActiveBandSettingsPb, 2)
+PB_BIND(makesdr_ActiveBandSettingsPb, makesdr_ActiveBandSettingsPb, 2)
 
 
-PB_BIND(RadioSettings_BandSettingsCachePb, RadioSettings_BandSettingsCachePb, 4)
+PB_BIND(makesdr_BandSettingsCachePb, makesdr_BandSettingsCachePb, 4)
 
 
-PB_BIND(RadioSettings_BandSettingsCachePb_BandSettingsEntry, RadioSettings_BandSettingsCachePb_BandSettingsEntry, 2)
+PB_BIND(makesdr_BandSettingsCachePb_BandSettingsEntry, makesdr_BandSettingsCachePb_BandSettingsEntry, 2)
 
 
-PB_BIND(RadioSettings_RadioSettingsPb, RadioSettings_RadioSettingsPb, 2)
+PB_BIND(makesdr_RadioSettingsPb, makesdr_RadioSettingsPb, 2)
 
 
 

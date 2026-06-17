@@ -10,13 +10,13 @@
 #include <settings/model/meta/generalCoverageRadioMeta.h>
 // #include "../settings/util/ResolvedFieldPaths.h"
 
-using RadioSettingsPb = RadioSettings_RadioSettingsPb;
+using RadioSettingsPb = makesdr_RadioSettingsPb;
 
 #include <settings/model/proto/ProtobufIo.h>
 // #include <settings/MessageTagLookup.h>
 #include "../../data/exampleRadioSettings.h"
 
-RadioSettingsPb radioSettingsPb = RadioSettings_RadioSettingsPb_init_zero;
+RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
 
 uint32_t fieldIds[10]; // = { 3, 4, 1, 3 };
 int64_t newFrequency = 7000000;

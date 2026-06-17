@@ -6,7 +6,7 @@
 class RxPipelineSettings : public SettingsBase
 {
 public:
-  RxPipelineSettings(RadioSettings_RxPipelineSettingsPb& rawSettings)
+  RxPipelineSettings(makesdr_RxPipelineSettingsPb& rawSettings)
     : m_rawSettings(rawSettings)
     , m_base(rawSettings.base)
     , m_ifSettings(rawSettings.if_)
@@ -26,7 +26,7 @@ public:
   [[nodiscard]] bool isMute() const { return m_rawSettings.mute; }
 
 protected:
-  RadioSettings_RxPipelineSettingsPb& m_rawSettings;
+  makesdr_RxPipelineSettingsPb& m_rawSettings;
   PipelineSettings m_base;
   IfSettings m_ifSettings;
 };

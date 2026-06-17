@@ -6,7 +6,7 @@
 class IqCorrectionSettings : public SettingsBase
 {
 public:
-  IqCorrectionSettings(RadioSettings_IqCorrectionSettingsPb& raw)
+  IqCorrectionSettings(makesdr_IqCorrectionSettingsPb& raw)
     : m_rawSettings(raw)
     , m_amplitude(raw.amplitude)
     , m_phase(raw.phase)
@@ -18,7 +18,7 @@ public:
   [[nodiscard]] const SteppableFloatSetting& phase() const { return m_phase; }
 
 protected:
-  RadioSettings_IqCorrectionSettingsPb& m_rawSettings;
+  makesdr_IqCorrectionSettingsPb& m_rawSettings;
   SteppableFloatSetting m_amplitude;
   SteppableFloatSetting m_phase;
 };

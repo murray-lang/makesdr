@@ -2,14 +2,14 @@
 
 #include "etl/string.h"
 
-BandList::BandList(const RadioSettings_BandListPb& raw)
+BandList::BandList(const makesdr_BandListPb& raw)
   : m_rawSettings(raw)
   , m_bands(raw.bands, MAX_BANDS_PER_CATEGORY)
 {
 
 }
 
-const RadioSettings_BandPb*
+const makesdr_BandPb*
 BandList::findBand(const BandName& name) const
 {
   uint32_t max = count();

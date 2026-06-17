@@ -1,10 +1,10 @@
 #include "settings/model/meta/basicModes.h"
 
-RadioSettings_ModeListPb basicModes {
+makesdr_ModeListPb basicModes {
   .modes_count = 8,
     .modes = {
       {
-        RadioSettings_ModeType_MODE_AMN,
+        makesdr_ModeType_MODE_AMN,
         "AM",
         "AM (Narrow)",
         -3000,
@@ -12,7 +12,7 @@ RadioSettings_ModeListPb basicModes {
         0
       },
       {
-        RadioSettings_ModeType_MODE_AMW,
+        makesdr_ModeType_MODE_AMW,
         "AMW",
         "AM (Wide)",
         -9000,
@@ -20,7 +20,7 @@ RadioSettings_ModeListPb basicModes {
         0
       },
       {
-        RadioSettings_ModeType_MODE_LSB,
+        makesdr_ModeType_MODE_LSB,
         "LSB",
         "Lower Sideband",
 
@@ -29,7 +29,7 @@ RadioSettings_ModeListPb basicModes {
         0
       },
       {
-        RadioSettings_ModeType_MODE_USB,
+        makesdr_ModeType_MODE_USB,
         "USB",
         "Upper Sideband",
         200,
@@ -37,7 +37,7 @@ RadioSettings_ModeListPb basicModes {
         0
       },
       {
-        RadioSettings_ModeType_MODE_FMN,
+        makesdr_ModeType_MODE_FMN,
         "FM",
         "FM (Narrow)",
         -5000,
@@ -45,7 +45,7 @@ RadioSettings_ModeListPb basicModes {
         0
       },
       {
-        RadioSettings_ModeType_MODE_FMW,
+        makesdr_ModeType_MODE_FMW,
         "FMW",
         "FM (Wide)",
         -15000,
@@ -53,7 +53,7 @@ RadioSettings_ModeListPb basicModes {
          0
       },
       {
-        RadioSettings_ModeType_MODE_CWL,
+        makesdr_ModeType_MODE_CWL,
         "CWL",
         "CW (Lower)",
         -1000,
@@ -61,7 +61,7 @@ RadioSettings_ModeListPb basicModes {
         -700
       },
       {
-        RadioSettings_ModeType_MODE_CWU,
+        makesdr_ModeType_MODE_CWU,
         "CWU",
         "CW (Upper)",
         50,

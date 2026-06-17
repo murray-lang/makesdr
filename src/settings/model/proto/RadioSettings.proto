@@ -2,7 +2,7 @@ syntax = "proto3";
 
 //import "nanopb.proto";
 
-package RadioSettings;
+package makesdr;
 
 
 //import "nanopb.proto";

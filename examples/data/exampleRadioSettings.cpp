@@ -1,6 +1,6 @@
 #include "exampleRadioSettings.h"
 
-RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
+makesdr_RadioSettingsPb exampleRadioSettingsPb = {
   .has_receiver = true,
   .receiver =  {
     .has_iq_corrections = true,
@@ -49,14 +49,14 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
   .has_active_bands = true,
   .active_bands =  {
     .has_focus_band_id = true,
-    .focus_band_id =  RadioSettings_SplitBandId_SPLIT_BAND_ONE,
+    .focus_band_id =  makesdr_SplitBandId_SPLIT_BAND_ONE,
     .has_tx_band_id = true,
-    .tx_band_id =  RadioSettings_SplitBandId_SPLIT_BAND_ONE,
+    .tx_band_id =  makesdr_SplitBandId_SPLIT_BAND_ONE,
     .has_rx_band_id = true,
-    .rx_band_id =  RadioSettings_SplitBandId_SPLIT_BAND_ONE,
+    .rx_band_id =  makesdr_SplitBandId_SPLIT_BAND_ONE,
     .has_band_1 = true,
     .band_1 =   {
-      .which_band_or_request = RadioSettings_BandSettingsPb_band_request_tag,
+      .which_band_or_request = makesdr_BandSettingsPb_band_request_tag,
       .band_or_request {
         .band_request = "20m",
       },
@@ -64,9 +64,9 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
       .pipeline_a =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_USB,
+            .mode_request =  makesdr_ModeType_MODE_USB,
           },
           .has_rf = true,
           .rf =  {
@@ -107,15 +107,15 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
         .has_mute = true,
         .mute =  false,
         .has_agc_speed = true,
-        .agc_speed = RadioSettings_AgcSpeed_AGC_FAST
+        .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_pipeline_b = true,
       .pipeline_b =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_USB,
+            .mode_request =  makesdr_ModeType_MODE_USB,
           },
           .has_rf = true,
           .rf =  {
@@ -156,15 +156,15 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
         .has_mute = true,
         .mute =  false,
         .has_agc_speed = true,
-        .agc_speed = RadioSettings_AgcSpeed_AGC_FAST
+        .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_tx_pipeline = true,
       .tx_pipeline =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_USB,
+            .mode_request =  makesdr_ModeType_MODE_USB,
           },
           .has_rf = true,
           .rf =  {
@@ -196,13 +196,13 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
       .has_is_multi_pipeline = true,
       .is_multi_pipeline =  true,
       .has_focus_pipeline_id = true,
-      .focus_pipeline_id =  RadioSettings_PipelineId_PIPELINE_A,
+      .focus_pipeline_id =  makesdr_PipelineId_PIPELINE_A,
       .has_tx_pipeline_id = true,
-      .tx_pipeline_id =  RadioSettings_PipelineId_PIPELINE_A
+      .tx_pipeline_id =  makesdr_PipelineId_PIPELINE_A
     },
     .has_band_2 = true,
     .band_2 =  {
-      .which_band_or_request = RadioSettings_BandSettingsPb_band_request_tag,
+      .which_band_or_request = makesdr_BandSettingsPb_band_request_tag,
       .band_or_request {
         .band_request = "40m",
       },
@@ -210,9 +210,9 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
       .pipeline_a =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_LSB,
+            .mode_request =  makesdr_ModeType_MODE_LSB,
           },
           .has_rf = true,
           .rf =  {
@@ -252,15 +252,15 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
         .has_mute = true,
         .mute =  false,
         .has_agc_speed = true,
-        .agc_speed = RadioSettings_AgcSpeed_AGC_FAST
+        .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_pipeline_b = true,
       .pipeline_b =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_LSB,
+            .mode_request =  makesdr_ModeType_MODE_LSB,
           },
           .has_rf = true,
           .rf =  {
@@ -300,15 +300,15 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
         .has_mute = true,
         .mute =  false,
         .has_agc_speed = true,
-        .agc_speed = RadioSettings_AgcSpeed_AGC_FAST
+        .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_tx_pipeline = true,
       .tx_pipeline =  {
         .has_base = true,
         .base = {
-          .which_mode_or_request = RadioSettings_PipelineSettingsPb_mode_request_tag,
+          .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  RadioSettings_ModeType_MODE_LSB,
+            .mode_request =  makesdr_ModeType_MODE_LSB,
           },
           .has_rf = true,
           .rf =  {
@@ -340,9 +340,9 @@ RadioSettings_RadioSettingsPb exampleRadioSettingsPb = {
       .has_is_multi_pipeline = true,
       .is_multi_pipeline =  true,
       .has_focus_pipeline_id = true,
-      .focus_pipeline_id =  RadioSettings_PipelineId_PIPELINE_A,
+      .focus_pipeline_id =  makesdr_PipelineId_PIPELINE_A,
       .has_tx_pipeline_id = true,
-      .tx_pipeline_id =  RadioSettings_PipelineId_PIPELINE_A
+      .tx_pipeline_id =  makesdr_PipelineId_PIPELINE_A
     }
   },
   .has_ptt = true,

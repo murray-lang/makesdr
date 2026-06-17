@@ -31,9 +31,9 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   // SettingPath centreFreqPath {
   //   bandTag,
   //   pipelineTag,
-  //   RadioSettings_PipelineSettingsPb_rf_tag,
-  //   RadioSettings_RfSettingsPb_centre_frequency_tag,
-  //   RadioSettings_SteppableInt64SettingPb_value_tag
+  //   makesdr_PipelineSettingsPb_rf_tag,
+  //   makesdr_RfSettingsPb_centre_frequency_tag,
+  //   makesdr_SteppableInt64SettingPb_value_tag
   // };
   // SettingUpdateVariant centreFreq;
   // ResultCode rc = settings.getField(centreFreqPath, centreFreq);
@@ -45,9 +45,9 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   // SettingPath rfGainPath {
   //   bandTag,
   //   pipelineTag,
-  //   RadioSettings_PipelineSettingsPb_rf_tag,
-  //   RadioSettings_RfSettingsPb_gain_tag,
-  //   RadioSettings_SteppableFloatSettingPb_value_tag
+  //   makesdr_PipelineSettingsPb_rf_tag,
+  //   makesdr_RfSettingsPb_gain_tag,
+  //   makesdr_SteppableFloatSettingPb_value_tag
   // };
   // SettingUpdateVariant rfGainVar;
   // rc = settings.getField(rfGainPath, rfGainVar);
@@ -59,9 +59,9 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   // SettingPath ifGainPath {
   //   bandTag,
   //   pipelineTag,
-  //   RadioSettings_RxPipelineSettingsPb_if_tag,
-  //   RadioSettings_IfSettingsPb_gain_tag,
-  //   RadioSettings_SteppableFloatSettingPb_value_tag
+  //   makesdr_RxPipelineSettingsPb_if_tag,
+  //   makesdr_IfSettingsPb_gain_tag,
+  //   makesdr_SteppableFloatSettingPb_value_tag
   // };
   // SettingUpdateVariant ifGainVar;
   // rc = settings.getField(ifGainPath, ifGainVar);
@@ -70,12 +70,12 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   // setIfGain(ifGain);
   // m_lastIfGain = ifGain;
 
-  const RadioSettings_RxPipelineSettingsPb* pipelineSettings = settings.getFocusBandFocusRxPipelineSettings();
+  const makesdr_RxPipelineSettingsPb* pipelineSettings = settings.getFocusBandFocusRxPipelineSettings();
   if (pipelineSettings == nullptr) {
     return ResultCode::ERR_SETTING_CONTROL_NO_FOCUS_PIPELINE;
   }
   if (pipelineSettings->base.has_rf) {
-    const RadioSettings_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
+    const makesdr_RfSettingsPb& rfSettings = pipelineSettings->base.rf;
     if (rfSettings.has_centre_frequency) {
       uint32_t centreFrequency = rfSettings.centre_frequency.value;
       setFrequency(centreFrequency);
@@ -89,7 +89,7 @@ FunCubeDongle::applySettings(const RadioSettings& settings)
   }
 
   if (pipelineSettings->has_if_) {
-    const RadioSettings_IfSettingsPb& ifSettings = pipelineSettings->if_;
+    const makesdr_IfSettingsPb& ifSettings = pipelineSettings->if_;
 
     if (ifSettings.has_bandwidth) {
       setIfFilter(ifSettings.bandwidth);

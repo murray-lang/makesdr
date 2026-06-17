@@ -19,13 +19,13 @@ int main()
   // const char* homeDir = getpwuid(getuid())->pw_dir;
   const char* homeDir = getenv("HOME");
 
-  uint8_t buffer[RadioSettings_RadioSettingsPb_size];
+  uint8_t buffer[makesdr_RadioSettingsPb_size];
   size_t written = 0;
-  ResultCode rc = ProtobufIo::writeProtobuf<RadioSettings_RadioSettingsPb>(
+  ResultCode rc = ProtobufIo::writeProtobuf<makesdr_RadioSettingsPb>(
     buffer,
-    RadioSettings_RadioSettingsPb_size,
+    makesdr_RadioSettingsPb_size,
     &written,
-    &RadioSettings_RadioSettingsPb_msg,
+    &makesdr_RadioSettingsPb_msg,
     exampleRadioSettingsPb
     );
 

@@ -5,7 +5,7 @@
 class RadioMeta
 {
 public:
-  RadioMeta(const RadioSettings_RadioMetaPb& raw)
+  RadioMeta(const makesdr_RadioMetaPb& raw)
     : m_rawSettings(raw)
     , m_bands(raw.bands)
     , m_modes(raw.modes)
@@ -18,7 +18,7 @@ public:
   RadioMeta(RadioMeta&&) = default;
   // RadioMeta& operator=(RadioMeta&&) = default;
 
-  const RadioSettings_RadioMetaPb& raw() const { return m_rawSettings; }
+  const makesdr_RadioMetaPb& raw() const { return m_rawSettings; }
   
   bool hasBands() const { return m_rawSettings.has_bands; }
   bool hasModes() const { return m_rawSettings.has_modes; }
@@ -29,7 +29,7 @@ public:
   [[nodiscard]] const ModeList& modes() const { return m_modes; }
 
 protected:
-  const RadioSettings_RadioMetaPb& m_rawSettings;
+  const makesdr_RadioMetaPb& m_rawSettings;
   BandCategoryList m_bands;
   ModeList m_modes;
 };

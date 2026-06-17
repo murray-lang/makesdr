@@ -259,11 +259,11 @@ struct RadioSettingsPbDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RadioSettingsPbDefaultTypeInternal _RadioSettingsPb_default_instance_;
 }  // namespace RadioSettings
 }  // namespace nexusdr
-static ::_pb::Metadata file_level_metadata_proto_2fRadioSettings_2eproto[15];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_proto_2fRadioSettings_2eproto[4];
-static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_proto_2fRadioSettings_2eproto = nullptr;
+static ::_pb::Metadata file_level_metadata_proto_2fmakesdr_2eproto[15];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_proto_2fmakesdr_2eproto[4];
+static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_proto_2fmakesdr_2eproto = nullptr;
 
-const uint32_t TableStruct_proto_2fRadioSettings_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+const uint32_t TableStruct_proto_2fmakesdr_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::nexusdr::RadioSettings::ModePb, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -455,7 +455,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::nexusdr::RadioSettings::_RadioSettingsPb_default_instance_._instance,
 };
 
-const char descriptor_table_protodef_proto_2fRadioSettings_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+const char descriptor_table_protodef_proto_2fmakesdr_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\031proto/RadioSettings.proto\022\025nexusdr.Rad"
   "ioSettings\"\204\001\n\006ModePb\022-\n\004type\030\001 \001(\0162\037.ne"
   "xusdr.RadioSettings.ModeType\022\014\n\004name\030\002 \001"
@@ -534,26 +534,26 @@ const char descriptor_table_protodef_proto_2fRadioSettings_2eproto[] PROTOBUF_SE
   "\020\000\022\014\n\010AGC_SLOW\020\001\022\016\n\nAGC_MEDIUM\020\002\022\014\n\010AGC_"
   "FAST\020\003b\006proto3"
   ;
-static ::_pbi::once_flag descriptor_table_proto_2fRadioSettings_2eproto_once;
-const ::_pbi::DescriptorTable descriptor_table_proto_2fRadioSettings_2eproto = {
-    false, false, 3054, descriptor_table_protodef_proto_2fRadioSettings_2eproto,
+static ::_pbi::once_flag descriptor_table_proto_2fmakesdr_2eproto_once;
+const ::_pbi::DescriptorTable descriptor_table_proto_2fmakesdr_2eproto = {
+    false, false, 3054, descriptor_table_protodef_proto_2fmakesdr_2eproto,
     "proto/RadioSettings.proto",
-    &descriptor_table_proto_2fRadioSettings_2eproto_once, nullptr, 0, 15,
-    schemas, file_default_instances, TableStruct_proto_2fRadioSettings_2eproto::offsets,
-    file_level_metadata_proto_2fRadioSettings_2eproto, file_level_enum_descriptors_proto_2fRadioSettings_2eproto,
-    file_level_service_descriptors_proto_2fRadioSettings_2eproto,
+    &descriptor_table_proto_2fmakesdr_2eproto_once, nullptr, 0, 15,
+    schemas, file_default_instances, TableStruct_proto_2fmakesdr_2eproto::offsets,
+    file_level_metadata_proto_2fmakesdr_2eproto, file_level_enum_descriptors_proto_2fmakesdr_2eproto,
+    file_level_service_descriptors_proto_2fmakesdr_2eproto,
 };
-PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_proto_2fRadioSettings_2eproto_getter() {
-  return &descriptor_table_proto_2fRadioSettings_2eproto;
+PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_proto_2fmakesdr_2eproto_getter() {
+  return &descriptor_table_proto_2fmakesdr_2eproto;
 }
 
 // Force running AddDescriptors() at dynamic initialization time.
-PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_proto_2fRadioSettings_2eproto(&descriptor_table_proto_2fRadioSettings_2eproto);
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_proto_2fmakesdr_2eproto(&descriptor_table_proto_2fmakesdr_2eproto);
 namespace nexusdr {
 namespace RadioSettings {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SplitBandId_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fRadioSettings_2eproto);
-  return file_level_enum_descriptors_proto_2fRadioSettings_2eproto[0];
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fmakesdr_2eproto);
+  return file_level_enum_descriptors_proto_2fmakesdr_2eproto[0];
 }
 bool SplitBandId_IsValid(int value) {
   switch (value) {
@@ -567,8 +567,8 @@ bool SplitBandId_IsValid(int value) {
 }
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PipelineId_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fRadioSettings_2eproto);
-  return file_level_enum_descriptors_proto_2fRadioSettings_2eproto[1];
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fmakesdr_2eproto);
+  return file_level_enum_descriptors_proto_2fmakesdr_2eproto[1];
 }
 bool PipelineId_IsValid(int value) {
   switch (value) {
@@ -582,8 +582,8 @@ bool PipelineId_IsValid(int value) {
 }
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ModeType_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fRadioSettings_2eproto);
-  return file_level_enum_descriptors_proto_2fRadioSettings_2eproto[2];
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fmakesdr_2eproto);
+  return file_level_enum_descriptors_proto_2fmakesdr_2eproto[2];
 }
 bool ModeType_IsValid(int value) {
   switch (value) {
@@ -603,8 +603,8 @@ bool ModeType_IsValid(int value) {
 }
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AgcSpeed_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fRadioSettings_2eproto);
-  return file_level_enum_descriptors_proto_2fRadioSettings_2eproto[3];
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_proto_2fmakesdr_2eproto);
+  return file_level_enum_descriptors_proto_2fmakesdr_2eproto[3];
 }
 bool AgcSpeed_IsValid(int value) {
   switch (value) {
@@ -979,8 +979,8 @@ void ModePb::InternalSwap(ModePb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ModePb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[0]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[0]);
 }
 
 // ===================================================================
@@ -1391,8 +1391,8 @@ void BandPb::InternalSwap(BandPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata BandPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[1]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[1]);
 }
 
 // ===================================================================
@@ -1626,8 +1626,8 @@ void SteppableInt64SettingPb::InternalSwap(SteppableInt64SettingPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SteppableInt64SettingPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[2]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[2]);
 }
 
 // ===================================================================
@@ -1897,8 +1897,8 @@ void SteppableFloatSettingPb::InternalSwap(SteppableFloatSettingPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SteppableFloatSettingPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[3]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[3]);
 }
 
 // ===================================================================
@@ -2136,8 +2136,8 @@ void IqCorrectionSettingsPb::InternalSwap(IqCorrectionSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata IqCorrectionSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[4]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[4]);
 }
 
 // ===================================================================
@@ -2470,8 +2470,8 @@ void RfSettingsPb::InternalSwap(RfSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata RfSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[5]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[5]);
 }
 
 // ===================================================================
@@ -2694,8 +2694,8 @@ void IfSettingsPb::InternalSwap(IfSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata IfSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[6]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[6]);
 }
 
 // ===================================================================
@@ -2887,8 +2887,8 @@ void MicrophoneSettingsPb::InternalSwap(MicrophoneSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MicrophoneSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[7]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[7]);
 }
 
 // ===================================================================
@@ -3080,8 +3080,8 @@ void ReceiverSettings::InternalSwap(ReceiverSettings* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ReceiverSettings::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[8]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[8]);
 }
 
 // ===================================================================
@@ -3319,8 +3319,8 @@ void TransmitterSettingsPb::InternalSwap(TransmitterSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TransmitterSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[9]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[9]);
 }
 
 // ===================================================================
@@ -3574,8 +3574,8 @@ void RxPipelineSettingsPb::InternalSwap(RxPipelineSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata RxPipelineSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[10]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[10]);
 }
 
 // ===================================================================
@@ -3767,8 +3767,8 @@ void TxPipelineSettingsPb::InternalSwap(TxPipelineSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata TxPipelineSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[11]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[11]);
 }
 
 // ===================================================================
@@ -4194,8 +4194,8 @@ void BandSettingsPb::InternalSwap(BandSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata BandSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[12]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[12]);
 }
 
 // ===================================================================
@@ -4520,8 +4520,8 @@ void ActiveBandSettingsPb::InternalSwap(ActiveBandSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ActiveBandSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[13]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[13]);
 }
 
 // ===================================================================
@@ -4852,8 +4852,8 @@ void RadioSettingsPb::InternalSwap(RadioSettingsPb* other) {
 
 ::PROTOBUF_NAMESPACE_ID::Metadata RadioSettingsPb::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
-      &descriptor_table_proto_2fRadioSettings_2eproto_getter, &descriptor_table_proto_2fRadioSettings_2eproto_once,
-      file_level_metadata_proto_2fRadioSettings_2eproto[14]);
+      &descriptor_table_proto_2fmakesdr_2eproto_getter, &descriptor_table_proto_2fmakesdr_2eproto_once,
+      file_level_metadata_proto_2fmakesdr_2eproto[14]);
 }
 
 // @@protoc_insertion_point(namespace_scope)

@@ -7,6 +7,7 @@ set(CORE_SETTINGS_SOURCES
         include/settings/model/core/BandSettingsCache.h
         include/settings/model/core/MessageTagLookup.h
         include/settings/model/core/MessageVisitor.h
+        include/settings/model/core/RadioPayloadBase.h
         include/settings/model/core/RadioSettings.h
         include/settings/model/core/RadioSettingsSink.h
         include/settings/model/core/RadioSettingsSource.h

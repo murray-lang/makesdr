@@ -6,13 +6,19 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(RadioSettings_RadioSettingsPayloadPb, RadioSettings_RadioSettingsPayloadPb, 2)
+PB_BIND(makesdr_RadioPayloadHeaderPb, makesdr_RadioPayloadHeaderPb, AUTO)
 
 
-PB_BIND(RadioSettings_RadioMetaPayloadPb, RadioSettings_RadioMetaPayloadPb, 4)
+PB_BIND(makesdr_RadioPayloadBasePb, makesdr_RadioPayloadBasePb, AUTO)
 
 
-PB_BIND(RadioSettings_RadioCachePayloadPb, RadioSettings_RadioCachePayloadPb, 4)
+PB_BIND(makesdr_RadioSettingsPayloadPb, makesdr_RadioSettingsPayloadPb, 2)
+
+
+PB_BIND(makesdr_RadioMetaPayloadPb, makesdr_RadioMetaPayloadPb, 4)
+
+
+PB_BIND(makesdr_RadioCachePayloadPb, makesdr_RadioCachePayloadPb, 4)
 
 
 

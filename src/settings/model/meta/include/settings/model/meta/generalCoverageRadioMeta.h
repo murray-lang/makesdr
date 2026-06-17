@@ -1,4 +1,4 @@
 #pragma once
-#include "RadioSettings.pb.h"
+#include "settings/model/proto/RadioSettings.pb.h"
 
-extern RadioSettings_RadioMetaPb generalCoverageRadioMeta;
+extern makesdr_RadioMetaPb generalCoverageRadioMeta;

@@ -12,7 +12,7 @@
 class RadioSettingsEx : public RadioSettings, public AutoComplete
 {
 public:
-  RadioSettingsEx(RadioSettings_RadioSettingsPb& raw, const RadioMeta& meta, BandSettingsCache& cache)
+  RadioSettingsEx(makesdr_RadioSettingsPb& raw, const RadioMeta& meta, BandSettingsCache& cache)
     : RadioSettings(raw, meta.raw(), cache)
     , m_activeBandSettings(m_rawSettings.active_bands)
     , m_receiverSettings(m_rawSettings.receiver)
@@ -22,8 +22,8 @@ public:
     m_activeBandSettings.setCategories(&m_meta);
   }
 
-  RadioSettings_RadioSettingsPb& rawSettings() { return m_rawSettings; }
-  [[nodiscard]] const RadioSettings_RadioSettingsPb& rawSettings() const { return m_rawSettings; }
+  makesdr_RadioSettingsPb& rawSettings() { return m_rawSettings; }
+  [[nodiscard]] const makesdr_RadioSettingsPb& rawSettings() const { return m_rawSettings; }
 
   [[nodiscard]] bool hasReceiver() const { return m_rawSettings.has_receiver; }
   [[nodiscard]] bool hasTransmitter() const { return m_rawSettings.has_transmitter; }
@@ -41,11 +41,11 @@ public:
   [[nodiscard]] bool getPtt() const { return m_rawSettings.ptt; }
 
   ResultCode readProtobuf(const uint8_t *buffer, size_t msg_length) {
-    return ProtobufIo::readProtobuf<RadioSettings_RadioSettingsPb>(
+    return ProtobufIo::readProtobuf<makesdr_RadioSettingsPb>(
       buffer,
       msg_length,
-      RadioSettings_RadioSettingsPb_fields,
-      RadioSettings_RadioSettingsPb_init_zero,
+      makesdr_RadioSettingsPb_fields,
+      makesdr_RadioSettingsPb_init_zero,
       m_rawSettings
     );
   }

@@ -13,7 +13,7 @@ using ModeOrRequestVariant = variant<monostate, Mode::Type, Mode>;
 class PipelineSettings : public SettingsBase, public AutoComplete
 {
 public:
-  PipelineSettings(RadioSettings_PipelineSettingsPb& rawSettings);
+  PipelineSettings(makesdr_PipelineSettingsPb& rawSettings);
 
   [[nodiscard]] bool isModeValid() const { return m_modeOrRequest.index() != 0; }
   [[nodiscard]] bool hasModeRequest() const { return m_modeOrRequest.index() == 1; }
@@ -41,7 +41,7 @@ public:
 
 
 protected:
-  RadioSettings_PipelineSettingsPb& m_rawSettings;
+  makesdr_PipelineSettingsPb& m_rawSettings;
   ModeOrRequestVariant m_modeOrRequest;
   RfSettings m_rfSettings;
 

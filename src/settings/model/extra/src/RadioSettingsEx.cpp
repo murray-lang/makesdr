@@ -32,7 +32,7 @@ RadioSettingsEx::autoComplete(
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   switch (path[startingAtIndex]) {
-  case RadioSettings_RadioSettingsPb_active_bands_tag:
+  case makesdr_RadioSettingsPb_active_bands_tag:
     return m_activeBandSettings.autoComplete(path, startingAtIndex + 1, trigger);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;

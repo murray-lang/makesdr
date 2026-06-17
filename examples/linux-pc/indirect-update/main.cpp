@@ -7,12 +7,12 @@
 #include "settings/model/proto/RadioSettings.pb.h"
 #include "settings/model/meta/generalCoverageRadioMeta.h"
 
-using RadioSettingsPb = RadioSettings_RadioSettingsPb;
+using RadioSettingsPb = makesdr_RadioSettingsPb;
 
 #include <settings/model/proto/ProtobufIo.h>
 #include "../../data/exampleRadioSettings.h"
 
-RadioSettingsPb radioSettingsPb = RadioSettings_RadioSettingsPb_init_zero;
+RadioSettingsPb radioSettingsPb = makesdr_RadioSettingsPb_init_zero;
 BandSettingsCache bandSettingsCache;
 
 

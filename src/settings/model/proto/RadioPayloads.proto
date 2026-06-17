@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package RadioSettings;
+package makesdr;
 
 import "RadioSettings.proto";
 
@@ -17,24 +17,27 @@ enum RadioPayloadPurpose {
   PURPOSE_REPLACE = 2;
 }
 
-message RadioSettingsPayloadPb {
+message RadioPayloadHeaderPb {
   RadioPayloadType payloadType = 1;
+}
+
+message RadioPayloadBasePb {
+    RadioPayloadHeaderPb header = 1;
+}
+
+message RadioSettingsPayloadPb {
+  RadioPayloadHeaderPb header = 1;
   RadioPayloadPurpose purpose = 2;
-  RadioSettingsPb settings = 3;
-//  oneof payload {
-//    RadioSettingsPb settings = 2;
-//    RadioMetaPb meta = 3;
-//    BandSettingsCachePb cache = 4;
-//  }
+  RadioSettingsPb body = 3;
 }
 
 message RadioMetaPayloadPb {
-  RadioPayloadType payloadType = 1;
-  RadioMetaPb meta = 2;
+  RadioPayloadHeaderPb header = 1;
+  RadioMetaPb body = 2;
 }
 
 message RadioCachePayloadPb {
   RadioPayloadType payloadType = 1;
-  RadioMetaPb cache = 2;
+  RadioMetaPb body = 2;
 }
 

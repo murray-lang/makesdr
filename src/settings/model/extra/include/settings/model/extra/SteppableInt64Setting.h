@@ -4,7 +4,7 @@
 class SteppableInt64Setting : public SettingsBase
 {
 public:
-  SteppableInt64Setting(RadioSettings_SteppableInt64SettingPb& raw)
+  SteppableInt64Setting(makesdr_SteppableInt64SettingPb& raw)
     : m_rawSettings(raw)
   {}
 
@@ -13,5 +13,5 @@ public:
   [[nodiscard]] int64_t fineDelta() const { return m_rawSettings.fine_delta; }
   [[nodiscard]] bool useFine() const { return m_rawSettings.use_fine; }
 protected:
-  RadioSettings_SteppableInt64SettingPb& m_rawSettings;
+  makesdr_SteppableInt64SettingPb& m_rawSettings;
 };

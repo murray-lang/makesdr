@@ -138,12 +138,12 @@ ResultCode WebSocketControlSource::processMessage(const uint8_t* data, size_t le
 {
   /* TODO: Get protobuf exchange scheme sorted out
   // Try to decode as RadioSettings first
-  RadioSettings settings = RadioSettings_RadioSettingsPb_init_zero;
+  RadioSettings settings = makesdr_RadioSettingsPb_init_zero;
   ResultCode result = ProtobufIo::readProtobuf(
     data,
     len,
-    RadioSettings_fields,
-    RadioSettings_init_zero,
+    makesdr_fields,
+    makesdr_init_zero,
     settings
   );
 

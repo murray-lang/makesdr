@@ -80,7 +80,7 @@ elseif(PROTO_PLATFORM STREQUAL "nanopb")
             ${INCLUDE_DIR}
             ${CMAKE_CURRENT_LIST_DIR}/include
             ${NANOPB_DIR}
-            ${NANOPB_GEN_DIR}
+#            ${NANOPB_GEN_DIR}
     )
 
      target_include_directories(settings-model-proto PRIVATE

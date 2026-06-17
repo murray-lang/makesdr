@@ -88,7 +88,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
   //   m_txBuffer + LWS_PRE,
   //   MAX_MESSAGE_SIZE,
   //   &bytes_written,
-  //   RadioSettings_fields,
+  //   makesdr_fields,
   //   settings
   // );
   return ResultCode::ERR_SETTING_WEBSOCKET_INIT_FAILED; // For now

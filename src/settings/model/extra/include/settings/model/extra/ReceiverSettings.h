@@ -6,7 +6,7 @@
 class ReceiverSettings : public SettingsBase
 {
 public:
-  ReceiverSettings(RadioSettings_ReceiverSettings& raw)
+  ReceiverSettings(makesdr_ReceiverSettings& raw)
     : m_rawSettings(raw)
     , m_iqCorrectionSettings(raw.iq_corrections)
   {}
@@ -17,6 +17,6 @@ public:
   [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
 
 protected:
-  RadioSettings_ReceiverSettings& m_rawSettings;
+  makesdr_ReceiverSettings& m_rawSettings;
   IqCorrectionSettings m_iqCorrectionSettings;
 };

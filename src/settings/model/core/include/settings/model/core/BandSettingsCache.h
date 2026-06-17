@@ -15,19 +15,19 @@ public:
   class Entry
   {
   public:
-    Entry(RadioSettings_BandSettingsCachePb_BandSettingsEntry& raw);
+    Entry(makesdr_BandSettingsCachePb_BandSettingsEntry& raw);
     Entry(Entry&& rhs) noexcept;
     Entry& operator=(Entry&& rhs) noexcept;
 
     [[nodiscard]] const StringRef& bandName() const { return m_bandName; }
     StringRef& bandName() { return m_bandName; }
 
-    [[nodiscard]] RadioSettings_BandSettingsPb* bandSettings();
-    RadioSettings_BandSettingsCachePb_BandSettingsEntry& raw() { return m_rawSettings; }
+    [[nodiscard]] makesdr_BandSettingsPb* bandSettings();
+    makesdr_BandSettingsCachePb_BandSettingsEntry& raw() { return m_rawSettings; }
   protected:
-    RadioSettings_BandSettingsCachePb_BandSettingsEntry& m_rawSettings;
+    makesdr_BandSettingsCachePb_BandSettingsEntry& m_rawSettings;
     StringRef m_bandName;
-    etl::optional<RadioSettings_BandSettingsPb> m_bandSettings;
+    etl::optional<makesdr_BandSettingsPb> m_bandSettings;
   };
   //BandSettingsCache::Entry ---------------------------------------------------------------------------
 
@@ -39,21 +39,21 @@ public:
 
   bool hasBand(const char * bandName) const  { return findEntryIndex(bandName) != -1; }
 
-  ResultCode get(RadioSettings_BandSettingsPb* settings);
-  ResultCode set(const RadioSettings_BandSettingsPb* settings);
+  ResultCode get(makesdr_BandSettingsPb* settings);
+  ResultCode set(const makesdr_BandSettingsPb* settings);
 
-  RadioSettings_BandSettingsCachePb& raw() { return m_rawSettings; }
-  [[nodiscard]] const RadioSettings_BandSettingsCachePb& raw() const { return m_rawSettings; }
+  makesdr_BandSettingsCachePb& raw() { return m_rawSettings; }
+  [[nodiscard]] const makesdr_BandSettingsCachePb& raw() const { return m_rawSettings; }
 
 protected:
   [[nodiscard]] pb_size_t rawCount() const { return m_rawSettings.band_settings_count; }
   pb_size_t incrementRawCount() { return ++m_rawSettings.band_settings_count; }
-  void updateRawEntry(pb_size_t index, const RadioSettings_BandSettingsPb& rawBandSettings);
-  void setRawEntry(pb_size_t index, const char* bandName, const RadioSettings_BandSettingsPb& rawBandSettings);
+  void updateRawEntry(pb_size_t index, const makesdr_BandSettingsPb& rawBandSettings);
+  void setRawEntry(pb_size_t index, const char* bandName, const makesdr_BandSettingsPb& rawBandSettings);
 
   int32_t findEntryIndex(const char * bandName) const;
   Entry* getEntry(int32_t index);
 
-  RadioSettings_BandSettingsCachePb m_rawSettings;
+  makesdr_BandSettingsCachePb m_rawSettings;
   EntryList m_entries;
 };

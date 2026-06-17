@@ -36,7 +36,7 @@ add_custom_command(TARGET example-cm7-usb-mmc POST_BUILD
 set(EXTERNAL_LOADER "${CMAKE_CURRENT_LIST_DIR}/MT25TL01G_STM32H745I-DISCO.stldr")
 
 
-add_custom_target(FLASH_CM7
+add_custom_target(FLASH_example-cm7-usb-mmc
         COMMAND STM32_Programmer_CLI --connect port=SWD -el "${EXTERNAL_LOADER}" --erase all --write ${CMAKE_BINARY_DIR}/example-cm7-usb-mmc.elf --verify --start
         DEPENDS ${example-cm7-usb-mmc}
 )

@@ -3,9 +3,9 @@
 
 enum class PipelineId
 {
-  NONE = RadioSettings_PipelineId_PIPELINE_NONE,
-  A = RadioSettings_PipelineId_PIPELINE_A,
-  B = RadioSettings_PipelineId_PIPELINE_B
+  NONE = makesdr_PipelineId_PIPELINE_NONE,
+  A = makesdr_PipelineId_PIPELINE_A,
+  B = makesdr_PipelineId_PIPELINE_B
 };
 
 using VfoId = PipelineId;

@@ -31,20 +31,20 @@ int main()
   std::streamsize fileSize = inFile.tellg();
   inFile.seekg(0, std::ios::beg);
 
-  uint8_t buffer[RadioSettings_RadioSettingsPb_size];
+  uint8_t buffer[makesdr_RadioSettingsPb_size];
   if (!inFile.read(reinterpret_cast<char*>(buffer), fileSize)) {
     std::cerr << "Failed to read file" << std::endl;
     return 1;
   }
   inFile.close();
 
-  RadioSettings_RadioSettingsPb restoredRadioSettingsPb;
+  makesdr_RadioSettingsPb restoredRadioSettingsPb;
 
-  ResultCode rc = ProtobufIo::readProtobuf<RadioSettings_RadioSettingsPb>(
+  ResultCode rc = ProtobufIo::readProtobuf<makesdr_RadioSettingsPb>(
     buffer,
     fileSize,
-    &RadioSettings_RadioSettingsPb_msg,
-    RadioSettings_RadioSettingsPb_init_zero,
+    &makesdr_RadioSettingsPb_msg,
+    makesdr_RadioSettingsPb_init_zero,
     restoredRadioSettingsPb
     );
 

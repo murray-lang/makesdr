@@ -3,9 +3,9 @@
 
 #ifdef USE_ETL
 #include <etl/string.h>
-using BandName = etl::string<sizeof(RadioSettings_BandPb::name)>;
-using ModeName = etl::string<sizeof(RadioSettings_ModePb::name)>;
-using BandCategoryName = etl::string<sizeof(RadioSettings_BandCategoryPb::name)>;
+using BandName = etl::string<sizeof(makesdr_BandPb::name)>;
+using ModeName = etl::string<sizeof(makesdr_ModePb::name)>;
+using BandCategoryName = etl::string<sizeof(makesdr_BandCategoryPb::name)>;
 #else
 #include <string>
 using BandName = std::string<>;

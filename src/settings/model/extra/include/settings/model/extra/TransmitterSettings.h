@@ -7,7 +7,7 @@
 class TransmitterSettings : public SettingsBase
 {
 public:
-  TransmitterSettings(RadioSettings_TransmitterSettingsPb& raw)
+  TransmitterSettings(makesdr_TransmitterSettingsPb& raw)
     : m_rawSettings(raw)
     , m_iqCorrectionSettings(raw.iq_corrections)
     , m_microphoneSettings(raw.mic)
@@ -22,7 +22,7 @@ public:
   [[nodiscard]] const MicrophoneSettings& microphoneSettings() const { return m_microphoneSettings; }
 
 protected:
-  RadioSettings_TransmitterSettingsPb& m_rawSettings;
+  makesdr_TransmitterSettingsPb& m_rawSettings;
   IqCorrectionSettings m_iqCorrectionSettings;
   MicrophoneSettings m_microphoneSettings;
 };

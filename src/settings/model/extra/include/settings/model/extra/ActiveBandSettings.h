@@ -10,7 +10,7 @@
 class ActiveBandSettings : public SettingsBase, public AutoComplete
 {
 public:
-  ActiveBandSettings(RadioSettings_ActiveBandSettingsPb& raw)
+  ActiveBandSettings(makesdr_ActiveBandSettingsPb& raw)
     : m_rawSettings(raw)
     , m_bandOneSettings(raw.band_1)
     , m_bandTwoSettings(raw.band_2)
@@ -80,7 +80,7 @@ public:
 protected:
   ResultCode autoCompleteSplit();
 
-  RadioSettings_ActiveBandSettingsPb& m_rawSettings;
+  makesdr_ActiveBandSettingsPb& m_rawSettings;
   BandSettings m_bandOneSettings;
   BandSettings m_bandTwoSettings;
 

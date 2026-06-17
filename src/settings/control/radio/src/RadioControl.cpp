@@ -158,7 +158,7 @@ RadioControl::stop()
 void
 RadioControl::ptt(bool on)
 {
-  SettingPath path{RadioSettings_RadioSettingsPb_ptt_tag};
+  SettingPath path{makesdr_RadioSettingsPb_ptt_tag};
   SettingUpdate setting(path, on, SettingUpdate::VALUE);
   applySettingUpdate(setting);
 }

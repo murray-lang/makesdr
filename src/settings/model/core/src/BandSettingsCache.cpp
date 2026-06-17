@@ -1,7 +1,7 @@
 #include "settings/model/core/BandSettingsCache.h"
 #include <cstring>
 
-BandSettingsCache::Entry::Entry(RadioSettings_BandSettingsCachePb_BandSettingsEntry& raw)
+BandSettingsCache::Entry::Entry(makesdr_BandSettingsCachePb_BandSettingsEntry& raw)
       : m_rawSettings(raw)
       , m_bandName(raw.key, raw.key, sizeof(raw.key))
 {
@@ -26,7 +26,7 @@ BandSettingsCache::Entry:: operator=(Entry&& rhs) noexcept
   return *this;
 }
 
-RadioSettings_BandSettingsPb*
+makesdr_BandSettingsPb*
 BandSettingsCache::Entry::bandSettings()
 {
   if (m_bandSettings) return &m_bandSettings.value();
@@ -34,7 +34,7 @@ BandSettingsCache::Entry::bandSettings()
 }
 
 BandSettingsCache::BandSettingsCache()
-  : m_rawSettings(RadioSettings_BandSettingsCachePb_init_zero)
+  : m_rawSettings(makesdr_BandSettingsCachePb_init_zero)
 {
   for (pb_size_t i = 0; i < m_rawSettings.band_settings_count; i++) {
     m_entries.emplace_back(m_rawSettings.band_settings[i]);
@@ -42,7 +42,7 @@ BandSettingsCache::BandSettingsCache()
 }
 
 ResultCode
-BandSettingsCache::get(RadioSettings_BandSettingsPb* bandSettings)
+BandSettingsCache::get(makesdr_BandSettingsPb* bandSettings)
 {
   if (bandSettings->band_or_request.band.name[0] == '\0') {
     return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND_NAME;
@@ -57,9 +57,9 @@ BandSettingsCache::get(RadioSettings_BandSettingsPb* bandSettings)
  }
 
 ResultCode
-BandSettingsCache::set(const RadioSettings_BandSettingsPb* bandSettings)
+BandSettingsCache::set(const makesdr_BandSettingsPb* bandSettings)
 {
-  if (bandSettings->which_band_or_request != RadioSettings_BandSettingsPb_band_tag) {
+  if (bandSettings->which_band_or_request != makesdr_BandSettingsPb_band_tag) {
     return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND;
   }
   if (bandSettings->band_or_request.band.name[0] == '\0') {
@@ -85,7 +85,7 @@ BandSettingsCache::set(const RadioSettings_BandSettingsPb* bandSettings)
 }
 
 void
-BandSettingsCache::updateRawEntry(pb_size_t index, const RadioSettings_BandSettingsPb& rawBandSettings)
+BandSettingsCache::updateRawEntry(pb_size_t index, const makesdr_BandSettingsPb& rawBandSettings)
 {
   m_rawSettings.band_settings[index].value = rawBandSettings;
 }
@@ -94,7 +94,7 @@ void
 BandSettingsCache::setRawEntry(
   pb_size_t index,
   const char* bandName,
-  const RadioSettings_BandSettingsPb& rawBandSettings
+  const makesdr_BandSettingsPb& rawBandSettings
   )
 {
   std::memcpy(m_rawSettings.band_settings[index].key, bandName, MAX_NAME_LENGTH+1);
