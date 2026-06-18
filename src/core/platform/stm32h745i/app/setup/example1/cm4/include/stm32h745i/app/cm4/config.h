@@ -69,6 +69,23 @@ set to 'Yes') calls __io_putchar() */
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
+#define PTT_In_Pin GPIO_PIN_15
+#define PTT_In_GPIO_Port GPIOA
+
+#define Encoder_1_A_Pin GPIO_PIN_4
+#define Encoder_1_A_GPIO_Port GPIOH
+#define Encoder_1_B_Pin GPIO_PIN_8
+#define Encoder_1_B_GPIO_Port GPIOH
+#define Encoder_1_SW_Pin GPIO_PIN_14
+#define Encoder_1_SW_GPIO_Port GPIOB
+
+#define Encoder_2_A_Pin GPIO_PIN_3
+#define Encoder_2_A_GPIO_Port GPIOE
+#define Encoder_2_B_Pin GPIO_PIN_1
+#define Encoder_2_B_GPIO_Port GPIOK
+#define Encoder_2_SW_Pin GPIO_PIN_6
+#define Encoder_2_SW_GPIO_Port GPIOE
+
 #define SDIO1_D2_Pin GPIO_PIN_10
 #define SDIO1_D2_GPIO_Port GPIOC
 #define SDIO1_D3_Pin GPIO_PIN_11
@@ -108,7 +125,9 @@ set to 'Yes') calls __io_putchar() */
 #define VCP_RX_Pin GPIO_PIN_11
 #define VCP_RX_GPIO_Port GPIOB
 
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 /* Exported functions ------------------------------------------------------- */
 extern PUTCHAR_PROTOTYPE;
 extern void UART_Config(void);
@@ -124,8 +143,14 @@ extern void MX_ADC1_Init(void);
 extern void MX_ADC2_Init(void);
 extern void MX_TIM6_Init(void);
 extern void MX_I2C4_Init(void);
+extern void MX_QUADSPI_Init(void);
+extern void MX_SDMMC1_MMC_Init(void);
 extern void MX_USART6_UART_Init(void);
 
 // extern void USB_Device_Init(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // __CONFIG_H__

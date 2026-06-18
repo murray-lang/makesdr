@@ -46,12 +46,12 @@ void USB_Device_Init(void)
 
 // Invoked when device is mounted
 void tud_mount_cb(void) {
-  BSP_LED_On(LED_GREEN);
+  // BSP_LED_On(LED_GREEN);
 }
 
 // Invoked when device is unmounted
 void tud_umount_cb(void) {
-  BSP_LED_Off(LED_GREEN);
+  // BSP_LED_Off(LED_GREEN);
 }
 
 // Invoked when usb bus is suspended

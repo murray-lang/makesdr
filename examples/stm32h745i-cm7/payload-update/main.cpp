@@ -6,6 +6,7 @@
 #include "../../data/exampleRadioSettings.h"
 #include "settings/model/core/RadioPayloadBase.h"
 #include "settings/model/proto/RadioPayloads.pb.h"
+#include "stm32h745i/app/cm7/config.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
 using RadioSettingsPb = makesdr_RadioSettingsPb;
@@ -19,6 +20,26 @@ int main()
 {
   BSP_LED_Init(LED1);
   BSP_LED_Init(LED2);
+  MPU_Config();
+  CPU_CACHE_Enable();
+
+  /* Boot CM4 core */
+  HAL_RCCEx_EnableBootCore(RCC_BOOT_C2);
+
+  /* Immediately take HSEM before CM4 gets to STOP mode */
+  __HAL_RCC_HSEM_CLK_ENABLE();
+  HAL_HSEM_FastTake(HSEM_ID_0);  // Take it ASAP
+
+  int32_t timeout = 0xFFFF;
+  while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
+
+  if ( timeout < 0 )
+  {
+    Error_Handler();
+  }
+
+  LOCK_HSEM(HSEM_ID_0);
+  UNLOCK_HSEM(HSEM_ID_0);// This signals the CM4 to wake up
 
   ResultCode rc = ResultCode::OK;
   RadioSettings clientRadioSettings(generalCoverageRadioMeta, bandSettingsCache);
@@ -97,6 +118,5 @@ int main()
 
   RadioSettings update(radioSettings.body(),generalCoverageRadioMeta, bandSettingsCache );
   radioSettings.setAllFieldsPresence(false);
-  BSP_LED_On(LED_GREEN);
   while (1) {}
 }

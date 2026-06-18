@@ -35,14 +35,7 @@ set(GPIO_SOURCES
 
 )
 
-set(GPIO_LINUX_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/Gpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/GpioEventQueueGpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/DigitalInputLinesRequestGpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/platform/linux/DigitalOutputLinesRequestGpiod.cpp
-)
-
-add_library(settings-control-hal-gpio STATIC ${GPIO_SOURCES} ${GPIO_LINUX_SOURCES})
+add_library(settings-control-hal-gpio STATIC ${GPIO_SOURCES})
 
 target_include_directories(settings-control-hal-gpio PUBLIC
         ${INCLUDE_DIR}

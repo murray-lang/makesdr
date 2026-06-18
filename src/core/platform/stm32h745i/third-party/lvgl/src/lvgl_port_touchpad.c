@@ -73,7 +73,7 @@ static void touchpad_read(lv_indev_t *indev, lv_indev_data_t *data)
   /* Read your touchpad */
   static int32_t last_x = 0;
   static int32_t last_y = 0;
-  BSP_LED_Toggle(LED1);
+  // BSP_LED_Toggle(LED1);
 
   BSP_TS_GetState(0, &TS_State);
   if(TS_State.TouchDetected) {
