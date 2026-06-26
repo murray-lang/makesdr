@@ -5,7 +5,7 @@
 #include "settings/model/core/SettingUpdateSource.h"
 
 #include "settings/control/gpio/DigitalInputLinesRequest.h"
-#include "settings/control/gpio/base/GpioInputLines.h"
+#include "settings/control/gpio/base/GpioInputLinesConfig.h"
 #include "settings/control/gpio/DigitalInputLinesRequest.h"
 
 #ifdef USE_ETL
@@ -17,7 +17,7 @@ using IdString = etl::string<MAX_ID_LENGTH>;
 using IdString = std::string;
 #endif
 
-class DigitalInput : public GpioInputLines, public SettingUpdateSource
+class DigitalInput : public GpioInputLinesConfig, public SettingUpdateSource
 {
 public:
 

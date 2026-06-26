@@ -1,4 +1,4 @@
-#include "stm32h745i/app/cm7/config.h"
+#include "stm32h745i/app/setup/config.h"
 
 #include <stm32h745i/app/support/safe_printf.h>
 // #include <stm32h745i/tinyusb/tusb.h>

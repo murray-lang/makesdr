@@ -1,11 +1,11 @@
 #pragma once
-#include "GpioLines.h"
-#include "config/struct/GpioInputLinesConfig.h"
+#include "GpioLinesConfig.h"
+#include "config/struct/GpioInputLines.h"
 
 class GpioInputLines : public GpioLines
 {
 public:
-  GpioInputLines() : GpioLines(Direction::INPUT), m_debounce(false), m_activeHigh(true) {}
+  GpioInputLines() : GpioLinesConfig(Direction::INPUT), m_debounce(false), m_activeHigh(true) {}
   GpioInputLines(GpioInputLines&&)  noexcept = default;
 
   ~GpioInputLines()override = default;
@@ -14,11 +14,11 @@ public:
 
 
   [[nodiscard]] bool getDebounce() const { return m_debounce; }
-  [[nodiscard]] bool getActiveHigh() const { return m_activeHigh; }
+  [[nodiscard]] bool isActiveHigh() const { return m_activeHigh; }
 
   ResultCode configureLines(const Config::GpioInputLines::Fields& config)
   {
-    ResultCode rc = GpioLines::configureLines(config);
+    ResultCode rc = GpioLinesConfig::configureLines(config);
     if (rc != ResultCode::OK) return rc;
 
     m_debounce = config.debounce;

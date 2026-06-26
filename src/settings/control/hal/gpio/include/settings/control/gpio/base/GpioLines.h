@@ -6,7 +6,7 @@
 
 #include <cstdint>
 
-#include "config/struct/GpioLinesConfig.h"
+#include "config/struct/GpioLines.h"
 #include "ResultCode.h"
 
 #ifdef USE_ETL

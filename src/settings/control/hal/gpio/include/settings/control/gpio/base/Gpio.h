@@ -2,9 +2,9 @@
 
 #include <gpiod.h>
 
-#include "GpioInputLinesRequest.h"
+#include "GpioInputLinesRequest_old.h"
 #include "GpioOutputLinesRequest.h"
-#include "GpioLines.h"
+#include "GpioLinesConfig.h"
 #include "GpioLinesRequestBase.h"
 /*
 #ifdef USE_GPIOD
@@ -44,12 +44,12 @@ public:
   ResultCode requestInputs(
     const char * contextId,
     const GpioInputLinesVector& inputs,
-    GpioInputLinesRequest& lr
+    GpioInputLinesRequest_old& lr
   );
 
   ResultCode requestOutput(
     const char * contextId,
-    const GpioLines& output,
+    const GpioLinesConfig& output,
     GpioOutputLinesRequest& lr
   );
 

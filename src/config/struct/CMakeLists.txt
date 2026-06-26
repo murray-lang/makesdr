@@ -22,7 +22,6 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/DigitalOutputConfig.h
         include/config/struct/GpioLinesConfig.h
         include/config/struct/GpioInputLinesConfig.h
-        include/config/struct/RotaryEncoderConfig.h
         include/config/struct/RadioConfig.h
         include/config/struct/ReceiverConfig.h
         include/config/struct/TransmitterConfig.h

@@ -7,5 +7,6 @@ namespace Config::GpioInputLines
   {
     bool debounce;
     bool activeHigh;
+    bool rotaryEncoder;
   };
-};
+}

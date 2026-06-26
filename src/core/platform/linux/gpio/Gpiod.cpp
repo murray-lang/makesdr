@@ -2,7 +2,7 @@
 #include <gpiod.h>
 
 #include "settings/control/gpio/base/Gpio.h"
-#include "settings/control/gpio/base/GpioInputLinesRequest.h"
+#include "settings/control/gpio/base/GpioInputLinesRequest_old.h"
 
 constexpr static auto defaultChipPath = "/dev/gpiochip0";
 
@@ -103,7 +103,7 @@ ResultCode
 Gpio::requestInputs(
   const char * contextId,
   const GpioInputLinesVector& inputs,
-  GpioInputLinesRequest& dilr
+  GpioInputLinesRequest_old& dilr
 )
 {
   if (!m_pChip) {
@@ -116,7 +116,7 @@ Gpio::requestInputs(
 ResultCode
 Gpio::requestOutput(
   const char * contextId,
-  const GpioLines& output,
+  const GpioLinesConfig& output,
   GpioOutputLinesRequest& dolr
 )
 {

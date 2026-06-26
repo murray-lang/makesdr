@@ -10,11 +10,16 @@ endif()
 set(LD_FILE_CM4 ${CMAKE_CURRENT_LIST_DIR}/ld/STM32H745XIHX_FLASH.ld)
 
 set(PLAY_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/testSettings.h
-        ${CMAKE_CURRENT_LIST_DIR}/testSettings.cpp
+#        ${CMAKE_CURRENT_LIST_DIR}/testSettings.h
+#        ${CMAKE_CURRENT_LIST_DIR}/testSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
-        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
+#        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
+#        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
+
+        ${CMAKE_CURRENT_LIST_DIR}/gpioTest.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/gpioTest.h
+        ${CMAKE_CURRENT_LIST_DIR}/digitalInputConfigs.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/digitalInputConfigs.h
 )
 
 add_executable(example-cm4-indirect-update
@@ -27,8 +32,12 @@ target_include_directories(example-cm4-indirect-update PUBLIC
 
 target_link_libraries(example-cm4-indirect-update PUBLIC
         -T${LD_FILE_CM4}
+        config-struct
         settings-model-core
         core-stm32h745i-app-setup-example1-cm4
+        core-stm32h745i-gpio-cm4
+        core-stm32h745i-thread-cm4
+        etl::etl
 )
 
 target_link_options(example-cm4-indirect-update PRIVATE -Wl,-Map=example-cm4-indirect-update.map,--cref)

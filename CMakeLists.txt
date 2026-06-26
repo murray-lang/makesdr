@@ -15,16 +15,34 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 project(makesdr C CXX ASM)
 
+
 # Derive platform family from TARGET_PLATFORM
 if(TARGET_PLATFORM MATCHES "^stm32h745i-(cm[47])$")
     set(PLATFORM_FAMILY "stm32h745i")
     set(PLATFORM_VARIANT "${CMAKE_MATCH_1}")
+
+    add_definitions(
+            -DIS_STM32
+            -DMAX_GPIO=27
+            -DMAX_GPIO_EVENT_QUEUE_CAPACITY=32
+            -DMAX_GPIO_CONTEXT_LENGTH=4
+    )
+
 elseif(TARGET_PLATFORM STREQUAL "rpi")
     set(PLATFORM_FAMILY "linux")
     set(PLATFORM_VARIANT "rpi")
+
+    add_definitions(
+            -DIS_LINUX
+            -DMAX_GPIO=27
+            -DMAX_GPIO_EVENT_QUEUE_CAPACITY=64
+            -DMAX_GPIO_CONTEXT_LENGTH=16
+    )
+
 elseif(TARGET_PLATFORM STREQUAL "linux-pc")
     set(PLATFORM_FAMILY "linux")
     set(PLATFORM_VARIANT "pc")
+    add_definitions(-DIS_LINUX)
 endif()
 
 if(NOT PLATFORM_FAMILY STREQUAL "linux")
@@ -44,15 +62,15 @@ add_definitions(
         -DMAX_DOTTED_STRING_LENGTH=64
         -DMAX_BAND_CATEGORIES=8
         -DMAX_BANDS_PER_CATEGORY=13
-        -DMAX_GPIO=27
+
         -DMAX_GPIO_LINES_PER_DEVICE=4
         -DMAX_DIGITAL_INPUT_HANDLERS=8
         -DMAX_DIGITAL_OUTPUT_HANDLERS=4
-        -DMAX_DIGITAL_INPUT_LINES_TOTAL=10
+
         -DMAX_CONTROL_SINKS=4
         -DMAX_CONTROL_SOURCES=4
-        -DMAX_GPIO_CONTEXT_LENGTH=16
-        -DMAX_GPIO_EVENT_QUEUE_CAPACITY=64
+
+
 )
 
 if(USE_ETL)

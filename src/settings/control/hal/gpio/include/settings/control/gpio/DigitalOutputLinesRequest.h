@@ -11,7 +11,7 @@ public:
   void initialise(void* gpioHandle, const char * context) override;
   void release() override;
 
-  ResultCode request(const char* contextId, const GpioLines& output) override;
+  ResultCode request(const char* contextId, const GpioLinesConfig& output) override;
 
   ResultCode setLineValue(uint32_t line, bool value);
   ResultCode setLineValues(const GpioLineNumberVector& lines, const GpioOutputValuesVector& values);

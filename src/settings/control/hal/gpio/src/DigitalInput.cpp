@@ -4,7 +4,7 @@
 #include "settings/model/core/SettingUpdateSink.h"
 
 DigitalInput::DigitalInput() :
-  GpioInputLines(),
+  GpioInputLinesConfig(),
   m_detectEdge(false),
   m_isPathIndirect(false),
   m_autoCompleteTrigger(AutoCompleteTrigger::NONE)
@@ -14,7 +14,7 @@ DigitalInput::DigitalInput() :
 ResultCode
 DigitalInput::configure(const Config::DigitalInput::Fields& config)
 {
-  ResultCode rc = GpioLines::configureLines(config);
+  ResultCode rc = GpioLinesConfig::configureLines(config);
   if (rc != ResultCode::OK) return rc;
 
   m_activeHigh = config.activeHigh;

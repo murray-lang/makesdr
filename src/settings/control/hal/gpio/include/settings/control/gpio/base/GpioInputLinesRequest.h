@@ -1,13 +1,13 @@
 #pragma once
-#include "GpioInputLines.h"
+#include "GpioInputLinesConfig.h"
 #include "GpioLinesRequestBase.h"
 #include "ResultCode.h"
 
-class GpioInputLinesRequest : public GpioLinesRequestBase
+class GpioInputLinesRequest_old : public GpioLinesRequestBase
 {
 public:
-  GpioInputLinesRequest() = default;
-  ~GpioInputLinesRequest() override = default;
+  GpioInputLinesRequest_old() = default;
+  ~GpioInputLinesRequest_old() override = default;
 
   virtual ResultCode request(const char* contextId, const GpioInputLinesVector& inputs) = 0;
 };

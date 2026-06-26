@@ -1,4 +1,4 @@
-#include "stm32h745i/app/cm7/mpu_config.h"
+#include "stm32h745i/app/setup/mpu_config.h"
 #include <stm32h745i/drivers/hal/stm32h7xx_hal.h>
 
 

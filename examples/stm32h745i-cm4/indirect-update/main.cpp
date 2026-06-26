@@ -1,31 +1,37 @@
 
-#include "testSettings.h"
-#include "stm32h745i/app/cm4/config.h"
-#include "stm32h745i/app/cm4/mpu_config.h"
+#include "gpioTest.h"
+// #include "testSettings.h"
+#include "stm32h745i/app/setup/config.h"
+#include "stm32h745i/app/setup/mpu_config.h"
 #include "stm32h745i/app/support/safe_printf.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
-BandSettingsCache bandSettingsCache;
+#include "thread/Thread.h"
+
+
+static void prvGpioTask( void *pvParameters );
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-  if (GPIO_Pin == GPIO_PIN_4 || GPIO_Pin == GPIO_PIN_13)
-  {
-    /* Toggle LED2 */
-    BSP_LED_Toggle(LED_RED);
-  } else if (GPIO_Pin == GPIO_PIN_8) {
-    BSP_LED_Toggle(LED_GREEN);
-  }
+  uint32_t ticks = HAL_GetTick();
+  // if (GPIO_Pin == Digital_Input_4_Pin) BSP_LED_Toggle(LED_GREEN);
+  // if (GPIO_Pin == Digital_Input_8_Pin) BSP_LED_Toggle(LED_RED);
+  linesRequest.handlePinTransition(GPIO_Pin, ticks);
 }
+
 #ifdef __cplusplus
 }
 #endif
 
-extern "C" void EXTI3_IRQHandler(void);
+// static void prvGpioTask( void *pvParameters );
 
+// extern "C" void EXTI3_IRQHandler(void);
+
+// BandSettingsCache bandSettingsCache;
 
 int main()
 {
@@ -54,11 +60,12 @@ int main()
   /* Clear HSEM flag */
   __HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
   SystemCoreClockUpdate();
-  UART_Config();  /* USART3 on PB10/PB11 - no conflict with USB on PA11/PA12 */
 
-  uint32_t vtor = SCB->VTOR;
-  uint32_t* vectors = (uint32_t*)vtor;
-  uint32_t exti3_vector = vectors[16 + EXTI3_IRQn];
+  UART_Config();  /* USART3 on PB10/PB11 - no conflict with USB on PA11/PA12 */
+  SAFE_PRINTF("[CM4]\t UART_Config() returned\r\n");
+  // uint32_t vtor = SCB->VTOR;
+  // uint32_t* vectors = (uint32_t*)vtor;
+  // uint32_t exti3_vector = vectors[16 + EXTI3_IRQn];
 
   MX_GPIO_Init();
 
@@ -78,6 +85,33 @@ int main()
   // RadioSettings radioSettings(exampleRadioSettingsPb, generalCoverageRadioMeta, bandSettingsCache);
   //
   // ResultCode rc = indirectUpdate(radioSettings);
+
+  BaseType_t rc = xTaskCreate( prvGpioTask, "GPIO", configMINIMAL_STACK_SIZE*5, nullptr, tskIDLE_PRIORITY, nullptr );
+  if (rc == pdPASS) {
+    SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
+  } else {
+    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", rc);
+  }
+
+  vTaskStartScheduler();
+
   while (1) {}
 
 }
+
+static void prvGpioTask( void *pvParameters )
+{
+  ResultCode rc = gpioTest();
+  if (rc == ResultCode::OK) {
+    SAFE_PRINTF("[CM4]\t gpioTest() successful\r\n");
+  } else {
+    SAFE_PRINTF("[CM4]\t gpioTest() returned %d\r\n", static_cast<int>(rc));
+  }
+
+  // FreeRTOS task must either loop forever or delete itself
+  SAFE_PRINTF("[CM4]\t prvGpioTask entering infinite loop\r\n");
+  while (1) {
+    vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
+  }
+}
+

@@ -1,4 +1,4 @@
-#include "stm32h745i/app/cm4/config.h"
+#include "stm32h745i/app/setup/config.h"
 #include "stm32h745i/app/support/safe_printf.h"
 // #include "tusb.h"
 // #include "stm32h7xx_hal_adc.h"
@@ -663,11 +663,6 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
-  GPIO_InitStruct.Pin = GPIO_PIN_13; // Blue user push button
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;    /* current CPU (CM7) config in IT rising */
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
   /*Configure GPIO pins : PB5 PB13 */
   GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_13;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -676,11 +671,11 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF9_FDCAN2;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PTT_In_Pin */
-  GPIO_InitStruct.Pin = PTT_In_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(PTT_In_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : Digital_Input_15_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_15_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(Digital_Input_15_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PG11 PG12 PG13 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;
@@ -714,11 +709,23 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF10_SAI4;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Encoder_2_A_Pin Encoder_2_SW_Pin */
-  GPIO_InitStruct.Pin = Encoder_2_A_Pin|Encoder_2_SW_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pin : Digital_Input_3_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+  HAL_GPIO_Init(Digital_Input_3_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : DigitalInput_13_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_13_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(Digital_Input_13_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : Digital_Input_6_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(Digital_Input_6_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PI10 */
   GPIO_InitStruct.Pin = GPIO_PIN_10;
@@ -728,11 +735,11 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
   HAL_GPIO_Init(GPIOI, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Encoder_2_B_Pin */
-  GPIO_InitStruct.Pin = Encoder_2_B_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pin : Digital_Input_1_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(Encoder_2_B_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Digital_Input_1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PC1 PC2 PC3 PC4
                            PC5 */
@@ -760,9 +767,9 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Encoder_1_A_Pin Encoder_1_B_Pin */
-  GPIO_InitStruct.Pin = Encoder_1_A_Pin|Encoder_1_B_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pins : Digital_Input_4_Pin Digital_Input_8_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_4_Pin|Digital_Input_8_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
@@ -774,26 +781,29 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF11_ETH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Encoder_1_SW_Pin */
-  GPIO_InitStruct.Pin = Encoder_1_SW_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pin : Digital_Input_14_Pin */
+  GPIO_InitStruct.Pin = Digital_Input_14_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(Encoder_1_SW_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Digital_Input_14_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  /* Priority must be >= 5 to allow FreeRTOS API calls from ISR (configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY) */
+
+  uint32_t extiPriority = 6;
+  HAL_NVIC_SetPriority(EXTI1_IRQn, extiPriority, 0);
   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI3_IRQn, extiPriority, 0);
   HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI4_IRQn, extiPriority, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, extiPriority, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, extiPriority, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */

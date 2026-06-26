@@ -3,7 +3,7 @@
 #include <CrossPlatformTypes.h>
 #include "config/struct/DigitalOutputConfig.h"
 #include "settings/control/sink/SettingsControlSink.h"
-#include "settings/control/gpio/base/GpioLines.h"
+#include "settings/control/gpio/base/GpioLinesConfig.h"
 #include "settings/model/core/RadioSettingsSink.h"
 #include "settings/model/core/SettingPath.h"
 #include "settings/control/gpio/DigitalOutputLinesRequest.h"
@@ -19,7 +19,7 @@ using std::unique_ptr;
 #endif
 
 
-class DigitalOutput : public GpioLines, public SettingsControlSink, public SettingUpdateSink
+class DigitalOutput : public GpioLinesConfig, public SettingsControlSink, public SettingUpdateSink
 {
 public:
   DigitalOutput();

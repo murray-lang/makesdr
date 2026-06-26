@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h745i/app/cm7/stm32h7xx_it.h"
+#include "stm32h745i/app/setup/stm32h7xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery_sdram.h>

@@ -21,7 +21,6 @@ set(CONFIG_SOURCES
         include/config/json/QtControlSourceConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/ReceiverConfig.json.h
-        include/config/json/RotaryEncoderConfig.json.h
         include/config/json/TransmitterConfig.json.h
         include/config/json/TypedJson.h
         include/config/json/UiConfig.json.h
@@ -39,7 +38,6 @@ set(CONFIG_SOURCES
         src/control/DigitalOutputConfig.json.cpp
         src/control/GpioLinesConfig.json.cpp
         src/control/GpioInputLinesConfig.json.cpp
-        src/control/RotaryEncoderConfig.json.cpp
         src/control/BandSelectorConfig.json.cpp
         src/control/DigitalInputsConfig.json.cpp
         src/control/FunCubeConfig.json.cpp

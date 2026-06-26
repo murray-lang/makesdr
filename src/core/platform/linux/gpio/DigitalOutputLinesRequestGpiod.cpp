@@ -22,7 +22,7 @@ DigitalOutputLinesRequest::initialise(void* pChip, const char* consumer)
 }
 
 ResultCode
-DigitalOutputLinesRequest::request(const char* contextId, const GpioLines& output)
+DigitalOutputLinesRequest::request(const char* contextId, const GpioLinesConfig& output)
 {
   gpiod_line_config *lcfg = gpiod_line_config_new();
   if (lcfg == nullptr) {

@@ -8,13 +8,13 @@
 
 #include "base/Gpio.h"
 #include "base/GpioEventQueue.h"
-#include "base/GpioInputLines.h"
-#include "base/GpioInputLinesRequest.h"
+#include "base/GpioInputLinesConfig.h"
+#include "base/GpioInputLinesRequest_old.h"
 #include "base/GpioLinesRequestBase.h"
 #include "config/struct/GpioInputLinesConfig.h"
 
 
-class DigitalInputLinesRequest : public GpioInputLinesRequest, public Runnable
+class DigitalInputLinesRequest : public GpioInputLinesRequest_old, public Runnable
 {
 
 public:

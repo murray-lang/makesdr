@@ -11,7 +11,7 @@
 #include "settings/model/core/RadioSettings.h"
 
 DigitalOutput::DigitalOutput() :
-  GpioLines(Direction::OUTPUT)
+  GpioLinesConfig(Direction::OUTPUT)
 {
 }
 

@@ -20,7 +20,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#include <stm32h745i/app/cm7/config.h>
+#include <stm32h745i/app/setup/config.h>
 
 #endif /* __MAIN_H */
 

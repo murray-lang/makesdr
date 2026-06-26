@@ -19,7 +19,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h745i/app/cm4/stm32h7xx_it.h"
+#include "stm32h745i/app/setup/stm32h7xx_it.h"
 
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 #include "stm32h745i/drivers/hal/stm32h7xx_hal.h"

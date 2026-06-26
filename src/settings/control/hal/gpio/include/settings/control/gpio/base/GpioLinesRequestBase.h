@@ -1,6 +1,6 @@
 #pragma once
 #include "ResultCode.h"
-#include "GpioLines.h"
+#include "GpioLinesConfig.h"
 
 class GpioLinesRequestBase
 {

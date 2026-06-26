@@ -6,7 +6,7 @@
 #include "../../data/exampleRadioSettings.h"
 #include "settings/model/core/RadioPayloadBase.h"
 #include "settings/model/proto/RadioPayloads.pb.h"
-#include "stm32h745i/app/cm7/config.h"
+#include "stm32h745i/app/setup/config.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
 using RadioSettingsPb = makesdr_RadioSettingsPb;

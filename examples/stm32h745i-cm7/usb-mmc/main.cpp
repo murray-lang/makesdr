@@ -35,7 +35,7 @@
 #include <demos/lv_demos.h>
 // }
 #include <stm32h745i/app/support/safe_printf.h>
-#include <stm32h745i/app/cm7/mpu_config.h>
+#include <stm32h745i/app/setup/mpu_config.h>
 
 
 #include <stdio.h>
@@ -271,7 +271,7 @@ int main(void)
   }
 
 	/* Toggle LEDs to show demo loaded */
-	BSP_LED_Off(LED1);
+	// BSP_LED_Off(LED1);
 
   // /* AIEC Common configuration: make CPU1 and CPU2 SWI line0
   // sensitive to rising edge : Configured only once */
