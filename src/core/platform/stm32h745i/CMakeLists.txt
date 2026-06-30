@@ -12,7 +12,8 @@ add_definitions(
 )
 
 add_subdirectory(ST)
-add_subdirectory(gpio)
+#add_subdirectory(gpio)
+add_subdirectory(time)
 add_subdirectory(thread)
 add_subdirectory(third-party)
 add_subdirectory(app)

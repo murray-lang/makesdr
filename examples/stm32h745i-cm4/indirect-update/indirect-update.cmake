@@ -34,8 +34,9 @@ target_link_libraries(example-cm4-indirect-update PUBLIC
         -T${LD_FILE_CM4}
         config-struct
         settings-model-core
-        core-stm32h745i-app-setup-example1-cm4
-        core-stm32h745i-gpio-cm4
+        core-gpio-base
+        core-freertos-gpio-cm4
+        core-stm32h745i-setup-setup1-cm4
         core-stm32h745i-thread-cm4
         etl::etl
 )

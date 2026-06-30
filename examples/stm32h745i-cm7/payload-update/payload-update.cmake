@@ -23,7 +23,7 @@ target_link_libraries(example-cm7-payload-update PUBLIC
         settings-model-proto
         settings-model-core
         settings-model-meta
-        core-stm32h745i-app-setup-example1-cm7
+        core-stm32h745i-app-setup-setup1-cm7
 )
 
 add_custom_command(TARGET example-cm7-payload-update POST_BUILD

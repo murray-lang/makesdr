@@ -1,4 +1,4 @@
 #pragma once
 #include <cstdint>
 
-using GpioTimestamp = uint64_t;
+using Timestamp = uint64_t;

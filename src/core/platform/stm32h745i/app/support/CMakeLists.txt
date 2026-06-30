@@ -11,13 +11,11 @@ set(STM32_APP_COMMON_SOURCES
         ${LOCAL_INCLUDE_DIR}/hw_semaphore.h
         ${LOCAL_INCLUDE_DIR}/usb_manager.h
         ${LOCAL_INCLUDE_DIR}/usb_msc.h
-        ${LOCAL_INCLUDE_DIR}/utils.h
 
         src/fatfs_wrapper.c
         src/mmc_diskio.c
         src/usb_manager.c
         src/usb_msc.c
-        src/utils.cpp
 )
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")

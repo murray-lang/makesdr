@@ -1,41 +1,30 @@
 #include "gpioTest.h"
-#include <gpio/GpioDigitalInput.h>
-#include <gpio/GpioRotaryEncoder.h>
-#include <../../../src/core/platform/stm32h745i/gpio/include/gpio/stm32h745i/GpioInputLinesRequest_old.h>
-#include <gpio/common/GpioLineEventCallback.h>
 #include <etl/vector.h>
 #include "digitalInputConfigs.h"
-#include "stm32h745i/app/support/safe_printf.h"
+#include <gpio/service/GpioInputLinesSource.h>
+#include <stm32h745i/app/support/safe_printf.h>
+#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
-class DigitalInputParent : public GpioDigitalInput
+class DigitalInputParent : public GpioInputLines
 {
 public:
   DigitalInputParent()
-    : GpioDigitalInput(
-        GpioLineEventCallback::create<DigitalInputParent, &DigitalInputParent::handleGpioLineEvent>(*this)
+    : m_lineEventCallback(
+      GpioLineEventCallback::create<DigitalInputParent, &DigitalInputParent::handleGpioLineEvent>(*this)
       )
+    , m_linesRequest(*this, m_lineEventCallback)
+  {
+  }
+  DigitalInputParent(const DigitalInputParent& rhs)
+    : DigitalInputParent()
   {
   }
 
-  void handleGpioLineEvent(GpioLineEvent* event)
-  {
-    // if (event->value > 0) {
-    //   BSP_LED_Toggle(LED_GREEN);
-    // } else {
-    //   BSP_LED_Toggle(LED_RED);
-    // }
-  }
-};
+  GpioInputLinesRequest& getLinesRequest() { return m_linesRequest; }
 
-
-class RotaryEncoderParent : public GpioRotaryEncoder
-{
-public:
-  RotaryEncoderParent()
-    : GpioRotaryEncoder(
-        GpioLineEventCallback::create<RotaryEncoderParent, &RotaryEncoderParent::handleGpioLineEvent>(*this)
-      )
+  ResultCode configure(const Config::DigitalInput::Fields& config)
   {
+    return configureLines(config);
   }
 
   void handleGpioLineEvent(GpioLineEvent* event)
@@ -51,57 +40,48 @@ public:
       BSP_LED_Off(LED_GREEN);
     }
   }
+protected:
+  GpioLineEventCallback m_lineEventCallback;
+  GpioInputLinesRequest m_linesRequest;
+
 };
 
-using DigitalVariant = etl::variant<DigitalInputParent, RotaryEncoderParent>;
-using DigitalVector = etl::vector<DigitalVariant, 2>;
+GpioInputLinesSource linesSource;
 
-DigitalInputParent digitalInputParent;
-DigitalInputParent digitalInputParent2;
-RotaryEncoderParent rotaryEncoderParent;
+DigitalInputParent digitalInput;
+DigitalInputParent rotaryEncoder;
 
-// DigitalVariant digitalInputVariant = digitalInputParent;
-// DigitalVariant rotaryEncoderVariant = rotaryEncoderParent;
+etl::vector<DigitalInputParent, 2> digitalInputs; //{ digitalInputVariant, rotaryEncoderVariant};
 
-DigitalVector digitalInputs; //{ digitalInputVariant, rotaryEncoderVariant};
-
-GpioInputLinesRequest_old linesRequest;
 
 ResultCode gpioTest()
 {
-  // digitalInputs.emplace_back(digitalInputVariant);
-  // digitalInputs.emplace_back(rotaryEncoderVariant);
-  digitalInputs.emplace_back(etl::in_place_type<DigitalInputParent>, digitalInputParent);
-  // digitalInputs.emplace_back(etl::in_place_type<DigitalInputParent>, digitalInputParent2);
-  digitalInputs.emplace_back(etl::in_place_type<RotaryEncoderParent>, rotaryEncoderParent);
-  // digitalInputs.push_back(DigitalVariant(digitalInputParent));
-  // digitalInputs.push_back(DigitalVariant(rotaryEncoderParent));
+  digitalInputs.emplace_back(digitalInput);
+  digitalInputs.emplace_back(rotaryEncoder);
   SAFE_PRINTF("[CM4]\t About call DigitalInput::configure()\r\n");
-  ResultCode rc = etl::get<DigitalInputParent>(digitalInputs.at(0)).configure(digitalInputConfig);
+  ResultCode rc = digitalInputs.at(0).configure(digitalInputConfig);
   if (rc != ResultCode::OK) {
     SAFE_PRINTF("[CM4]\t DigitalInput::configure() returned %d\r\n", static_cast<int>(rc));
     return rc;
   }
 
   SAFE_PRINTF("[CM4]\t About call RotaryEncoder::configure()\r\n");
-  rc = etl::get<RotaryEncoderParent>(digitalInputs.at(1)).configure(rotaryEncoderConfig);
+  rc = digitalInputs.at(1).configure(rotaryEncoderConfig);
   if (rc != ResultCode::OK) {
     SAFE_PRINTF("[CM4]\t RotaryEncoder::configure() returned %d\r\n", static_cast<int>(rc));
     return rc;
   }
-  GpioDigitalInputVector inputs;
+  GpioInputLinesRequestVector inputs;
   for (auto& input : digitalInputs) {
-    etl::visit([&inputs](auto&& di)
-    {
-      inputs.emplace_back(&di);
-    }, input);
+    inputs.emplace_back(&input.getLinesRequest());
   }
   SAFE_PRINTF("[CM4]\t About call GpioInputLinesRequest::request()\r\n");
-  rc = linesRequest.request("", inputs);
+
+  rc = linesSource.requestLines("", inputs);
   if (rc != ResultCode::OK) {
     SAFE_PRINTF("[CM4]\t GpioInputLinesRequest::request() returned %d\r\n", static_cast<int>(rc));
     return rc;
   }
   SAFE_PRINTF("[CM4]\t About to start GpioInputLinesRequest thread\r\n");
-  return linesRequest.start(configMINIMAL_STACK_SIZE*5, tskIDLE_PRIORITY, "gpio");
+  return linesSource.start(configMINIMAL_STACK_SIZE*5, tskIDLE_PRIORITY, "gpio");
 }

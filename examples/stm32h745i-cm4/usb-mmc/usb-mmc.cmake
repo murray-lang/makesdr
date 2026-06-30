@@ -21,7 +21,7 @@ target_include_directories(example-cm4-usb-mmc PUBLIC
 
 target_link_libraries(example-cm4-usb-mmc PUBLIC
         -T${LD_FILE_CM4}
-        core-stm32h745i-app-setup-example1-cm4
+        core-stm32h745i-setup-setup1-cm4
         core-stm32h745i-app-support-cm4
 #        ArduinoJson
 )

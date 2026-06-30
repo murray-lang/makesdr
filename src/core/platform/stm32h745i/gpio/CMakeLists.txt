@@ -4,16 +4,6 @@ project(core-stm32h745i-gpio)
 
 set(STM32_GPIO_SOURCES
         include/gpio/stm32h745i/Gpio.h
-        include/gpio/stm32h745i/GpioInputLinesSource.h
-
-
-
-#        include/gpio/stm32h745i/GpioInputLinesRequest.h
-#        include/gpio/stm32h745i/GpioLinesRequestBase.h
-#        include/gpio/stm32h745i/GpioOutputLinesRequest.h
-
-        ${CMAKE_CURRENT_LIST_DIR}/src/GpioInputLinesSource.cpp
-#        ${CMAKE_CURRENT_LIST_DIR}/src/GpioInputLinesRequest.cpp
 )
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
@@ -22,7 +12,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
 
     target_link_libraries(core-stm32h745i-gpio-cm4 PUBLIC
             core-gpio-base
-            core-stm32h745i-app-setup-example1-cm4
+            core-stm32h745i-setup-setup1-cm4
             core-stm32h745i-thread-cm4
             core-stm32h745i-drivers-hal-cm4
             etl::etl
@@ -33,7 +23,7 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
 
     target_link_libraries(core-stm32h745i-gpio-cm7 PUBLIC
             core-gpio-base
-            core-stm32h745i-app-setup-example1-cm7
+            core-stm32h745i-setup-setup1-cm7
             core-stm32h745i-thread-cm7
             core-stm32h745i-drivers-hal-cm7
             etl::etl

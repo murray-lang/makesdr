@@ -1,8 +1,8 @@
 
 #include "gpioTest.h"
 // #include "testSettings.h"
-#include "stm32h745i/app/setup/config.h"
-#include "stm32h745i/app/setup/mpu_config.h"
+#include "stm32h745i/setup/config.h"
+#include "stm32h745i/setup/mpu_config.h"
 #include "stm32h745i/app/support/safe_printf.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
@@ -20,7 +20,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   uint32_t ticks = HAL_GetTick();
   // if (GPIO_Pin == Digital_Input_4_Pin) BSP_LED_Toggle(LED_GREEN);
   // if (GPIO_Pin == Digital_Input_8_Pin) BSP_LED_Toggle(LED_RED);
-  linesRequest.handlePinTransition(GPIO_Pin, ticks);
+  linesSource.handlePinTransition(GPIO_Pin, ticks);
 }
 
 #ifdef __cplusplus

@@ -13,13 +13,14 @@ Config::DigitalInput::Fields digitalInputConfig = {
       },
       false, // debounce
       true, //activeHigh
+      false // rotaryencoder
     },
     "ptt" // settingPath
 };
 
-Config::RotaryEncoder::Fields rotaryEncoderConfig = {
+Config::DigitalInput::Fields rotaryEncoderConfig = {
   Config::Alternative {
-    .type = Config::RotaryEncoder::type,
+    .type = Config::DigitalInput::type,
   },
   Config::GpioInputLines::Fields{
     Config::GpioLines::Fields{
@@ -30,6 +31,7 @@ Config::RotaryEncoder::Fields rotaryEncoderConfig = {
         },
         false, // debounce
         true, //activeHigh
+        true // rotaryEncoder
       },
       "active_bands.focus_band.focus_pipeline.base.rf.centre_frequency" // settingPath
 };

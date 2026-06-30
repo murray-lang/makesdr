@@ -1,8 +1,9 @@
 #pragma once
 #include <ResultCode.h>
-#include <../../../src/core/platform/stm32h745i/gpio/include/gpio/stm32h745i/GpioInputLinesRequest_old.h>
+#include <gpio/service/GpioInputLinesSource.h>
 
 
-extern GpioInputLinesRequest_old linesRequest;
+
+extern GpioInputLinesSource linesSource;
 
 extern ResultCode gpioTest();

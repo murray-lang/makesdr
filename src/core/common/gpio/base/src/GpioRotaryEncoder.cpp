@@ -1,6 +1,7 @@
-#include "gpio/handlers/GpioRotaryEncoder.h"
+#include "gpio/input/GpioLineReader.h"
+#include "gpio/input/handlers/GpioRotaryEncoder.h"
 
-GpioRotaryEncoder::GpioRotaryEncoder(GpioLineMask lineA, GpioLineMask lineB, GpioLineReaderDelegate& reader)
+GpioRotaryEncoder::GpioRotaryEncoder(GpioLineMask lineA, GpioLineMask lineB, GpioLineReader& reader)
   : m_lineA(lineA)
   , m_lineB(lineB)
   , m_previousState(0)
@@ -14,7 +15,7 @@ GpioRotaryEncoder::operator=(const GpioRotaryEncoder& other)
   if (this != &other) {
     m_lineA = other.m_lineA;
     m_lineB = other.m_lineB;
-    m_previousState = other.m_previousState;
+    m_previousState = 0;
     m_reader = other.m_reader;
   }
   return *this;
@@ -25,15 +26,16 @@ GpioRotaryEncoder::operator=(GpioRotaryEncoder&& other) noexcept
 {
   m_lineA = other.m_lineA;
   m_lineB = other.m_lineB;
-  m_previousState = other.m_previousState;
+  m_previousState = 0;
   m_reader = other.m_reader;
   return *this;
 }
 
 bool
-GpioRotaryEncoder::handleLineTransition(GpioLineMask mask, GpioTimestamp timestamp, GpioLineEvent* pEvent)
+GpioRotaryEncoder::handleLineTransition(GpioLineMask mask, Timestamp timestamp, GpioLineEvent* pEvent)
 {
   if ( (mask == m_lineA)  || (mask == m_lineB))  {
+    pEvent->mask = mask;
     pEvent->timestamp = timestamp;
     uint8_t currentState = getCurrentState();
 
