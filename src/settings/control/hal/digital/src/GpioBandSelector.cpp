@@ -1,6 +1,6 @@
-#include "settings/control/gpio/base/Gpio.h"
+#include <gpio/service/Gpio.h>
 #include "settings/model/core/RadioSettings.h"
-#include "settings/control/gpio/GpioBandSelector.h"
+#include "settings/control/digital/GpioBandSelector.h"
 
 
 GpioBandSelector::GpioBandSelector() :
@@ -68,13 +68,17 @@ GpioBandSelector::getBandOutput(uint32_t frequency) const
 ResultCode
 GpioBandSelector::applyOutput(uint32_t output)
 {
-  if (!m_linesRequest) {
-    return ResultCode::ERR_SETTING_DIGITAL_OUTPUT_NO_LINE_REQUEST;
-  }
   m_currentOut = output;
-  GpioOutputValuesVector values(m_lines.size(), false);
-  for (size_t i = 0; i < m_lines.size(); ++i) {
-    values.at(i) = ((output >> i) & 0x1u) != 0;
+
+  ResultCode rc = ResultCode::OK;
+  int nextSignificantBit = 0;
+  for (int i = 0; i < MAX_GPIO_LINES; i++) {
+    GpioLineMask nextLine = m_lines & (1 << i);
+    if (nextLine == 0) continue;
+    GpioLineValue value = (output & (1 << nextSignificantBit)) != 0 ? 1 : 0;
+    rc = m_linesRequest.lineWriter(nextLine, value);
+    nextSignificantBit++;
+    if (rc != ResultCode::OK) break;
   }
-  return m_linesRequest->setLineValues(m_lines, values);
+  return rc;
 }

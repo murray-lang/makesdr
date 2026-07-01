@@ -92,6 +92,26 @@ set to 'Yes') calls __io_putchar() */
 #define Digital_Input_15_Pin GPIO_PIN_15
 #define Digital_Input_15_GPIO_Port GPIOA
 
+#define Blue_Button_Pin GPIO_PIN_13
+#define Blue_Button_GPIO_Port GPIOC
+
+#define Digital_Output_2_Pin GPIO_PIN_2
+#define Digital_Output_2_GPIO_Port GPIOI
+#define Digital_Output_3_Pin GPIO_PIN_3
+#define Digital_Output_3_GPIO_Port GPIOD
+#define Digital_Output_4_Pin GPIO_PIN_4
+#define Digital_Output_4_GPIO_Port GPIOB
+#define Digital_Output_8_Pin GPIO_PIN_8
+#define Digital_Output_8_GPIO_Port GPIOI
+#define Digital_Output_11_Pin GPIO_PIN_11
+#define Digital_Output_11_GPIO_Port GPIOI
+#define Digital_Input_14_Pin GPIO_PIN_14
+#define Digital_Input_14_GPIO_Port GPIOB
+#define Digital_Output_15_Pin GPIO_PIN_15
+#define Digital_Output_15_GPIO_Port GPIOB
+
+
+
 
 #define SDIO1_D2_Pin GPIO_PIN_10
 #define SDIO1_D2_GPIO_Port GPIOC

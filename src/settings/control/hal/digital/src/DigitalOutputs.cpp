@@ -1,6 +1,7 @@
 #include <CrossPlatformTypes.h>
-#include "settings/control/gpio/DigitalOutputs.h"
-#include "settings/control/gpio/DigitalOutputFactory.h"
+#include <gpio/service/Gpio.h>
+#include "settings/control/digital/DigitalOutputs.h"
+#include "settings/control/digital//DigitalOutputFactory.h"
 
 
 ResultCode

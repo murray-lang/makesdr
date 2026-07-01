@@ -1,6 +1,8 @@
 #include "gpio/input/GpioInputLinesRequest.h"
 #include "gpio/input/handlers/GpioTransitionHandlers.h"
 
+// #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+
 
 #ifdef USE_ETL
 #include <etl/variant.h>
@@ -17,7 +19,13 @@ GpioLineTransitionHandlers::GpioLineTransitionHandlers()
 GpioLineTransitionHandler*
 GpioLineTransitionHandlers::getTransitionHandler(GpioLineMask lineMask)
 {
+  // if (lineMask & (1 << 4) || lineMask == (1 << 8)) {
+  //   BSP_LED_On(LED_GREEN);
+  // }
   int lineNo = __builtin_ctz(lineMask);
+  // if (lineNo == 4 || lineNo == 8) {
+  //   BSP_LED_On(LED_GREEN);
+  // }
   return m_handlers[lineNo];
 }
 
@@ -66,6 +74,9 @@ GpioLineTransitionHandlers::addTransitionHandler(GpioLineMask lineMask, GpioInpu
     m_handlers[lineNoA] = std::get_if<GpioRotaryEncoder>(&m_handlerStorage.back());
 #endif
     m_handlers[lineNoB] = m_handlers[lineNoA];
+    // if (m_handlers[lineNoA] == nullptr || m_handlers[lineNoB] == nullptr) {
+    //   BSP_LED_On(LED_RED);
+    // }
     return m_handlers[lineNoA];
   }
   return nullptr;

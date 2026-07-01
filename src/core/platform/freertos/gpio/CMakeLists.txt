@@ -3,8 +3,11 @@ cmake_minimum_required(VERSION 4.1)
 project(core-freertos-gpio)
 
 set(STM32_GPIO_SOURCES
+        ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/Gpio.h
         ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/GpioInputLinesSource.h
         ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/GpioOutputLinesSource.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/src/Gpio.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/GpioInputLinesSource.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/GpioOutputLinesSource.cpp
 )
@@ -15,6 +18,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
 
     target_link_libraries(core-freertos-gpio-cm4 PUBLIC
             core-gpio-base
+            core-stm32h745i-app-support-cm4
             core-stm32h745i-setup-setup1-cm4
             core-stm32h745i-freertos-cm4
             core-stm32h745i-thread-cm4

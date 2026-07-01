@@ -52,6 +52,8 @@ public:
 
   void handlePinTransition(GpioLineMask mask, uint32_t timestamp);
 
+  [[nodiscard]] bool isRunning() const { return m_running; }
+
   void run() override;
 
 protected:

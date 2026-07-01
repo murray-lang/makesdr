@@ -35,3 +35,10 @@ Config::DigitalInput::Fields rotaryEncoderConfig = {
       },
       "active_bands.focus_band.focus_pipeline.base.rf.centre_frequency" // settingPath
 };
+
+Config::DigitalInputs::Fields digitalInputsConfig = {
+  Config::Alternative {
+    .type = Config::DigitalInputs::type,
+  },
+  {digitalInputConfig, rotaryEncoderConfig}
+};

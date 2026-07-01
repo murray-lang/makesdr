@@ -1,6 +1,8 @@
 #include "gpio/input/GpioLineReader.h"
 #include "gpio/input/handlers/GpioRotaryEncoder.h"
 
+// #include <stm32h745i/app/support/safe_printf.h>
+
 GpioRotaryEncoder::GpioRotaryEncoder(GpioLineMask lineA, GpioLineMask lineB, GpioLineReader& reader)
   : m_lineA(lineA)
   , m_lineB(lineB)
@@ -62,8 +64,12 @@ GpioRotaryEncoder::handleLineTransition(GpioLineMask mask, Timestamp timestamp, 
       }
 
       m_previousState = currentState;
+
+      // Only report event when reaching stable detent position (both lines low)
+      if (currentState == 0b00 && pEvent->value != 0) {
+        return true;
+      }
     }
-    return pEvent->value != 0;
   }
   return false;
 }

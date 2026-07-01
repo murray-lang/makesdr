@@ -38,5 +38,7 @@ target_include_directories(core-gpio-base PUBLIC ${CMAKE_CURRENT_LIST_DIR}/inclu
 target_link_libraries(core-gpio-base PUBLIC
         config-struct
         core-common-time
+#        core-stm32h745i-app-support-cm4
+#        core-stm32h745i-drivers-bsp-disco-cm4
         etl::etl
 )

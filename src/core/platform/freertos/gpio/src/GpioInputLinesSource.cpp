@@ -1,5 +1,8 @@
 #include "gpio/service/GpioInputLinesSource.h"
 
+#include <stm32h745i/setup/config.h>
+#include <stm32h745i/app/support/safe_printf.h>
+
 GpioInputLinesSource::GpioInputLinesSource()
   : m_running(false)
   , m_thread(*this)
@@ -33,6 +36,7 @@ ResultCode
 GpioInputLinesSource::requestLines(const char* context, GpioInputLinesRequest* request)
 {
   GpioLineMask requestedLineMask = request->config.getLines();
+  bool is4or8 = (requestedLineMask & Digital_Input_4_Pin) || (requestedLineMask & Digital_Input_8_Pin);
   for (int i = 0; i < MAX_GPIO_LINES; i++) {
     GpioLineMask lineMask = requestedLineMask & (1 << i);
 
@@ -44,12 +48,20 @@ GpioInputLinesSource::requestLines(const char* context, GpioInputLinesRequest* r
     // }
     // m_assignedLines |= lineMask;
     if (!isGpioInputLineAvailable(lineMask)) {
+      // return static_cast<ResultCode>(requestedLineMask);
       return ResultCode::ERR_GPIO_INPUT_LINE_NOT_AVAILABLE;
     }
   }
   request->lineReader = gpioReadLine;
   m_lineEventCallbacks.push_back({requestedLineMask, &request->lineEventCallback});
-  m_transitionHandlers.addTransitionHandler(requestedLineMask, request);
+  GpioLineTransitionHandler* handler = m_transitionHandlers.addTransitionHandler(requestedLineMask, request);
+  // if (is4or8) {
+  //   if (handler != nullptr) {
+  //     BSP_LED_On(LED_GREEN);
+  //   } else {
+  //     BSP_LED_On(LED_RED);
+  //   }
+  // }
   return ResultCode::OK;
 }
 
@@ -80,10 +92,14 @@ GpioInputLinesSource::requestLines(const char* context, GpioInputLinesRequestVec
 void
 GpioInputLinesSource::handlePinTransition(uint16_t mask, uint32_t timestamp)
 {
+  // if (mask == Digital_Input_4_Pin) BSP_LED_Toggle(LED_GREEN);
+  // if (mask == Digital_Input_8_Pin) BSP_LED_Toggle(LED_RED);
   GpioLineEvent event{};
   GpioLineTransitionHandler* handler = m_transitionHandlers.getTransitionHandler(mask);
   if (handler != nullptr) {
+    // if (mask == Digital_Input_4_Pin) BSP_LED_Toggle(LED_RED);
     if (handler->handleLineTransition(mask, timestamp, &event)) {
+
       enqueueEvent(event);
     }
   } else {

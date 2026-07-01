@@ -20,7 +20,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   uint32_t ticks = HAL_GetTick();
   // if (GPIO_Pin == Digital_Input_4_Pin) BSP_LED_Toggle(LED_GREEN);
   // if (GPIO_Pin == Digital_Input_8_Pin) BSP_LED_Toggle(LED_RED);
-  linesSource.handlePinTransition(GPIO_Pin, ticks);
+  gpio.handlePinTransition(GPIO_Pin, ticks);
 }
 
 #ifdef __cplusplus
@@ -112,6 +112,11 @@ static void prvGpioTask( void *pvParameters )
   SAFE_PRINTF("[CM4]\t prvGpioTask entering infinite loop\r\n");
   while (1) {
     vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
+    if (rc == ResultCode::OK) {
+      int64_t& centerFrequency = radioSettings.body().active_bands.band_1.pipeline_a.base.rf.centre_frequency.value;
+      SAFE_PRINTF("[CM4]\t Centre frequency %ld\r\n", static_cast<int32_t>(centerFrequency));
+    }
+
   }
 }
 

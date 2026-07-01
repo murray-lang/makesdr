@@ -3,22 +3,23 @@
 //
 
 #include "CrossPlatformTypes.h"
-#include "settings/control/gpio/DigitalOutputTypes.h"
-#include "settings/control/gpio/DigitalOutput.h"
+#include <gpio/service/Gpio.h>
+#include "settings/control/digital/DigitalOutputTypes.h"
+#include "settings/control/digital/DigitalOutput.h"
 
-#include "settings/control/gpio/base/Gpio.h"
 #include "config/struct/DigitalOutputConfig.h"
 #include "settings/model/core/RadioSettings.h"
 
-DigitalOutput::DigitalOutput() :
-  GpioLinesConfig(Direction::OUTPUT)
+DigitalOutput::DigitalOutput()
+  : GpioLines(Direction::OUTPUT)
+  , m_linesRequest(*this)
 {
 }
 
 ResultCode
 DigitalOutput::configure(const Config::DigitalOutput::Fields& config)
 {
-  ResultCode rc = configureLines(config);
+  ResultCode rc = GpioLines::configureLines(config);
   if (rc != ResultCode::OK) return rc;
   const Config::SettingPathString& strSettingPath = config.settingPath;
   // return RadioSettings::getSettingUpdatePath(strSettingPath, m_settingPath);
@@ -47,30 +48,15 @@ DigitalOutput::discover()
 ResultCode
 DigitalOutput::open()
 {
-  if (m_linesRequest) {
-    return ResultCode::OK;
-  }
   Gpio& gpio = Gpio::getInstance();
-  // DigitalOutputVariant thisAsVariant = move(*this);
-  // DigitalOutputVariantVector thisInVector;
-  // thisInVector.emplace_back(move(thisAsVariant));
-  m_linesRequest.emplace();
-  ResultCode rc = gpio.requestOutput("digitalOutputs", *this, *m_linesRequest);
-  if (rc != ResultCode::OK) return rc;
 
-  if (!m_linesRequest) {
-    return ResultCode::ERR_SETTING_DIGITAL_OUTPUT_LINE_REQUEST_FAILED;
-  }
-  return ResultCode::OK;
+  return gpio.requestOutputs("digitalOutputs", &m_linesRequest);
 }
 
 void
 DigitalOutput::close()
 {
-  if (m_linesRequest) {
-    m_linesRequest->release();
-    m_linesRequest.reset();
-  }
+
 }
 
 void
@@ -82,5 +68,5 @@ DigitalOutput::exit()
 void
 DigitalOutput::setValue(bool value)
 {
-  m_linesRequest->setLineValue(m_lines.at(0), value);
+  m_linesRequest.lineWriter(m_lines, value);
 }

@@ -1,13 +1,14 @@
 #pragma once
 
 #include <settings/control/source/SettingsControlSource.h>
-#include "DigitalInputLinesRequest.h"
-#include "config/struct/DigitalInputsConfig.h"
-#include "DigitalInputTypes.h"
-#include "settings/model/core/RadioSettings.h"
+#include <config/struct/DigitalInputsConfig.h>
+#include <settings/model/core/RadioSettings.h>
+#include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
+
+#include "settings/control/digital//DigitalInputTypes.h"
 
 
-class DigitalInputs : public SettingsControlSource, public DigitalInputLinesRequest::Callback
+class DigitalInputs : public SettingsControlSource
 {
 public:
 
@@ -24,8 +25,7 @@ public:
   void close() override;
   void exit() override;
 
-  // GpioLines::Callback override
-  void callback(DigitalInputLinesRequest::LineStateVector& lineStates) override;
+  [[nodiscard]] const DigitalInputVector& getInputs() const { return m_inputs; }
 
 protected:
   ResultCode notifySettings(const RadioSettings& radioSettings) override
@@ -34,10 +34,6 @@ protected:
   }
 
   ResultCode createInputs(const Config::DigitalInputs::Fields& config);
-
-  void createLineToInputMap();
-
-  void readInitialInputStates();
 
   void reconnectInputSinks();
 
@@ -57,7 +53,7 @@ protected:
 
 protected:
   InternalSink m_internalSink;
-  DigitalInputVariantVector m_inputs;
-  optional<DigitalInputLinesRequest> m_linesRequest;
-  DigitalInputMap m_lineToInputMap;
+  DigitalInputVector m_inputs;
+  // optional<DigitalInputLinesRequest> m_linesRequest;
+  // DigitalInputMap m_lineToInputMap;
 };

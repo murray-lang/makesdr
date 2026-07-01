@@ -2,11 +2,11 @@
 
 #include <CrossPlatformTypes.h>
 #include "config/struct/DigitalOutputConfig.h"
+#include "gpio/base/GpioLines.h"
+#include "gpio/service/GpioOutputLinesSource.h"
 #include "settings/control/sink/SettingsControlSink.h"
-#include "settings/control/gpio/base/GpioLinesConfig.h"
 #include "settings/model/core/RadioSettingsSink.h"
 #include "settings/model/core/SettingPath.h"
-#include "settings/control/gpio/DigitalOutputLinesRequest.h"
 #include "settings/model/core/SettingUpdate.h"
 #include "settings/model/core/SettingUpdateSink.h"
 
@@ -19,16 +19,16 @@ using std::unique_ptr;
 #endif
 
 
-class DigitalOutput : public GpioLinesConfig, public SettingsControlSink, public SettingUpdateSink
+class DigitalOutput : public GpioLines, public SettingsControlSink, public SettingUpdateSink
 {
 public:
   DigitalOutput();
   ~DigitalOutput() override = default;
 
   DigitalOutput(DigitalOutput&&)  noexcept = default;
-  DigitalOutput& operator=(DigitalOutput&&)  noexcept = default;
+  DigitalOutput& operator=(DigitalOutput&&)  noexcept;
 
-  virtual ResultCode configure(const Config::DigitalOutput::Fields& config);
+  ResultCode configure(const Config::DigitalOutput::Fields& config);
   bool discover() override;
   ResultCode open() override;
   void close() override;
@@ -47,6 +47,6 @@ public:
 
 protected:
   SettingPath m_settingPath;
-  optional<DigitalOutputLinesRequest> m_linesRequest;
-
+  GpioOutputLinesSource m_linesSource;
+  GpioOutputLinesRequest m_linesRequest;
 };

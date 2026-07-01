@@ -13,8 +13,8 @@ set(PLAY_SOURCES
 #        ${CMAKE_CURRENT_LIST_DIR}/testSettings.h
 #        ${CMAKE_CURRENT_LIST_DIR}/testSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/main.cpp
-#        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
-#        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/../../data/exampleRadioSettings.cpp
 
         ${CMAKE_CURRENT_LIST_DIR}/gpioTest.cpp
         ${CMAKE_CURRENT_LIST_DIR}/gpioTest.h
@@ -34,8 +34,7 @@ target_link_libraries(example-cm4-indirect-update PUBLIC
         -T${LD_FILE_CM4}
         config-struct
         settings-model-core
-        core-gpio-base
-        core-freertos-gpio-cm4
+        settings-control-hal-digital
         core-stm32h745i-setup-setup1-cm4
         core-stm32h745i-thread-cm4
         etl::etl
