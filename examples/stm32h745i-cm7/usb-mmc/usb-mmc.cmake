@@ -23,7 +23,7 @@ target_include_directories(example-cm7-usb-mmc PUBLIC
 
 target_link_libraries(example-cm7-usb-mmc PUBLIC
         -T${LD_FILE_CM7}
-        core-stm32h745i-app-setup-example1-cm7
+        core-stm32h745i-app-setup-setup1-cm7
         core-stm32h745i-app-support-cm7
         core-stm32h745i-lvgl-cm7
 )

@@ -20,4 +20,5 @@ target_link_libraries(example-linux-payload-update PUBLIC
         settings-model-proto
         settings-model-core
         settings-model-meta
+        settings-control-radio
 )

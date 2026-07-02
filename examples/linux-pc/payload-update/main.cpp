@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <settings/control/radio/RadioControl.h>
 
 #include "settings/model/core/RadioSettings.h"
 
@@ -20,6 +21,7 @@ BandSettingsCache bandSettingsCache;
 
 int main()
 {
+  RadioControl radioControl;
   ResultCode rc = ResultCode::OK;
   RadioSettings clientRadioSettings(generalCoverageRadioMeta, bandSettingsCache);
 

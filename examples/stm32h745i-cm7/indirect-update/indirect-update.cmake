@@ -23,7 +23,7 @@ target_include_directories(example-cm7-indirect-update PUBLIC
 
 target_link_libraries(example-cm7-indirect-update PUBLIC
         settings-model-core
-        core-stm32h745i-app-setup-example1-cm7
+        core-stm32h745i-app-setup-setup1-cm7
 )
 
 add_custom_command(TARGET example-cm7-indirect-update POST_BUILD

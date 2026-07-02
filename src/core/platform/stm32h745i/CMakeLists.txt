@@ -12,5 +12,6 @@ add_definitions(
 )
 
 add_subdirectory(ST)
+add_subdirectory(time)
 add_subdirectory(third-party)
 add_subdirectory(app)

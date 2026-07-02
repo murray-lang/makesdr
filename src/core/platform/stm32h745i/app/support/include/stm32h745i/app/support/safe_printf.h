@@ -1,6 +1,6 @@
 #pragma once
 
-#include "semaphore.h"
+#include "hw_semaphore.h"
 #include <stdio.h>
 #include <stdint.h>
 

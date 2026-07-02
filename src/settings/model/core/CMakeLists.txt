@@ -35,5 +35,7 @@ target_include_directories(settings-model-core PUBLIC
 target_link_libraries(settings-model-core PUBLIC
         settings-model-proto
         settings-model-meta
+        core-stm32h745i-app-support-cm4
+        core-stm32h745i-drivers-bsp-disco-cm4
         etl
 )

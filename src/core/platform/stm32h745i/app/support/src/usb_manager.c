@@ -17,7 +17,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h745i/app/support/semaphore.h"
+#include "stm32h745i/app/support/hw_semaphore.h"
 #include "stm32h745i/app/support/usb_manager.h"
 #include "stm32h745i/fatfs/ff.h"
 #include <stdio.h>
