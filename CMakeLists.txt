@@ -24,7 +24,7 @@ if(TARGET_PLATFORM MATCHES "^stm32h745i-(cm[47])$")
     add_definitions(
             -DIS_STM32
             -DMAX_GPIO=27
-            -DMAX_GPIO_EVENT_QUEUE_CAPACITY=32
+            -DGPIO_EVENT_QUEUE_CAPACITY=32
             -DMAX_GPIO_CONTEXT_LENGTH=4
     )
 
@@ -35,7 +35,7 @@ elseif(TARGET_PLATFORM STREQUAL "rpi")
     add_definitions(
             -DIS_LINUX
             -DMAX_GPIO=27
-            -DMAX_GPIO_EVENT_QUEUE_CAPACITY=64
+            -DGPIO_EVENT_QUEUE_CAPACITY=64
             -DMAX_GPIO_CONTEXT_LENGTH=16
     )
 

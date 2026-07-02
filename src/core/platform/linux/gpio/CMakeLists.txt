@@ -14,15 +14,28 @@ else()
 endif()
 
 set(GPIO_LINUX_SOURCES
-        ${CMAKE_CURRENT_LIST_DIR}/Gpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/GpioEventQueueGpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DigitalInputLinesRequestGpiod.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/DigitalOutputLinesRequestGpiod.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/Gpio.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/GpioLinesSourceBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/GpioInputLinesSource.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/gpio/service/GpioOutputLinesSource.h
+
+        ${CMAKE_CURRENT_LIST_DIR}/src/Gpio.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/GpioInputLinesSource.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/GpioOutputLinesSource.cpp
+
+#        src/Gpiod.cpp
+#        src/GpioEventQueueGpiod.cpp
+#        src/DigitalInputLinesRequestGpiod.cpp
+#        src/DigitalOutputLinesRequestGpiod.cpp
 )
 
 add_library(core-linux-gpio STATIC ${GPIO_LINUX_SOURCES})
 
+target_include_directories(core-linux-gpio PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
+
 target_link_libraries(core-linux-gpio PUBLIC
-        settings-control-hal-gpio
+        core-gpio-base
+        core-linux-time
+        core-linux-thread
         PkgConfig::GPIOD
 )

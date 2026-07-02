@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FREERTOS_GPIOOUTPUTLINESSOURCE_H_
+#define FREERTOS_GPIOOUTPUTLINESSOURCE_H_
 #include "gpio/output/GpioOutputLinesRequest.h"
 #include "ResultCode.h"
 
@@ -16,3 +17,4 @@ public:
   ResultCode requestLines(const char* context, GpioOutputLinesRequestVector& requests);
 
 };
+#endif // FREERTOS_GPIOOUTPUTLINESSOURCE_H_

@@ -26,7 +26,7 @@ public:
   GpioLineTransitionHandlerVariantVector& getHandlers() { return m_handlerStorage; }
 
 protected:
-  void continueDebouncing();
+  // void continueDebouncing();
 
   GpioLineTransitionHandler* m_handlers[MAX_GPIO_LINES];
   GpioLineTransitionHandlerVariantVector m_handlerStorage;

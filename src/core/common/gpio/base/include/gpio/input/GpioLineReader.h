@@ -13,7 +13,7 @@ using GpioLineReader = etl::delegate<ResultCode(GpioLineMask, GpioLineValue*)>;
 using GpioLineReader = std::function<ResultCode(GpioLineMask, GpioLineValue*)>;
 #endif
 
-ResultCode gpioReadLine(GpioLineMask mask, GpioLineValue* result);
+extern ResultCode gpioReadLine(GpioLineMask mask, GpioLineValue* result);
 extern bool isGpioInputLineAvailable(GpioLineMask mask);
 
 

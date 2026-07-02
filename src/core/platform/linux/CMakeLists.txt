@@ -4,3 +4,4 @@ project(core-linux)
 
 add_subdirectory(gpio)
 add_subdirectory(thread)
+add_subdirectory(time)

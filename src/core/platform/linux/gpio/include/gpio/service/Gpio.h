@@ -1,21 +1,22 @@
-#ifndef FREERTOS_GPIO_H_
-#define FREERTOS_GPIO_H_
+#ifndef LINUX_GPIO_H_
+#define LINUX_GPIO_H_
 
 #include <gpio/input/GpioInputLinesRequest.h>
 #include <gpio/output/GpioOutputLinesRequest.h>
 
 #include <gpio/service/GpioInputLinesSource.h>
 #include <gpio/service/GpioOutputLinesSource.h>
+
 #include <ResultCode.h>
 
+struct gpiod_chip;
 
-using GpioConsumerString = etl::string<MAX_GPIO_CONTEXT_LENGTH>;
 
 class Gpio
 {
 public:
-  Gpio() = default;
-  virtual ~Gpio() = default;
+  Gpio();
+  virtual ~Gpio();
 
   static Gpio& getInstance() {
     static Gpio instance; // Only created once, thread-safe since C++11
@@ -28,9 +29,9 @@ public:
   Gpio(Gpio&&) = delete;
   Gpio& operator=(Gpio&&) = delete;
 
-  static bool isPresent() { return true;};
-  ResultCode open() { return ResultCode::OK; }
-  void close() {}
+  static bool isPresent();
+  ResultCode open();
+  void close();
 
   ResultCode startInputs();
   void stopInputs();
@@ -48,6 +49,7 @@ public:
 private:
   GpioInputLinesSource m_inputLinesSource;
   GpioOutputLinesSource m_outputLinesSource;
+  gpiod_chip* m_pChip;
 };
 
-#endif // FREERTOS_GPIO_H_
+#endif // LINUX_GPIO_H_

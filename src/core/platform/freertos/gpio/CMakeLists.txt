@@ -18,10 +18,10 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
 
     target_link_libraries(core-freertos-gpio-cm4 PUBLIC
             core-gpio-base
+            core-common-time
+            core-freertos-thread-cm4
             core-stm32h745i-app-support-cm4
             core-stm32h745i-setup-setup1-cm4
-            core-stm32h745i-freertos-cm4
-            core-stm32h745i-thread-cm4
             core-stm32h745i-drivers-hal-cm4
             etl::etl
     )
@@ -31,9 +31,9 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
 
     target_link_libraries(core-stm32h745i-gpio-cm7 PUBLIC
             core-gpio-base
+            core-common-time
+            core-freertos-thread-cm7
             core-stm32h745i-app-setup-setup1-cm7
-            core-stm32h745i-freertos-cm4
-            core-stm32h745i-thread-cm7
             core-stm32h745i-drivers-hal-cm7
             etl::etl
     )
