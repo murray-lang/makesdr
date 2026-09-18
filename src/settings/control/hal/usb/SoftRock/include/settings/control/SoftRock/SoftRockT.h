@@ -2,7 +2,7 @@
 
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHost.h>
-#include <settings/model/IRadioSettings.h>
+#include <settings/model/radios/IRadioSettings.h>
 #include <config/struct/SoftRockConfig.h>
 #include <cmath>
 
@@ -11,10 +11,10 @@
 #define SOFTROCK_VENDOR_ID    0x16C0
 #define SOFTROCK_PRODUCT_ID   0x05DC
 
-class SettingUpdate;
+class FieldUpdate;
 
 template <typename RadioSettingsT>
-class SoftRockT : public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
+class SoftRockT : public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink
 {
 public:
   enum class Request
@@ -57,11 +57,11 @@ public:
       return ResultCode:: OK;
     }
 
-    const IActiveBandSettings* activeBandSettings = radioSettings.activeBands();
+    const typename RadioSettingsT::ActiveBandSettings* activeBandSettings = radioSettings.activeBands();
     if (activeBandSettings == nullptr || !activeBandSettings->hasFocusBand()) {
       return ResultCode:: OK;
     }
-    const IBandSettings* bandSettings = activeBandSettings->focusBand();
+    const typename RadioSettingsT::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
     if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
       const BandRfSettings* rfSettings = bandSettings->rfSettings();
       if (rfSettings != nullptr && rfSettings->hasFrequency()) {
@@ -72,7 +72,7 @@ public:
     return ResultCode::OK;
   }
 
-  ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override
+  ResultCode applyFieldUpdate(const FieldUpdate& update) override
   {
     return ResultCode::OK; //ignore for now.
   }

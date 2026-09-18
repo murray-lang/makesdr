@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-path-radios-dual-iq-rxtx-lookup.a "CMakeFiles/settings-model-path-radios-dual-iq-rxtx-lookup.dir/src/DualIqRxTxTagLookup.cpp.o" "../../../../../common/CMakeFiles/settings-model-path-common.dir/src/CommonTagLookup.cpp.o"
+/usr/bin/ranlib libsettings-model-path-radios-dual-iq-rxtx-lookup.a

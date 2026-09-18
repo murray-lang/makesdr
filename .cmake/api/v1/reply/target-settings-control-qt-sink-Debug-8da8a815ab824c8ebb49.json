@@ -1,0 +1,405 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "src/settings/control/qt/sink/libsettings-control-qt-sink.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"src/settings/control/qt/sink/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 45,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 63,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -ffunction-sections -fdata-sections -g -std=gnu++20 -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "ETL_NO_CHECKS"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "IS_LINUX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BANDS_PER_CATEGORY=13"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_CATEGORIES=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_LABEL_LENGTH=9"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SINKS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SOURCES=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_INPUT_HANDLERS=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_OUTPUT_HANDLERS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DOTTED_STRING_LENGTH=64"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_FIELD_PATH_LENGTH=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_LINES_PER_DEVICE=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_ID_LENGTH=16"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODES=10"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODE_LABEL_LENGTH=14"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_NAME_LENGTH=7"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_USB_CONTROL_SINKS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_DOTTED_STRING_PATHS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/qt/sink/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/config/struct/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/sink/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/radios/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/proto/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/nanopb"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/radio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/band/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/mode/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/qt/event-targets/include"
+				},
+				{
+					"backtrace" : 0,
+					"isSystem" : true,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/qt/sink/settings-control-qt-sink_autogen/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/etl/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/include/x86_64-linux-gnu/qt6/QtCore"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/include/x86_64-linux-gnu/qt6"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					2,
+					2
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				2
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "protobuf-nanopb-static::@c845ef696169b6be4d76"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-control-base::@dadfd76efe4f40b526e1"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-control-sink::@4f14c7fdf5c1515d3702"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-control-qt-event-targets::@e48ec22a73e7bc6dc7dc"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-proto::@ca68e4c23759caae5d87"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-band::@ada3252157031d0b73c3"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-mode::@b9c7d95edb51607dd30b"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-radio::@08176e4c1cca9a686ad4"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-radios-base::@1479c2e2f252b18083d5"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "config-struct::@6b88641760919ad0bf90"
+		},
+		{
+			"id" : "settings-control-qt-sink_autogen_timestamp_deps::@c6cd9b1d64632fa45437"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-qt-sink_autogen::@c6cd9b1d64632fa45437"
+		}
+	],
+	"id" : "settings-control-qt-sink::@c6cd9b1d64632fa45437",
+	"name" : "settings-control-qt-sink",
+	"nameOnDisk" : "libsettings-control-qt-sink.a",
+	"paths" : 
+	{
+		"build" : "src/settings/control/qt/sink",
+		"source" : "src/settings/control/qt/sink"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				2
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1,
+				3
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				4
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				5
+			]
+		},
+		{
+			"name" : "Object Libraries",
+			"sourceIndexes" : 
+			[
+				6,
+				7
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/settings-control-qt-sink_autogen/mocs_compilation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/qt/sink/include/settings/control/qt/QtSettingsControlSinkBase.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/settings/control/qt/sink/src/QtSettingsControlSinkBase.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/qt/sink/include/settings/control/qt/QtSettingsControlSinkT.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/settings-control-qt-sink_autogen/timestamp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/settings-control-qt-sink_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/event-targets/CMakeFiles/settings-control-qt-event-targets.dir/settings-control-qt-event-targets_autogen/mocs_compilation.cpp.o",
+			"sourceGroupIndex" : 4
+		},
+		{
+			"backtrace" : 2,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/event-targets/CMakeFiles/settings-control-qt-event-targets.dir/src/QtGlobalControlEventTargets.cpp.o",
+			"sourceGroupIndex" : 4
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

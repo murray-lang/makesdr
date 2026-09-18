@@ -4,9 +4,9 @@ project(settings-model-radios-iq-dual-split)
 
 set(SPLIT_DUAL_IQ_RXTX_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/SplitBandDualIqRxTxSettings.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/SplitBandDualIqRxTxShortcutExpander.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/SplitBandDualIqRxTxUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/src/SplitBandDualIqRxTxSettings.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/src/SplitBandDualIqRxTxShortcutExpander.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/SplitBandDualIqRxTxUpdater.cpp
 )
 
 add_library(settings-model-radios-iq-dual-split STATIC ${SPLIT_DUAL_IQ_RXTX_FILES})

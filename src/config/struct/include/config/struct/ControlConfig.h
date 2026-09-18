@@ -5,8 +5,8 @@
 #include "FunCubeConfig.h"
 #include "DigitalInputsConfig.h"
 #include "DigitalOutputsConfig.h"
-#include "QtControlSinkConfig.h"
-#include "QtControlSourceConfig.h"
+#include "QtTransportOutConfig.h"
+#include "QtTransportInConfig.h"
 #include "UsbControlSinksConfig.h"
 
 #ifdef USE_ETL
@@ -21,15 +21,15 @@ namespace Config::Control
 {
   static constexpr auto type = "control";
 #ifdef USE_GPIO
-  #ifdef IS_QT
+  #ifdef IS_LINUX
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,
       UsbControlSinks::Fields,
       GpioLines::Fields,
-      QtControlSink::Fields
+      QtTransportOut::Fields
     >;
 
-    using SourceConfigVariant = variant<DigitalInputs::Fields, QtControlSource::Fields>;
+    using SourceConfigVariant = variant<DigitalInputs::Fields, QtTransportIn::Fields>;
   #else
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,
@@ -37,20 +37,20 @@ namespace Config::Control
       GpioLines::Fields
     >;
     using SourceConfigVariant = variant<DigitalInputs::Fields>;
-  #endif // IS_QT
+  #endif // IS_LINUX
 #else
-  #ifdef IS_QT
+  #ifdef IS_LINUX
     using SinkConfigVariant = variant<
       UsbControlSinks::Fields,
-      QtControlSink::Fields
+      QtTransportOut::Fields
     >;
-    using SourceConfigVariant = variant<QtControlSource::Fields>;
+    using SourceConfigVariant = variant<QtTransportIn::Fields>;
   #else
     using SinkConfigVariant = variant<
       UsbControlSinks::Fields
     >;
     using SourceConfigVariant = variant<monostate>;
-  #endif // IS_QT
+  #endif // IS_LINUX
 #endif
 
 

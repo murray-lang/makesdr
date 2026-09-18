@@ -33,6 +33,12 @@ PB_BIND(makesdr_DualIqRxTxSettingsPayloadPb, makesdr_DualIqRxTxSettingsPayloadPb
 PB_BIND(makesdr_SplitBandDualIqRxTxSettingsPayloadPb, makesdr_SplitBandDualIqRxTxSettingsPayloadPb, 2)
 
 
+PB_BIND(makesdr_ModesPayloadPb, makesdr_ModesPayloadPb, 2)
+
+
+PB_BIND(makesdr_BandsPayloadPb, makesdr_BandsPayloadPb, 4)
+
+
 PB_BIND(makesdr_RadioLookupPayloadPb, makesdr_RadioLookupPayloadPb, 4)
 
 
@@ -42,7 +48,15 @@ PB_BIND(makesdr_RadioCacheBasicPayloadPb, makesdr_RadioCacheBasicPayloadPb, 2)
 PB_BIND(makesdr_RadioCacheBasicIqPayloadPb, makesdr_RadioCacheBasicIqPayloadPb, 2)
 
 
-PB_BIND(makesdr_RadioCacheDualPayloadPb, makesdr_RadioCacheDualPayloadPb, 4)
+PB_BIND(makesdr_RadioCacheDualIqPayloadPb, makesdr_RadioCacheDualIqPayloadPb, 4)
+
+
+PB_BIND(makesdr_RadioCacheRxTxDualIqPayloadPb, makesdr_RadioCacheRxTxDualIqPayloadPb, 4)
+
+
+PB_BIND(makesdr_FieldUpdatePayloadPb, makesdr_FieldUpdatePayloadPb, AUTO)
+
+
 
 
 

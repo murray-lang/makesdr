@@ -1,9 +1,9 @@
 #pragma once
 
-#include <settings/model/BandRfSettings.h>
+#include <settings/model/radios/BandRfSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 
-class PipelineRfSettings : public SettingsBase
+class PipelineRfSettings : public IApplyBandDefaults
 {
 public:
 
@@ -23,6 +23,15 @@ public:
 
   [[nodiscard]] int32_t maxPositiveOffset() const { return m_rawSettings.max_positive_offset; }
   [[nodiscard]] int32_t maxNegativeOffset() const { return m_rawSettings.max_negative_offset; }
+
+  ResultCode applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes) override
+  {
+    m_rawSettings.has_frequency = true;
+    m_rawSettings.frequency.value = band.landingFrequency();
+    m_rawSettings.frequency.coarse_delta = band.defaultCoarseStep();
+    m_rawSettings.frequency.fine_delta = band.defaultFineStep();
+    return ResultCode::OK;
+  }
 
   void setNyquistLimits(int32_t maxNegative, int32_t maxPositive)
   {

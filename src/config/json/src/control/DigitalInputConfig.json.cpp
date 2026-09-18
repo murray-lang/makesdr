@@ -1,6 +1,6 @@
 #include "config/json/DigitalInputConfig.json.h"
 #include "config/json/GpioInputLinesConfig.json.h"
-#include "config/json/SettingDescriptorConfig.json.h"
+#include "config/json/FieldDescriptorConfig.json.h"
 
 namespace Config::DigitalInput
 {
@@ -20,7 +20,7 @@ namespace Config::DigitalInput
       return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
 #endif
     } else if (json["settingDescriptor"].is<JsonVariantConst>()) {
-      return SettingDescriptor::fromJson(json["settingDescriptor"], fields.settingDescriptor.value());
+      return FieldDescriptor::fromJson(json["settingDescriptor"], fields.settingDescriptor.value());
     } else {
       return ResultCode::ERR_CONFIG_MISSING_SETTING_PATH;
     }

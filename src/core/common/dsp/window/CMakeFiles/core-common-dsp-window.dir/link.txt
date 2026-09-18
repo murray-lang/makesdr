@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-dsp-window.a "CMakeFiles/core-common-dsp-window.dir/src/Window.cpp.o"
+/usr/bin/ranlib libcore-common-dsp-window.a

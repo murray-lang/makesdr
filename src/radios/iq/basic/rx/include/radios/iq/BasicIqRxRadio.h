@@ -13,8 +13,8 @@ class BasicIqRxRadio : public RadioBaseT<BasicIqRxSettings>
 {
 public:
   BasicIqRxRadio(
-    const EventTargetProvider& eventTargetProvider,
-    const RadioLookup& radioLookup,
+    const BandCategoryList& bands,
+    const ModeList& modes,
     BasicIqRxSettings::Cache& bandSettingsCache
     );
 
@@ -24,10 +24,10 @@ public:
   void stop() override;
 
   ResultCode applySettings(BasicIqRxSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override;
+  ResultCode applyFieldUpdate(const FieldUpdate& update) override;
 
 
-  void ptt(bool on) override;
+  ResultCode ptt(bool on) override;
 
 protected:
   void pttOn();

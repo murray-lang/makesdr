@@ -1,0 +1,5597 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						4,
+						5,
+						75,
+						151,
+						154,
+						161
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						56
+					]
+				},
+				{
+					"build" : "nanopb",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-nanopb-Debug-20ba3d77de3b203d7a09.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "third-party/nanopb",
+					"targetIndexes" : 
+					[
+						67,
+						70
+					]
+				},
+				{
+					"build" : "arduinoJson",
+					"childIndexes" : 
+					[
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-arduinoJson-Debug-4553d6ba73fca72e8ff1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "third-party/ArduinoJson"
+				},
+				{
+					"build" : "arduinoJson/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-arduinoJson.src-Debug-106f572e4eca88b8b13e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 2,
+					"source" : "third-party/ArduinoJson/src"
+				},
+				{
+					"build" : "etl",
+					"jsonFile" : "directory-etl-Debug-89ee0b100e0191b77ba2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "third-party/etl"
+				},
+				{
+					"build" : "src/core",
+					"childIndexes" : 
+					[
+						6,
+						53
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.core-Debug-36daa2e54a8600f0fb49.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "src/core"
+				},
+				{
+					"build" : "src/core/common",
+					"childIndexes" : 
+					[
+						7,
+						10,
+						22,
+						23,
+						25,
+						47,
+						48,
+						49,
+						50,
+						52
+					],
+					"jsonFile" : "directory-src.core.common-Debug-0126f83d14ec11189401.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 5,
+					"source" : "src/core/common"
+				},
+				{
+					"build" : "src/core/common/audio",
+					"childIndexes" : 
+					[
+						8,
+						9
+					],
+					"jsonFile" : "directory-src.core.common.audio-Debug-b9b1effe59cacdc9dc7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 6,
+					"source" : "src/core/common/audio"
+				},
+				{
+					"build" : "src/core/common/audio/base",
+					"jsonFile" : "directory-src.core.common.audio.base-Debug-f997d00e893012d075c9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 7,
+					"source" : "src/core/common/audio/base",
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"build" : "src/core/common/audio/mixer",
+					"jsonFile" : "directory-src.core.common.audio.mixer-Debug-87e33b65a1486054cc06.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 7,
+					"projectIndex" : 8,
+					"source" : "src/core/common/audio/mixer",
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"build" : "src/core/common/dsp",
+					"childIndexes" : 
+					[
+						11,
+						12,
+						15,
+						21
+					],
+					"jsonFile" : "directory-src.core.common.dsp-Debug-ccaf3e9ef43b5024e075.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 9,
+					"source" : "src/core/common/dsp"
+				},
+				{
+					"build" : "src/core/common/dsp/constants",
+					"jsonFile" : "directory-src.core.common.dsp.constants-Debug-302de6af5e04f49cd1eb.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 10,
+					"source" : "src/core/common/dsp/constants",
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/filters",
+					"childIndexes" : 
+					[
+						13
+					],
+					"jsonFile" : "directory-src.core.common.dsp.filters-Debug-aee6083284e7789297bf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 11,
+					"source" : "src/core/common/dsp/filters"
+				},
+				{
+					"build" : "src/core/common/dsp/filters/fir",
+					"childIndexes" : 
+					[
+						14
+					],
+					"jsonFile" : "directory-src.core.common.dsp.filters.fir-Debug-a514fee567fea36c1524.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 12,
+					"projectIndex" : 12,
+					"source" : "src/core/common/dsp/filters/fir"
+				},
+				{
+					"build" : "src/core/common/dsp/filters/fir/custom",
+					"jsonFile" : "directory-src.core.common.dsp.filters.fir.custom-Debug-e071a66575b78853016e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 13,
+					"projectIndex" : 13,
+					"source" : "src/core/common/dsp/filters/fir/custom",
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/transforms",
+					"childIndexes" : 
+					[
+						16,
+						20
+					],
+					"jsonFile" : "directory-src.core.common.dsp.transforms-Debug-e9ccc6be34a05bbd8441.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 14,
+					"source" : "src/core/common/dsp/transforms"
+				},
+				{
+					"build" : "src/core/common/dsp/transforms/fft",
+					"childIndexes" : 
+					[
+						17,
+						18,
+						19
+					],
+					"jsonFile" : "directory-src.core.common.dsp.transforms.fft-Debug-b481facde04b0d443ea5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 15,
+					"projectIndex" : 15,
+					"source" : "src/core/common/dsp/transforms/fft"
+				},
+				{
+					"build" : "src/core/common/dsp/transforms/fft/base",
+					"jsonFile" : "directory-src.core.common.dsp.transforms.fft.base-Debug-c3478811149749ffc45d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 16,
+					"source" : "src/core/common/dsp/transforms/fft/base",
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/transforms/fft/liquid",
+					"jsonFile" : "directory-src.core.common.dsp.transforms.fft.liquid-Debug-a008cd3e1ef357fbf2ea.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 17,
+					"source" : "src/core/common/dsp/transforms/fft/liquid",
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/transforms/fft/pocket",
+					"jsonFile" : "directory-src.core.common.dsp.transforms.fft.pocket-Debug-158bf67b2264abcb4b79.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 18,
+					"source" : "src/core/common/dsp/transforms/fft/pocket",
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/transforms/hilbert",
+					"jsonFile" : "directory-src.core.common.dsp.transforms.hilbert-Debug-4035a7d6c3a27e4c2cdc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 15,
+					"projectIndex" : 19,
+					"source" : "src/core/common/dsp/transforms/hilbert",
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"build" : "src/core/common/dsp/window",
+					"jsonFile" : "directory-src.core.common.dsp.window-Debug-e3e7f73eee6a3529412c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 20,
+					"source" : "src/core/common/dsp/window",
+					"targetIndexes" : 
+					[
+						17
+					]
+				},
+				{
+					"build" : "src/core/common/event",
+					"jsonFile" : "directory-src.core.common.event-Debug-a8463c965c0c8e62e41d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 21,
+					"source" : "src/core/common/event",
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
+					"build" : "src/core/common/gpio",
+					"childIndexes" : 
+					[
+						24
+					],
+					"jsonFile" : "directory-src.core.common.gpio-Debug-a490305ffa2adc0babf6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 22,
+					"source" : "src/core/common/gpio"
+				},
+				{
+					"build" : "src/core/common/gpio/base",
+					"jsonFile" : "directory-src.core.common.gpio.base-Debug-edd0ade34bd8f9452b4b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 23,
+					"projectIndex" : 23,
+					"source" : "src/core/common/gpio/base",
+					"targetIndexes" : 
+					[
+						40
+					]
+				},
+				{
+					"build" : "src/core/common/iq",
+					"childIndexes" : 
+					[
+						26,
+						27,
+						30,
+						31,
+						34,
+						35
+					],
+					"jsonFile" : "directory-src.core.common.iq-Debug-0ca2dd2819e9c631e362.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 24,
+					"source" : "src/core/common/iq"
+				},
+				{
+					"build" : "src/core/common/iq/base",
+					"jsonFile" : "directory-src.core.common.iq.base-Debug-c8dbb272c61b50fd5f97.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 25,
+					"source" : "src/core/common/iq/base",
+					"targetIndexes" : 
+					[
+						19
+					]
+				},
+				{
+					"build" : "src/core/common/iq/basic",
+					"childIndexes" : 
+					[
+						28,
+						29
+					],
+					"jsonFile" : "directory-src.core.common.iq.basic-Debug-b08c6db9c1876bd9c86f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 26,
+					"source" : "src/core/common/iq/basic"
+				},
+				{
+					"build" : "src/core/common/iq/basic/rx",
+					"jsonFile" : "directory-src.core.common.iq.basic.rx-Debug-75c543cd9903b46f2a53.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 27,
+					"projectIndex" : 27,
+					"source" : "src/core/common/iq/basic/rx",
+					"targetIndexes" : 
+					[
+						20
+					]
+				},
+				{
+					"build" : "src/core/common/iq/basic/rxtx",
+					"jsonFile" : "directory-src.core.common.iq.basic.rxtx-Debug-083f5762fbd21c8c9588.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 27,
+					"projectIndex" : 28,
+					"source" : "src/core/common/iq/basic/rxtx",
+					"targetIndexes" : 
+					[
+						21
+					]
+				},
+				{
+					"build" : "src/core/common/iq/common",
+					"jsonFile" : "directory-src.core.common.iq.common-Debug-7cb36b6313d28066e6b4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 29,
+					"source" : "src/core/common/iq/common",
+					"targetIndexes" : 
+					[
+						22
+					]
+				},
+				{
+					"build" : "src/core/common/iq/dual",
+					"childIndexes" : 
+					[
+						32,
+						33
+					],
+					"jsonFile" : "directory-src.core.common.iq.dual-Debug-f720f3c3803435c7f3f6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 30,
+					"source" : "src/core/common/iq/dual"
+				},
+				{
+					"build" : "src/core/common/iq/dual/rxtx",
+					"jsonFile" : "directory-src.core.common.iq.dual.rxtx-Debug-1ab808038d136c0adc83.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 31,
+					"projectIndex" : 31,
+					"source" : "src/core/common/iq/dual/rxtx",
+					"targetIndexes" : 
+					[
+						23
+					]
+				},
+				{
+					"build" : "src/core/common/iq/dual/split",
+					"jsonFile" : "directory-src.core.common.iq.dual.split-Debug-2056adfc8f7690505872.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 31,
+					"projectIndex" : 32,
+					"source" : "src/core/common/iq/dual/split",
+					"targetIndexes" : 
+					[
+						24
+					]
+				},
+				{
+					"build" : "src/core/common/iq/io",
+					"jsonFile" : "directory-src.core.common.iq.io-Debug-b6d5a322d3883ba45196.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 33,
+					"source" : "src/core/common/iq/io",
+					"targetIndexes" : 
+					[
+						25
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline",
+					"childIndexes" : 
+					[
+						36,
+						37,
+						38,
+						39
+					],
+					"jsonFile" : "directory-src.core.common.iq.pipeline-Debug-71226a69cc6d4dfc7705.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 25,
+					"projectIndex" : 34,
+					"source" : "src/core/common/iq/pipeline"
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/base",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.base-Debug-27d4ed82adf1263b8fbb.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 35,
+					"projectIndex" : 35,
+					"source" : "src/core/common/iq/pipeline/base",
+					"targetIndexes" : 
+					[
+						26
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/rx",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.rx-Debug-e5291755b740c5bb297c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 35,
+					"projectIndex" : 36,
+					"source" : "src/core/common/iq/pipeline/rx",
+					"targetIndexes" : 
+					[
+						27
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/tx",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.tx-Debug-307fac7bc609161dda23.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 35,
+					"projectIndex" : 37,
+					"source" : "src/core/common/iq/pipeline/tx",
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage",
+					"childIndexes" : 
+					[
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46
+					],
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage-Debug-f9529d1106d748c336e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 35,
+					"projectIndex" : 38,
+					"source" : "src/core/common/iq/pipeline/stage"
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/base",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.base-Debug-389908dc061c8ffa3646.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 39,
+					"source" : "src/core/common/iq/pipeline/stage/base",
+					"targetIndexes" : 
+					[
+						28
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/correction",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.correction-Debug-98c677d337b4de8ec868.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 40,
+					"source" : "src/core/common/iq/pipeline/stage/correction",
+					"targetIndexes" : 
+					[
+						29
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/filter",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.filter-Debug-e0c0da668d75aa22090c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 41,
+					"source" : "src/core/common/iq/pipeline/stage/filter",
+					"targetIndexes" : 
+					[
+						30
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/modulation",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.modulation-Debug-9c44a8815fbf96c694ba.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 42,
+					"source" : "src/core/common/iq/pipeline/stage/modulation",
+					"targetIndexes" : 
+					[
+						31
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/monitor",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.monitor-Debug-edfd1edac639d153a3da.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 43,
+					"source" : "src/core/common/iq/pipeline/stage/monitor",
+					"targetIndexes" : 
+					[
+						32
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/oscillator",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.oscillator-Debug-00ce9f53de16930cff03.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 44,
+					"source" : "src/core/common/iq/pipeline/stage/oscillator",
+					"targetIndexes" : 
+					[
+						33
+					]
+				},
+				{
+					"build" : "src/core/common/iq/pipeline/stage/resample",
+					"jsonFile" : "directory-src.core.common.iq.pipeline.stage.resample-Debug-0f3af5643a941ae3edbc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 39,
+					"projectIndex" : 45,
+					"source" : "src/core/common/iq/pipeline/stage/resample",
+					"targetIndexes" : 
+					[
+						34
+					]
+				},
+				{
+					"build" : "src/core/common/samples",
+					"jsonFile" : "directory-src.core.common.samples-Debug-3ab410ed1a4ae63b1bcf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 46,
+					"source" : "src/core/common/samples",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "src/core/common/thread",
+					"jsonFile" : "directory-src.core.common.thread-Debug-ae9b35420133f2adda5a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 47,
+					"source" : "src/core/common/thread",
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"build" : "src/core/common/time",
+					"jsonFile" : "directory-src.core.common.time-Debug-fe79c12cc88760bcb53b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 48,
+					"source" : "src/core/common/time",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "src/core/common/usb",
+					"childIndexes" : 
+					[
+						51
+					],
+					"jsonFile" : "directory-src.core.common.usb-Debug-5c680ca221f6682008ab.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 49,
+					"source" : "src/core/common/usb"
+				},
+				{
+					"build" : "src/core/common/usb/base",
+					"jsonFile" : "directory-src.core.common.usb.base-Debug-997fdb803eac1c09b5c7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 50,
+					"projectIndex" : 50,
+					"source" : "src/core/common/usb/base",
+					"targetIndexes" : 
+					[
+						53
+					]
+				},
+				{
+					"build" : "src/core/common/transport",
+					"jsonFile" : "directory-src.core.common.transport-Debug-155e06cc018a702e6413.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 51,
+					"source" : "src/core/common/transport",
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"build" : "src/core/platform",
+					"childIndexes" : 
+					[
+						54
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.core.platform-Debug-57d57456b486d2588c6b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 52,
+					"source" : "src/core/platform"
+				},
+				{
+					"build" : "src/core/platform/linux",
+					"childIndexes" : 
+					[
+						55,
+						56,
+						59,
+						61,
+						63,
+						66,
+						67,
+						68
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.core.platform.linux-Debug-2718362a0ae3128fe62e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 53,
+					"projectIndex" : 53,
+					"source" : "src/core/platform/linux"
+				},
+				{
+					"build" : "src/core/platform/linux/audio",
+					"jsonFile" : "directory-src.core.platform.linux.audio-Debug-f8292ecf36aff26c75c6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 54,
+					"source" : "src/core/platform/linux/audio",
+					"targetIndexes" : 
+					[
+						41
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/event",
+					"childIndexes" : 
+					[
+						57,
+						58
+					],
+					"jsonFile" : "directory-src.core.platform.linux.event-Debug-196c21b5cffe431ea8dd.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 55,
+					"source" : "src/core/platform/linux/event"
+				},
+				{
+					"build" : "src/core/platform/linux/event/data",
+					"jsonFile" : "directory-src.core.platform.linux.event.data-Debug-42a59bb8637406bd39ac.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 56,
+					"projectIndex" : 56,
+					"source" : "src/core/platform/linux/event/data",
+					"targetIndexes" : 
+					[
+						42
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/event/targets",
+					"jsonFile" : "directory-src.core.platform.linux.event.targets-Debug-483e66d42dab67d61abc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 56,
+					"projectIndex" : 57,
+					"source" : "src/core/platform/linux/event/targets",
+					"targetIndexes" : 
+					[
+						43
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/iq",
+					"childIndexes" : 
+					[
+						60
+					],
+					"jsonFile" : "directory-src.core.platform.linux.iq-Debug-6cfa6a0e54d813b22a0c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 58,
+					"source" : "src/core/platform/linux/iq"
+				},
+				{
+					"build" : "src/core/platform/linux/iq/source",
+					"jsonFile" : "directory-src.core.platform.linux.iq.source-Debug-2e0d1d27fb04f54a38b9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 59,
+					"projectIndex" : 59,
+					"source" : "src/core/platform/linux/iq/source",
+					"targetIndexes" : 
+					[
+						44
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/usb",
+					"childIndexes" : 
+					[
+						62
+					],
+					"jsonFile" : "directory-src.core.platform.linux.usb-Debug-2b3088683ae774c36b91.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 60,
+					"source" : "src/core/platform/linux/usb"
+				},
+				{
+					"build" : "src/core/platform/linux/usb/host",
+					"jsonFile" : "directory-src.core.platform.linux.usb.host-Debug-fed042e969f97056edb0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 61,
+					"projectIndex" : 61,
+					"source" : "src/core/platform/linux/usb/host",
+					"targetIndexes" : 
+					[
+						52
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/third-party",
+					"childIndexes" : 
+					[
+						64
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.core.platform.linux.third-party-Debug-f75a9022318c081b3484.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 62,
+					"source" : "src/core/platform/linux/third-party"
+				},
+				{
+					"build" : "src/core/platform/linux/third-party/liquid-dsp",
+					"childIndexes" : 
+					[
+						65
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.core.platform.linux.third-party.liquid-dsp-Debug-a12af2c8a22ead9ca7c9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 63,
+					"projectIndex" : 63,
+					"source" : "src/core/platform/linux/third-party/liquid-dsp",
+					"targetIndexes" : 
+					[
+						45
+					]
+				},
+				{
+					"build" : "freertos-liquid-dsp-linux",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-freertos-liquid-dsp-linux-Debug-0c76f1d225ba95ad94e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 64,
+					"projectIndex" : 64,
+					"source" : "third-party/liquid-dsp",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						8,
+						54,
+						55,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						68,
+						69,
+						71,
+						77,
+						78,
+						132,
+						133
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/thread",
+					"jsonFile" : "directory-src.core.platform.linux.thread-Debug-559a872f6cb66670ef24.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 65,
+					"source" : "src/core/platform/linux/thread",
+					"targetIndexes" : 
+					[
+						46
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/time",
+					"jsonFile" : "directory-src.core.platform.linux.time-Debug-2b99c5fe1948f052bef5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 66,
+					"source" : "src/core/platform/linux/time",
+					"targetIndexes" : 
+					[
+						47
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/transport",
+					"childIndexes" : 
+					[
+						69
+					],
+					"jsonFile" : "directory-src.core.platform.linux.transport-Debug-6e8155181add1a9cd451.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 54,
+					"projectIndex" : 67,
+					"source" : "src/core/platform/linux/transport"
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt",
+					"childIndexes" : 
+					[
+						70
+					],
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt-Debug-a7bfc85b2b943a33a2cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 68,
+					"projectIndex" : 68,
+					"source" : "src/core/platform/linux/transport/qt"
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt/event",
+					"childIndexes" : 
+					[
+						71,
+						72,
+						73,
+						74
+					],
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt.event-Debug-19a6476da0623a80a7c7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 69,
+					"projectIndex" : 69,
+					"source" : "src/core/platform/linux/transport/qt/event"
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt/event/base",
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt.event.base-Debug-0e78d063e1de63f2c2e0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 70,
+					"projectIndex" : 70,
+					"source" : "src/core/platform/linux/transport/qt/event/base",
+					"targetIndexes" : 
+					[
+						48
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt/event/event-targets",
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt.event.event-targets-Debug-98cac9d3b26ac3b81d41.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 70,
+					"projectIndex" : 71,
+					"source" : "src/core/platform/linux/transport/qt/event/event-targets",
+					"targetIndexes" : 
+					[
+						51
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt/event/out",
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt.event.out-Debug-9ba3544884f0242cbf57.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 70,
+					"projectIndex" : 72,
+					"source" : "src/core/platform/linux/transport/qt/event/out",
+					"targetIndexes" : 
+					[
+						50
+					]
+				},
+				{
+					"build" : "src/core/platform/linux/transport/qt/event/in",
+					"jsonFile" : "directory-src.core.platform.linux.transport.qt.event.in-Debug-3ea14fc88d82453b282c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 70,
+					"projectIndex" : 73,
+					"source" : "src/core/platform/linux/transport/qt/event/in",
+					"targetIndexes" : 
+					[
+						49
+					]
+				},
+				{
+					"build" : "src/settings",
+					"childIndexes" : 
+					[
+						76,
+						95
+					],
+					"jsonFile" : "directory-src.settings-Debug-d686f8452699a83ea06e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 74,
+					"source" : "src/settings"
+				},
+				{
+					"build" : "src/settings/control",
+					"childIndexes" : 
+					[
+						77,
+						78,
+						79,
+						80,
+						86,
+						87,
+						91,
+						92
+					],
+					"jsonFile" : "directory-src.settings.control-Debug-c546d59368e08d3803cf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 75,
+					"projectIndex" : 75,
+					"source" : "src/settings/control"
+				},
+				{
+					"build" : "src/settings/control/base",
+					"jsonFile" : "directory-src.settings.control.base-Debug-e0504e92d1b634427636.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 76,
+					"source" : "src/settings/control/base",
+					"targetIndexes" : 
+					[
+						79
+					]
+				},
+				{
+					"build" : "src/settings/control/sink",
+					"jsonFile" : "directory-src.settings.control.sink-Debug-a8ff7d63d43556213136.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 77,
+					"source" : "src/settings/control/sink",
+					"targetIndexes" : 
+					[
+						93
+					]
+				},
+				{
+					"build" : "src/settings/control/source",
+					"jsonFile" : "directory-src.settings.control.source-Debug-5928b4d1989d2ca9bb23.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 78,
+					"source" : "src/settings/control/source",
+					"targetIndexes" : 
+					[
+						94
+					]
+				},
+				{
+					"build" : "src/settings/control/hal",
+					"childIndexes" : 
+					[
+						81,
+						82
+					],
+					"jsonFile" : "directory-src.settings.control.hal-Debug-81dc921a276e2b450d69.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 79,
+					"source" : "src/settings/control/hal"
+				},
+				{
+					"build" : "src/settings/control/hal/digital",
+					"jsonFile" : "directory-src.settings.control.hal.digital-Debug-eb847a923bf81395f81a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 80,
+					"projectIndex" : 80,
+					"source" : "src/settings/control/hal/digital",
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"build" : "src/settings/control/hal/usb",
+					"childIndexes" : 
+					[
+						83,
+						84,
+						85
+					],
+					"jsonFile" : "directory-src.settings.control.hal.usb-Debug-3a92cfa7385312415b62.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 80,
+					"projectIndex" : 81,
+					"source" : "src/settings/control/hal/usb"
+				},
+				{
+					"build" : "src/settings/control/hal/usb/sinks",
+					"jsonFile" : "directory-src.settings.control.hal.usb.sinks-Debug-63809494e4c504ae7263.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 82,
+					"projectIndex" : 82,
+					"source" : "src/settings/control/hal/usb/sinks",
+					"targetIndexes" : 
+					[
+						83
+					]
+				},
+				{
+					"build" : "src/settings/control/hal/usb/FunCubeDongle",
+					"jsonFile" : "directory-src.settings.control.hal.usb.FunCubeDongle-Debug-1508d9d3bc5206db6624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 82,
+					"projectIndex" : 83,
+					"source" : "src/settings/control/hal/usb/FunCubeDongle",
+					"targetIndexes" : 
+					[
+						82
+					]
+				},
+				{
+					"build" : "src/settings/control/hal/usb/SoftRock",
+					"jsonFile" : "directory-src.settings.control.hal.usb.SoftRock-Debug-8c5c07f472cabd677470.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 82,
+					"projectIndex" : 84,
+					"source" : "src/settings/control/hal/usb/SoftRock",
+					"targetIndexes" : 
+					[
+						84
+					]
+				},
+				{
+					"build" : "src/settings/control/radio",
+					"jsonFile" : "directory-src.settings.control.radio-Debug-375e352347d031e008fe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 85,
+					"source" : "src/settings/control/radio",
+					"targetIndexes" : 
+					[
+						92
+					]
+				},
+				{
+					"build" : "src/settings/control/qt",
+					"childIndexes" : 
+					[
+						88,
+						89,
+						90
+					],
+					"jsonFile" : "directory-src.settings.control.qt-Debug-befa5b9970f352cb83e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 86,
+					"source" : "src/settings/control/qt"
+				},
+				{
+					"build" : "src/settings/control/qt/event-targets",
+					"jsonFile" : "directory-src.settings.control.qt.event-targets-Debug-5976125790a5407a312b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 87,
+					"projectIndex" : 87,
+					"source" : "src/settings/control/qt/event-targets",
+					"targetIndexes" : 
+					[
+						85,
+						86,
+						87
+					]
+				},
+				{
+					"build" : "src/settings/control/qt/sink",
+					"jsonFile" : "directory-src.settings.control.qt.sink-Debug-187c4a14ceb75460b8a5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 87,
+					"projectIndex" : 88,
+					"source" : "src/settings/control/qt/sink",
+					"targetIndexes" : 
+					[
+						88,
+						89,
+						90
+					]
+				},
+				{
+					"build" : "src/settings/control/qt/source",
+					"jsonFile" : "directory-src.settings.control.qt.source-Debug-46269c1571211dbdc955.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 87,
+					"projectIndex" : 89,
+					"source" : "src/settings/control/qt/source",
+					"targetIndexes" : 
+					[
+						91
+					]
+				},
+				{
+					"build" : "src/settings/control/factory",
+					"jsonFile" : "directory-src.settings.control.factory-Debug-e2f5285ccad5b1da183d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 90,
+					"source" : "src/settings/control/factory",
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"build" : "src/settings/control/transport",
+					"childIndexes" : 
+					[
+						93,
+						94
+					],
+					"jsonFile" : "directory-src.settings.control.transport-Debug-d4a10037a3019ca00fe4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 76,
+					"projectIndex" : 91,
+					"source" : "src/settings/control/transport"
+				},
+				{
+					"build" : "src/settings/control/transport/sink",
+					"jsonFile" : "directory-src.settings.control.transport.sink-Debug-c9837a9f727e625a4599.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 92,
+					"projectIndex" : 92,
+					"source" : "src/settings/control/transport/sink",
+					"targetIndexes" : 
+					[
+						95
+					]
+				},
+				{
+					"build" : "src/settings/control/transport/source",
+					"jsonFile" : "directory-src.settings.control.transport.source-Debug-e3344bc85c1de093306a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 92,
+					"projectIndex" : 93,
+					"source" : "src/settings/control/transport/source",
+					"targetIndexes" : 
+					[
+						96
+					]
+				},
+				{
+					"build" : "src/settings/model",
+					"childIndexes" : 
+					[
+						96,
+						97,
+						101,
+						133,
+						150
+					],
+					"jsonFile" : "directory-src.settings.model-Debug-747f14c086f747fd69aa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 75,
+					"projectIndex" : 94,
+					"source" : "src/settings/model"
+				},
+				{
+					"build" : "src/settings/model/proto",
+					"jsonFile" : "directory-src.settings.model.proto-Debug-acbc5875ce96c7884e9c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 95,
+					"projectIndex" : 95,
+					"source" : "src/settings/model/proto",
+					"targetIndexes" : 
+					[
+						6,
+						7,
+						66,
+						119
+					]
+				},
+				{
+					"build" : "src/settings/model/data",
+					"childIndexes" : 
+					[
+						98,
+						99,
+						100
+					],
+					"jsonFile" : "directory-src.settings.model.data-Debug-721ac7b6916cd2136521.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 95,
+					"projectIndex" : 96,
+					"source" : "src/settings/model/data"
+				},
+				{
+					"build" : "src/settings/model/data/band",
+					"jsonFile" : "directory-src.settings.model.data.band-Debug-e8ec1eaa85642dfc72ea.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 97,
+					"projectIndex" : 97,
+					"source" : "src/settings/model/data/band",
+					"targetIndexes" : 
+					[
+						97
+					]
+				},
+				{
+					"build" : "src/settings/model/data/mode",
+					"jsonFile" : "directory-src.settings.model.data.mode-Debug-dcd254cb6afc895c7db3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 97,
+					"projectIndex" : 98,
+					"source" : "src/settings/model/data/mode",
+					"targetIndexes" : 
+					[
+						98
+					]
+				},
+				{
+					"build" : "src/settings/model/data/radio",
+					"jsonFile" : "directory-src.settings.model.data.radio-Debug-26bd8e0c0a4343a4fc89.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 97,
+					"projectIndex" : 99,
+					"source" : "src/settings/model/data/radio",
+					"targetIndexes" : 
+					[
+						99
+					]
+				},
+				{
+					"build" : "src/settings/model/path",
+					"childIndexes" : 
+					[
+						102,
+						103,
+						129
+					],
+					"jsonFile" : "directory-src.settings.model.path-Debug-1d019adefe244638fae8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 95,
+					"projectIndex" : 100,
+					"source" : "src/settings/model/path"
+				},
+				{
+					"build" : "src/settings/model/path/common",
+					"jsonFile" : "directory-src.settings.model.path.common-Debug-209cd202e37ad9860c01.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 101,
+					"projectIndex" : 101,
+					"source" : "src/settings/model/path/common",
+					"targetIndexes" : 
+					[
+						102
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios",
+					"childIndexes" : 
+					[
+						104,
+						111
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios-Debug-a253ba31c84926d0bf3e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 101,
+					"projectIndex" : 102,
+					"source" : "src/settings/model/path/radios"
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic",
+					"childIndexes" : 
+					[
+						105,
+						108
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.basic-Debug-2fd162b0aee2feff4552.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 103,
+					"projectIndex" : 103,
+					"source" : "src/settings/model/path/radios/basic"
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rx",
+					"childIndexes" : 
+					[
+						106,
+						107
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rx-Debug-48a9e10e08a498e72394.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 104,
+					"projectIndex" : 104,
+					"source" : "src/settings/model/path/radios/basic/rx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rx.dotted-string-lookup-Debug-84b8ca9ee4a52ebc83f6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 105,
+					"projectIndex" : 105,
+					"source" : "src/settings/model/path/radios/basic/rx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						107
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rx.all-resolved-Debug-d6c853f69aab79dd975d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 105,
+					"projectIndex" : 106,
+					"source" : "src/settings/model/path/radios/basic/rx/all-resolved",
+					"targetIndexes" : 
+					[
+						108
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rxtx",
+					"childIndexes" : 
+					[
+						109,
+						110
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rxtx-Debug-c5bed83ab5879b19f7ca.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 104,
+					"projectIndex" : 107,
+					"source" : "src/settings/model/path/radios/basic/rxtx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rxtx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rxtx.dotted-string-lookup-Debug-ce2c4a2bce6f0afb71b5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 108,
+					"projectIndex" : 108,
+					"source" : "src/settings/model/path/radios/basic/rxtx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						109
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/basic/rxtx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.basic.rxtx.all-resolved-Debug-79c5651e5f472db23840.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 108,
+					"projectIndex" : 109,
+					"source" : "src/settings/model/path/radios/basic/rxtx/all-resolved",
+					"targetIndexes" : 
+					[
+						110
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq",
+					"childIndexes" : 
+					[
+						112,
+						119
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq-Debug-4ff20fa21a9e8342cbb1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 103,
+					"projectIndex" : 110,
+					"source" : "src/settings/model/path/radios/iq"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic",
+					"childIndexes" : 
+					[
+						113,
+						116
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic-Debug-9011ce9ff46f0369637a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 111,
+					"projectIndex" : 111,
+					"source" : "src/settings/model/path/radios/iq/basic"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rx",
+					"childIndexes" : 
+					[
+						114,
+						115
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rx-Debug-08ae52cc49c49903aea7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 112,
+					"projectIndex" : 112,
+					"source" : "src/settings/model/path/radios/iq/basic/rx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rx.dotted-string-lookup-Debug-b7973c868fb7de6b3ee5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 113,
+					"projectIndex" : 113,
+					"source" : "src/settings/model/path/radios/iq/basic/rx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						103
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rx.all-resolved-Debug-afce901fc5479b21fdf2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 113,
+					"projectIndex" : 114,
+					"source" : "src/settings/model/path/radios/iq/basic/rx/all-resolved",
+					"targetIndexes" : 
+					[
+						104
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rxtx",
+					"childIndexes" : 
+					[
+						117,
+						118
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rxtx-Debug-8e4d57c166c8555b203a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 112,
+					"projectIndex" : 115,
+					"source" : "src/settings/model/path/radios/iq/basic/rxtx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rxtx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rxtx.dotted-string-lookup-Debug-11618d430e3d0d2767a8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 116,
+					"projectIndex" : 116,
+					"source" : "src/settings/model/path/radios/iq/basic/rxtx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						105
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/basic/rxtx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.basic.rxtx.all-resolved-Debug-1cf36f1ce8b872adaab8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 116,
+					"projectIndex" : 117,
+					"source" : "src/settings/model/path/radios/iq/basic/rxtx/all-resolved",
+					"targetIndexes" : 
+					[
+						106
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual",
+					"childIndexes" : 
+					[
+						120,
+						123,
+						126
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual-Debug-f274d844722ff51414b3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 111,
+					"projectIndex" : 118,
+					"source" : "src/settings/model/path/radios/iq/dual"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rx",
+					"childIndexes" : 
+					[
+						121,
+						122
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rx-Debug-414449ffa5e495e74099.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 119,
+					"projectIndex" : 119,
+					"source" : "src/settings/model/path/radios/iq/dual/rx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rx.dotted-string-lookup-Debug-1236ca3688cd001cc0b4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 120,
+					"projectIndex" : 120,
+					"source" : "src/settings/model/path/radios/iq/dual/rx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						111
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rx.all-resolved-Debug-4aa9b8f40493073e3361.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 120,
+					"projectIndex" : 121,
+					"source" : "src/settings/model/path/radios/iq/dual/rx/all-resolved",
+					"targetIndexes" : 
+					[
+						112
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rxtx",
+					"childIndexes" : 
+					[
+						124,
+						125
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rxtx-Debug-a643e4d9b8c6fb36b034.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 119,
+					"projectIndex" : 122,
+					"source" : "src/settings/model/path/radios/iq/dual/rxtx"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rxtx/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rxtx.dotted-string-lookup-Debug-9d65d56308b01b1ae743.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 123,
+					"projectIndex" : 123,
+					"source" : "src/settings/model/path/radios/iq/dual/rxtx/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						113
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/rxtx/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.rxtx.all-resolved-Debug-877f64f226a4623c5cce.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 123,
+					"projectIndex" : 124,
+					"source" : "src/settings/model/path/radios/iq/dual/rxtx/all-resolved",
+					"targetIndexes" : 
+					[
+						114
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/split",
+					"childIndexes" : 
+					[
+						127,
+						128
+					],
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.split-Debug-e24f07ceb8e2ab32228b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 119,
+					"projectIndex" : 125,
+					"source" : "src/settings/model/path/radios/iq/dual/split"
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/split/all-resolved",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.split.all-resolved-Debug-3033f4cd11c96d1586ad.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 126,
+					"projectIndex" : 126,
+					"source" : "src/settings/model/path/radios/iq/dual/split/all-resolved",
+					"targetIndexes" : 
+					[
+						116
+					]
+				},
+				{
+					"build" : "src/settings/model/path/radios/iq/dual/split/dotted-string-lookup",
+					"jsonFile" : "directory-src.settings.model.path.radios.iq.dual.split.dotted-string-lookup-Debug-51cddcdcf55da6305f6f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 126,
+					"projectIndex" : 127,
+					"source" : "src/settings/model/path/radios/iq/dual/split/dotted-string-lookup",
+					"targetIndexes" : 
+					[
+						115
+					]
+				},
+				{
+					"build" : "src/settings/model/path/util",
+					"childIndexes" : 
+					[
+						130,
+						131,
+						132
+					],
+					"jsonFile" : "directory-src.settings.model.path.util-Debug-78d0a07dad106fadc717.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 101,
+					"projectIndex" : 128,
+					"source" : "src/settings/model/path/util"
+				},
+				{
+					"build" : "src/settings/model/path/util/bulk-resolver",
+					"jsonFile" : "directory-src.settings.model.path.util.bulk-resolver-Debug-438c6d084160a63eddc0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 129,
+					"projectIndex" : 129,
+					"source" : "src/settings/model/path/util/bulk-resolver",
+					"targetIndexes" : 
+					[
+						117
+					]
+				},
+				{
+					"build" : "src/settings/model/path/util/resolve-dotted-string",
+					"jsonFile" : "directory-src.settings.model.path.util.resolve-dotted-string-Debug-eb6c3d61838c59266717.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 129,
+					"projectIndex" : 130,
+					"source" : "src/settings/model/path/util/resolve-dotted-string",
+					"targetIndexes" : 
+					[
+						118
+					]
+				},
+				{
+					"build" : "src/settings/model/path/util/all-resolved-generator",
+					"jsonFile" : "directory-src.settings.model.path.util.all-resolved-generator-Debug-d56bbe0d1fed3e1d1bca.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 129,
+					"projectIndex" : 131,
+					"source" : "src/settings/model/path/util/all-resolved-generator",
+					"targetIndexes" : 
+					[
+						101
+					]
+				},
+				{
+					"build" : "src/settings/model/radios",
+					"childIndexes" : 
+					[
+						134,
+						135,
+						139,
+						149
+					],
+					"jsonFile" : "directory-src.settings.model.radios-Debug-614086de1dd9458e2c1a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 95,
+					"projectIndex" : 132,
+					"source" : "src/settings/model/radios"
+				},
+				{
+					"build" : "src/settings/model/radios/base",
+					"jsonFile" : "directory-src.settings.model.radios.base-Debug-49644c2066838ab1c667.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 133,
+					"projectIndex" : 133,
+					"source" : "src/settings/model/radios/base",
+					"targetIndexes" : 
+					[
+						120
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/basic",
+					"childIndexes" : 
+					[
+						136,
+						137,
+						138
+					],
+					"jsonFile" : "directory-src.settings.model.radios.basic-Debug-43f2fd776ed294916d23.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 133,
+					"projectIndex" : 134,
+					"source" : "src/settings/model/radios/basic"
+				},
+				{
+					"build" : "src/settings/model/radios/basic/common",
+					"jsonFile" : "directory-src.settings.model.radios.basic.common-Debug-4120c9d6a0602fc6f101.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 135,
+					"projectIndex" : 135,
+					"source" : "src/settings/model/radios/basic/common",
+					"targetIndexes" : 
+					[
+						121
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/basic/rx",
+					"jsonFile" : "directory-src.settings.model.radios.basic.rx-Debug-309e67f9ce7e9622ca73.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 135,
+					"projectIndex" : 136,
+					"source" : "src/settings/model/radios/basic/rx",
+					"targetIndexes" : 
+					[
+						122
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/basic/rxtx",
+					"jsonFile" : "directory-src.settings.model.radios.basic.rxtx-Debug-bcdd14e8f0e687f42b5f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 135,
+					"projectIndex" : 137,
+					"source" : "src/settings/model/radios/basic/rxtx",
+					"targetIndexes" : 
+					[
+						123
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq",
+					"childIndexes" : 
+					[
+						140,
+						144
+					],
+					"jsonFile" : "directory-src.settings.model.radios.iq-Debug-5ba81627a9d73397b8b7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 133,
+					"projectIndex" : 138,
+					"source" : "src/settings/model/radios/iq"
+				},
+				{
+					"build" : "src/settings/model/radios/iq/basic",
+					"childIndexes" : 
+					[
+						141,
+						142,
+						143
+					],
+					"jsonFile" : "directory-src.settings.model.radios.iq.basic-Debug-1119de6568e9e5d190fb.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 139,
+					"projectIndex" : 139,
+					"source" : "src/settings/model/radios/iq/basic"
+				},
+				{
+					"build" : "src/settings/model/radios/iq/basic/common",
+					"jsonFile" : "directory-src.settings.model.radios.iq.basic.common-Debug-d58daf46513f95d6fc6f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 140,
+					"projectIndex" : 140,
+					"source" : "src/settings/model/radios/iq/basic/common",
+					"targetIndexes" : 
+					[
+						124
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/basic/rx",
+					"jsonFile" : "directory-src.settings.model.radios.iq.basic.rx-Debug-e93b24d5f6ee24a7a144.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 140,
+					"projectIndex" : 141,
+					"source" : "src/settings/model/radios/iq/basic/rx",
+					"targetIndexes" : 
+					[
+						125
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/basic/rxtx",
+					"jsonFile" : "directory-src.settings.model.radios.iq.basic.rxtx-Debug-b4bf1074fcbc48b7eff8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 140,
+					"projectIndex" : 142,
+					"source" : "src/settings/model/radios/iq/basic/rxtx",
+					"targetIndexes" : 
+					[
+						126
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/dual",
+					"childIndexes" : 
+					[
+						145,
+						146,
+						147,
+						148
+					],
+					"jsonFile" : "directory-src.settings.model.radios.iq.dual-Debug-ef4b6362a432666d2b3c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 139,
+					"projectIndex" : 143,
+					"source" : "src/settings/model/radios/iq/dual"
+				},
+				{
+					"build" : "src/settings/model/radios/iq/dual/common",
+					"jsonFile" : "directory-src.settings.model.radios.iq.dual.common-Debug-83f391aa1198a0dd2b06.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 144,
+					"projectIndex" : 144,
+					"source" : "src/settings/model/radios/iq/dual/common",
+					"targetIndexes" : 
+					[
+						127
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/dual/rx",
+					"jsonFile" : "directory-src.settings.model.radios.iq.dual.rx-Debug-52107840e3bb9ebab93a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 144,
+					"projectIndex" : 145,
+					"source" : "src/settings/model/radios/iq/dual/rx",
+					"targetIndexes" : 
+					[
+						128
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/dual/rxtx",
+					"jsonFile" : "directory-src.settings.model.radios.iq.dual.rxtx-Debug-cfc856008f910a6720b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 144,
+					"projectIndex" : 146,
+					"source" : "src/settings/model/radios/iq/dual/rxtx",
+					"targetIndexes" : 
+					[
+						129
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/iq/dual/split",
+					"jsonFile" : "directory-src.settings.model.radios.iq.dual.split-Debug-7425a262e918d846df78.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 144,
+					"projectIndex" : 147,
+					"source" : "src/settings/model/radios/iq/dual/split",
+					"targetIndexes" : 
+					[
+						130
+					]
+				},
+				{
+					"build" : "src/settings/model/radios/variant",
+					"jsonFile" : "directory-src.settings.model.radios.variant-Debug-73c9cc6b422044be39dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 133,
+					"projectIndex" : 148,
+					"source" : "src/settings/model/radios/variant",
+					"targetIndexes" : 
+					[
+						131
+					]
+				},
+				{
+					"build" : "src/settings/model/message",
+					"jsonFile" : "directory-src.settings.model.message-Debug-22db8556e846fc4a1dde.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 95,
+					"projectIndex" : 149,
+					"source" : "src/settings/model/message",
+					"targetIndexes" : 
+					[
+						100
+					]
+				},
+				{
+					"build" : "src/config",
+					"childIndexes" : 
+					[
+						152,
+						153
+					],
+					"jsonFile" : "directory-src.config-Debug-eb0c43d13011ce5cd845.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 150,
+					"source" : "src/config"
+				},
+				{
+					"build" : "src/config/struct",
+					"jsonFile" : "directory-src.config.struct-Debug-e343f7dad3c6cb72b49f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 151,
+					"projectIndex" : 151,
+					"source" : "src/config/struct",
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"build" : "src/config/json",
+					"jsonFile" : "directory-src.config.json-Debug-ac69fa6bc778f1b7552a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 151,
+					"projectIndex" : 152,
+					"source" : "src/config/json",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "src/radios",
+					"childIndexes" : 
+					[
+						155,
+						156
+					],
+					"jsonFile" : "directory-src.radios-Debug-127f7a67a3cceba74937.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 153,
+					"source" : "src/radios"
+				},
+				{
+					"build" : "src/radios/base",
+					"jsonFile" : "directory-src.radios.base-Debug-0cad65478e001e4efcb8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 154,
+					"projectIndex" : 154,
+					"source" : "src/radios/base",
+					"targetIndexes" : 
+					[
+						72
+					]
+				},
+				{
+					"build" : "src/radios/iq",
+					"childIndexes" : 
+					[
+						157,
+						159
+					],
+					"jsonFile" : "directory-src.radios.iq-Debug-8d921eea24005e98821e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 154,
+					"projectIndex" : 155,
+					"source" : "src/radios/iq"
+				},
+				{
+					"build" : "src/radios/iq/basic",
+					"childIndexes" : 
+					[
+						158
+					],
+					"jsonFile" : "directory-src.radios.iq.basic-Debug-adaad6152a4acd26dd38.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 156,
+					"projectIndex" : 156,
+					"source" : "src/radios/iq/basic"
+				},
+				{
+					"build" : "src/radios/iq/basic/rx",
+					"jsonFile" : "directory-src.radios.iq.basic.rx-Debug-d2ad7639446273e4491f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 157,
+					"projectIndex" : 157,
+					"source" : "src/radios/iq/basic/rx",
+					"targetIndexes" : 
+					[
+						73
+					]
+				},
+				{
+					"build" : "src/radios/iq/dual",
+					"childIndexes" : 
+					[
+						160
+					],
+					"jsonFile" : "directory-src.radios.iq.dual-Debug-d82c0130dd3afda88492.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 156,
+					"projectIndex" : 158,
+					"source" : "src/radios/iq/dual"
+				},
+				{
+					"build" : "src/radios/iq/dual/split",
+					"jsonFile" : "directory-src.radios.iq.dual.split-Debug-f3360df3a58a180094a5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 159,
+					"projectIndex" : 159,
+					"source" : "src/radios/iq/dual/split",
+					"targetIndexes" : 
+					[
+						74,
+						75,
+						76
+					]
+				},
+				{
+					"build" : "src/ui",
+					"jsonFile" : "directory-src.ui-Debug-c1f78044602f134edac6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "4.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 160,
+					"source" : "src/ui"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						74,
+						150,
+						153,
+						160
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "example-play",
+					"targetIndexes" : 
+					[
+						56
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "nanopb",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						67,
+						70
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2,
+						3
+					],
+					"name" : "ArduinoJson",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "etl",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						5,
+						52
+					],
+					"directoryIndexes" : 
+					[
+						5
+					],
+					"name" : "core",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						6,
+						9,
+						21,
+						22,
+						24,
+						46,
+						47,
+						48,
+						49,
+						51
+					],
+					"directoryIndexes" : 
+					[
+						6
+					],
+					"name" : "core-common",
+					"parentIndex" : 4
+				},
+				{
+					"childIndexes" : 
+					[
+						7,
+						8
+					],
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "core-common-audio",
+					"parentIndex" : 5
+				},
+				{
+					"directoryIndexes" : 
+					[
+						8
+					],
+					"name" : "core-common-audio-base",
+					"parentIndex" : 6,
+					"targetIndexes" : 
+					[
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "core-common-audio-mixer",
+					"parentIndex" : 6,
+					"targetIndexes" : 
+					[
+						10
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						10,
+						11,
+						14,
+						20
+					],
+					"directoryIndexes" : 
+					[
+						10
+					],
+					"name" : "core-common-dsp",
+					"parentIndex" : 5
+				},
+				{
+					"directoryIndexes" : 
+					[
+						11
+					],
+					"name" : "core-common-dsp-constants",
+					"parentIndex" : 9,
+					"targetIndexes" : 
+					[
+						11
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						12
+					],
+					"directoryIndexes" : 
+					[
+						12
+					],
+					"name" : "core-common-dsp-filters",
+					"parentIndex" : 9
+				},
+				{
+					"childIndexes" : 
+					[
+						13
+					],
+					"directoryIndexes" : 
+					[
+						13
+					],
+					"name" : "core-common-dsp-filters-fir",
+					"parentIndex" : 11
+				},
+				{
+					"directoryIndexes" : 
+					[
+						14
+					],
+					"name" : "core-common-dsp-filters-fir-custom",
+					"parentIndex" : 12,
+					"targetIndexes" : 
+					[
+						12
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						15,
+						19
+					],
+					"directoryIndexes" : 
+					[
+						15
+					],
+					"name" : "core-common-dsp-transforms",
+					"parentIndex" : 9
+				},
+				{
+					"childIndexes" : 
+					[
+						16,
+						17,
+						18
+					],
+					"directoryIndexes" : 
+					[
+						16
+					],
+					"name" : "core-common-dsp-transforms-fft",
+					"parentIndex" : 14
+				},
+				{
+					"directoryIndexes" : 
+					[
+						17
+					],
+					"name" : "core-common-dsp-transforms-fft-base",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						18
+					],
+					"name" : "core-common-dsp-transforms-fft-liquid",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						14
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						19
+					],
+					"name" : "core-common-dsp-transforms-fft-pocket",
+					"parentIndex" : 15,
+					"targetIndexes" : 
+					[
+						15
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						20
+					],
+					"name" : "core-common-dsp-transforms-hilbert",
+					"parentIndex" : 14,
+					"targetIndexes" : 
+					[
+						16
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						21
+					],
+					"name" : "core-common-dsp-window",
+					"parentIndex" : 9,
+					"targetIndexes" : 
+					[
+						17
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						22
+					],
+					"name" : "core-common-event",
+					"parentIndex" : 5,
+					"targetIndexes" : 
+					[
+						18
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						23
+					],
+					"directoryIndexes" : 
+					[
+						23
+					],
+					"name" : "core-common-gpio",
+					"parentIndex" : 5
+				},
+				{
+					"directoryIndexes" : 
+					[
+						24
+					],
+					"name" : "core-gpio-base",
+					"parentIndex" : 22,
+					"targetIndexes" : 
+					[
+						40
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						25,
+						26,
+						29,
+						30,
+						33,
+						34
+					],
+					"directoryIndexes" : 
+					[
+						25
+					],
+					"name" : "core-iq",
+					"parentIndex" : 5
+				},
+				{
+					"directoryIndexes" : 
+					[
+						26
+					],
+					"name" : "core-common-iq-base",
+					"parentIndex" : 24,
+					"targetIndexes" : 
+					[
+						19
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						27,
+						28
+					],
+					"directoryIndexes" : 
+					[
+						27
+					],
+					"name" : "core-common-iq-basic",
+					"parentIndex" : 24
+				},
+				{
+					"directoryIndexes" : 
+					[
+						28
+					],
+					"name" : "core-common-iq-basic-rx",
+					"parentIndex" : 26,
+					"targetIndexes" : 
+					[
+						20
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						29
+					],
+					"name" : "core-common-iq-basic-rxtx",
+					"parentIndex" : 26,
+					"targetIndexes" : 
+					[
+						21
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						30
+					],
+					"name" : "core-common-iq-common",
+					"parentIndex" : 24,
+					"targetIndexes" : 
+					[
+						22
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						31,
+						32
+					],
+					"directoryIndexes" : 
+					[
+						31
+					],
+					"name" : "core-common-iq-dual",
+					"parentIndex" : 24
+				},
+				{
+					"directoryIndexes" : 
+					[
+						32
+					],
+					"name" : "core-common-iq-dual-rxtx",
+					"parentIndex" : 30,
+					"targetIndexes" : 
+					[
+						23
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						33
+					],
+					"name" : "core-common-iq-dual-split",
+					"parentIndex" : 30,
+					"targetIndexes" : 
+					[
+						24
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						34
+					],
+					"name" : "core-common-iq-io",
+					"parentIndex" : 24,
+					"targetIndexes" : 
+					[
+						25
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						35,
+						36,
+						37,
+						38
+					],
+					"directoryIndexes" : 
+					[
+						35
+					],
+					"name" : "core-common-iq-pipeline",
+					"parentIndex" : 24
+				},
+				{
+					"directoryIndexes" : 
+					[
+						36
+					],
+					"name" : "core-common-iq-pipeline-base",
+					"parentIndex" : 34,
+					"targetIndexes" : 
+					[
+						26
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						37
+					],
+					"name" : "core-common-iq-pipeline-rx",
+					"parentIndex" : 34,
+					"targetIndexes" : 
+					[
+						27
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						38
+					],
+					"name" : "core-common-iq-pipeline-tx",
+					"parentIndex" : 34,
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45
+					],
+					"directoryIndexes" : 
+					[
+						39
+					],
+					"name" : "core-common-iq-pipeline-stage",
+					"parentIndex" : 34
+				},
+				{
+					"directoryIndexes" : 
+					[
+						40
+					],
+					"name" : "core-common-iq-pipeline-stage-base",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						28
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						41
+					],
+					"name" : "core-common-iq-pipeline-stage-correction",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						29
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						42
+					],
+					"name" : "core-common-iq-pipeline-stage-filter",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						30
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						43
+					],
+					"name" : "core-common-iq-pipeline-stage-modulation",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						31
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						44
+					],
+					"name" : "core-common-iq-pipeline-stage-monitor",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						32
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						45
+					],
+					"name" : "core-common-iq-pipeline-stage-oscillator",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						33
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						46
+					],
+					"name" : "core-common-iq-pipeline-stage-resample",
+					"parentIndex" : 38,
+					"targetIndexes" : 
+					[
+						34
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						47
+					],
+					"name" : "core-common-samples",
+					"parentIndex" : 5,
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						48
+					],
+					"name" : "core-common-thread",
+					"parentIndex" : 5,
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						49
+					],
+					"name" : "core-common-time",
+					"parentIndex" : 5,
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						50
+					],
+					"directoryIndexes" : 
+					[
+						50
+					],
+					"name" : "core-common-usb",
+					"parentIndex" : 5
+				},
+				{
+					"directoryIndexes" : 
+					[
+						51
+					],
+					"name" : "core-usb-base",
+					"parentIndex" : 49,
+					"targetIndexes" : 
+					[
+						53
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						52
+					],
+					"name" : "core-common-transport",
+					"parentIndex" : 5,
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						53
+					],
+					"directoryIndexes" : 
+					[
+						53
+					],
+					"name" : "core-platform",
+					"parentIndex" : 4
+				},
+				{
+					"childIndexes" : 
+					[
+						54,
+						55,
+						58,
+						60,
+						62,
+						65,
+						66,
+						67
+					],
+					"directoryIndexes" : 
+					[
+						54
+					],
+					"name" : "core-linux",
+					"parentIndex" : 52
+				},
+				{
+					"directoryIndexes" : 
+					[
+						55
+					],
+					"name" : "core-linux-audio",
+					"parentIndex" : 53,
+					"targetIndexes" : 
+					[
+						41
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						56,
+						57
+					],
+					"directoryIndexes" : 
+					[
+						56
+					],
+					"name" : "core-linux-event",
+					"parentIndex" : 53
+				},
+				{
+					"directoryIndexes" : 
+					[
+						57
+					],
+					"name" : "core-linux-event-data",
+					"parentIndex" : 55,
+					"targetIndexes" : 
+					[
+						42
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						58
+					],
+					"name" : "core-linux-event-targets",
+					"parentIndex" : 55,
+					"targetIndexes" : 
+					[
+						43
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						59
+					],
+					"directoryIndexes" : 
+					[
+						59
+					],
+					"name" : "core-linux-iq",
+					"parentIndex" : 53
+				},
+				{
+					"directoryIndexes" : 
+					[
+						60
+					],
+					"name" : "core-linux-iq-source",
+					"parentIndex" : 58,
+					"targetIndexes" : 
+					[
+						44
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						61
+					],
+					"directoryIndexes" : 
+					[
+						61
+					],
+					"name" : "core-linux-usb",
+					"parentIndex" : 53
+				},
+				{
+					"directoryIndexes" : 
+					[
+						62
+					],
+					"name" : "core-linux-usb-host",
+					"parentIndex" : 60,
+					"targetIndexes" : 
+					[
+						52
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						63
+					],
+					"directoryIndexes" : 
+					[
+						63
+					],
+					"name" : "core-linux-third-party",
+					"parentIndex" : 53
+				},
+				{
+					"childIndexes" : 
+					[
+						64
+					],
+					"directoryIndexes" : 
+					[
+						64
+					],
+					"name" : "core-linux-liquid-dsp",
+					"parentIndex" : 62,
+					"targetIndexes" : 
+					[
+						45
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						65
+					],
+					"name" : "liquid",
+					"parentIndex" : 63,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						8,
+						54,
+						55,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						68,
+						69,
+						71,
+						77,
+						78,
+						132,
+						133
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						66
+					],
+					"name" : "core-linux-thread",
+					"parentIndex" : 53,
+					"targetIndexes" : 
+					[
+						46
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						67
+					],
+					"name" : "core-linux-time",
+					"parentIndex" : 53,
+					"targetIndexes" : 
+					[
+						47
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						68
+					],
+					"directoryIndexes" : 
+					[
+						68
+					],
+					"name" : "core-linux-transport",
+					"parentIndex" : 53
+				},
+				{
+					"childIndexes" : 
+					[
+						69
+					],
+					"directoryIndexes" : 
+					[
+						69
+					],
+					"name" : "core-linux-transport-qt",
+					"parentIndex" : 67
+				},
+				{
+					"childIndexes" : 
+					[
+						70,
+						71,
+						72,
+						73
+					],
+					"directoryIndexes" : 
+					[
+						70
+					],
+					"name" : "core-linux-transport-qt-event",
+					"parentIndex" : 68
+				},
+				{
+					"directoryIndexes" : 
+					[
+						71
+					],
+					"name" : "core-linux-transport-qt-event-base",
+					"parentIndex" : 69,
+					"targetIndexes" : 
+					[
+						48
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						72
+					],
+					"name" : "core-linux-transport-qt-event-targets",
+					"parentIndex" : 69,
+					"targetIndexes" : 
+					[
+						51
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						73
+					],
+					"name" : "core-linux-transport-qt-event-out",
+					"parentIndex" : 69,
+					"targetIndexes" : 
+					[
+						50
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						74
+					],
+					"name" : "core-linux-transport-qt-event-in",
+					"parentIndex" : 69,
+					"targetIndexes" : 
+					[
+						49
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						75,
+						94
+					],
+					"directoryIndexes" : 
+					[
+						75
+					],
+					"name" : "settings",
+					"parentIndex" : 0
+				},
+				{
+					"childIndexes" : 
+					[
+						76,
+						77,
+						78,
+						79,
+						85,
+						86,
+						90,
+						91
+					],
+					"directoryIndexes" : 
+					[
+						76
+					],
+					"name" : "settings-control",
+					"parentIndex" : 74
+				},
+				{
+					"directoryIndexes" : 
+					[
+						77
+					],
+					"name" : "settings-control-base",
+					"parentIndex" : 75,
+					"targetIndexes" : 
+					[
+						79
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						78
+					],
+					"name" : "settings-control-sink",
+					"parentIndex" : 75,
+					"targetIndexes" : 
+					[
+						93
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						79
+					],
+					"name" : "settings-control-source",
+					"parentIndex" : 75,
+					"targetIndexes" : 
+					[
+						94
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						80,
+						81
+					],
+					"directoryIndexes" : 
+					[
+						80
+					],
+					"name" : "settings-control-hal",
+					"parentIndex" : 75
+				},
+				{
+					"directoryIndexes" : 
+					[
+						81
+					],
+					"name" : "settings-control-hal-digital",
+					"parentIndex" : 79,
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						82,
+						83,
+						84
+					],
+					"directoryIndexes" : 
+					[
+						82
+					],
+					"name" : "settings-control-hal-usb",
+					"parentIndex" : 79
+				},
+				{
+					"directoryIndexes" : 
+					[
+						83
+					],
+					"name" : "settings-control-hal-usb-sinks",
+					"parentIndex" : 81,
+					"targetIndexes" : 
+					[
+						83
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						84
+					],
+					"name" : "settings-control-hal-usb-funcube",
+					"parentIndex" : 81,
+					"targetIndexes" : 
+					[
+						82
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						85
+					],
+					"name" : "settings-control-hal-usb-softrock",
+					"parentIndex" : 81,
+					"targetIndexes" : 
+					[
+						84
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						86
+					],
+					"name" : "settings-control-radio",
+					"parentIndex" : 75,
+					"targetIndexes" : 
+					[
+						92
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						87,
+						88,
+						89
+					],
+					"directoryIndexes" : 
+					[
+						87
+					],
+					"name" : "settings-control-qt",
+					"parentIndex" : 75
+				},
+				{
+					"directoryIndexes" : 
+					[
+						88
+					],
+					"name" : "settings-control-qt-event-targets",
+					"parentIndex" : 86,
+					"targetIndexes" : 
+					[
+						85,
+						86,
+						87
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						89
+					],
+					"name" : "settings-control-qt-sink",
+					"parentIndex" : 86,
+					"targetIndexes" : 
+					[
+						88,
+						89,
+						90
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						90
+					],
+					"name" : "settings-control-qt-source",
+					"parentIndex" : 86,
+					"targetIndexes" : 
+					[
+						91
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						91
+					],
+					"name" : "settings-control-factory",
+					"parentIndex" : 75,
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						92,
+						93
+					],
+					"directoryIndexes" : 
+					[
+						92
+					],
+					"name" : "settings-control-transport",
+					"parentIndex" : 75
+				},
+				{
+					"directoryIndexes" : 
+					[
+						93
+					],
+					"name" : "settings-control-transport-sink",
+					"parentIndex" : 91,
+					"targetIndexes" : 
+					[
+						95
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						94
+					],
+					"name" : "settings-control-transport-source",
+					"parentIndex" : 91,
+					"targetIndexes" : 
+					[
+						96
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						95,
+						96,
+						100,
+						132,
+						149
+					],
+					"directoryIndexes" : 
+					[
+						95
+					],
+					"name" : "settings-model",
+					"parentIndex" : 74
+				},
+				{
+					"directoryIndexes" : 
+					[
+						96
+					],
+					"name" : "settings-model-proto",
+					"parentIndex" : 94,
+					"targetIndexes" : 
+					[
+						6,
+						7,
+						66,
+						119
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						97,
+						98,
+						99
+					],
+					"directoryIndexes" : 
+					[
+						97
+					],
+					"name" : "settings-model-data",
+					"parentIndex" : 94
+				},
+				{
+					"directoryIndexes" : 
+					[
+						98
+					],
+					"name" : "settings-model-data-band",
+					"parentIndex" : 96,
+					"targetIndexes" : 
+					[
+						97
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						99
+					],
+					"name" : "settings-model-data-mode",
+					"parentIndex" : 96,
+					"targetIndexes" : 
+					[
+						98
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						100
+					],
+					"name" : "settings-model-data-radio",
+					"parentIndex" : 96,
+					"targetIndexes" : 
+					[
+						99
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						101,
+						102,
+						128
+					],
+					"directoryIndexes" : 
+					[
+						101
+					],
+					"name" : "settings-model-path",
+					"parentIndex" : 94
+				},
+				{
+					"directoryIndexes" : 
+					[
+						102
+					],
+					"name" : "settings-model-path-common",
+					"parentIndex" : 100,
+					"targetIndexes" : 
+					[
+						102
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						103,
+						110
+					],
+					"directoryIndexes" : 
+					[
+						103
+					],
+					"name" : "settings-model-path-radios",
+					"parentIndex" : 100
+				},
+				{
+					"childIndexes" : 
+					[
+						104,
+						107
+					],
+					"directoryIndexes" : 
+					[
+						104
+					],
+					"name" : "settings-model-path-radios-basic",
+					"parentIndex" : 102
+				},
+				{
+					"childIndexes" : 
+					[
+						105,
+						106
+					],
+					"directoryIndexes" : 
+					[
+						105
+					],
+					"name" : "settings-model-path-radios-basic-rx",
+					"parentIndex" : 103
+				},
+				{
+					"directoryIndexes" : 
+					[
+						106
+					],
+					"name" : "settings-model-path-radios-basic-rx-lookup",
+					"parentIndex" : 104,
+					"targetIndexes" : 
+					[
+						107
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						107
+					],
+					"name" : "settings-model-path-radios-basic-rx-resolved",
+					"parentIndex" : 104,
+					"targetIndexes" : 
+					[
+						108
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						108,
+						109
+					],
+					"directoryIndexes" : 
+					[
+						108
+					],
+					"name" : "settings-model-path-radios-basic-rxtx",
+					"parentIndex" : 103
+				},
+				{
+					"directoryIndexes" : 
+					[
+						109
+					],
+					"name" : "settings-model-path-radios-basic-rxtx-lookup",
+					"parentIndex" : 107,
+					"targetIndexes" : 
+					[
+						109
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						110
+					],
+					"name" : "settings-model-path-radios-basic-rxtx-resolved",
+					"parentIndex" : 107,
+					"targetIndexes" : 
+					[
+						110
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						111,
+						118
+					],
+					"directoryIndexes" : 
+					[
+						111
+					],
+					"name" : "settings-model-path-radios-iq",
+					"parentIndex" : 102
+				},
+				{
+					"childIndexes" : 
+					[
+						112,
+						115
+					],
+					"directoryIndexes" : 
+					[
+						112
+					],
+					"name" : "settings-model-path-radios-iq-basic",
+					"parentIndex" : 110
+				},
+				{
+					"childIndexes" : 
+					[
+						113,
+						114
+					],
+					"directoryIndexes" : 
+					[
+						113
+					],
+					"name" : "settings-model-path-radios-basic-iq-rx",
+					"parentIndex" : 111
+				},
+				{
+					"directoryIndexes" : 
+					[
+						114
+					],
+					"name" : "settings-model-path-radios-basic-iq-rx-lookup",
+					"parentIndex" : 112,
+					"targetIndexes" : 
+					[
+						103
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						115
+					],
+					"name" : "settings-model-path-radios-basic-iq-rx-resolved",
+					"parentIndex" : 112,
+					"targetIndexes" : 
+					[
+						104
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						116,
+						117
+					],
+					"directoryIndexes" : 
+					[
+						116
+					],
+					"name" : "settings-model-path-radios-basic-iq-rxtx",
+					"parentIndex" : 111
+				},
+				{
+					"directoryIndexes" : 
+					[
+						117
+					],
+					"name" : "settings-model-path-radios-basic-iq-rxtx-lookup",
+					"parentIndex" : 115,
+					"targetIndexes" : 
+					[
+						105
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						118
+					],
+					"name" : "settings-model-path-radios-basic-iq-rxtx-resolved",
+					"parentIndex" : 115,
+					"targetIndexes" : 
+					[
+						106
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						119,
+						122,
+						125
+					],
+					"directoryIndexes" : 
+					[
+						119
+					],
+					"name" : "settings-model-path-radios-iq-dual",
+					"parentIndex" : 110
+				},
+				{
+					"childIndexes" : 
+					[
+						120,
+						121
+					],
+					"directoryIndexes" : 
+					[
+						120
+					],
+					"name" : "settings-model-path-radios-dual-iq-rx",
+					"parentIndex" : 118
+				},
+				{
+					"directoryIndexes" : 
+					[
+						121
+					],
+					"name" : "settings-model-path-radios-dual-iq-rx-lookup",
+					"parentIndex" : 119,
+					"targetIndexes" : 
+					[
+						111
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						122
+					],
+					"name" : "settings-model-path-radios-dual-iq-rx-resolved",
+					"parentIndex" : 119,
+					"targetIndexes" : 
+					[
+						112
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						123,
+						124
+					],
+					"directoryIndexes" : 
+					[
+						123
+					],
+					"name" : "settings-model-path-radios-dual-iq-rxtx",
+					"parentIndex" : 118
+				},
+				{
+					"directoryIndexes" : 
+					[
+						124
+					],
+					"name" : "settings-model-path-radios-dual-iq-rxtx-lookup",
+					"parentIndex" : 122,
+					"targetIndexes" : 
+					[
+						113
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						125
+					],
+					"name" : "settings-model-path-radios-dual-iq-rxtx-resolved",
+					"parentIndex" : 122,
+					"targetIndexes" : 
+					[
+						114
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						126,
+						127
+					],
+					"directoryIndexes" : 
+					[
+						126
+					],
+					"name" : "settings-model-path-radios-dual-iq-split",
+					"parentIndex" : 118
+				},
+				{
+					"directoryIndexes" : 
+					[
+						127
+					],
+					"name" : "settings-model-path-radios-dual-iq-split-resolved",
+					"parentIndex" : 125,
+					"targetIndexes" : 
+					[
+						116
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						128
+					],
+					"name" : "settings-model-path-radios-dual-iq-split-lookup",
+					"parentIndex" : 125,
+					"targetIndexes" : 
+					[
+						115
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						129,
+						130,
+						131
+					],
+					"directoryIndexes" : 
+					[
+						129
+					],
+					"name" : "settings-model-path-util",
+					"parentIndex" : 100
+				},
+				{
+					"directoryIndexes" : 
+					[
+						130
+					],
+					"name" : "settings-model-path-util-resolve-many",
+					"parentIndex" : 128,
+					"targetIndexes" : 
+					[
+						117
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						131
+					],
+					"name" : "settings-model-path-util-resolve-one",
+					"parentIndex" : 128,
+					"targetIndexes" : 
+					[
+						118
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						132
+					],
+					"name" : "settings-model-path-all-resolved-generator",
+					"parentIndex" : 128,
+					"targetIndexes" : 
+					[
+						101
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						133,
+						134,
+						138,
+						148
+					],
+					"directoryIndexes" : 
+					[
+						133
+					],
+					"name" : "settings-model-radios",
+					"parentIndex" : 94
+				},
+				{
+					"directoryIndexes" : 
+					[
+						134
+					],
+					"name" : "settings-model-radios-base",
+					"parentIndex" : 132,
+					"targetIndexes" : 
+					[
+						120
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						135,
+						136,
+						137
+					],
+					"directoryIndexes" : 
+					[
+						135
+					],
+					"name" : "settings-model-radios-basic",
+					"parentIndex" : 132
+				},
+				{
+					"directoryIndexes" : 
+					[
+						136
+					],
+					"name" : "settings-model-radios-basic-common",
+					"parentIndex" : 134,
+					"targetIndexes" : 
+					[
+						121
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						137
+					],
+					"name" : "settings-model-radios-basic-rx",
+					"parentIndex" : 134,
+					"targetIndexes" : 
+					[
+						122
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						138
+					],
+					"name" : "settings-model-radios-basic-rxtx",
+					"parentIndex" : 134,
+					"targetIndexes" : 
+					[
+						123
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						139,
+						143
+					],
+					"directoryIndexes" : 
+					[
+						139
+					],
+					"name" : "settings-model-radios-iq",
+					"parentIndex" : 132
+				},
+				{
+					"childIndexes" : 
+					[
+						140,
+						141,
+						142
+					],
+					"directoryIndexes" : 
+					[
+						140
+					],
+					"name" : "settings-model-radios-iq-basic",
+					"parentIndex" : 138
+				},
+				{
+					"directoryIndexes" : 
+					[
+						141
+					],
+					"name" : "settings-model-radios-iq-basic-common",
+					"parentIndex" : 139,
+					"targetIndexes" : 
+					[
+						124
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						142
+					],
+					"name" : "settings-model-radios-iq-basic-rx",
+					"parentIndex" : 139,
+					"targetIndexes" : 
+					[
+						125
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						143
+					],
+					"name" : "settings-model-radios-iq-basic-rxtx",
+					"parentIndex" : 139,
+					"targetIndexes" : 
+					[
+						126
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						144,
+						145,
+						146,
+						147
+					],
+					"directoryIndexes" : 
+					[
+						144
+					],
+					"name" : "settings-model-radios-iq-dual",
+					"parentIndex" : 138
+				},
+				{
+					"directoryIndexes" : 
+					[
+						145
+					],
+					"name" : "settings-model-radios-iq-dual-common",
+					"parentIndex" : 143,
+					"targetIndexes" : 
+					[
+						127
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						146
+					],
+					"name" : "settings-model-radios-iq-dual-rx",
+					"parentIndex" : 143,
+					"targetIndexes" : 
+					[
+						128
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						147
+					],
+					"name" : "settings-model-radios-iq-dual-rxtx",
+					"parentIndex" : 143,
+					"targetIndexes" : 
+					[
+						129
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						148
+					],
+					"name" : "settings-model-radios-iq-dual-split",
+					"parentIndex" : 143,
+					"targetIndexes" : 
+					[
+						130
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						149
+					],
+					"name" : "settings-model-radios-variant",
+					"parentIndex" : 132,
+					"targetIndexes" : 
+					[
+						131
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						150
+					],
+					"name" : "settings-model-message",
+					"parentIndex" : 94,
+					"targetIndexes" : 
+					[
+						100
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						151,
+						152
+					],
+					"directoryIndexes" : 
+					[
+						151
+					],
+					"name" : "config",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						152
+					],
+					"name" : "config-struct",
+					"parentIndex" : 150,
+					"targetIndexes" : 
+					[
+						5
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						153
+					],
+					"name" : "config-json",
+					"parentIndex" : 150,
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						154,
+						155
+					],
+					"directoryIndexes" : 
+					[
+						154
+					],
+					"name" : "radios",
+					"parentIndex" : 0
+				},
+				{
+					"directoryIndexes" : 
+					[
+						155
+					],
+					"name" : "radios-base",
+					"parentIndex" : 153,
+					"targetIndexes" : 
+					[
+						72
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						156,
+						158
+					],
+					"directoryIndexes" : 
+					[
+						156
+					],
+					"name" : "radios-iq",
+					"parentIndex" : 153
+				},
+				{
+					"childIndexes" : 
+					[
+						157
+					],
+					"directoryIndexes" : 
+					[
+						157
+					],
+					"name" : "radio-iq-basic",
+					"parentIndex" : 155
+				},
+				{
+					"directoryIndexes" : 
+					[
+						158
+					],
+					"name" : "radios-iq-basic-rx",
+					"parentIndex" : 156,
+					"targetIndexes" : 
+					[
+						73
+					]
+				},
+				{
+					"childIndexes" : 
+					[
+						159
+					],
+					"directoryIndexes" : 
+					[
+						159
+					],
+					"name" : "radios-iq-dual",
+					"parentIndex" : 155
+				},
+				{
+					"directoryIndexes" : 
+					[
+						160
+					],
+					"name" : "radios-iq-dual-split",
+					"parentIndex" : 158,
+					"targetIndexes" : 
+					[
+						74,
+						75,
+						76
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						161
+					],
+					"name" : "ui",
+					"parentIndex" : 0
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 65,
+					"id" : "agc::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-agc-Debug-1f53fd6f02c42bac2718.json",
+					"name" : "agc",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "audio::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-audio-Debug-063781f5005bc310abb5.json",
+					"name" : "audio",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "buffer::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-buffer-Debug-eda357467fd8cba79eee.json",
+					"name" : "buffer",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "channel::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-channel-Debug-90e5d0c571f44d09b2a4.json",
+					"name" : "channel",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 153,
+					"id" : "config-json::@72312929dbf3680b6f4a",
+					"jsonFile" : "target-config-json-Debug-24965dbe06aad9b6d5d4.json",
+					"name" : "config-json",
+					"projectIndex" : 152
+				},
+				{
+					"directoryIndex" : 152,
+					"id" : "config-struct::@6b88641760919ad0bf90",
+					"jsonFile" : "target-config-struct-Debug-3d154aaf94e8d6927e19.json",
+					"name" : "config-struct",
+					"projectIndex" : 151
+				},
+				{
+					"directoryIndex" : 96,
+					"id" : "copy_nanopb_gen_message::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-copy_nanopb_gen_message-Debug-dec4144d12d73a13aeac.json",
+					"name" : "copy_nanopb_gen_message",
+					"projectIndex" : 95
+				},
+				{
+					"directoryIndex" : 96,
+					"id" : "copy_nanopb_gen_settings::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-copy_nanopb_gen_settings-Debug-c4a64be3f7faf07993ab.json",
+					"name" : "copy_nanopb_gen_settings",
+					"projectIndex" : 95
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "core::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-core-Debug-f05a1a85041287699b73.json",
+					"name" : "core",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "core-common-audio-base::@c4ea4fb9add61c91fbb2",
+					"jsonFile" : "target-core-common-audio-base-Debug-29c6b6a1102d2de511be.json",
+					"name" : "core-common-audio-base",
+					"projectIndex" : 7
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "core-common-audio-mixer::@4655e4f5d8f645f8d073",
+					"jsonFile" : "target-core-common-audio-mixer-Debug-8a3b8468b3aa76b0f9fe.json",
+					"name" : "core-common-audio-mixer",
+					"projectIndex" : 8
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "core-common-dsp-constants::@e0b6e1637731c8ff2a30",
+					"jsonFile" : "target-core-common-dsp-constants-Debug-4a80710ddf24bef8cfb9.json",
+					"name" : "core-common-dsp-constants",
+					"projectIndex" : 10
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "core-common-dsp-filters-fir-custom::@bf9ab46d085409a857aa",
+					"jsonFile" : "target-core-common-dsp-filters-fir-custom-Debug-ae56d7995cead1d726b9.json",
+					"name" : "core-common-dsp-filters-fir-custom",
+					"projectIndex" : 13
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "core-common-dsp-transforms-fft-base::@41f5574119086f0d8d2d",
+					"jsonFile" : "target-core-common-dsp-transforms-fft-base-Debug-fd63cf27266526edd096.json",
+					"name" : "core-common-dsp-transforms-fft-base",
+					"projectIndex" : 16
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "core-common-dsp-transforms-fft-liquid::@50c6044ef43e29684545",
+					"jsonFile" : "target-core-common-dsp-transforms-fft-liquid-Debug-68dc1e06515c911d995a.json",
+					"name" : "core-common-dsp-transforms-fft-liquid",
+					"projectIndex" : 17
+				},
+				{
+					"directoryIndex" : 19,
+					"id" : "core-common-dsp-transforms-fft-pocket::@fb3050b3668b53f80dde",
+					"jsonFile" : "target-core-common-dsp-transforms-fft-pocket-Debug-9c5ef378392ce3117fdd.json",
+					"name" : "core-common-dsp-transforms-fft-pocket",
+					"projectIndex" : 18
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "core-common-dsp-transforms-hilbert::@b40ba9f9b8a636a42cfe",
+					"jsonFile" : "target-core-common-dsp-transforms-hilbert-Debug-4d3e99d63eb0fd499fa6.json",
+					"name" : "core-common-dsp-transforms-hilbert",
+					"projectIndex" : 19
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "core-common-dsp-window::@412ca4ef6ea028fa441b",
+					"jsonFile" : "target-core-common-dsp-window-Debug-7cfe674e35a74083e756.json",
+					"name" : "core-common-dsp-window",
+					"projectIndex" : 20
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "core-common-event::@92a4dfb796b22d437851",
+					"jsonFile" : "target-core-common-event-Debug-e2f80736d0f474101e3f.json",
+					"name" : "core-common-event",
+					"projectIndex" : 21
+				},
+				{
+					"directoryIndex" : 26,
+					"id" : "core-common-iq-base::@a12e1e430f1adc6fe92f",
+					"jsonFile" : "target-core-common-iq-base-Debug-415144ca942b8b7639fd.json",
+					"name" : "core-common-iq-base",
+					"projectIndex" : 25
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "core-common-iq-basic-rx::@1084bbce9fbeaf357629",
+					"jsonFile" : "target-core-common-iq-basic-rx-Debug-3dd55d56f846e7a72a02.json",
+					"name" : "core-common-iq-basic-rx",
+					"projectIndex" : 27
+				},
+				{
+					"directoryIndex" : 29,
+					"id" : "core-common-iq-basic-rxtx::@d66781a08c03487c6d03",
+					"jsonFile" : "target-core-common-iq-basic-rxtx-Debug-6d21f583663a8afe72d5.json",
+					"name" : "core-common-iq-basic-rxtx",
+					"projectIndex" : 28
+				},
+				{
+					"directoryIndex" : 30,
+					"id" : "core-common-iq-common::@05a858600c40fb2ef3db",
+					"jsonFile" : "target-core-common-iq-common-Debug-0394c6a9eb7be3fd1663.json",
+					"name" : "core-common-iq-common",
+					"projectIndex" : 29
+				},
+				{
+					"directoryIndex" : 32,
+					"id" : "core-common-iq-dual-rxtx::@0799c1c455a75f64bb90",
+					"jsonFile" : "target-core-common-iq-dual-rxtx-Debug-a2e3b21e64e44738145d.json",
+					"name" : "core-common-iq-dual-rxtx",
+					"projectIndex" : 31
+				},
+				{
+					"directoryIndex" : 33,
+					"id" : "core-common-iq-dual-split::@0c3cb694c17a8e88a977",
+					"jsonFile" : "target-core-common-iq-dual-split-Debug-0ea2ecb1ac8a5ed0c066.json",
+					"name" : "core-common-iq-dual-split",
+					"projectIndex" : 32
+				},
+				{
+					"directoryIndex" : 34,
+					"id" : "core-common-iq-io::@66ddd91dec9ec95974e0",
+					"jsonFile" : "target-core-common-iq-io-Debug-aadea99cb83388ce8a20.json",
+					"name" : "core-common-iq-io",
+					"projectIndex" : 33
+				},
+				{
+					"directoryIndex" : 36,
+					"id" : "core-common-iq-pipeline-base::@82d7efd1659cc24cbb09",
+					"jsonFile" : "target-core-common-iq-pipeline-base-Debug-b75c6544c6d6f0d43cc2.json",
+					"name" : "core-common-iq-pipeline-base",
+					"projectIndex" : 35
+				},
+				{
+					"directoryIndex" : 37,
+					"id" : "core-common-iq-pipeline-rx::@59ab93cdf46fe9f4b636",
+					"jsonFile" : "target-core-common-iq-pipeline-rx-Debug-72261ec0645c45b02602.json",
+					"name" : "core-common-iq-pipeline-rx",
+					"projectIndex" : 36
+				},
+				{
+					"directoryIndex" : 40,
+					"id" : "core-common-iq-pipeline-stage-base::@be420451e1dd0359b160",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-base-Debug-ddcc31ebc144f9c48044.json",
+					"name" : "core-common-iq-pipeline-stage-base",
+					"projectIndex" : 39
+				},
+				{
+					"directoryIndex" : 41,
+					"id" : "core-common-iq-pipeline-stage-correction::@6957045e5941417d44bf",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-correction-Debug-5af144294088e2f8fa5e.json",
+					"name" : "core-common-iq-pipeline-stage-correction",
+					"projectIndex" : 40
+				},
+				{
+					"directoryIndex" : 42,
+					"id" : "core-common-iq-pipeline-stage-filter::@804e6ebfdab8c9089088",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-filter-Debug-ca7dc0784cf977fd7d8e.json",
+					"name" : "core-common-iq-pipeline-stage-filter",
+					"projectIndex" : 41
+				},
+				{
+					"directoryIndex" : 43,
+					"id" : "core-common-iq-pipeline-stage-modulation::@f789ba649a5f88bf904a",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-modulation-Debug-2f099904e4aff3c73446.json",
+					"name" : "core-common-iq-pipeline-stage-modulation",
+					"projectIndex" : 42
+				},
+				{
+					"directoryIndex" : 44,
+					"id" : "core-common-iq-pipeline-stage-monitor::@25940bd8caa1fcbb071e",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-monitor-Debug-fff726c76a0efcb5b7d4.json",
+					"name" : "core-common-iq-pipeline-stage-monitor",
+					"projectIndex" : 43
+				},
+				{
+					"directoryIndex" : 45,
+					"id" : "core-common-iq-pipeline-stage-oscillator::@c4575c8b046640288017",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-oscillator-Debug-81605f0d6411ac7a3f66.json",
+					"name" : "core-common-iq-pipeline-stage-oscillator",
+					"projectIndex" : 44
+				},
+				{
+					"directoryIndex" : 46,
+					"id" : "core-common-iq-pipeline-stage-resample::@49ecd94d936590185972",
+					"jsonFile" : "target-core-common-iq-pipeline-stage-resample-Debug-6182a7edb7beba3360be.json",
+					"name" : "core-common-iq-pipeline-stage-resample",
+					"projectIndex" : 45
+				},
+				{
+					"directoryIndex" : 38,
+					"id" : "core-common-iq-pipeline-tx::@5166baccb1a70d18a6c0",
+					"jsonFile" : "target-core-common-iq-pipeline-tx-Debug-9d97d41975ba912a3773.json",
+					"name" : "core-common-iq-pipeline-tx",
+					"projectIndex" : 37
+				},
+				{
+					"directoryIndex" : 47,
+					"id" : "core-common-samples::@073dc1e0ea8aaa8a1b8e",
+					"jsonFile" : "target-core-common-samples-Debug-a26e1ed17cde11795748.json",
+					"name" : "core-common-samples",
+					"projectIndex" : 46
+				},
+				{
+					"directoryIndex" : 48,
+					"id" : "core-common-thread::@fa7c9fc5a8b7b70bd036",
+					"jsonFile" : "target-core-common-thread-Debug-f9b1379c92d5397b70e9.json",
+					"name" : "core-common-thread",
+					"projectIndex" : 47
+				},
+				{
+					"directoryIndex" : 49,
+					"id" : "core-common-time::@482b7d8c01e7d8c448fa",
+					"jsonFile" : "target-core-common-time-Debug-94e54e7d7c2b21c6e5f5.json",
+					"name" : "core-common-time",
+					"projectIndex" : 48
+				},
+				{
+					"directoryIndex" : 52,
+					"id" : "core-common-transport::@f2e918d4ade079167277",
+					"jsonFile" : "target-core-common-transport-Debug-9bf6e7e34f66144e85f6.json",
+					"name" : "core-common-transport",
+					"projectIndex" : 51
+				},
+				{
+					"directoryIndex" : 24,
+					"id" : "core-gpio-base::@10c9ae6759b0f4713ad2",
+					"jsonFile" : "target-core-gpio-base-Debug-4754066612ff1d058e6d.json",
+					"name" : "core-gpio-base",
+					"projectIndex" : 23
+				},
+				{
+					"directoryIndex" : 55,
+					"id" : "core-linux-audio::@32ea3e6cb75e660c429a",
+					"jsonFile" : "target-core-linux-audio-Debug-b2325b5aa4b864c5580d.json",
+					"name" : "core-linux-audio",
+					"projectIndex" : 54
+				},
+				{
+					"directoryIndex" : 57,
+					"id" : "core-linux-event-data::@897d68f99f0717d33bfb",
+					"jsonFile" : "target-core-linux-event-data-Debug-092fb2d02c319566832b.json",
+					"name" : "core-linux-event-data",
+					"projectIndex" : 56
+				},
+				{
+					"directoryIndex" : 58,
+					"id" : "core-linux-event-targets::@7a2e96fc2041236358a4",
+					"jsonFile" : "target-core-linux-event-targets-Debug-1fceee2e63cb8594f1b6.json",
+					"name" : "core-linux-event-targets",
+					"projectIndex" : 57
+				},
+				{
+					"directoryIndex" : 60,
+					"id" : "core-linux-iq-source::@0dfa365a623f1bf881ac",
+					"jsonFile" : "target-core-linux-iq-source-Debug-204a744de08f025b3dcd.json",
+					"name" : "core-linux-iq-source",
+					"projectIndex" : 59
+				},
+				{
+					"directoryIndex" : 64,
+					"id" : "core-linux-liquid-dsp::@ca65faa5245dcbe0a746",
+					"jsonFile" : "target-core-linux-liquid-dsp-Debug-6ef5b8a1a6e2f9d96b3f.json",
+					"name" : "core-linux-liquid-dsp",
+					"projectIndex" : 63
+				},
+				{
+					"directoryIndex" : 66,
+					"id" : "core-linux-thread::@f3fb239150a1bf0f36e0",
+					"jsonFile" : "target-core-linux-thread-Debug-74d0774a07df941657d7.json",
+					"name" : "core-linux-thread",
+					"projectIndex" : 65
+				},
+				{
+					"directoryIndex" : 67,
+					"id" : "core-linux-time::@fd50f56f4a03b32f6f24",
+					"jsonFile" : "target-core-linux-time-Debug-b26e89fc3096990aad5f.json",
+					"name" : "core-linux-time",
+					"projectIndex" : 66
+				},
+				{
+					"directoryIndex" : 71,
+					"id" : "core-linux-transport-qt-event-base::@c878dd38ef04eeeb8e50",
+					"jsonFile" : "target-core-linux-transport-qt-event-base-Debug-ab30b4b97607417e26e2.json",
+					"name" : "core-linux-transport-qt-event-base",
+					"projectIndex" : 70
+				},
+				{
+					"directoryIndex" : 74,
+					"id" : "core-linux-transport-qt-event-in::@3bebb65722ae37473223",
+					"jsonFile" : "target-core-linux-transport-qt-event-in-Debug-a0e2a440e394bf5ee570.json",
+					"name" : "core-linux-transport-qt-event-in",
+					"projectIndex" : 73
+				},
+				{
+					"directoryIndex" : 73,
+					"id" : "core-linux-transport-qt-event-out::@ad5d6d305479d27fe035",
+					"jsonFile" : "target-core-linux-transport-qt-event-out-Debug-aeeabfa286231b7801c5.json",
+					"name" : "core-linux-transport-qt-event-out",
+					"projectIndex" : 72
+				},
+				{
+					"directoryIndex" : 72,
+					"id" : "core-linux-transport-qt-event-targets::@26bc120b731c39d22d92",
+					"jsonFile" : "target-core-linux-transport-qt-event-targets-Debug-30907cbd4d67b33342c2.json",
+					"name" : "core-linux-transport-qt-event-targets",
+					"projectIndex" : 71
+				},
+				{
+					"directoryIndex" : 62,
+					"id" : "core-linux-usb-host::@f6325b793ae7c2df82d1",
+					"jsonFile" : "target-core-linux-usb-host-Debug-7e5dceb50bd451b7d75b.json",
+					"name" : "core-linux-usb-host",
+					"projectIndex" : 61
+				},
+				{
+					"directoryIndex" : 51,
+					"id" : "core-usb-base::@59d6d9d05b8f3ff34246",
+					"jsonFile" : "target-core-usb-base-Debug-8b7932ba0d1387803a99.json",
+					"name" : "core-usb-base",
+					"projectIndex" : 50
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "dotprod::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-dotprod-Debug-9ee881b70df771b6b290.json",
+					"name" : "dotprod",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "equalization::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-equalization-Debug-8a96ca0b6697e1cb45cc.json",
+					"name" : "equalization",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "example-play::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-example-play-Debug-f657c8c4e91278d528a2.json",
+					"name" : "example-play",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "fec::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-fec-Debug-fe3782f753a0659ca71d.json",
+					"name" : "fec",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "fft::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-fft-Debug-fa38520ee2197f23542d.json",
+					"name" : "fft",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "filter::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-filter-Debug-545c72b28c4637e27672.json",
+					"name" : "filter",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "framing::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-framing-Debug-802a74069e0d780e1039.json",
+					"name" : "framing",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "liquid-static::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-liquid-static-Debug-afb45ebb9d3df34b8958.json",
+					"name" : "liquid-static",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "math::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-math-Debug-78e6625bccb5484defd3.json",
+					"name" : "math",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "matrix::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-matrix-Debug-a05811a56ac51660450c.json",
+					"name" : "matrix",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "modem::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-modem-Debug-6db36fff224ecba47960.json",
+					"name" : "modem",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "multichannel::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-multichannel-Debug-a4d2dca4916a00e7affe.json",
+					"name" : "multichannel",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 96,
+					"id" : "nanopb::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-nanopb-Debug-0161c97a4ff05d28a424.json",
+					"name" : "nanopb",
+					"projectIndex" : 95
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "nanopb_generator::@c845ef696169b6be4d76",
+					"jsonFile" : "target-nanopb_generator-Debug-4ccd09fdd72e9d8a4303.json",
+					"name" : "nanopb_generator",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "nco::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-nco-Debug-25d86d014b5b7130e458.json",
+					"name" : "nco",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "optim::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-optim-Debug-5521fbc4c84ab2013c91.json",
+					"name" : "optim",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "protobuf-nanopb-static::@c845ef696169b6be4d76",
+					"jsonFile" : "target-protobuf-nanopb-static-Debug-1426e07efd8c0711bcbd.json",
+					"name" : "protobuf-nanopb-static",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "quantization::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-quantization-Debug-324afbc5b2235759af41.json",
+					"name" : "quantization",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 155,
+					"id" : "radios-base::@965a8b0b6ebd055d0fab",
+					"jsonFile" : "target-radios-base-Debug-89642dd130d634bc6d36.json",
+					"name" : "radios-base",
+					"projectIndex" : 154
+				},
+				{
+					"directoryIndex" : 158,
+					"id" : "radios-iq-basic-rx::@d2871d569fc58e05f34e",
+					"jsonFile" : "target-radios-iq-basic-rx-Debug-e115a0ef24e2b6b983d8.json",
+					"name" : "radios-iq-basic-rx",
+					"projectIndex" : 157
+				},
+				{
+					"directoryIndex" : 160,
+					"id" : "radios-iq-dual-split::@12e83c1175dfa8c4dfbb",
+					"jsonFile" : "target-radios-iq-dual-split-Debug-92ae9f5ad24e04b8c187.json",
+					"name" : "radios-iq-dual-split",
+					"projectIndex" : 159
+				},
+				{
+					"directoryIndex" : 160,
+					"id" : "radios-iq-dual-split_autogen::@12e83c1175dfa8c4dfbb",
+					"jsonFile" : "target-radios-iq-dual-split_autogen-Debug-87a0907a674f298890cf.json",
+					"name" : "radios-iq-dual-split_autogen",
+					"projectIndex" : 159
+				},
+				{
+					"directoryIndex" : 160,
+					"id" : "radios-iq-dual-split_autogen_timestamp_deps::@12e83c1175dfa8c4dfbb",
+					"jsonFile" : "target-radios-iq-dual-split_autogen_timestamp_deps-Debug-85d0035e0ee7a009a6a0.json",
+					"name" : "radios-iq-dual-split_autogen_timestamp_deps",
+					"projectIndex" : 159
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "random::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-random-Debug-007ce64b0daf5b471354.json",
+					"name" : "random",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "sequence::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-sequence-Debug-99181b2da35a143ed60f.json",
+					"name" : "sequence",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 77,
+					"id" : "settings-control-base::@dadfd76efe4f40b526e1",
+					"jsonFile" : "target-settings-control-base-Debug-b2301b7215393a367141.json",
+					"name" : "settings-control-base",
+					"projectIndex" : 76
+				},
+				{
+					"directoryIndex" : 91,
+					"id" : "settings-control-factory::@119f9f35167341283564",
+					"jsonFile" : "target-settings-control-factory-Debug-63f7c9a7f067d8ad82cd.json",
+					"name" : "settings-control-factory",
+					"projectIndex" : 90
+				},
+				{
+					"directoryIndex" : 81,
+					"id" : "settings-control-hal-digital::@458e10a5473acec3a122",
+					"jsonFile" : "target-settings-control-hal-digital-Debug-e70ff136aca2c6dd13fa.json",
+					"name" : "settings-control-hal-digital",
+					"projectIndex" : 80
+				},
+				{
+					"directoryIndex" : 84,
+					"id" : "settings-control-hal-usb-funcube::@2671cf3aca2a65b58472",
+					"jsonFile" : "target-settings-control-hal-usb-funcube-Debug-0f800499dbb5ef9319af.json",
+					"name" : "settings-control-hal-usb-funcube",
+					"projectIndex" : 83
+				},
+				{
+					"directoryIndex" : 83,
+					"id" : "settings-control-hal-usb-sinks::@3d9382e54651bc9bded4",
+					"jsonFile" : "target-settings-control-hal-usb-sinks-Debug-4cfee8f1e5894ce8ba62.json",
+					"name" : "settings-control-hal-usb-sinks",
+					"projectIndex" : 82
+				},
+				{
+					"directoryIndex" : 85,
+					"id" : "settings-control-hal-usb-softrock::@d100925111da017cc290",
+					"jsonFile" : "target-settings-control-hal-usb-softrock-Debug-e74df3e1584d7afcb455.json",
+					"name" : "settings-control-hal-usb-softrock",
+					"projectIndex" : 84
+				},
+				{
+					"directoryIndex" : 88,
+					"id" : "settings-control-qt-event-targets::@e48ec22a73e7bc6dc7dc",
+					"jsonFile" : "target-settings-control-qt-event-targets-Debug-01553cd7cb20f4fc9f59.json",
+					"name" : "settings-control-qt-event-targets",
+					"projectIndex" : 87
+				},
+				{
+					"directoryIndex" : 88,
+					"id" : "settings-control-qt-event-targets_autogen::@e48ec22a73e7bc6dc7dc",
+					"jsonFile" : "target-settings-control-qt-event-targets_autogen-Debug-44b653c6794d2ec23848.json",
+					"name" : "settings-control-qt-event-targets_autogen",
+					"projectIndex" : 87
+				},
+				{
+					"directoryIndex" : 88,
+					"id" : "settings-control-qt-event-targets_autogen_timestamp_deps::@e48ec22a73e7bc6dc7dc",
+					"jsonFile" : "target-settings-control-qt-event-targets_autogen_timestamp_deps-Debug-f4d36c7947947a87d030.json",
+					"name" : "settings-control-qt-event-targets_autogen_timestamp_deps",
+					"projectIndex" : 87
+				},
+				{
+					"directoryIndex" : 89,
+					"id" : "settings-control-qt-sink::@c6cd9b1d64632fa45437",
+					"jsonFile" : "target-settings-control-qt-sink-Debug-8da8a815ab824c8ebb49.json",
+					"name" : "settings-control-qt-sink",
+					"projectIndex" : 88
+				},
+				{
+					"directoryIndex" : 89,
+					"id" : "settings-control-qt-sink_autogen::@c6cd9b1d64632fa45437",
+					"jsonFile" : "target-settings-control-qt-sink_autogen-Debug-3bcf7f748b6cb7a16ff1.json",
+					"name" : "settings-control-qt-sink_autogen",
+					"projectIndex" : 88
+				},
+				{
+					"directoryIndex" : 89,
+					"id" : "settings-control-qt-sink_autogen_timestamp_deps::@c6cd9b1d64632fa45437",
+					"jsonFile" : "target-settings-control-qt-sink_autogen_timestamp_deps-Debug-88702daec3b78e3a0550.json",
+					"name" : "settings-control-qt-sink_autogen_timestamp_deps",
+					"projectIndex" : 88
+				},
+				{
+					"directoryIndex" : 90,
+					"id" : "settings-control-qt-source::@04c7c236a08bcd0229dc",
+					"jsonFile" : "target-settings-control-qt-source-Debug-31b3ce524924b128aff6.json",
+					"name" : "settings-control-qt-source",
+					"projectIndex" : 89
+				},
+				{
+					"directoryIndex" : 86,
+					"id" : "settings-control-radio::@fea1638bae2a75222c63",
+					"jsonFile" : "target-settings-control-radio-Debug-365f754a0e1a0c8fb387.json",
+					"name" : "settings-control-radio",
+					"projectIndex" : 85
+				},
+				{
+					"directoryIndex" : 78,
+					"id" : "settings-control-sink::@4f14c7fdf5c1515d3702",
+					"jsonFile" : "target-settings-control-sink-Debug-57e60e90991aa33ef469.json",
+					"name" : "settings-control-sink",
+					"projectIndex" : 77
+				},
+				{
+					"directoryIndex" : 79,
+					"id" : "settings-control-source::@3f99f81cbce425e17719",
+					"jsonFile" : "target-settings-control-source-Debug-ea9a3dea0a2065e002c7.json",
+					"name" : "settings-control-source",
+					"projectIndex" : 78
+				},
+				{
+					"directoryIndex" : 93,
+					"id" : "settings-control-transport-sink::@e2c00d8f114c43eb31a5",
+					"jsonFile" : "target-settings-control-transport-sink-Debug-62b0a35d63410bc926b2.json",
+					"name" : "settings-control-transport-sink",
+					"projectIndex" : 92
+				},
+				{
+					"directoryIndex" : 94,
+					"id" : "settings-control-transport-source::@122c3d53bdd22bc110fc",
+					"jsonFile" : "target-settings-control-transport-source-Debug-017adc843fa914db7d7c.json",
+					"name" : "settings-control-transport-source",
+					"projectIndex" : 93
+				},
+				{
+					"directoryIndex" : 98,
+					"id" : "settings-model-data-band::@ada3252157031d0b73c3",
+					"jsonFile" : "target-settings-model-data-band-Debug-31e56a51f761f5cfd952.json",
+					"name" : "settings-model-data-band",
+					"projectIndex" : 97
+				},
+				{
+					"directoryIndex" : 99,
+					"id" : "settings-model-data-mode::@b9c7d95edb51607dd30b",
+					"jsonFile" : "target-settings-model-data-mode-Debug-bfd09c0b1b1a6630e67b.json",
+					"name" : "settings-model-data-mode",
+					"projectIndex" : 98
+				},
+				{
+					"directoryIndex" : 100,
+					"id" : "settings-model-data-radio::@08176e4c1cca9a686ad4",
+					"jsonFile" : "target-settings-model-data-radio-Debug-4aa0a62d6ed99a66aee2.json",
+					"name" : "settings-model-data-radio",
+					"projectIndex" : 99
+				},
+				{
+					"directoryIndex" : 150,
+					"id" : "settings-model-message::@d841d3a904cad958d5f4",
+					"jsonFile" : "target-settings-model-message-Debug-b178865956636be0968d.json",
+					"name" : "settings-model-message",
+					"projectIndex" : 149
+				},
+				{
+					"directoryIndex" : 132,
+					"id" : "settings-model-path-all-resolved-generator::@75e3d34ec1d7659cd45e",
+					"jsonFile" : "target-settings-model-path-all-resolved-generator-Debug-9eca4a04e5e45d34daf4.json",
+					"name" : "settings-model-path-all-resolved-generator",
+					"projectIndex" : 131
+				},
+				{
+					"directoryIndex" : 102,
+					"id" : "settings-model-path-common::@884b0deaa87e855283c0",
+					"jsonFile" : "target-settings-model-path-common-Debug-616bf7402826e95adce2.json",
+					"name" : "settings-model-path-common",
+					"projectIndex" : 101
+				},
+				{
+					"directoryIndex" : 114,
+					"id" : "settings-model-path-radios-basic-iq-rx-lookup::@42591656620173923659",
+					"jsonFile" : "target-settings-model-path-radios-basic-iq-rx-lookup-Debug-75b3d4faa6ae56ccc7fc.json",
+					"name" : "settings-model-path-radios-basic-iq-rx-lookup",
+					"projectIndex" : 113
+				},
+				{
+					"directoryIndex" : 115,
+					"id" : "settings-model-path-radios-basic-iq-rx-resolved::@4bdc3c0378626079e5bc",
+					"jsonFile" : "target-settings-model-path-radios-basic-iq-rx-resolved-Debug-9735db4ef897a7aeb4f6.json",
+					"name" : "settings-model-path-radios-basic-iq-rx-resolved",
+					"projectIndex" : 114
+				},
+				{
+					"directoryIndex" : 117,
+					"id" : "settings-model-path-radios-basic-iq-rxtx-lookup::@379c8f97d74458e29177",
+					"jsonFile" : "target-settings-model-path-radios-basic-iq-rxtx-lookup-Debug-1c8e20202f1265329ebe.json",
+					"name" : "settings-model-path-radios-basic-iq-rxtx-lookup",
+					"projectIndex" : 116
+				},
+				{
+					"directoryIndex" : 118,
+					"id" : "settings-model-path-radios-basic-iq-rxtx-resolved::@9b5e53bdcac08fb340ce",
+					"jsonFile" : "target-settings-model-path-radios-basic-iq-rxtx-resolved-Debug-b3605a4e64e14c37e949.json",
+					"name" : "settings-model-path-radios-basic-iq-rxtx-resolved",
+					"projectIndex" : 117
+				},
+				{
+					"directoryIndex" : 106,
+					"id" : "settings-model-path-radios-basic-rx-lookup::@7318cd97945e760527f1",
+					"jsonFile" : "target-settings-model-path-radios-basic-rx-lookup-Debug-28c2280a65b1922589c5.json",
+					"name" : "settings-model-path-radios-basic-rx-lookup",
+					"projectIndex" : 105
+				},
+				{
+					"directoryIndex" : 107,
+					"id" : "settings-model-path-radios-basic-rx-resolved::@f4673eef8f5a6885fd09",
+					"jsonFile" : "target-settings-model-path-radios-basic-rx-resolved-Debug-dd44c5a3bfbf89c2d25d.json",
+					"name" : "settings-model-path-radios-basic-rx-resolved",
+					"projectIndex" : 106
+				},
+				{
+					"directoryIndex" : 109,
+					"id" : "settings-model-path-radios-basic-rxtx-lookup::@844b810a16e0dca9a40a",
+					"jsonFile" : "target-settings-model-path-radios-basic-rxtx-lookup-Debug-20e95738cbe3bb03dbcc.json",
+					"name" : "settings-model-path-radios-basic-rxtx-lookup",
+					"projectIndex" : 108
+				},
+				{
+					"directoryIndex" : 110,
+					"id" : "settings-model-path-radios-basic-rxtx-resolved::@7f519443d239e1b7e9fe",
+					"jsonFile" : "target-settings-model-path-radios-basic-rxtx-resolved-Debug-18cdce4cf91956d5a0a8.json",
+					"name" : "settings-model-path-radios-basic-rxtx-resolved",
+					"projectIndex" : 109
+				},
+				{
+					"directoryIndex" : 121,
+					"id" : "settings-model-path-radios-dual-iq-rx-lookup::@dee8450805f2b09120bc",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-rx-lookup-Debug-c8c86fcb9d8bb712ef69.json",
+					"name" : "settings-model-path-radios-dual-iq-rx-lookup",
+					"projectIndex" : 120
+				},
+				{
+					"directoryIndex" : 122,
+					"id" : "settings-model-path-radios-dual-iq-rx-resolved::@28bd8a296470623bdd95",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-rx-resolved-Debug-a08ee25cac658f4d1cea.json",
+					"name" : "settings-model-path-radios-dual-iq-rx-resolved",
+					"projectIndex" : 121
+				},
+				{
+					"directoryIndex" : 124,
+					"id" : "settings-model-path-radios-dual-iq-rxtx-lookup::@a12516e9556cc00ad7a2",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-rxtx-lookup-Debug-3e4002eb51c8a205a3d9.json",
+					"name" : "settings-model-path-radios-dual-iq-rxtx-lookup",
+					"projectIndex" : 123
+				},
+				{
+					"directoryIndex" : 125,
+					"id" : "settings-model-path-radios-dual-iq-rxtx-resolved::@2cbe287db1dff183e5d6",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-rxtx-resolved-Debug-ba98cacc69432e2309e5.json",
+					"name" : "settings-model-path-radios-dual-iq-rxtx-resolved",
+					"projectIndex" : 124
+				},
+				{
+					"directoryIndex" : 128,
+					"id" : "settings-model-path-radios-dual-iq-split-lookup::@5b99472d57a5af1d560e",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-split-lookup-Debug-36997374e55668019356.json",
+					"name" : "settings-model-path-radios-dual-iq-split-lookup",
+					"projectIndex" : 127
+				},
+				{
+					"directoryIndex" : 127,
+					"id" : "settings-model-path-radios-dual-iq-split-resolved::@c2c3b057f3b6141f5a30",
+					"jsonFile" : "target-settings-model-path-radios-dual-iq-split-resolved-Debug-0313bec7bb767d31cb12.json",
+					"name" : "settings-model-path-radios-dual-iq-split-resolved",
+					"projectIndex" : 126
+				},
+				{
+					"directoryIndex" : 130,
+					"id" : "settings-model-path-util-resolve-many::@cbdb74dd25f6a6de9efe",
+					"jsonFile" : "target-settings-model-path-util-resolve-many-Debug-8ad5a9344df8611449a5.json",
+					"name" : "settings-model-path-util-resolve-many",
+					"projectIndex" : 129
+				},
+				{
+					"directoryIndex" : 131,
+					"id" : "settings-model-path-util-resolve-one::@34d43815452357340eef",
+					"jsonFile" : "target-settings-model-path-util-resolve-one-Debug-773503ee1bd64cde5c60.json",
+					"name" : "settings-model-path-util-resolve-one",
+					"projectIndex" : 130
+				},
+				{
+					"directoryIndex" : 96,
+					"id" : "settings-model-proto::@ca68e4c23759caae5d87",
+					"jsonFile" : "target-settings-model-proto-Debug-c727e2f86c79090d1f3e.json",
+					"name" : "settings-model-proto",
+					"projectIndex" : 95
+				},
+				{
+					"directoryIndex" : 134,
+					"id" : "settings-model-radios-base::@1479c2e2f252b18083d5",
+					"jsonFile" : "target-settings-model-radios-base-Debug-523dcb8085345abddfed.json",
+					"name" : "settings-model-radios-base",
+					"projectIndex" : 133
+				},
+				{
+					"directoryIndex" : 136,
+					"id" : "settings-model-radios-basic-common::@84f8639bd15f9f2b500c",
+					"jsonFile" : "target-settings-model-radios-basic-common-Debug-51e1bb92a94729cb1108.json",
+					"name" : "settings-model-radios-basic-common",
+					"projectIndex" : 135
+				},
+				{
+					"directoryIndex" : 137,
+					"id" : "settings-model-radios-basic-rx::@04651a6fd973eee956d2",
+					"jsonFile" : "target-settings-model-radios-basic-rx-Debug-2e4aaeed621a51f6cd2f.json",
+					"name" : "settings-model-radios-basic-rx",
+					"projectIndex" : 136
+				},
+				{
+					"directoryIndex" : 138,
+					"id" : "settings-model-radios-basic-rxtx::@42672da4f95bff7aed28",
+					"jsonFile" : "target-settings-model-radios-basic-rxtx-Debug-07ab4e127c74835edcd8.json",
+					"name" : "settings-model-radios-basic-rxtx",
+					"projectIndex" : 137
+				},
+				{
+					"directoryIndex" : 141,
+					"id" : "settings-model-radios-iq-basic-common::@760b3cf5c0007a24a46f",
+					"jsonFile" : "target-settings-model-radios-iq-basic-common-Debug-aae221d87b742e4bd0fd.json",
+					"name" : "settings-model-radios-iq-basic-common",
+					"projectIndex" : 140
+				},
+				{
+					"directoryIndex" : 142,
+					"id" : "settings-model-radios-iq-basic-rx::@88b83c4f9a20b77558dd",
+					"jsonFile" : "target-settings-model-radios-iq-basic-rx-Debug-d1e4d978aa698db8b2b1.json",
+					"name" : "settings-model-radios-iq-basic-rx",
+					"projectIndex" : 141
+				},
+				{
+					"directoryIndex" : 143,
+					"id" : "settings-model-radios-iq-basic-rxtx::@f14a41f50e5602010c8d",
+					"jsonFile" : "target-settings-model-radios-iq-basic-rxtx-Debug-8ca81232a51cda94222a.json",
+					"name" : "settings-model-radios-iq-basic-rxtx",
+					"projectIndex" : 142
+				},
+				{
+					"directoryIndex" : 145,
+					"id" : "settings-model-radios-iq-dual-common::@47e6910f6a05da5dfbd3",
+					"jsonFile" : "target-settings-model-radios-iq-dual-common-Debug-6fd5039c81d530522091.json",
+					"name" : "settings-model-radios-iq-dual-common",
+					"projectIndex" : 144
+				},
+				{
+					"directoryIndex" : 146,
+					"id" : "settings-model-radios-iq-dual-rx::@1cfb4e75b00174e1805a",
+					"jsonFile" : "target-settings-model-radios-iq-dual-rx-Debug-08792f3eed48ddb8375b.json",
+					"name" : "settings-model-radios-iq-dual-rx",
+					"projectIndex" : 145
+				},
+				{
+					"directoryIndex" : 147,
+					"id" : "settings-model-radios-iq-dual-rxtx::@e0db24480036e8d96e0f",
+					"jsonFile" : "target-settings-model-radios-iq-dual-rxtx-Debug-afd0a63f0c0e0e0dd08e.json",
+					"name" : "settings-model-radios-iq-dual-rxtx",
+					"projectIndex" : 146
+				},
+				{
+					"directoryIndex" : 148,
+					"id" : "settings-model-radios-iq-dual-split::@f2eff8a6d4d177d74aab",
+					"jsonFile" : "target-settings-model-radios-iq-dual-split-Debug-30b3093b82ccfe065aa4.json",
+					"name" : "settings-model-radios-iq-dual-split",
+					"projectIndex" : 147
+				},
+				{
+					"directoryIndex" : 149,
+					"id" : "settings-model-radios-variant::@e85ee5921217d7a5808e",
+					"jsonFile" : "target-settings-model-radios-variant-Debug-b75d505c150facb2a52c.json",
+					"name" : "settings-model-radios-variant",
+					"projectIndex" : 148
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "utility::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-utility-Debug-4fa0ac59be9ec0f3fa9f.json",
+					"name" : "utility",
+					"projectIndex" : 64
+				},
+				{
+					"directoryIndex" : 65,
+					"id" : "vector::@e66d97bf7fa5e8e32582",
+					"jsonFile" : "target-vector-Debug-b7af0a69f46b9489b73f.json",
+					"name" : "vector",
+					"projectIndex" : 64
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/murray/dev/code/sdr/makesdr",
+		"source" : "/home/murray/dev/code/sdr/makesdr"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

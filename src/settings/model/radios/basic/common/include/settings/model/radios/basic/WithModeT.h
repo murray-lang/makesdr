@@ -1,62 +1,64 @@
 #pragma once
-#include <settings/model/SettingDescriptor.h>
+#include <settings/model/message/FieldDescriptor.h>
 #include <settings/model/data/mode/ModeList.h>
-#include <settings/model/Mode.h>
+#include <settings/model/radios/Mode.h>
+#include <settings/model/radios/IApplyBandDefaults.h>
 
 template <typename protoT, int requestTag, int modeTag>
 class WithModeT
 {
 public:
+  virtual ~WithModeT() = default;
+
   explicit WithModeT(protoT& rawWithMode)
     : m_rawModeSettings(rawWithMode)
     , m_modeRequest(static_cast<Mode::Type>(rawWithMode.mode_or_request.mode_request))
     , m_mode(rawWithMode.mode_or_request.mode)
   {
-    // setModeOrRequestVariant(rawWithMode);
   }
 
   [[nodiscard]] bool isModeRequest() const { return m_rawModeSettings.which_mode_or_request == requestTag; }
   [[nodiscard]] bool isMode() const { return m_rawModeSettings.which_mode_or_request == modeTag; }
   [[nodiscard]] Mode::Type modeRequest() const { return m_modeRequest; }
   Mode& mode() { return m_mode; }
+  const Mode& mode() const { return m_mode; }
   protoT& rawMode() { return m_rawModeSettings; }
 
-  ResultCode autoCompleteMode(const ModeList& modes)
+  void setModeRequest(Mode::Type modeType)
   {
+    m_rawModeSettings.which_mode_or_request = requestTag;
+    m_rawModeSettings.mode_or_request.mode_request = static_cast<makesdr_ModeType>(modeType);
+  }
+
+  ResultCode autoCompleteMode(const ModeList* modes)
+  {
+    if (m_rawModeSettings.which_mode_or_request == requestTag) {
+      if (modes == nullptr) {
+        return ResultCode::ERR_SETTING_AUTOCOMPLETE_NO_MODE_INFO;
+      }
+      const makesdr_ModePb* pMode = modes->findModeByType(m_rawModeSettings.mode_or_request.mode_request);
+      if (pMode == nullptr) return ResultCode::ERR_SETTING_AUTOCOMPLETE_MODE_NOT_FOUND;
+
+      m_rawModeSettings.mode_or_request.mode = *pMode;
+      m_rawModeSettings.which_mode_or_request = modeTag;
+    }
     return ResultCode::OK;
   }
 
-  ResultCode autoCompleteMode(SettingDescriptor& setting, uint32_t startIndex, const ModeList& modes)
+  ResultCode autoCompleteMode(const FieldDescriptor& setting, uint32_t startIndex, const ModeList* modes)
   {
-    return ResultCode::OK;
+    const FieldPath& path = setting.getPath();
+    if (startIndex >= path.size()) {
+      return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
+    }
+    if (path[startIndex] != requestTag) {
+      return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+    }
+    return autoCompleteMode(modes);
   }
-  // [[nodiscard]] bool isModeValid() const { return m_modeOrRequest.index() != 0; }
-  // [[nodiscard]] bool hasModeRequest() const { return m_modeOrRequest.index() == requestTag; }
-  // [[nodiscard]] bool hasMode() const { return m_modeOrRequest.index() == modeTag; }
-  // [[nodiscard]] Mode::Type modeType() const
-  // {
-  //   if (hasModeRequest()) {
-  //     return get<Mode::Type>(m_modeOrRequest);
-  //   } else if (hasMode()) {
-  //     return get<Mode>(m_modeOrRequest).type();
-  //   }
-  //   return Mode::Type::NONE;
-  // }
-  // [[nodiscard]] const Mode* mode() const { return get_if<Mode>(&m_modeOrRequest); }
 
 protected:
-  // void setModeOrRequestVariant(protoT& rawWithMode)
-  // {
-  //   if (rawWithMode.which_mode_or_request == requestTag) {
-  //     m_modeOrRequest.emplace<Mode::Type>(
-  //       static_cast<Mode::Type>(rawWithMode.mode_or_request.mode_request)
-  //       );
-  //   } else if (rawWithMode.which_mode_or_request == modeTag) {
-  //     m_modeOrRequest.emplace<Mode>(rawWithMode.mode_or_request.mode);
-  //   }
-  // }
   protoT& m_rawModeSettings;
   Mode::Type m_modeRequest;
   Mode m_mode;
-  // ModeOrRequestVariant m_modeOrRequest;
 };

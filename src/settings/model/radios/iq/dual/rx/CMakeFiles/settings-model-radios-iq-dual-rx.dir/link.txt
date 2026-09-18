@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-iq-dual-rx.a "CMakeFiles/settings-model-radios-iq-dual-rx.dir/src/DualIqRxSettings.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-iq-dual-rx.a

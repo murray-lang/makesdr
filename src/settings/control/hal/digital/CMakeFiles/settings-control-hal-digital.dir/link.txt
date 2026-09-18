@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-control-hal-digital.a "CMakeFiles/settings-control-hal-digital.dir/src/DigitalInput.cpp.o" "CMakeFiles/settings-control-hal-digital.dir/src/DigitalInputFactory.cpp.o"
+/usr/bin/ranlib libsettings-control-hal-digital.a

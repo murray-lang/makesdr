@@ -1,7 +1,7 @@
 #include "settings/model/path/resolveDottedString.h"
 #include <CrossPlatformTypes.h>
 
-ResultCode resolveDottedString(const char* dottedPath, const FieldEntry* tableRoot, SettingDescriptor& descriptor)
+ResultCode resolveDottedString(const char* dottedPath, const FieldEntry* tableRoot, FieldDescriptor& descriptor)
 {
   const FieldEntry* current_table = tableRoot;
   int tag_count = 0;
@@ -9,9 +9,9 @@ ResultCode resolveDottedString(const char* dottedPath, const FieldEntry* tableRo
   const char* p = dottedPath;
   char field_name[MAX_FIELD_NAME_LENGTH];
 
-  SettingPath& path = descriptor.getPath();
+  FieldPath& path = descriptor.getPath();
   bool isIndirect = false;
-  AutoCompleteTrigger trigger = AutoCompleteTrigger::NONE;
+  bool needsAutoComplete = false;
 
   while (*p && tag_count < MAX_FIELD_PATH_LENGTH) {
     // Extract next field name
@@ -34,8 +34,8 @@ ResultCode resolveDottedString(const char* dottedPath, const FieldEntry* tableRo
           isIndirect = true;
         }
         if (current_table == nullptr) {
-          // We're at the leaf. Save the AutoComplete trigger
-          trigger = entry->trigger;
+          // We're at the leaf. Save the needsAutoComplete flag
+          needsAutoComplete = entry->needsAutoComplete;
         }
         found = true;
         break;
@@ -53,6 +53,6 @@ ResultCode resolveDottedString(const char* dottedPath, const FieldEntry* tableRo
     }
   }
   descriptor.setIsIndirect(isIndirect);
-  descriptor.setAutoCompleteTrigger(trigger);
+  descriptor.setNeedsAutoComplete(needsAutoComplete);
   return tag_count > 0 ? ResultCode::OK : ResultCode::ERR_SETTING_PATH_NOT_FOUND;
 }

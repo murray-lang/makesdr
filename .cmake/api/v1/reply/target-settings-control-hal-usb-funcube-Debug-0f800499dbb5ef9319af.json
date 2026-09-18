@@ -1,0 +1,58 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/settings/control/hal/usb/FunCubeDongle/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "settings-control-hal-usb-funcube::@2671cf3aca2a65b58472",
+	"name" : "settings-control-hal-usb-funcube",
+	"paths" : 
+	{
+		"build" : "src/settings/control/hal/usb/FunCubeDongle",
+		"source" : "src/settings/control/hal/usb/FunCubeDongle"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/FunCubeDongle/include/settings/control/FunCubeDongle/FCDHidCmd.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/FunCubeDongle/include/settings/control/FunCubeDongle/FunCubeDongleT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

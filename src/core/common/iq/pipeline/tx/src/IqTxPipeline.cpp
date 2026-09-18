@@ -2,12 +2,12 @@
 
 #define DEFAULT_SAMPLE_RATE 48000
 
-IqTxPipeline::IqTxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-: IqPipeline(eventTargetProvider, radioLookup)
-  , m_fmnModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
-  , m_fmwModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
-  , m_ssbModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
-  , m_cwModulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
+IqTxPipeline::IqTxPipeline(const ModeList& modes)
+: IqPipeline(modes)
+  , m_fmnModulator(*modes.findModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
+  , m_fmwModulator(*modes.findModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
+  , m_ssbModulator(*modes.findModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
+  , m_cwModulator(*modes.findModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
   , m_pModulator(nullptr)
 {
   appendStage(&m_ifFilter);

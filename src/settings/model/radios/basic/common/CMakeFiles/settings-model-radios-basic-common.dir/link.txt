@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-basic-common.a "CMakeFiles/settings-model-radios-basic-common.dir/src/BasicActiveBandSettings.cpp.o" "CMakeFiles/settings-model-radios-basic-common.dir/src/BasicBandSettings.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-basic-common.a

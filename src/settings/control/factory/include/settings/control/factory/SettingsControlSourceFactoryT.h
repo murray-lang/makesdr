@@ -9,9 +9,9 @@
 #include <settings/control/digital/DigitalInputsT.h>
 #endif
 
-#ifdef IS_QT
-#include <config/struct/QtControlSourceConfig.h>
-#include <settings/control/qt/QtSettingsControlSourceT.h>
+#ifdef IS_LINUX
+#include <config/struct/QtTransportInConfig.h>
+#include <settings/control/transport/TransportControlSourceT.h>
 #endif
 
 template <typename RadioSettingsT>
@@ -34,12 +34,12 @@ public:
       return result;
     }
 #endif
-#ifdef IS_QT
-    if (holds_alternative<Config::QtControlSource::Fields>(config)) {
-      QtSettingsControlSourceT<RadioSettingsT> qtcs;
-      result = qtcs.configure(get<Config::QtControlSource::Fields>(config));
+#ifdef IS_LINUX
+    if (holds_alternative<Config::QtTransportIn::Fields>(config)) {
+      TransportControlSourceT<RadioSettingsT> qtcs;
+      result = qtcs.configure(get<Config::QtTransportIn::Fields>(config));
       if (result == ResultCode::OK) {
-        source.template emplace<QtSettingsControlSourceT<RadioSettingsT>>(::move(qtcs));
+        source.template emplace<TransportControlSourceT<RadioSettingsT>>(::move(qtcs));
       }
       return result;
     }

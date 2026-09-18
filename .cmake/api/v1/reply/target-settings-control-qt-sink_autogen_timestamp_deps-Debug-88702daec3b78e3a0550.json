@@ -1,0 +1,50 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/settings/control/qt/sink/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-base::@dadfd76efe4f40b526e1"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-sink::@4f14c7fdf5c1515d3702"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-qt-event-targets::@e48ec22a73e7bc6dc7dc"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-model-radios-base::@1479c2e2f252b18083d5"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "config-struct::@6b88641760919ad0bf90"
+		}
+	],
+	"id" : "settings-control-qt-sink_autogen_timestamp_deps::@c6cd9b1d64632fa45437",
+	"isGeneratorProvided" : true,
+	"name" : "settings-control-qt-sink_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "src/settings/control/qt/sink",
+		"source" : "src/settings/control/qt/sink"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

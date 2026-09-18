@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/settings/control/hal/usb/SoftRock/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "settings-control-hal-usb-softrock::@d100925111da017cc290",
+	"name" : "settings-control-hal-usb-softrock",
+	"paths" : 
+	{
+		"build" : "src/settings/control/hal/usb/SoftRock",
+		"source" : "src/settings/control/hal/usb/SoftRock"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/SoftRock/include/settings/control/SoftRock/SoftRockT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

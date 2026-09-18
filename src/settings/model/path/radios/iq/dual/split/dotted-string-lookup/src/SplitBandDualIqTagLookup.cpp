@@ -20,7 +20,7 @@ const FieldEntry transmitter_fields[] = {
 };
 
 const FieldEntry pipeline_fields[] = {
-  {"mode_request", makesdr_PipelineSettingsPb_mode_request_tag, nullptr, false, AutoCompleteTrigger::MODE},
+  {"mode_request", makesdr_PipelineSettingsPb_mode_request_tag, nullptr, false, true},
   {"mode", makesdr_PipelineSettingsPb_mode_tag,  mode_fields},
   {"rf", makesdr_PipelineSettingsPb_rf_tag,  pipeline_rf_fields},
   {"iq_corrections", makesdr_PipelineSettingsPb_iq_corrections_tag,  iq_corrections_fields},
@@ -40,14 +40,14 @@ const FieldEntry tx_pipeline_fields[] = {
 };
 
 const FieldEntry band_settings_fields[] = {
-  {"band_request", makesdr_RxTxDualIqBandSettingsPb_band_request_tag, nullptr, false, AutoCompleteTrigger::BAND},
+  {"band_request", makesdr_RxTxDualIqBandSettingsPb_band_request_tag, nullptr, false, true},
   {"band", makesdr_RxTxDualIqBandSettingsPb_band_tag,  band_fields},
   {"rf", makesdr_RxTxDualIqBandSettingsPb_rf_tag,  band_rf_fields},
   {"if", makesdr_RxTxDualIqBandSettingsPb_if_tag,  if_fields},
   {"focus_pipeline", makesdr_RxTxDualIqBandSettingsPb_focus_pipeline_tag,  rx_pipeline_fields, true},
   {"pipeline_a", makesdr_RxTxDualIqBandSettingsPb_pipeline_a_tag,  rx_pipeline_fields},
   {"pipeline_b", makesdr_RxTxDualIqBandSettingsPb_pipeline_b_tag,  rx_pipeline_fields},
-  {"is_multi_pipeline", makesdr_RxTxDualIqBandSettingsPb_is_multi_pipeline_tag,  nullptr, false, AutoCompleteTrigger::MULTI_PIPELINE},
+  {"is_multi_pipeline", makesdr_RxTxDualIqBandSettingsPb_is_multi_pipeline_tag,  nullptr, false, true},
   {"focus_pipeline_id", makesdr_RxTxDualIqBandSettingsPb_focus_pipeline_id_tag,  nullptr},
   {"tx_pipeline", makesdr_RxTxDualIqBandSettingsPb_tx_pipeline_tag,  tx_pipeline_fields},
   {"tx_pipeline_id", makesdr_RxTxDualIqBandSettingsPb_tx_pipeline_id_tag,  nullptr},
@@ -56,12 +56,12 @@ const FieldEntry band_settings_fields[] = {
 
 const FieldEntry active_bands_fields[] = {
   {"focus_band", makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_tag,  band_settings_fields, true},
-  {"band_1", 1,  band_settings_fields},
-  {"band_2", 2,  band_settings_fields},
+  {"band_1", makesdr_SplitBandDualIqActiveBandSettingsPb_band_1_tag,  band_settings_fields},
+  {"band_2", makesdr_SplitBandDualIqActiveBandSettingsPb_band_2_tag,  band_settings_fields},
   {"focus_band_id", makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_id_tag,  nullptr},
   {"tx_band_id", makesdr_SplitBandDualIqActiveBandSettingsPb_tx_band_id_tag,  nullptr},
   {"rx_band_id", makesdr_SplitBandDualIqActiveBandSettingsPb_rx_band_id_tag,  nullptr},
-  {"is_split", makesdr_SplitBandDualIqActiveBandSettingsPb_is_split_tag, nullptr, false, AutoCompleteTrigger::SPLIT_BAND },
+  {"is_split", makesdr_SplitBandDualIqActiveBandSettingsPb_is_split_tag, nullptr, false, true },
 
   {nullptr, 0,  nullptr}
 };

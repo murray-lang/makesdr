@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-variant.a "CMakeFiles/settings-model-radios-variant.dir/src/RadioSettingsVariant.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-variant.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-io.a "CMakeFiles/core-common-iq-io.dir/src/IqIo.cpp.o"
+/usr/bin/ranlib libcore-common-iq-io.a

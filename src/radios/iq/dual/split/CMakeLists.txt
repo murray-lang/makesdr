@@ -17,11 +17,29 @@ target_include_directories(radios-iq-dual-split PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
-target_link_libraries(radios-iq-dual-split PUBLIC
+set(DUAL_SPLIT_RADIO_LIBS
         radios-base
         core-common-iq-dual-split
         settings-control-radio
         settings-model-radios-iq-dual-split
-        settings-control-qt-event-targets
-        settings-control-qt-sink
+)
+
+if(IS_QT)
+    list(APPEND DUAL_SPLIT_RADIO_LIBS
+            core-linux-transport-qt-event-radio
+    )
+endif()
+
+if(IS_LINUX)
+    list(APPEND DUAL_SPLIT_RADIO_LIBS
+            core-linux-thread
+    )
+else()
+    list(APPEND DUAL_SPLIT_RADIO_LIBS
+            core-freertos-thread
+    )
+endif()
+
+target_link_libraries(radios-iq-dual-split PUBLIC
+        ${DUAL_SPLIT_RADIO_LIBS}
 )

@@ -2,7 +2,7 @@
 
 #include <settings/control/source/SettingsControlSourceT.h>
 #include <config/struct/DigitalInputsConfig.h>
-#include <settings/model/IRadioSettings.h>
+#include <settings/model/radios/IRadioSettings.h>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #include <settings/control/digital/DigitalInputTypes.h>
@@ -88,7 +88,7 @@ protected:
       DigitalInput digitalInput;
       rc = DigitalInputFactory::create(inputConfig, digitalInput, resolver);
       if (rc == ResultCode::OK) {
-        digitalInput.connectSettingUpdateSink(&m_internalSink);
+        digitalInput.connectFieldUpdateSink(&m_internalSink);
         m_inputs.emplace_back(::move(digitalInput));
       } else {
         break;
@@ -100,18 +100,18 @@ protected:
   void reconnectInputSinks()
   {
     for (auto& input : m_inputs) {
-      input.connectSettingUpdateSink(&m_internalSink);
+      input.connectFieldUpdateSink(&m_internalSink);
     }
   }
 
-  class InternalSink : public SettingUpdateSink
+  class InternalSink : public FieldUpdateSink
   {
   public:
     explicit InternalSink(DigitalInputsT& group) : m_group(group) {}
 
-    ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
+    ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override
     {
-      return m_group.get().notifySettingUpdate(settingDelta, final);
+      return m_group.get().notifyFieldUpdate(settingDelta);
     }
 
   protected:

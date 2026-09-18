@@ -17,6 +17,6 @@ target_include_directories(settings-model-path-util-resolve-one PUBLIC
 target_link_libraries(settings-model-path-util-resolve-one PUBLIC
         settings-model-path-common
         settings-model-proto
-        settings-model-traverse
+        settings-model-message
         etl::etl
 )

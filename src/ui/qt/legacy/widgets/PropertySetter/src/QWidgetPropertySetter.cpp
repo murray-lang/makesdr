@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/QWidgetPropertySetter.h"
+#include "ui/qt/widgets/QWidgetPropertySetter.h"
 #include <QStyle>
 
 void

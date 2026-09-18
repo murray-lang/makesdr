@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-path-util-resolve-many.a "CMakeFiles/settings-model-path-util-resolve-many.dir/src/generateResolvedPathSourceFiles.cpp.o"
+/usr/bin/ranlib libsettings-model-path-util-resolve-many.a

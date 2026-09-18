@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-path-radios-dual-iq-rx-resolved.a "CMakeFiles/settings-model-path-radios-dual-iq-rx-resolved.dir/src/DualIqRxResolved.cpp.o"
+/usr/bin/ranlib libsettings-model-path-radios-dual-iq-rx-resolved.a

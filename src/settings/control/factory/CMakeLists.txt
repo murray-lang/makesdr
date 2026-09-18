@@ -27,8 +27,8 @@ set(CONTROL_FACTORY_LIBS
 if (PLATFORM_FAMILY STREQUAL "linux")
     set(CONTROL_FACTORY_LIBS
             ${CONTROL_FACTORY_LIBS}
-            settings-control-qt-sink
-            settings-control-qt-source
+            settings-control-transport-sink
+            settings-control-transport-source
     )
 endif()
 

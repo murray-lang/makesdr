@@ -1,6 +1,6 @@
 #pragma once
 #include "DigitalOutputT.h"
-#include <settings/model/IRadioSettings.h>
+#include <settings/model/radios/IRadioSettings.h>
 #include <config/struct/BandSelectorConfig.h>
 
 template <typename RadioSettingsT>
@@ -31,8 +31,8 @@ public:
   ResultCode applySettings(RadioSettingsT& settings) override
   {
     if (settings.hasActiveBands()) {
-      IActiveBandSettings* activeBandSettings = settings.activeBands();
-      const IBandSettings* bandSettings = activeBandSettings->txBand();
+      typename RadioSettingsT::ActiveBandSettings* activeBandSettings = settings.activeBands();
+      const typename RadioSettingsT::BandSettings* bandSettings = activeBandSettings->txBand();
       if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
         const BandRfSettings* rfSettings = bandSettings->rfSettings();
         if (rfSettings->hasFrequency()) {
@@ -44,7 +44,7 @@ public:
     }
     return ResultCode::OK;
   }
-  ResultCode applySettingUpdate(const SettingUpdate& setting, bool final) override
+  ResultCode applyFieldUpdate(const FieldUpdate& setting) override
   {
     if (setting.path() == this->m_settingDescriptor.getPath()) {
       uint32_t frequency = get<uint32_t>(setting.value());
@@ -88,8 +88,8 @@ protected:
     return rc;
   }
 
-  // SettingPath m_frequencySettingPath;
-  // SettingPath m_offsetSettingPath;
+  // FieldPath m_frequencyFieldPath;
+  // FieldPath m_offsetFieldPath;
   uint32_t m_defaultOut;
   uint32_t m_currentOut;
   Config::BandSelector::BandsVector m_bands{};

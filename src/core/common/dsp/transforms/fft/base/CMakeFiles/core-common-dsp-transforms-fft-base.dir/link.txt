@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-dsp-transforms-fft-base.a "CMakeFiles/core-common-dsp-transforms-fft-base.dir/src/FftBase.cpp.o"
+/usr/bin/ranlib libcore-common-dsp-transforms-fft-base.a

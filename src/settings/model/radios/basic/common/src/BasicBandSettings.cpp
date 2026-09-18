@@ -10,10 +10,10 @@ BasicBandSettings::BasicBandSettings(makesdr_BasicBandSettingsPb& rawSettings)
 }
 
 ResultCode
-BasicBandSettings::autoComplete(const RadioLookup& lookup, BasicBandSettingsCache& cache)
+BasicBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicBandSettingsCache* cache)
 {
-  ResultCode rcBand = autoCompleteBand(lookup.bands(), cache);
-  ResultCode rcMode = autoCompleteMode(lookup.modes());
+  ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+  ResultCode rcMode = autoCompleteMode(modes);
   if (rcBand != ResultCode::OK) {
     return rcBand;
   }
@@ -25,21 +25,31 @@ BasicBandSettings::autoComplete(const RadioLookup& lookup, BasicBandSettingsCach
 
 ResultCode
 BasicBandSettings::autoComplete(
-  SettingDescriptor& setting,
+  const FieldDescriptor& setting,
   uint32_t startIndex,
-  const RadioLookup& lookup,
-  BasicBandSettingsCache& cache
+  const BandCategoryList* bands,
+  const ModeList* modes,
+  BasicBandSettingsCache* cache
   )
 {
-  SettingPath& path = setting.getPath();
+  const FieldPath& path = setting.getPath();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   if (path[startIndex] == makesdr_BasicBandSettingsPb_band_request_tag) {
-    return autoCompleteBand(setting, startIndex + 1, lookup.bands(), cache);
+    return autoCompleteBand(setting, startIndex, bands, modes, cache, this);
   } else if (path[startIndex] == makesdr_BasicBandSettingsPb_mode_request_tag) {
-    return autoCompleteMode(setting, startIndex + 1, lookup.modes());
+    return autoCompleteMode(setting, startIndex, modes);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+}
+
+ResultCode
+BasicBandSettings::applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes)
+{
+  setModeRequest(band.defaultMode());
+  ResultCode rc = autoCompleteMode(modes);
+  if (rc != ResultCode::OK) return rc;
+  return m_rfSettings.applyBandDefaults(band, bands, modes);
 }
 

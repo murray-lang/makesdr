@@ -18,4 +18,5 @@ target_include_directories(settings-model-data-radio PUBLIC
 target_link_libraries(settings-model-data-radio PUBLIC
         settings-model-data-band
         settings-model-data-mode
+        settings-model-message
 )

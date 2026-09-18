@@ -1,6 +1,8 @@
 #pragma once
 #include <settings/model/data/band/BandCategoryList.h>
-#include <settings/model/Band.h>
+#include <settings/model/radios/Band.h>
+#include <settings/model/message/FieldDescriptor.h>
+#include <settings/model/radios/IApplyBandDefaults.h>
 
 
 template <typename protoT, int requestTag, int bandTag, typename CacheClass>
@@ -24,47 +26,58 @@ public:
   Band& band() { return m_band; }
   protoT& rawBand() { return m_rawBandSettings; }
 
-  ResultCode autoCompleteBand(const BandCategoryList& bands, CacheClass& cache)
+  ResultCode autoCompleteBand(const BandCategoryList* bands, const ModeList* modes, CacheClass* cache, IApplyBandDefaults* parent)
   {
+    if (m_rawBandSettings.which_band_or_request == requestTag) {
+      if (bands == nullptr) {
+        return ResultCode::ERR_SETTING_AUTOCOMPLETE_NO_BAND_INFO;
+      }
+      // Try the cache first
+      if (cache != nullptr) {
+        ResultCode rc = cache->get(&m_rawBandSettings);
+        if (rc == ResultCode::OK) {
+          // TODO: Set has_* = true on the band's fields
+          m_rawBandSettings.which_band_or_request = bandTag;
+          return rc;
+        }
+      }
+      // Not found in the cache. Get band info.
+      const makesdr_BandPb* pBand = bands->findBand(m_rawBandSettings.band_or_request.band_request);
+      if (pBand == nullptr) return ResultCode::ERR_SETTING_AUTOCOMPLETE_BAND_NOT_FOUND;
+
+      m_rawBandSettings.band_or_request.band = *pBand;
+      m_rawBandSettings.which_band_or_request = bandTag;
+
+      if (parent != nullptr) {
+        Band band(*pBand);
+        parent->applyBandDefaults(band, bands, modes);
+      }
+      if (cache != nullptr) {
+        cache->set(&m_rawBandSettings); // This might fail due to being full, but ignore that.
+      }
+    }
     return ResultCode::OK;
   }
 
   ResultCode autoCompleteBand(
-    SettingDescriptor& setting,
+    const FieldDescriptor& setting,
     uint32_t startIndex,
-    const BandCategoryList& bands,
-    CacheClass& cache)
+    const BandCategoryList* bands,
+    const ModeList* modes,
+    CacheClass* cache,
+    IApplyBandDefaults* parent)
   {
-    return ResultCode::OK;
+    const FieldPath& path = setting.getPath();
+    if (startIndex >= path.size()) {
+      return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
+    }
+    if (path[startIndex] != requestTag) {
+      return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+    }
+    return autoCompleteBand(bands, modes, cache, parent);
   }
 
-  // [[nodiscard]] bool isBandValid() const { return m_bandOrRequest.index() != 0; }
-  // [[nodiscard]] bool hasBandRequest() const { return m_bandOrRequest.index() == requestTag; }
-  // const StringRef& bandRequest() const { return get<StringRef>(m_bandOrRequest); }
-  // [[nodiscard]] bool hasBand() const { return m_bandOrRequest.index() == bandTag; }
-  // [[nodiscard]] const StringRef* bandName() const
-  // {
-  //   const StringRef* request = get_if<StringRef>(&m_bandOrRequest);
-  //   if (request != nullptr) return request;
-  //   const Band* band = get_if<Band>(&m_bandOrRequest);
-  //   if (band != nullptr) return &band->name();
-  //   return nullptr;
-  // }
-  // [[nodiscard]] const Band* band() const { return get_if<Band>(&m_bandOrRequest); }
-
 protected:
-  // void setBandOrRequestVariant(protoT& rawWithBand)
-  // {
-  //   if (rawWithBand.which_band_or_request == requestTag) {
-  //     m_bandOrRequest.emplace<StringRef>(
-  //       rawWithBand.band_or_request.band_request,
-  //       rawWithBand.band_or_request.band_request,
-  //       sizeof(rawWithBand.band_or_request.band_request)
-  //     );
-  //   } else if (rawWithBand.which_band_or_request == bandTag) {
-  //     m_bandOrRequest.emplace<Band>(rawWithBand.band_or_request.band);
-  //   }
-  // }
   protoT& m_rawBandSettings;
   StringRef m_bandRequest;
   Band m_band;

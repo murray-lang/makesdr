@@ -2,7 +2,7 @@
 
 #include "ConfigBase.h"
 #include "GpioInputLinesConfig.h"
-#include "SettingDescriptorConfig.h"
+#include "FieldDescriptorConfig.h"
 
 
 
@@ -10,10 +10,10 @@ namespace Config::DigitalInput
 {
   static constexpr auto type = "digitalinput";
 
-  struct Fields : Alternative, GpioInputLines::Fields
+  struct Fields : GpioInputLines::Fields, Alternative
   {
-    optional<SettingPathString> settingPath;
-    optional<SettingDescriptor::Fields> settingDescriptor;
+    optional<FieldPathString> settingPath;
+    optional<FieldDescriptor::Fields> settingDescriptor;
   };
 }
 

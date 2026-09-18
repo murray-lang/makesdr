@@ -1,7 +1,7 @@
 #include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
 
-#include "settings/model/SettingUpdateSink.h"
+#include "settings/model/message/FieldUpdateSink.h"
 
 DigitalInput::DigitalInput()
   : m_lineEventCallback(
@@ -16,9 +16,9 @@ DigitalInput::DigitalInput(DigitalInput&& rhs)  noexcept
   , m_lineEventCallback(makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this))
   , m_linesRequest(*this, m_lineEventCallback)
   , m_settingDescriptor(::move(rhs.m_settingDescriptor))
-  , m_pSink(::move(rhs.m_pSink))
+  , m_pSink(rhs.m_pSink)
 {
-
+  rhs.m_pSink = nullptr;
 }
 
 DigitalInput&
@@ -27,7 +27,8 @@ DigitalInput::operator=(DigitalInput&& rhs)  noexcept
   m_lineEventCallback = makeGpioLineEventCallback<DigitalInput, &DigitalInput::handleGpioLineEvent>(this);
   GpioInputLines::operator=(::move(static_cast<GpioInputLines&&>(rhs)));
   m_settingDescriptor = ::move(rhs.m_settingDescriptor);
-  m_pSink = ::move(rhs.m_pSink);
+  m_pSink = rhs.m_pSink;
+  rhs.m_pSink = nullptr;
   return *this;
 }
 
@@ -53,26 +54,26 @@ DigitalInput::handleGpioLineEvent(GpioLineEvent* event)
 {
   if (isRotaryEncoder()) {
     auto value = static_cast<int32_t>(event->value);
-    SettingUpdate setting(m_settingDescriptor, value, SettingUpdate::DELTA);
-    notifySettingUpdate(setting, true);
+    FieldUpdate setting(m_settingDescriptor, value, FieldUpdateMeaning::DELTA);
+    notifyFieldUpdate(setting);
   } else {
     bool value = event->value > 0;
-    SettingUpdate setting(m_settingDescriptor, value, SettingUpdate::VALUE);
-    notifySettingUpdate(setting, true);
+    FieldUpdate setting(m_settingDescriptor, value, FieldUpdateMeaning::VALUE);
+    notifyFieldUpdate(setting);
   }
 }
 
 void
-DigitalInput::connectSettingUpdateSink(SettingUpdateSink* pSink)
+DigitalInput::connectFieldUpdateSink(FieldUpdateSink* pSink)
 {
-  m_pSink.reset(pSink);
+  m_pSink = pSink;
 }
 
 ResultCode
-DigitalInput::notifySettingUpdate(const SettingUpdate& settingUpdate, bool final)
+DigitalInput::notifyFieldUpdate(const FieldUpdate& settingUpdate)
 {
   if (m_pSink) {
-    m_pSink->applySettingUpdate(settingUpdate, final);
+    m_pSink->applyFieldUpdate(settingUpdate);
   }
   return ResultCode::OK;
 }

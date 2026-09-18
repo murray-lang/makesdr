@@ -3,7 +3,7 @@
 
 BandList::BandList(const makesdr_BandListPb& raw)
   : m_rawSettings(raw)
-  , m_bands(raw.bands, MAX_BANDS_PER_CATEGORY)
+  , m_bands(raw.bands, raw.bands_count)
 {
 
 }

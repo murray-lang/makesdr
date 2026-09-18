@@ -2,28 +2,36 @@
 
 #include "DualIqBandSettings.h"
 #include "DualIqBandSettingsCache.h"
-#include <settings/model/IActiveBandSettings.h>
+#include <settings/model/radios/IActiveBandSettingsT.h>
 
-class DualIqActiveBandSettings : public IActiveBandSettings
+#include <settings/model/message/FieldDescriptor.h>
+
+class DualIqActiveBandSettings : public IActiveBandSettingsT<DualIqBandSettings>
 {
 public:
   using Proto = makesdr_DualIqActiveBandSettingsPb;
+  using BandSettings = DualIqBandSettings;
 
   DualIqActiveBandSettings(Proto& raw);
 
+  [[nodiscard]] const Band* getFocusBand() const override { return m_focusBand.getBand(); }
+  [[nodiscard]] const Mode* getFocusMode() const override { return m_focusBand.getFocusMode(); }
   [[nodiscard]] bool hasFocusBand() const override { return m_rawSettings.has_focus_band; }
-  [[nodiscard]] IBandSettings* focusBand() override;
-  [[nodiscard]] const IBandSettings* focusBand() const override
+  [[nodiscard]] BandSettings* focusBandSettings() override;
+  [[nodiscard]] const BandSettings* focusBandSettings() const override
   {
-    return const_cast<DualIqActiveBandSettings*>(this)->focusBand();
+    return const_cast<DualIqActiveBandSettings*>(this)->focusBandSettings();
   }
 
-  ResultCode autoComplete(const RadioLookup& lookup, DualIqBandSettingsCache& cache);
+  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) override;
+
+  ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, DualIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    SettingDescriptor& setting,
+    const FieldDescriptor& setting,
     uint32_t startIndex,
-    const RadioLookup& lookup,
-    DualIqBandSettingsCache& cache
+    const BandCategoryList* bands,
+    const ModeList* modes,
+    DualIqBandSettingsCache* cache
     );
 
 protected:

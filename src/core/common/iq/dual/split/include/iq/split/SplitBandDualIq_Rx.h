@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iq/base/IqRxTxBase.h>
+#include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
@@ -11,7 +11,7 @@
 class SplitBandDualIq_Rx : public IqSink
 {
 public:
-  SplitBandDualIq_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes);
   ~SplitBandDualIq_Rx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/settings/model/path/radios/iq/basic/rxtx/all-resolved",
+		"source" : "src/settings/model/path/radios/iq/basic/rxtx/all-resolved"
+	}
+}

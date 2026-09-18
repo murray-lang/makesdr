@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-liquid-dsp.a "CMakeFiles/core-linux-liquid-dsp.dir/src/dummy.c.o"
+/usr/bin/ranlib libcore-linux-liquid-dsp.a

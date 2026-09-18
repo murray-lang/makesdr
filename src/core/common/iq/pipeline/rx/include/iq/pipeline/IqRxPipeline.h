@@ -22,7 +22,7 @@
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  IqRxPipeline(const ModeList& modes);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
@@ -53,7 +53,7 @@ private:
   SsbDemodulator m_ssbDemodulator;
   CwDemodulator m_cwDemodulator;
   Demodulator* m_pDemodulator;
-  MonitorStageT<EventDispatcher, RxIqEvent> m_monitorStage;
+  // MonitorStageT<EventDispatcher, RxIqEvent> m_monitorStage;
 
   RealSamplesMax m_audioBuffer;
 };

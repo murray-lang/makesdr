@@ -1,13 +1,15 @@
 #include "radios/iq/BasicIqRxRadio.h"
 
 BasicIqRxRadio::BasicIqRxRadio(
-const EventTargetProvider& eventTargetProvider,
-  const RadioLookup& radioLookup,
+  const BandCategoryList& bands,
+  const ModeList& modes,
   BasicIqRxSettings::Cache& bandSettingsCache)
-  : m_settings(radioLookup.raw(), bandSettingsCache)
-  , m_receiver(eventTargetProvider, radioLookup)
+  : m_settings()
+  , m_receiver(modes)
 {
-
+  m_settings.setBands(&bands);
+  m_settings.setModes(&modes);
+  m_settings.setCache(&bandSettingsCache);
 }
 
 ResultCode
@@ -30,7 +32,7 @@ BasicIqRxRadio::start()
   ResultCode rc = m_receiver.start();
   if (rc != ResultCode::OK) return rc;
   m_control.connectRadioSettingsSink(this);
-  m_control.connectSettingUpdateSink(this);
+  m_control.connectFieldUpdateSink(this);
   return m_control.start();
 }
 
@@ -39,7 +41,7 @@ BasicIqRxRadio::stop()
 {
   m_control.stop();
   m_control.connectRadioSettingsSink(nullptr);
-  m_control.connectSettingUpdateSink(nullptr);
+  m_control.connectFieldUpdateSink(nullptr);
   m_receiver.stop();
 }
 
@@ -59,12 +61,12 @@ BasicIqRxRadio::applySettings(BasicIqRxSettings& settings)
 }
 
 ResultCode
-BasicIqRxRadio::applySettingUpdate(const SettingUpdate& update, bool final)
+BasicIqRxRadio::applyFieldUpdate(const FieldUpdate& update)
 {
   return ResultCode::OK; // TODO: Decide how to manage locally stored settings.
 }
 
-void
+ResultCode
 BasicIqRxRadio::ptt(bool on)
 {
   if (on) {
@@ -72,6 +74,7 @@ BasicIqRxRadio::ptt(bool on)
   } else {
     pttOff();
   }
+  return ResultCode::OK;
 }
 
 void

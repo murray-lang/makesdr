@@ -41,11 +41,11 @@ public:
     // }
 #endif
 
-#ifdef IS_QT
-    if (holds_alternative<Config::QtControlSink::Fields>(config)) {
-      using QtSink = typename SettingsControlSinkTypesT<RadioSettingsT>::QtSinkType;
-      sink.template emplace<QtSink>();
-      result = get<QtSink>(sink).configure(get<Config::QtControlSink::Fields>(config));
+#ifdef IS_LINUX
+    if (holds_alternative<Config::QtTransportOut::Fields>(config)) {
+      using TransportSink = typename SettingsControlSinkTypesT<RadioSettingsT>::TransportSinkType;
+      sink.template emplace<TransportSink>();
+      result = get<TransportSink>(sink).configure(get<Config::QtTransportOut::Fields>(config));
       return result;
     }
 #endif

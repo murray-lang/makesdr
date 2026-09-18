@@ -10,10 +10,10 @@ BasicIqBandSettings::BasicIqBandSettings(Proto& rawSettings)
 }
 
 ResultCode
-BasicIqBandSettings::autoComplete(const RadioLookup& lookup, BasicIqBandSettingsCache& cache)
+BasicIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicIqBandSettingsCache* cache)
 {
-  ResultCode rcBand = autoCompleteBand(lookup.bands(), cache);
-  ResultCode rcPipeline = m_focusPipeline.autoComplete(lookup.modes());
+  ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+  ResultCode rcPipeline = m_focusPipeline.autoComplete(modes);
   if (rcPipeline != ResultCode::OK) {
     return rcPipeline;
   }
@@ -25,21 +25,30 @@ BasicIqBandSettings::autoComplete(const RadioLookup& lookup, BasicIqBandSettings
 
 ResultCode
 BasicIqBandSettings::autoComplete(
-  SettingDescriptor& setting,
+  const FieldDescriptor& setting,
   uint32_t startIndex,
-  const RadioLookup& lookup,
-  BasicIqBandSettingsCache& cache
+  const BandCategoryList* bands,
+  const ModeList* modes,
+  BasicIqBandSettingsCache* cache
   )
 {
-  SettingPath& path = setting.getPath();
+  const FieldPath& path = setting.getPath();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   if (path[startIndex] == makesdr_BasicIqBandSettingsPb_band_request_tag) {
-    return autoCompleteBand(setting, startIndex + 1, lookup.bands(), cache);
+    return autoCompleteBand(setting, startIndex + 1, bands, modes, cache, this);
   }
   if (path[startIndex] == makesdr_BasicIqBandSettingsPb_focus_pipeline_tag) {
-    return m_focusPipeline.autoComplete(setting, startIndex + 1, lookup.modes());
+    return m_focusPipeline.autoComplete(setting, startIndex + 1, modes);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
+}
+
+ResultCode
+BasicIqBandSettings::applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes)
+{
+  ResultCode rc = m_rfSettings.applyBandDefaults(band, bands, modes);
+  if (rc != ResultCode::OK)  return rc;
+  return m_focusPipeline.base().applyBandDefaults(band, bands, modes);
 }

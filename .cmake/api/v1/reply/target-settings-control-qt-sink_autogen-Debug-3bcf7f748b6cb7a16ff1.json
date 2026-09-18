@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/settings/control/qt/sink/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "settings-control-qt-sink_autogen_timestamp_deps::@c6cd9b1d64632fa45437"
+		}
+	],
+	"id" : "settings-control-qt-sink_autogen::@c6cd9b1d64632fa45437",
+	"isGeneratorProvided" : true,
+	"name" : "settings-control-qt-sink_autogen",
+	"paths" : 
+	{
+		"build" : "src/settings/control/qt/sink",
+		"source" : "src/settings/control/qt/sink"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/CMakeFiles/settings-control-qt-sink_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/CMakeFiles/settings-control-qt-sink_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/settings/control/qt/sink/settings-control-qt-sink_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

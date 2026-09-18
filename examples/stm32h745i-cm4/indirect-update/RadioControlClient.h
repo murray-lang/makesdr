@@ -1,18 +1,18 @@
 #pragma once
 #include "settings/model/core/RadioSettingsSink.h"
-#include "settings/model/core/SettingUpdateSink.h"
+#include "settings/model/core/FieldUpdateSink.h"
 #include <settings/model/core/RadioSettings.h>
 #include "settings/model/core/RadioSettingsSource.h"
 
 class RadioControlClient :
   public RadioSettingsSink,
-  public SettingUpdateSink,
+  public FieldUpdateSink,
   public RadioSettingsSource
 {
 public:
   RadioControlClient();
   ResultCode applySettings(const RadioSettings& settings) override;
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta) override;
+  ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override;
 
   void connectRadioSettingsSink(RadioSettingsSink& sink) override
   {

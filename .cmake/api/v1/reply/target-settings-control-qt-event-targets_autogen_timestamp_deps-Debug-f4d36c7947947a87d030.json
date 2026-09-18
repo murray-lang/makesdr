@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/settings/control/qt/event-targets/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "settings-control-qt-event-targets_autogen_timestamp_deps::@e48ec22a73e7bc6dc7dc",
+	"isGeneratorProvided" : true,
+	"name" : "settings-control-qt-event-targets_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "src/settings/control/qt/event-targets",
+		"source" : "src/settings/control/qt/event-targets"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

@@ -1,14 +1,13 @@
 #pragma once
 
-#include <settings/model/SettingsBase.h>
-#include <settings/model/PipelineId.h>
+#include <settings/model/radios/PipelineId.h>
 #include <settings/model/radios/basic/WithBandT.h>
-#include <settings/model/BandRfSettings.h>
-#include <settings/model/IfSettings.h>
+#include <settings/model/radios/BandRfSettings.h>
+#include <settings/model/radios/IfSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/radios/iq/RxPipelineSettings.h>
 #include <settings/model/radios/iq/TxPipelineSettings.h>
-#include <settings/model//IBandSettings.h>
+#include <settings/model/radios/IBandSettings.h>
 
 #include "RxTxDualIqBandSettingsCache.h"
 
@@ -28,6 +27,8 @@ public:
 
   RxTxDualIqBandSettings(Proto& rawSettings);
 
+  [[nodiscard]] const Band * getBand() const override { return &m_band; }
+  [[nodiscard]] const Mode* getFocusMode() const override;
   [[nodiscard]] bool hasRfSettings() const override { return m_rawSettings.has_rf; }
   BandRfSettings* rfSettings() override { return &m_rfSettings; }
   [[nodiscard]] const BandRfSettings* rfSettings() const override { return &m_rfSettings; }
@@ -73,13 +74,18 @@ public:
     return m_rawSettings.has_is_multi_pipeline ? m_rawSettings.is_multi_pipeline : false;
   }
 
-  ResultCode autoComplete(const RadioLookup& lookup, RxTxDualIqBandSettingsCache& cache);
+  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) override;
+
+  ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, RxTxDualIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    SettingDescriptor& setting,
+    const FieldDescriptor& setting,
     uint32_t startIndex,
-    const RadioLookup& lookup,
-    RxTxDualIqBandSettingsCache& cache
+    const BandCategoryList* bands,
+    const ModeList* modes,
+    RxTxDualIqBandSettingsCache* cache
     );
+
+  ResultCode applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes) override;
 
   ResultCode autoCompleteMultiPipeline();
   ResultCode autoCompleteTxPipeline();

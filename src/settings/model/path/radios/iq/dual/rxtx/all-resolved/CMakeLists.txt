@@ -20,5 +20,5 @@ target_include_directories(settings-model-path-radios-dual-iq-rxtx-resolved PRIV
 )
 
 target_link_libraries(settings-model-path-radios-dual-iq-rxtx-resolved PUBLIC
-        settings-model-base
+        settings-model-message
 )

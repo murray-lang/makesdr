@@ -3,373 +3,373 @@
 // Pre-resolved field descriptors (no string processing at runtime)
 // Uncomment the ones you need, likewise in BasicRxResolved.h
 /*
-const SettingDescriptor active_bands = SettingDescriptor(
-    SettingPath{1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands = FieldDescriptor(
+    FieldPath{1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band = SettingDescriptor(
-    SettingPath{1, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band = FieldDescriptor(
+    FieldPath{1, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_request = SettingDescriptor(
-    SettingPath{1, 1, 1},
-    AutoCompleteTrigger::BAND,
+const FieldDescriptor active_bands_focus_band_band_request = FieldDescriptor(
+    FieldPath{1, 1, 1},
+    true,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band = SettingDescriptor(
-    SettingPath{1, 1, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band = FieldDescriptor(
+    FieldPath{1, 1, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_name = SettingDescriptor(
-    SettingPath{1, 1, 2, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_name = FieldDescriptor(
+    FieldPath{1, 1, 2, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_label = SettingDescriptor(
-    SettingPath{1, 1, 2, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_label = FieldDescriptor(
+    FieldPath{1, 1, 2, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_lowest_frequency = SettingDescriptor(
-    SettingPath{1, 1, 2, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_lowest_frequency = FieldDescriptor(
+    FieldPath{1, 1, 2, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_highest_frequency = SettingDescriptor(
-    SettingPath{1, 1, 2, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_highest_frequency = FieldDescriptor(
+    FieldPath{1, 1, 2, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_landing_frequency = SettingDescriptor(
-    SettingPath{1, 1, 2, 5},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_landing_frequency = FieldDescriptor(
+    FieldPath{1, 1, 2, 5},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_fine_step = SettingDescriptor(
-    SettingPath{1, 1, 2, 6},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_fine_step = FieldDescriptor(
+    FieldPath{1, 1, 2, 6},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_coarse_step = SettingDescriptor(
-    SettingPath{1, 1, 2, 7},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_coarse_step = FieldDescriptor(
+    FieldPath{1, 1, 2, 7},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode = SettingDescriptor(
-    SettingPath{1, 1, 2, 8},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode = FieldDescriptor(
+    FieldPath{1, 1, 2, 8},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_type = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_type = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_name = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_name = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_label = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_label = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_lo_cut = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_lo_cut = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_hi_cut = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 5},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_hi_cut = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 5},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_band_default_mode_offset = SettingDescriptor(
-    SettingPath{1, 1, 2, 8, 6},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_band_default_mode_offset = FieldDescriptor(
+    FieldPath{1, 1, 2, 8, 6},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_request = SettingDescriptor(
-    SettingPath{1, 1, 3},
-    AutoCompleteTrigger::MODE,
+const FieldDescriptor active_bands_focus_band_mode_request = FieldDescriptor(
+    FieldPath{1, 1, 3},
+    true,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode = SettingDescriptor(
-    SettingPath{1, 1, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode = FieldDescriptor(
+    FieldPath{1, 1, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_type = SettingDescriptor(
-    SettingPath{1, 1, 4, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_type = FieldDescriptor(
+    FieldPath{1, 1, 4, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_name = SettingDescriptor(
-    SettingPath{1, 1, 4, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_name = FieldDescriptor(
+    FieldPath{1, 1, 4, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_label = SettingDescriptor(
-    SettingPath{1, 1, 4, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_label = FieldDescriptor(
+    FieldPath{1, 1, 4, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_lo_cut = SettingDescriptor(
-    SettingPath{1, 1, 4, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_lo_cut = FieldDescriptor(
+    FieldPath{1, 1, 4, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_hi_cut = SettingDescriptor(
-    SettingPath{1, 1, 4, 5},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_hi_cut = FieldDescriptor(
+    FieldPath{1, 1, 4, 5},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_mode_offset = SettingDescriptor(
-    SettingPath{1, 1, 4, 6},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_mode_offset = FieldDescriptor(
+    FieldPath{1, 1, 4, 6},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf = SettingDescriptor(
-    SettingPath{1, 1, 5},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf = FieldDescriptor(
+    FieldPath{1, 1, 5},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_frequency = SettingDescriptor(
-    SettingPath{1, 1, 5, 1001},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_frequency = FieldDescriptor(
+    FieldPath{1, 1, 5, 1001},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_frequency_value = SettingDescriptor(
-    SettingPath{1, 1, 5, 1001, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_frequency_value = FieldDescriptor(
+    FieldPath{1, 1, 5, 1001, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_frequency_coarse_delta = SettingDescriptor(
-    SettingPath{1, 1, 5, 1001, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_frequency_coarse_delta = FieldDescriptor(
+    FieldPath{1, 1, 5, 1001, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_frequency_fine_delta = SettingDescriptor(
-    SettingPath{1, 1, 5, 1001, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_frequency_fine_delta = FieldDescriptor(
+    FieldPath{1, 1, 5, 1001, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_frequency_use_fine = SettingDescriptor(
-    SettingPath{1, 1, 5, 1001, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_frequency_use_fine = FieldDescriptor(
+    FieldPath{1, 1, 5, 1001, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_gain = SettingDescriptor(
-    SettingPath{1, 1, 5, 1002},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_gain = FieldDescriptor(
+    FieldPath{1, 1, 5, 1002},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_gain_value = SettingDescriptor(
-    SettingPath{1, 1, 5, 1002, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_gain_value = FieldDescriptor(
+    FieldPath{1, 1, 5, 1002, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_gain_coarse_delta = SettingDescriptor(
-    SettingPath{1, 1, 5, 1002, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_gain_coarse_delta = FieldDescriptor(
+    FieldPath{1, 1, 5, 1002, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_gain_fine_delta = SettingDescriptor(
-    SettingPath{1, 1, 5, 1002, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_gain_fine_delta = FieldDescriptor(
+    FieldPath{1, 1, 5, 1002, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_rf_gain_use_fine = SettingDescriptor(
-    SettingPath{1, 1, 5, 1002, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_rf_gain_use_fine = FieldDescriptor(
+    FieldPath{1, 1, 5, 1002, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if = SettingDescriptor(
-    SettingPath{1, 1, 6},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if = FieldDescriptor(
+    FieldPath{1, 1, 6},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_gain = SettingDescriptor(
-    SettingPath{1, 1, 6, 1001},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_gain = FieldDescriptor(
+    FieldPath{1, 1, 6, 1001},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_gain_value = SettingDescriptor(
-    SettingPath{1, 1, 6, 1001, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_gain_value = FieldDescriptor(
+    FieldPath{1, 1, 6, 1001, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_gain_coarse_delta = SettingDescriptor(
-    SettingPath{1, 1, 6, 1001, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_gain_coarse_delta = FieldDescriptor(
+    FieldPath{1, 1, 6, 1001, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_gain_fine_delta = SettingDescriptor(
-    SettingPath{1, 1, 6, 1001, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_gain_fine_delta = FieldDescriptor(
+    FieldPath{1, 1, 6, 1001, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_gain_use_fine = SettingDescriptor(
-    SettingPath{1, 1, 6, 1001, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_gain_use_fine = FieldDescriptor(
+    FieldPath{1, 1, 6, 1001, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_if_bandwidth = SettingDescriptor(
-    SettingPath{1, 1, 6, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_if_bandwidth = FieldDescriptor(
+    FieldPath{1, 1, 6, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor active_bands_focus_band_agc_speed = SettingDescriptor(
-    SettingPath{1, 1, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor active_bands_focus_band_agc_speed = FieldDescriptor(
+    FieldPath{1, 1, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver = SettingDescriptor(
-    SettingPath{2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver = FieldDescriptor(
+    FieldPath{2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume = SettingDescriptor(
-    SettingPath{2, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume = FieldDescriptor(
+    FieldPath{2, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume_gain = SettingDescriptor(
-    SettingPath{2, 2, 1001},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume_gain = FieldDescriptor(
+    FieldPath{2, 2, 1001},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume_gain_value = SettingDescriptor(
-    SettingPath{2, 2, 1001, 1},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume_gain_value = FieldDescriptor(
+    FieldPath{2, 2, 1001, 1},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume_gain_coarse_delta = SettingDescriptor(
-    SettingPath{2, 2, 1001, 2},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume_gain_coarse_delta = FieldDescriptor(
+    FieldPath{2, 2, 1001, 2},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume_gain_fine_delta = SettingDescriptor(
-    SettingPath{2, 2, 1001, 3},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume_gain_fine_delta = FieldDescriptor(
+    FieldPath{2, 2, 1001, 3},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor receiver_volume_gain_use_fine = SettingDescriptor(
-    SettingPath{2, 2, 1001, 4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor receiver_volume_gain_use_fine = FieldDescriptor(
+    FieldPath{2, 2, 1001, 4},
+    false,
     false
 );
 */
 /*
-const SettingDescriptor ptt = SettingDescriptor(
-    SettingPath{4},
-    AutoCompleteTrigger::NONE,
+const FieldDescriptor ptt = FieldDescriptor(
+    FieldPath{4},
+    false,
     false
 );
 */

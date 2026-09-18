@@ -3,18 +3,18 @@
 #include <CrossPlatformTypes.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/IRadioSettings.h>
+#include <settings/model/radios/IRadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 #include <cmath>
 
-class SettingUpdate;
+class FieldUpdate;
 
 #define FCDPROPLUS_VENDOR_ID    0x04d8
 #define FCDPROPLUS_PRODUCT_ID   0xfb31
 
 template <typename RadioSettingsT>
-class FunCubeDongleT : public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
+class FunCubeDongleT : public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink
 {
 public:
   FunCubeDongleT()
@@ -48,11 +48,11 @@ public:
       return ResultCode:: OK;
     }
 
-    const IActiveBandSettings* activeBandSettings = radioSettings.activeBands();
+    const typename RadioSettingsT::ActiveBandSettings* activeBandSettings = radioSettings.activeBands();
     if (!activeBandSettings->hasFocusBand()) {
       return ResultCode:: OK;
     }
-    const IBandSettings* bandSettings = activeBandSettings->focusBand();
+    const typename RadioSettingsT::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
     if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
       const BandRfSettings* rfSettings = bandSettings->rfSettings();
       if (rfSettings->hasFrequency()) {
@@ -79,7 +79,7 @@ public:
     }
     return ResultCode::OK;
   }
-  ResultCode applySettingUpdate(const SettingUpdate& update, bool final) override { return ResultCode::OK; }
+  ResultCode applyFieldUpdate(const FieldUpdate& update) override { return ResultCode::OK; }
 
   ResultCode ptt(bool on) override
   {

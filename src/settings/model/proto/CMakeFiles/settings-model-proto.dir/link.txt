@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-proto.a "CMakeFiles/settings-model-proto.dir/gen/nanopb/RadioSettings.pb.c.o" "CMakeFiles/settings-model-proto.dir/gen/nanopb/RadioPayloads.pb.c.o"
+/usr/bin/ranlib libsettings-model-proto.a

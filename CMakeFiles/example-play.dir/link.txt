@@ -1,0 +1,1 @@
+/usr/bin/c++  -ffunction-sections -fdata-sections -g -Wl,--gc-sections -Wl,--dependency-file=CMakeFiles/example-play.dir/link.d "CMakeFiles/example-play.dir/examples/linux-pc/play/main.cpp.o" -o example-play  -lsettings-model-util -lsettings-model-lookup-tag-dual-iq-split

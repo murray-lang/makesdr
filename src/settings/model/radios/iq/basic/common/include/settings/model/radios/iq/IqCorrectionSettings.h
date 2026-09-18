@@ -1,9 +1,8 @@
 #pragma once
 #include <settings/model/proto/RadioSettings.pb.h>
-#include <settings/model/SettingsBase.h>
 //#include "SteppableFloatSetting.h"
 
-class IqCorrectionSettings : public SettingsBase
+class IqCorrectionSettings
 {
 public:
   using Proto = makesdr_IqCorrectionSettingsPb;

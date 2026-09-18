@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-data-band.a "CMakeFiles/settings-model-data-band.dir/src/BandCategoryList.cpp.o" "CMakeFiles/settings-model-data-band.dir/src/BandList.cpp.o" "CMakeFiles/settings-model-data-band.dir/src/mostBandCategories.cpp.o"
+/usr/bin/ranlib libsettings-model-data-band.a

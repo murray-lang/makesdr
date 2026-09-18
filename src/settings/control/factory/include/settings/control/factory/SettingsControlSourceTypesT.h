@@ -12,8 +12,8 @@
 #include <settings/control/digital/DigitalInputsT.h>
 #endif
 
-#ifdef IS_QT
-#include <settings/control/qt/QtSettingsControlSourceT.h>
+#ifdef IS_LINUX
+#include <settings/control/transport/TransportControlSourceT.h>
 #endif
 
 
@@ -21,11 +21,11 @@ template <typename RadioSettingsT>
 struct SettingsControlSourceTypesT
 {
 #ifdef USE_GPIO
-#ifdef IS_QT
-  using Variant = variant<QtSettingsControlSourceT<RadioSettingsT>, DigitalInputsT<RadioSettingsT>>;
+#ifdef IS_LINUX
+  using Variant = variant<TransportControlSourceT<RadioSettingsT>, DigitalInputsT<RadioSettingsT>>;
 #else
   using Variant = variant<DigitalInputsT<RadioSettingsT>>;
-#endif // IS_QT
+#endif // IS_LINUX
 #else
 #ifdef IS_QT
   using Variant = variant<QtSettingsControlSourceT<RadioSettingsT>>;

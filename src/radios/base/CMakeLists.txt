@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(radios-base)
 
 set(RADIO_BASE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/radios/base/RadioBase.h
+#        ${CMAKE_CURRENT_LIST_DIR}/include/radios/base/RadioBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/radios/base/RadioBaseT.h
 )
 

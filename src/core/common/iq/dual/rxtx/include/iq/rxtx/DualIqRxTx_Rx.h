@@ -1,17 +1,17 @@
 #pragma once
 
-#include <iq/base/IqRxTxBase.h>
+#include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
 
-#include "settings/model/radios/component/RxTxDualIqBandSettings.h"
+#include "settings/model/radios/iq/RxTxDualIqBandSettings.h"
 
 
 class DualIqRxTx_Rx : public IqSink
 {
 public:
-  DualIqRxTx_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  DualIqRxTx_Rx(const ModeList& modes);
   ~DualIqRxTx_Rx() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);

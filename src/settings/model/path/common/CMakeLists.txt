@@ -15,6 +15,6 @@ target_include_directories(settings-model-path-common PUBLIC
 )
 
 target_link_libraries(settings-model-path-common PUBLIC
-        settings-model-base
+        settings-model-message
         settings-model-proto
 )

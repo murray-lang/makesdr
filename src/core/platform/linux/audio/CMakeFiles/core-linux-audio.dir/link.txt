@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-audio.a "CMakeFiles/core-linux-audio.dir/src/AudioFactoryBase.cpp.o" "CMakeFiles/core-linux-audio.dir/src/AudioInputFactory.cpp.o" "CMakeFiles/core-linux-audio.dir/src/AudioOutputFactory.cpp.o" "CMakeFiles/core-linux-audio.dir/src/AudioInput.cpp.o"
+/usr/bin/ranlib libcore-linux-audio.a

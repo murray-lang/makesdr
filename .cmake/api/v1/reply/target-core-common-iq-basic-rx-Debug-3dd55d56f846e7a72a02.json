@@ -1,0 +1,560 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "src/core/common/iq/basic/rx/libcore-common-iq-basic-rx.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"src/core/common/iq/basic/rx/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 17,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 45,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 63,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 12,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -ffunction-sections -fdata-sections -g -std=gnu++20 -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "ETL_NO_CHECKS"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "FFT_SIZE=2048"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "IS_LINUX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BANDS_PER_CATEGORY=13"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_CATEGORIES=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_LABEL_LENGTH=9"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SINKS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SOURCES=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_INPUT_HANDLERS=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_OUTPUT_HANDLERS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DOTTED_STRING_LENGTH=64"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_FIELD_PATH_LENGTH=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_LINES_PER_DEVICE=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_ID_LENGTH=16"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODES=10"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODE_LABEL_LENGTH=14"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_NAME_LENGTH=7"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_USB_CONTROL_SINKS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PIPELINE_BUFFER_LENGTH=8192"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_DOTTED_STRING_PATHS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/basic/rx/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/samples/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/event/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/config/struct/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/sink/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/control/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/radios/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/proto/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/nanopb"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/radio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/band/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/data/mode/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/rx/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/io/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/iq/source/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/dsp/transforms/hilbert/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/liquid-dsp/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/freertos-liquid-dsp-linux"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/audio/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/audio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/thread/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/thread/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/oscillator/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/dsp/constants/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/radios/iq/basic/common/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/radios/basic/common/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/correction/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/filter/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/dsp/filters/fir/custom/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/dsp/window/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/dsp/transforms/fft/pocket/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/modulation/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/resample/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/iq/pipeline/stage/monitor/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/event/data/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/settings/model/message/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/etl/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/include/x86_64-linux-gnu/qt6/QtCore"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/include/x86_64-linux-gnu/qt6"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-g++"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					2,
+					2
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "protobuf-nanopb-static::@c845ef696169b6be4d76"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-audio-base::@c4ea4fb9add61c91fbb2"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-dsp-constants::@e0b6e1637731c8ff2a30"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-dsp-filters-fir-custom::@bf9ab46d085409a857aa"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-dsp-transforms-fft-pocket::@fb3050b3668b53f80dde"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-dsp-transforms-hilbert::@b40ba9f9b8a636a42cfe"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-dsp-window::@412ca4ef6ea028fa441b"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-event::@92a4dfb796b22d437851"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-base::@a12e1e430f1adc6fe92f"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-io::@66ddd91dec9ec95974e0"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-base::@82d7efd1659cc24cbb09"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-rx::@59ab93cdf46fe9f4b636"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-base::@be420451e1dd0359b160"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-correction::@6957045e5941417d44bf"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-filter::@804e6ebfdab8c9089088"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-modulation::@f789ba649a5f88bf904a"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-monitor::@25940bd8caa1fcbb071e"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-oscillator::@c4575c8b046640288017"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-iq-pipeline-stage-resample::@49ecd94d936590185972"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-samples::@073dc1e0ea8aaa8a1b8e"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-thread::@fa7c9fc5a8b7b70bd036"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-audio::@32ea3e6cb75e660c429a"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-event-data::@897d68f99f0717d33bfb"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-iq-source::@0dfa365a623f1bf881ac"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-liquid-dsp::@ca65faa5245dcbe0a746"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-thread::@f3fb239150a1bf0f36e0"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-control-base::@dadfd76efe4f40b526e1"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-control-sink::@4f14c7fdf5c1515d3702"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-proto::@ca68e4c23759caae5d87"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-band::@ada3252157031d0b73c3"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-mode::@b9c7d95edb51607dd30b"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-data-radio::@08176e4c1cca9a686ad4"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-radios-base::@1479c2e2f252b18083d5"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-radios-basic-common::@84f8639bd15f9f2b500c"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-radios-iq-basic-common::@760b3cf5c0007a24a46f"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "settings-model-message::@d841d3a904cad958d5f4"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "config-struct::@6b88641760919ad0bf90"
+		}
+	],
+	"id" : "core-common-iq-basic-rx::@1084bbce9fbeaf357629",
+	"name" : "core-common-iq-basic-rx",
+	"nameOnDisk" : "libcore-common-iq-basic-rx.a",
+	"paths" : 
+	{
+		"build" : "src/core/common/iq/basic/rx",
+		"source" : "src/core/common/iq/basic/rx"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/iq/basic/rx/include/iq/rx/BasicIqRx.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/common/iq/basic/rx/src/BasicIqRx.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

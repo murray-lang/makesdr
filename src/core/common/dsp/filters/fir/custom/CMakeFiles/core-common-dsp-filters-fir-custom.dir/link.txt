@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-dsp-filters-fir-custom.a "CMakeFiles/core-common-dsp-filters-fir-custom.dir/src/BandPassFirKernel.cpp.o"
+/usr/bin/ranlib libcore-common-dsp-filters-fir-custom.a

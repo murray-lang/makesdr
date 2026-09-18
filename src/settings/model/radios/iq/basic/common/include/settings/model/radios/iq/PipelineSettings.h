@@ -1,5 +1,4 @@
 #pragma once
-#include <settings/model/SettingsBase.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 
 #include <settings/model/radios/basic/WithModeT.h>
@@ -13,7 +12,7 @@ class PipelineSettings :
     makesdr_PipelineSettingsPb_mode_request_tag,
     makesdr_PipelineSettingsPb_mode_tag
     >
-  , public SettingsBase
+  , public IApplyBandDefaults
 {
 public:
 
@@ -34,13 +33,13 @@ public:
   IqCorrectionSettings& iqCorrectionSettings() { return m_iqCorrectionSettings; }
   [[nodiscard]] const IqCorrectionSettings& iqCorrectionSettings() const { return m_iqCorrectionSettings; }
 
-  ResultCode autoComplete(const ModeList& modes)
+  ResultCode autoComplete(const ModeList* modes)
   {
     return autoCompleteMode(modes);
   }
-  ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex, const ModeList& modes)
+  ResultCode autoComplete(const FieldDescriptor& setting, uint32_t startIndex, const ModeList* modes)
   {
-    SettingPath& path = setting.getPath();
+   const FieldPath& path = setting.getPath();
     if (startIndex >= path.size()) {
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }
@@ -49,6 +48,14 @@ public:
     }
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
   }
+  ResultCode applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes) override
+  {
+    setModeRequest(band.defaultMode());
+    ResultCode rc = autoCompleteMode(modes);
+    if (rc != ResultCode::OK) return rc;
+    return m_rfSettings.applyBandDefaults(band, bands, modes);
+  }
+
 
 protected:
   Proto& m_rawSettings;

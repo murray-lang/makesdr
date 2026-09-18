@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-iq-dual-split.a "CMakeFiles/settings-model-radios-iq-dual-split.dir/src/SplitBandDualIqRxTxSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-dual-split.dir/src/SplitBandDualIqRxTxShortcutExpander.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-iq-dual-split.a

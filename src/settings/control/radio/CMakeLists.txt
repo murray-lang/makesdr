@@ -43,3 +43,7 @@ target_link_libraries(settings-control-radio INTERFACE
 #target_include_directories(settings-control-radio PRIVATE
 #        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/include
 #)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()

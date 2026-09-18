@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/common/dsp/transforms/fft/liquid/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-common-dsp-transforms-fft-liquid::@50c6044ef43e29684545",
+	"name" : "core-common-dsp-transforms-fft-liquid",
+	"paths" : 
+	{
+		"build" : "src/core/common/dsp/transforms/fft/liquid",
+		"source" : "src/core/common/dsp/transforms/fft/liquid"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/dsp/transforms/fft/liquid/include/dsp/transforms/fft/Fft.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

@@ -6,32 +6,46 @@ RxTxDualIqActiveBandSettings::RxTxDualIqActiveBandSettings(Proto& raw)
 {
 }
 
-IBandSettings*
-RxTxDualIqActiveBandSettings::focusBand()
+RxTxDualIqActiveBandSettings::BandSettings*
+RxTxDualIqActiveBandSettings::focusBandSettings()
 {
   return &m_focusBand;
 }
 
 ResultCode
-RxTxDualIqActiveBandSettings::autoComplete(const RadioLookup& lookup, RxTxDualIqBandSettingsCache& cache)
+RxTxDualIqActiveBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex)
 {
-  return m_focusBand.autoComplete(lookup, cache);
+  const FieldPath& path = settingUpdate.descriptor().getPath();
+  if (startingAtIndex >= path.size()) {
+    return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
+  }
+  if (path[startingAtIndex] == makesdr_RxTxDualIqActiveBandSettingsPb_focus_band_tag) {
+    return m_focusBand.updateIndirectField(settingUpdate, startingAtIndex + 1);
+  }
+  return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
+}
+
+ResultCode
+RxTxDualIqActiveBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, RxTxDualIqBandSettingsCache* cache)
+{
+  return m_focusBand.autoComplete(bands, modes, cache);
 }
 
 ResultCode
 RxTxDualIqActiveBandSettings::autoComplete(
-  SettingDescriptor& setting,
+  const FieldDescriptor& setting,
   uint32_t startIndex,
-  const RadioLookup& lookup,
-  RxTxDualIqBandSettingsCache& cache
+  const BandCategoryList* bands,
+  const ModeList* modes,
+  RxTxDualIqBandSettingsCache* cache
   )
 {
-  SettingPath& path = setting.getPath();
+  const FieldPath& path = setting.getPath();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   if (path[startIndex] == makesdr_RxTxDualIqActiveBandSettingsPb_focus_band_tag) {
-    return m_focusBand.autoComplete(setting, startIndex + 1, lookup, cache);
+    return m_focusBand.autoComplete(setting, startIndex + 1, bands, modes, cache);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
 }

@@ -6,13 +6,13 @@
 #include <gpio/service/Gpio.h>
 #include <gpio/service/GpioOutputLinesSource.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/SettingDescriptor.h>
-#include <settings/model/SettingUpdate.h>
-#include <settings/model/SettingUpdateSink.h>
-#include <settings/model/ResolveDottedStringFunc.h>
+#include <settings/model/message/FieldDescriptor.h>
+#include <settings/model/message/FieldUpdate.h>
+#include <settings/model/message/FieldUpdateSink.h>
+#include <settings/model/message/ResolveDottedStringFunc.h>
 
 template <typename RadioSettingsT>
-class DigitalOutputT : public GpioLines, public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
+class DigitalOutputT : public GpioLines, public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink
 {
 public:
   DigitalOutputT()
@@ -67,7 +67,7 @@ public:
   // to respond here as well would be circular.
   ResultCode ptt(bool on) override { return ResultCode::OK;};
 
-  ResultCode applySettingUpdate(const SettingUpdate& setting, bool final) override
+  ResultCode applyFieldUpdate(const FieldUpdate& setting) override
   {
     if (setting.path() == m_settingDescriptor.getPath()) {
       bool value = get<bool>(setting.value());
@@ -82,6 +82,6 @@ public:
   ResultCode setValue(bool value) { return m_linesRequest.lineWriter(m_lines, value); }
 
 protected:
-  SettingDescriptor m_settingDescriptor;
+  FieldDescriptor m_settingDescriptor;
   GpioOutputLinesRequest m_linesRequest;
 };

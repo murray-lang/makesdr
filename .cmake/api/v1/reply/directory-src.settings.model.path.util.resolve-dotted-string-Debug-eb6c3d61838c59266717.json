@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/settings/model/path/util/resolve-dotted-string",
+		"source" : "src/settings/model/path/util/resolve-dotted-string"
+	}
+}

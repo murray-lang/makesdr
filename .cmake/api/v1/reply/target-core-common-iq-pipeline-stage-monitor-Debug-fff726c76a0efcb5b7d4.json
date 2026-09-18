@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/common/iq/pipeline/stage/monitor/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-common-iq-pipeline-stage-monitor::@25940bd8caa1fcbb071e",
+	"name" : "core-common-iq-pipeline-stage-monitor",
+	"paths" : 
+	{
+		"build" : "src/core/common/iq/pipeline/stage/monitor",
+		"source" : "src/core/common/iq/pipeline/stage/monitor"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/iq/pipeline/stage/monitor/include/iq/monitor/MonitorStageT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

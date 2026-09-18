@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
   RadioControlClient radioControlSink;
 
   radioControl.connectRadioSettingsSink(radioControlSink);
-  radioControl.connectSettingUpdateSink(radioControlSink);
+  radioControl.connectFieldUpdateSink(radioControlSink);
 
   radioControlSink.connectRadioSettingsSink(radioControl);
 

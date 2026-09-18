@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/settings/control/hal/usb/SoftRock",
+		"source" : "src/settings/control/hal/usb/SoftRock"
+	}
+}

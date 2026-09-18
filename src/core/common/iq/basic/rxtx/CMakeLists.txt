@@ -24,6 +24,6 @@ target_link_libraries(core-common-iq-basic-rxtx PUBLIC
         core-common-iq-io
         core-common-iq-pipeline-rx
         core-common-iq-pipeline-tx
-        settings-model-radio-iq-basic-rxtx
+        settings-model-radios-iq-basic-rxtx
 
 )

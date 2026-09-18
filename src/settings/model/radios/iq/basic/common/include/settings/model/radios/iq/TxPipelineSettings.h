@@ -16,10 +16,10 @@ public:
   PipelineSettings& base() { return m_base; }
   [[nodiscard]] const PipelineSettings& base() const { return m_base; }
 
-  ResultCode autoComplete(const ModeList& modes) { return m_base.autoComplete(modes); }
-  ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex, const ModeList& modes)
+  ResultCode autoComplete(const ModeList* modes) { return m_base.autoComplete(modes); }
+  ResultCode autoComplete(const FieldDescriptor& setting, uint32_t startIndex, const ModeList* modes)
   {
-    SettingPath& path = setting.getPath();
+    const FieldPath& path = setting.getPath();
     if (startIndex >= path.size()) {
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }

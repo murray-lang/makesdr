@@ -15,6 +15,7 @@ namespace Config::GpioLines
     fields.direction = json["direction"].as<const char *>();
     fields.bias = json["bias"].is<JsonVariantConst>() ? json["bias"].as<const char *>() : "none";
     fields.edge = json["edge"].is<JsonVariantConst>() ? json["edge"].as<const char *>() : "rising";
+
     return ResultCode::OK;
   }
 }

@@ -16,7 +16,7 @@ target_include_directories(settings-model-radios-iq-dual-rxtx PUBLIC
 
 set(DUAL_IQ_RXTX_LIBS
         settings-model-radios-base
-        settings-model-radios-iq-dual-component
+        settings-model-radios-iq-dual-common
         settings-model-data-radio
 )
 

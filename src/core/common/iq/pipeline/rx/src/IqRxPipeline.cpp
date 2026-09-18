@@ -3,17 +3,17 @@
 #define DEFAULT_SAMPLE_RATE 48000
 
 
-IqRxPipeline::IqRxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : IqPipeline(eventTargetProvider, radioLookup)
-  , m_amDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_AMN), DEFAULT_SAMPLE_RATE)
-  , m_fmnDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
-  , m_fmwDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
-  , m_ssbDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
-  , m_cwDemodulator(*radioLookup.getModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
+IqRxPipeline::IqRxPipeline(const ModeList& modes)
+  : IqPipeline(modes)
+  , m_amDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_AMN), DEFAULT_SAMPLE_RATE)
+  , m_fmnDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
+  , m_fmwDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
+  , m_ssbDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
+  , m_cwDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
   , m_pDemodulator(nullptr)
-  , m_monitorStage(m_eventTargetProvider)
+  // , m_monitorStage(m_eventTargetProvider)
 {
-  m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
+  // m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
   appendStage(&m_iqCorrection);
   appendStage(&m_oscillatorMixer);
   appendStage(&m_ifFilter);

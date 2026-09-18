@@ -1,8 +1,8 @@
 #include "iq/rxtx/DualIqRxTx_Rx.h"
 
-DualIqRxTx_Rx::DualIqRxTx_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : m_rxPipelineA(eventTargetProvider, radioLookup)
-  , m_rxPipelineB(eventTargetProvider, radioLookup)
+DualIqRxTx_Rx::DualIqRxTx_Rx(const ModeList& modes)
+  : m_rxPipelineA(modes)
+  , m_rxPipelineB(modes)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {

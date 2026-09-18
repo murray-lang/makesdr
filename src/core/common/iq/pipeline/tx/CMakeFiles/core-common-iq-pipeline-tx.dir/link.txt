@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-pipeline-tx.a "CMakeFiles/core-common-iq-pipeline-tx.dir/src/IqTxPipeline.cpp.o"
+/usr/bin/ranlib libcore-common-iq-pipeline-tx.a

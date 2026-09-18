@@ -20,5 +20,6 @@ target_link_libraries(settings-control-qt-source INTERFACE
         settings-control-base
         settings-control-source
         settings-model-radios-base
-        settings-control-qt-event-targets
+        core-linux-event-data
+
 )

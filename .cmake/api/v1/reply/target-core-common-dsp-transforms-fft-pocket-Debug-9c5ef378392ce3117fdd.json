@@ -1,0 +1,58 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/common/dsp/transforms/fft/pocket/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 10,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-common-dsp-transforms-fft-pocket::@fb3050b3668b53f80dde",
+	"name" : "core-common-dsp-transforms-fft-pocket",
+	"paths" : 
+	{
+		"build" : "src/core/common/dsp/transforms/fft/pocket",
+		"source" : "src/core/common/dsp/transforms/fft/pocket"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/dsp/transforms/fft/pocket/include/dsp/transforms/fft/Fft.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/dsp/transforms/fft/pocket/include/dsp/transforms/fft/pocketfft_hdronly.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

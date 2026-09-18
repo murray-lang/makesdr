@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/widgets/QtBandDialog.h"
+#include "ui/qt/widgets/QtBandDialog.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -7,17 +7,12 @@
 #include <QMouseEvent>
 
 #include "ui_QtBandDialog.h"
-#include <settings/model/lookup/band/BandList.h>
-#include <settings/model/lookup/band/mostBandCategories.h>
-#include <settings/model/radio/ActiveBandSettings.h>
-#include <settings/model/radio/BandSettings.h>
-#include <settings/model/lookup/band/BandList.h>
-// #include "core/radio/qt/QtRadioClient.h"
+#include <settings/model/data/band/BandList.h>
 
 
 
 QtBandDialog::QtBandDialog(
-  BandCategoryList& bandCategories,
+  const BandCategoryList* bandCategories,
   const char * selectedBandName,
   BandUpdateCallback& bandUpdateCallback,
   QWidget *parent
@@ -49,7 +44,7 @@ void
 QtBandDialog::updateTabs(const char * bandName)
 {
   if (bandName != nullptr) {
-    int categoryIndex = m_bandCategories.findCategoryIndexOfBand(bandName);
+    int categoryIndex = m_bandCategories->findCategoryIndexOfBand(bandName);
     if (categoryIndex >= 0) {
       ui->tabWidget->setCurrentIndex(categoryIndex);
     }
@@ -59,7 +54,7 @@ QtBandDialog::updateTabs(const char * bandName)
 void
 QtBandDialog::updateBandButtons(const char * bandName)
 {
-  const Band::Proto* bandProto = m_bandCategories.findBand(bandName);
+  const Band::Proto* bandProto = m_bandCategories->findBand(bandName);
 
   if (bandProto != nullptr) {
     Band band(*bandProto);
@@ -84,12 +79,12 @@ QtBandDialog::updateBandButtons(const Band* band)
 void
 QtBandDialog::addCategoryTabs(const char * selectedBandName)
 {
-  const BandCategory* selectedCategory = m_bandCategories.findCategoryOfBand(selectedBandName);
+  const BandCategory* selectedCategory = m_bandCategories->findCategoryOfBand(selectedBandName);
 
   int selectedTabIndex = 0;
   int currentTabIndex = 0;
 
-  const BandCategorySpan& categories = m_bandCategories.categories();
+  const BandCategorySpan& categories = m_bandCategories->categories();
   ui->tabWidget->clear();
   for (const auto& category : categories) {
     std::string nextCategoryName = category.name;

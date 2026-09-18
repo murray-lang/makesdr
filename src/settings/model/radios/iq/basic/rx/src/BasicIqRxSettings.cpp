@@ -4,8 +4,8 @@
 #include <settings/model/path/resolveDottedString.h>
 #endif
 
-BasicIqRxSettings::BasicIqRxSettings(const makesdr_RadioLookupPb& meta, BasicIqBandSettingsCache& cache)
-  : BasicIqRxSettingsBaseType(meta, cache)
+BasicIqRxSettings::BasicIqRxSettings()
+  : BasicIqRxSettingsBaseType()
 {
 }
 
@@ -13,7 +13,7 @@ BasicIqRxSettings::BasicIqRxSettings(const makesdr_RadioLookupPb& meta, BasicIqB
 ResolveDottedStringFunc
 BasicIqRxSettings::resolveDottedStringFunc()
 {
-  return [](const char* dottedPath, SettingDescriptor& descriptor) -> ResultCode {
+  return [](const char* dottedPath, FieldDescriptor& descriptor) -> ResultCode {
     return ::resolveDottedString(dottedPath, basic_iq_rx_radio_fields, descriptor);
   };
 }

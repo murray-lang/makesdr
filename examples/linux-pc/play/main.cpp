@@ -39,49 +39,49 @@ int main()
   // if (rc != ResultCode::OK) return -1;
   // // ResultCode rc = setMode(radioSettings, SplitBandId::One, PipelineId::A, Mode::Type::FMN);
   // // ResultCode rc = radioSettings.setFocusMode(Mode::Type::FMN);
-  // SettingPath band1BandPath;
+  // FieldPath band1BandPath;
   // bool isIndirect = false;
   // AutoCompleteTrigger trigger;
   // rc = RadioSettings::resolveDottedPath("active_bands.band_1.band_request", band1BandPath, &isIndirect, &trigger);
   // if (rc != ResultCode::OK) return -1;
   //
   // NameString band1Name = "160m";
-  // SettingUpdate band1RequestUpdate(band1BandPath, band1Name, SettingUpdate::VALUE, isIndirect, trigger);
+  // FieldUpdate band1RequestUpdate(band1BandPath, band1Name, FieldUpdate::VALUE, isIndirect, trigger);
   //
   // rc = radioSettings.applyUpdate(band1RequestUpdate);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingPath band2BandPath;
+  // FieldPath band2BandPath;
   // rc = RadioSettings::resolveDottedPath("active_bands.band_2.band_request", band2BandPath, &isIndirect, &trigger);
   // if (rc != ResultCode::OK) return -1;
   //
   // NameString band2Name = "30m";
-  // SettingUpdate band2RequestUpdate(band2BandPath, band2Name, SettingUpdate::VALUE, isIndirect, trigger);
+  // FieldUpdate band2RequestUpdate(band2BandPath, band2Name, FieldUpdate::VALUE, isIndirect, trigger);
   //
   // rc = radioSettings.applyUpdate(band2RequestUpdate);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingPath splitPath;
+  // FieldPath splitPath;
   // rc = RadioSettings::resolveDottedPath("active_bands.is_split", splitPath, &isIndirect, &trigger);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingUpdate splitUpdate(splitPath, true, SettingUpdate::VALUE, isIndirect, trigger);
+  // FieldUpdate splitUpdate(splitPath, true, FieldUpdate::VALUE, isIndirect, trigger);
   // rc = radioSettings.applyUpdate(splitUpdate);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingPath multiPipelinePath;
+  // FieldPath multiPipelinePath;
   // rc = RadioSettings::resolveDottedPath("active_bands.focus_band.is_multi_pipeline", multiPipelinePath, &isIndirect, &trigger);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingUpdate multiPipelineUpdate(multiPipelinePath, true, SettingUpdate::VALUE, isIndirect, trigger);
+  // FieldUpdate multiPipelineUpdate(multiPipelinePath, true, FieldUpdate::VALUE, isIndirect, trigger);
   // rc = radioSettings.applyUpdate(multiPipelineUpdate);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingPath frequencyPath;
+  // FieldPath frequencyPath;
   // rc = RadioSettings::resolveDottedPath("active_bands.focus_band.focus_pipeline.base.rf.centre_frequency", frequencyPath, &isIndirect, &trigger);
   // if (rc != ResultCode::OK) return -1;
   //
-  // SettingUpdate frequencyUpdate(frequencyPath, 1, SettingUpdate::DELTA, isIndirect, trigger);
+  // FieldUpdate frequencyUpdate(frequencyPath, 1, FieldUpdate::DELTA, isIndirect, trigger);
   // rc = radioSettings.applyUpdate(frequencyUpdate);
   // if (rc != ResultCode::OK) return -1;
   return 0;

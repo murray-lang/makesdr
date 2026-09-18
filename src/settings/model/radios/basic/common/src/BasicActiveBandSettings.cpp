@@ -1,5 +1,5 @@
-#include <settings/model/IBandSettings.h>
-#include <settings/model/SettingDescriptor.h>
+#include <settings/model/radios/IBandSettings.h>
+#include <settings/model/message/FieldDescriptor.h>
 #include <settings/model/radios/basic/BasicActiveBandSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 
@@ -9,7 +9,8 @@ BasicActiveBandSettings::BasicActiveBandSettings(makesdr_BasicActiveBandSettings
 {
 }
 
-IBandSettings* BasicActiveBandSettings::focusBand()
+BasicActiveBandSettings::BandSettings*
+BasicActiveBandSettings::focusBandSettings()
 {
   if (m_rawSettings.has_focus_band) {
     return &m_bandSettings;
@@ -17,32 +18,35 @@ IBandSettings* BasicActiveBandSettings::focusBand()
   return nullptr;
 }
 
-const IBandSettings*
-BasicActiveBandSettings::focusBand() const
+const BasicActiveBandSettings::BandSettings*
+BasicActiveBandSettings::focusBandSettings() const
 {
-  return const_cast<BasicActiveBandSettings*>(this)->focusBand();
+  return const_cast<BasicActiveBandSettings*>(this)->focusBandSettings();
 }
 
+
 ResultCode
-BasicActiveBandSettings::autoComplete(const RadioLookup& lookup, BasicBandSettingsCache& cache)
+BasicActiveBandSettings::autoComplete(
+  const BandCategoryList* bands, const ModeList* modes, BasicBandSettingsCache* cache)
 {
-  return m_bandSettings.autoComplete(lookup, cache);
+  return m_bandSettings.autoComplete(bands, modes, cache);
 }
 
 ResultCode
 BasicActiveBandSettings::autoComplete(
-  SettingDescriptor& setting,
+  const FieldDescriptor& setting,
   uint32_t startIndex,
-  const RadioLookup& lookup,
-  BasicBandSettingsCache& cache
+  const BandCategoryList* bands,
+  const ModeList* modes,
+  BasicBandSettingsCache* cache
   )
 {
-  SettingPath& path = setting.getPath();
+  const FieldPath& path = setting.getPath();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
   if (path[startIndex] == makesdr_BasicActiveBandSettingsPb_focus_band_tag) {
-    return m_bandSettings.autoComplete(setting, startIndex + 1, lookup, cache);
+    return m_bandSettings.autoComplete(setting, startIndex + 1, bands, modes, cache);
   }
   return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
 }

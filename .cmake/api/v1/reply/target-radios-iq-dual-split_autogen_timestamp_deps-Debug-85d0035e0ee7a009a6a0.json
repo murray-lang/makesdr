@@ -1,0 +1,54 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/radios/iq/dual/split/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "core-common-iq-dual-split::@0c3cb694c17a8e88a977"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-radio::@fea1638bae2a75222c63"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-qt-event-targets::@e48ec22a73e7bc6dc7dc"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-control-qt-sink::@c6cd9b1d64632fa45437"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "settings-model-radios-iq-dual-split::@f2eff8a6d4d177d74aab"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "radios-base::@965a8b0b6ebd055d0fab"
+		}
+	],
+	"id" : "radios-iq-dual-split_autogen_timestamp_deps::@12e83c1175dfa8c4dfbb",
+	"isGeneratorProvided" : true,
+	"name" : "radios-iq-dual-split_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "src/radios/iq/dual/split",
+		"source" : "src/radios/iq/dual/split"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

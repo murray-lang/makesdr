@@ -22,3 +22,6 @@
 [submodule "third-party/liquid-dsp"]
 	path = third-party/liquid-dsp
 	url = https://github.com/jgaeddert/liquid-dsp.git
+[submodule "third-party/googletest"]
+	path = third-party/googletest
+	url = https://github.com/google/googletest.git

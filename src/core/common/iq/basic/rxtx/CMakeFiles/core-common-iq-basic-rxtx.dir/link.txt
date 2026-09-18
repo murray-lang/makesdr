@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-basic-rxtx.a "CMakeFiles/core-common-iq-basic-rxtx.dir/src/BasicIqRxTx.cpp.o" "CMakeFiles/core-common-iq-basic-rxtx.dir/src/BasicIqRxTx_Rx.cpp.o"
+/usr/bin/ranlib libcore-common-iq-basic-rxtx.a

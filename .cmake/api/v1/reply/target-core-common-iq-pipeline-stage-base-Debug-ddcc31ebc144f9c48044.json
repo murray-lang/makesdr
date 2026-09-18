@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/common/iq/pipeline/stage/base/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 5,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-common-iq-pipeline-stage-base::@be420451e1dd0359b160",
+	"name" : "core-common-iq-pipeline-stage-base",
+	"paths" : 
+	{
+		"build" : "src/core/common/iq/pipeline/stage/base",
+		"source" : "src/core/common/iq/pipeline/stage/base"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/common/iq/pipeline/stage/base/include/iq/pipeline/stage/IqPipelineStage.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

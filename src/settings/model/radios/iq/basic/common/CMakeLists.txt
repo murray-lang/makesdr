@@ -25,7 +25,7 @@ target_include_directories(settings-model-radios-iq-basic-common PUBLIC
 )
 
 target_link_libraries(settings-model-radios-iq-basic-common PUBLIC
-        settings-model-base
+        settings-model-message
         settings-model-data-mode
         settings-model-radios-basic-common
 )

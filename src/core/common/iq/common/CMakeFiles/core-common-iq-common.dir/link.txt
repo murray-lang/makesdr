@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-common.a "CMakeFiles/core-common-iq-common.dir/src/IqTransmitter.cpp.o"
+/usr/bin/ranlib libcore-common-iq-common.a

@@ -1,14 +1,14 @@
 #pragma once
 
 #include <ResultCode.h>
-#include <settings/model/SettingDescriptor.h>
+#include <settings/model/message/FieldDescriptor.h>
 #include <settings/model/radios/basic/WithBandT.h>
 #include <settings/model/radios/basic/WithModeT.h>
-#include <settings/model/BandRfSettings.h>
-#include <settings/model/IfSettings.h>
-#include <settings/model/AgcSpeed.h>
-#include <settings/model/Mode.h>
-#include <settings/model/IBandSettings.h>
+#include <settings/model/radios/BandRfSettings.h>
+#include <settings/model/radios/IfSettings.h>
+#include <settings/model/radios/AgcSpeed.h>
+#include <settings/model/radios/Mode.h>
+#include <settings/model/radios/IBandSettings.h>
 
 #include <settings/model/data/radio/RadioLookup.h>
 
@@ -16,7 +16,8 @@
 
 
 class BasicBandSettings :
-  public WithBandT<
+  public IBandSettings
+  , public WithBandT<
     makesdr_BasicBandSettingsPb,
     makesdr_BasicBandSettingsPb_band_request_tag,
     makesdr_BasicBandSettingsPb_band_tag,
@@ -27,10 +28,12 @@ class BasicBandSettings :
     makesdr_BasicBandSettingsPb_mode_request_tag,
     makesdr_BasicBandSettingsPb_mode_tag
   >
-  , public IBandSettings
 {
 public:
   BasicBandSettings(makesdr_BasicBandSettingsPb& rawSettings);
+
+  [[nodiscard]] const Band * getBand() const override { return &m_band; }
+  [[nodiscard]] const Mode* getFocusMode() const override { return &m_mode; }
 
   [[nodiscard]] bool hasRfSettings() const override { return m_rawSettings.has_rf; }
   BandRfSettings* rfSettings() override { return &m_rfSettings; }
@@ -43,13 +46,24 @@ public:
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
   [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }
 
-  ResultCode autoComplete(const RadioLookup& lookup, BasicBandSettingsCache& cache);
+  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) override
+  {
+    return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID; // No indirect fields in "Basic" classes
+  }
+
   ResultCode autoComplete(
-    SettingDescriptor& setting,
+    const BandCategoryList* bands, const ModeList* modes, BasicBandSettingsCache* cache);
+
+  ResultCode autoComplete(
+    const FieldDescriptor& setting,
     uint32_t startIndex,
-    const RadioLookup& lookup,
-    BasicBandSettingsCache& cache
+    const BandCategoryList* bands,
+    const ModeList* modes,
+    BasicBandSettingsCache* cache
     );
+
+  ResultCode applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes) override;
+
 protected:
   makesdr_BasicBandSettingsPb& m_rawSettings;
 

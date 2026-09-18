@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/settings/model/path/radios/iq/dual/split/dotted-string-lookup",
+		"source" : "src/settings/model/path/radios/iq/dual/split/dotted-string-lookup"
+	}
+}

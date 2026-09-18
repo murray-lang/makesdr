@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-pipeline-stage-oscillator.a "CMakeFiles/core-common-iq-pipeline-stage-oscillator.dir/src/Oscillator.cpp.o"
+/usr/bin/ranlib libcore-common-iq-pipeline-stage-oscillator.a

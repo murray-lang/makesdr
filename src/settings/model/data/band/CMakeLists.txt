@@ -8,7 +8,6 @@ set(BAND_LOOKUP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/data/band/mostBandCategories.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/data/band/BandTypes.h
 
-        ${CMAKE_CURRENT_LIST_DIR}/src/BandCategoryList.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/BandList.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/mostBandCategories.cpp
 )
@@ -22,5 +21,6 @@ target_include_directories(settings-model-data-band PUBLIC
 
 target_link_libraries(settings-model-data-band PUBLIC
         settings-model-proto
+        settings-model-message
         etl::etl
 )

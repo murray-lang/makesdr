@@ -24,6 +24,6 @@ target_link_libraries(core-common-iq-dual-rxtx PUBLIC
         core-common-iq-pipeline-rx
         core-common-iq-pipeline-tx
         core-common-audio-mixer
-        settings-model-radio-iq-dual-rxtx
+        settings-model-radios-iq-dual-rxtx
 
 )

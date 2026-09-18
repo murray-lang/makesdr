@@ -2,9 +2,9 @@
 
 #include <ResultCode.h>
 #include "PipelineSettings.h"
-#include <settings/model/SettingPath.h>
-#include <settings/model/AgcSpeed.h>
-#include <settings/model/SettingDescriptor.h>
+#include <settings/model/message/FieldPath.h>
+#include <settings/model/radios/AgcSpeed.h>
+#include <settings/model/message/FieldDescriptor.h>
 #include <settings/model/data/mode/ModeList.h>
 // #include <settings/model/IfSettings.h>
 
@@ -29,10 +29,10 @@ public:
   [[nodiscard]] bool hasAgcSpeed() const { return m_rawSettings.has_agc_speed; }
   [[nodiscard]] AgcSpeed agcSpeed() const { return static_cast<AgcSpeed>(m_rawSettings.agc_speed); }
 
-  ResultCode autoComplete(const ModeList& modes) { return m_base.autoComplete(modes); }
-  ResultCode autoComplete(SettingDescriptor& setting, uint32_t startIndex, const ModeList& modes)
+  ResultCode autoComplete(const ModeList* modes) { return m_base.autoComplete(modes); }
+  ResultCode autoComplete(const FieldDescriptor& setting, uint32_t startIndex, const ModeList* modes)
   {
-    SettingPath& path = setting.getPath();
+    const FieldPath& path = setting.getPath();
     if (startIndex >= path.size()) {
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }

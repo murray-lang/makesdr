@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/QtNumberReadout.h"
+#include "ui/qt/widgets/QtNumberReadout.h"
 
 #include <QLabel>
 #include <QVBoxLayout>

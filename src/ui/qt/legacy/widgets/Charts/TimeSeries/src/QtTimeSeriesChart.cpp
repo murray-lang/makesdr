@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/charts/QtTimeSeriesChart.h"
+#include "../include/ui/qt/widgets/QtTimeSeriesChart.h"
 #include <QValueAxis>
 #include <QGraphicsLayout>
 
