@@ -1,0 +1,330 @@
+{
+	"archive" : {},
+	"artifacts" : 
+	[
+		{
+			"path" : "src/core/platform/linux/audio/libcore-linux-audio.a"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"add_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"src/core/platform/linux/audio/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 72,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 78,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 45,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 63,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 73,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -ffunction-sections -fdata-sections -g -std=gnu++20 -fdiagnostics-color=always"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 2,
+					"define" : "ETL_NO_CHECKS"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "FFT_SIZE=2048"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "IS_LINUX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BANDS_PER_CATEGORY=13"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_CATEGORIES=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_BAND_LABEL_LENGTH=9"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SINKS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_CONTROL_SOURCES=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_INPUT_HANDLERS=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DIGITAL_OUTPUT_HANDLERS=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_DOTTED_STRING_LENGTH=64"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_FIELD_PATH_LENGTH=8"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_GPIO_LINES_PER_DEVICE=4"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_ID_LENGTH=16"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODES=10"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_MODE_LABEL_LENGTH=14"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_NAME_LENGTH=7"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "MAX_USB_CONTROL_SINKS=1"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "PIPELINE_BUFFER_LENGTH=8192"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "USE_DOTTED_STRING_PATHS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/audio/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/config/struct/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/audio/base/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/samples/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/platform/linux/thread/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/murray/dev/code/sdr/makesdr/src/core/common/thread/include"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/etl/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "core-common-audio-base::@c4ea4fb9add61c91fbb2"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-samples::@073dc1e0ea8aaa8a1b8e"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-common-thread::@fa7c9fc5a8b7b70bd036"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "core-linux-thread::@f3fb239150a1bf0f36e0"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "config-struct::@6b88641760919ad0bf90"
+		}
+	],
+	"id" : "core-linux-audio::@32ea3e6cb75e660c429a",
+	"name" : "core-linux-audio",
+	"nameOnDisk" : "libcore-linux-audio.a",
+	"paths" : 
+	{
+		"build" : "src/core/platform/linux/audio",
+		"source" : "src/core/platform/linux/audio"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				6,
+				7,
+				8,
+				9
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/AudioFactoryBase.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/AudioInputFactory.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/AudioOutputFactory.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/RtAudioDriver.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/AudioInput.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/audio/include/audio/AudioOutput.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/platform/linux/audio/src/AudioFactoryBase.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/platform/linux/audio/src/AudioInputFactory.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/platform/linux/audio/src/AudioOutputFactory.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/core/platform/linux/audio/src/AudioInput.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "STATIC_LIBRARY"
+}

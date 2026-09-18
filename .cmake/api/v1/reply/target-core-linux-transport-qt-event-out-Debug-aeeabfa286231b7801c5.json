@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/platform/linux/transport/qt/event/out/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-linux-transport-qt-event-out::@ad5d6d305479d27fe035",
+	"name" : "core-linux-transport-qt-event-out",
+	"paths" : 
+	{
+		"build" : "src/core/platform/linux/transport/qt/event/out",
+		"source" : "src/core/platform/linux/transport/qt/event/out"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/transport/qt/event/out/include/transport/out/QtTransportOutT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

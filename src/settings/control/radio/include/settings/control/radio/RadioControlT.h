@@ -1,9 +1,10 @@
 #pragma once
 
 #include <CrossPlatformTypes.h>
-#include <settings/model/radios/base/RadioSettingsSinkT.h>
-#include <settings/model/radios/base/RadioSettingsSourceT.h>
-#include <settings/model/base/SettingUpdateSource.h>
+#include <settings/model/radios/RadioSettingsSinkT.h>
+#include <settings/model/radios/RadioSettingsSourceT.h>
+#include <settings/model/message/FieldUpdateSource.h>
+#include <settings/model/message/ResolveDottedStringFunc.h>
 
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkFactoryT.h>
@@ -26,11 +27,13 @@ template <typename RadioSettingsT>
 class RadioControlT :
   public RadioSettingsSourceT<RadioSettingsT>,
   public RadioSettingsSinkT<RadioSettingsT>,
-  public SettingUpdateSink,
-  public SettingUpdateSource,
+  public FieldUpdateSink,
+  public FieldUpdateSource,
   public PttSink
 {
 public:
+
+  using SettingsType = RadioSettingsT;
 
 #ifdef USE_ETL
 
@@ -43,8 +46,6 @@ public:
 #endif
 
 
-
-
   RadioControlT()
     : m_controlSinks()
    , m_controlSources()
@@ -53,12 +54,12 @@ public:
   }
   ~RadioControlT() override = default;
 
-  ResultCode configure(const Config::Control::Fields&config)
+  ResultCode configure(const Config::Control::Fields& config, ResolveDottedStringFunc resolver)
   {
     ResultCode rc = ResultCode::OK;
     for (auto& controllerConfig : config.sinks) {
       m_controlSinks.emplace_back();
-      ResultCode rc = SettingsControlSinkFactoryT<RadioSettingsT>::create(controllerConfig, m_controlSinks.back());
+      ResultCode rc = SettingsControlSinkFactoryT<RadioSettingsT>::create(controllerConfig, resolver, m_controlSinks.back());
       if (rc != ResultCode::OK) {
         return rc;
       }
@@ -67,17 +68,17 @@ public:
     for (auto& controllerConfig : config.sources) {
       m_controlSources.emplace_back();
       // SettingsControlSourceVariant source;
-      rc = SettingsControlSourceFactoryT<RadioSettingsT>::create(controllerConfig, m_controlSources.back());
+      rc = SettingsControlSourceFactoryT<RadioSettingsT>::create(controllerConfig, resolver, m_controlSources.back());
       if (rc == ResultCode::OK) {
         rc = visit([this](auto&& s) -> ResultCode {
           using T = decay_t<decltype(s)>;
           if constexpr (!is_same_v<T, monostate>) {
             s.connectRadioSettingsSink(&m_internalSink);
-            s.connectSettingUpdateSink(&m_internalSink);
+            s.connectFieldUpdateSink(&m_internalSink);
             return ResultCode::OK;
           } else
           {
-            return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES_DEFINED;
+            return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES_DEFINED;
           }
         }, m_controlSources.back());
         if (rc == ResultCode::OK) {
@@ -96,16 +97,15 @@ public:
     for (auto& pSink : m_controlSinks) {
       ResultCode rc = visit([&pSink](auto&& sink) -> ResultCode
       {
-
         using T = decay_t<decltype(sink)>;
         if constexpr (is_same_v<T, monostate>) {
-          return ResultCode::ERR_SETTINGS_CONTROL_NO_SINKS;
+          return ResultCode::ERR_SETTING_CONTROL_NO_SINKS;
         } else {
           if (sink.discover()) {
             return sink.open();
           }
         }
-        return ResultCode::ERR_SETTINGS_CONTROL_SINK_DISCOVER;
+        return ResultCode::ERR_SETTING_CONTROL_SINK_DISCOVER;
       }, pSink);
       if (rc != ResultCode::OK) {
         return rc;
@@ -117,18 +117,17 @@ public:
       {
         using T = decay_t<decltype(source)>;
         if constexpr (is_same_v<T, monostate>) {
-          return ResultCode::ERR_SETTINGS_CONTROL_NO_SOURCES;
+          return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES;
         } else {
           if (source.discover()) {
             return source.open();
           }
-          return ResultCode::ERR_SETTINGS_CONTROL_SOURCE_DISCOVER;
+          return ResultCode::ERR_SETTING_CONTROL_SOURCE_DISCOVER;
         }
       }, pSource);
       if (rc != ResultCode::OK) {
         return rc;
       }
-
     }
     return ResultCode::OK;
   }
@@ -148,12 +147,13 @@ public:
     }
     return ResultCode::OK;
   }
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
+
+  ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override
   {
     for (auto& sinkVar : m_controlSinks) {
-      const ResultCode rc = visit([&settingDelta, &final] (auto&& sink) -> ResultCode
+      const ResultCode rc = visit([&settingDelta] (auto&& sink) -> ResultCode
       {
-        return sink.applySettingUpdate(settingDelta, final);
+        return sink.applyFieldUpdate(settingDelta);
       }, sinkVar);
       if (rc != ResultCode::OK) {
         return rc;
@@ -165,12 +165,12 @@ public:
 
   void connectRadioSettingsSink(RadioSettingsSinkT<RadioSettingsT>* sink) override
   {
-    m_externalSettingsSink.reset(sink);
+    m_externalSettingsSink = sink;
   }
 
-  void connectSettingUpdateSink(SettingUpdateSink* sink) override
+  void connectFieldUpdateSink(FieldUpdateSink* sink) override
   {
-    m_externalFieldUpdateSink.reset(sink);
+    m_externalFieldUpdateSink = sink;
   }
 
   ResultCode notifySettings(RadioSettingsT& settings) override
@@ -180,20 +180,20 @@ public:
     }
     return ResultCode::OK;
   }
-  ResultCode notifySettingUpdate(const SettingUpdate& settingUpdate, bool final) override
+  ResultCode notifyFieldUpdate(const FieldUpdate& settingUpdate) override
   {
     if (m_externalFieldUpdateSink) {
-      return m_externalFieldUpdateSink->applySettingUpdate(settingUpdate, final);
+      return m_externalFieldUpdateSink->applyFieldUpdate(settingUpdate);
     }
     return ResultCode::OK;
   }
 
   // PttSink Method
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
-    SettingPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
-    SettingUpdate setting(path, on, SettingUpdate::VALUE);
-    applySettingUpdate(setting, true);
+    FieldPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
+    FieldUpdate setting(path, on, FieldUpdateMeaning::VALUE, true);
+    return applyFieldUpdate(setting);
   }
 
 
@@ -201,7 +201,7 @@ protected:
   // Intercepts settings from m_controlSources for anything relevant to this RadioControl mechanism
   // One of these gets connect()ed to each control source
   // ControlSources have no concept of BandSettings, since these are internal to the radio.
-  class InternalSink : public RadioSettingsSinkT<RadioSettingsT>, public SettingUpdateSink
+  class InternalSink : public RadioSettingsSinkT<RadioSettingsT>, public FieldUpdateSink
   {
   public:
     explicit InternalSink(RadioControlT* pControl) : m_pControl(pControl) {}
@@ -212,10 +212,10 @@ protected:
       }
       return ResultCode::OK;
     }
-    ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
+    ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override
     {
       if (m_pControl) {
-        return m_pControl->notifySettingUpdate(settingDelta, final); // Notify external sink
+        return m_pControl->notifyFieldUpdate(settingDelta); // Notify external sink
       }
       return ResultCode::OK;
     }
@@ -227,6 +227,6 @@ protected:
   ControlSinkVector m_controlSinks;
   ControlSourceVector m_controlSources;
   InternalSink m_internalSink;
-  shared_ptr<RadioSettingsSinkT<RadioSettingsT>> m_externalSettingsSink;
-  shared_ptr<SettingUpdateSink> m_externalFieldUpdateSink;
+  RadioSettingsSinkT<RadioSettingsT>* m_externalSettingsSink{nullptr};
+  FieldUpdateSink* m_externalFieldUpdateSink{nullptr};
 };

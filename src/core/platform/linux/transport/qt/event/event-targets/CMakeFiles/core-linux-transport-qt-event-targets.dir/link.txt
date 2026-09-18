@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-transport-qt-event-targets.a "CMakeFiles/core-linux-transport-qt-event-targets.dir/src/globalQtEventTargets.cpp.o"
+/usr/bin/ranlib libcore-linux-transport-qt-event-targets.a

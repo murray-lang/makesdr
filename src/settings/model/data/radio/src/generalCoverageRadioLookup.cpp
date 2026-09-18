@@ -1,4 +1,5 @@
 #include "settings/model/data/radio/generalCoverageRadioLookup.h"
+#include "settings/model/data/radio/generalCoverageRadioLookup.def.h"
 
 makesdr_RadioLookupPb generalCoverageRadioLookup = {
   .has_bands = true,

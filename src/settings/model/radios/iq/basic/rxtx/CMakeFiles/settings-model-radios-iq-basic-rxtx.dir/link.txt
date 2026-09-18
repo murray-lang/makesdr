@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-iq-basic-rxtx.a "CMakeFiles/settings-model-radios-iq-basic-rxtx.dir/src/BasicIqRxTxSettings.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-iq-basic-rxtx.a

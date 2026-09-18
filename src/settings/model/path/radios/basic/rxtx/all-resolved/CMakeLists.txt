@@ -20,5 +20,5 @@ target_include_directories(settings-model-path-radios-basic-rxtx-resolved PRIVAT
 )
 
 target_link_libraries(settings-model-path-radios-basic-rxtx-resolved PUBLIC
-        settings-model-base
+        settings-model-message
 )

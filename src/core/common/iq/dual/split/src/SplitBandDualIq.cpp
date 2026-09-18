@@ -1,9 +1,9 @@
 #include "iq/split/SplitBandDualIq.h"
 
-SplitBandDualIq::SplitBandDualIq(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : IqRxTxBase(eventTargetProvider)
-  , m_rx(eventTargetProvider, radioLookup)
-  , m_tx(eventTargetProvider, radioLookup)
+SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes)
+  : IqRxTxBaseT()
+  , m_rx(bands, modes)
+  , m_tx(modes)
 {
 
 }
@@ -31,7 +31,7 @@ SplitBandDualIq::stop()
   m_rx.stop();
 }
 
-void
+ResultCode
 SplitBandDualIq::ptt(bool on)
 {
   if (on) {
@@ -41,17 +41,18 @@ SplitBandDualIq::ptt(bool on)
     m_tx.stop();
     m_rx.start();
   }
+  return ResultCode::OK;
 }
 
 ResultCode
-SplitBandDualIq::apply(IRadioSettings& settings)
+SplitBandDualIq::apply(RadioSettings& settings)
 {
   ResultCode rc = ResultCode::OK;
   if (settings.hasActiveBands()) {
-    IActiveBandSettings* activeBandSettings = settings.activeBands();
+    ActiveBandSettings* activeBandSettings = settings.activeBands();
 
     if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
-      IBandSettings* bandSettings = activeBandSettings->focusBand();
+      BandSettings* bandSettings = activeBandSettings->focusBandSettings();
       rc = m_rx.apply(bandSettings);
       if (rc != ResultCode::OK) return rc;
 

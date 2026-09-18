@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-basic-rx.a "CMakeFiles/core-common-iq-basic-rx.dir/src/BasicIqRx.cpp.o"
+/usr/bin/ranlib libcore-common-iq-basic-rx.a

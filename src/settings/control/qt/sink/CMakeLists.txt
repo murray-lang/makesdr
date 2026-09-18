@@ -22,5 +22,4 @@ target_link_libraries(settings-control-qt-sink PUBLIC
         settings-control-base
         settings-control-sink
         settings-model-radios-base
-        settings-control-qt-event-targets
 )

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/settings/model/path/radios/basic/rxtx/dotted-string-lookup",
+		"source" : "src/settings/model/path/radios/basic/rxtx/dotted-string-lookup"
+	}
+}

@@ -47,6 +47,12 @@ typedef enum _makesdr_AgcSpeed {
     makesdr_AgcSpeed_AGC_FAST = 3
 } makesdr_AgcSpeed;
 
+typedef enum _makesdr_FieldUpdateMeaning {
+    makesdr_FieldUpdateMeaning_MEANING_NONE = 0,
+    makesdr_FieldUpdateMeaning_MEANING_VALUE = 1,
+    makesdr_FieldUpdateMeaning_MEANING_DELTA = 2
+} makesdr_FieldUpdateMeaning;
+
 /* Struct definitions */
 typedef struct _makesdr_ModePb {
     makesdr_ModeType type;
@@ -423,6 +429,24 @@ typedef struct _makesdr_SplitBandDualIqRxTxSettingsPb {
     bool ptt;
 } makesdr_SplitBandDualIqRxTxSettingsPb;
 
+typedef struct _makesdr_FieldUpdatePb {
+    pb_size_t path_count;
+    uint32_t path[8];
+    pb_size_t which_value_variant;
+    union _makesdr_FieldUpdatePb_value_variant {
+        char string_value[8];
+        int32_t int32_value;
+        uint32_t uint32_value;
+        int64_t int64_value;
+        float float_value;
+        bool bool_value;
+    } value_variant;
+    makesdr_FieldUpdateMeaning meaning;
+    bool is_indirect;
+    bool is_auto_complete;
+    bool is_final;
+} makesdr_FieldUpdatePb;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -448,6 +472,10 @@ extern "C" {
 #define _makesdr_AgcSpeed_MIN makesdr_AgcSpeed_AGC_OFF
 #define _makesdr_AgcSpeed_MAX makesdr_AgcSpeed_AGC_FAST
 #define _makesdr_AgcSpeed_ARRAYSIZE ((makesdr_AgcSpeed)(makesdr_AgcSpeed_AGC_FAST+1))
+
+#define _makesdr_FieldUpdateMeaning_MIN makesdr_FieldUpdateMeaning_MEANING_NONE
+#define _makesdr_FieldUpdateMeaning_MAX makesdr_FieldUpdateMeaning_MEANING_DELTA
+#define _makesdr_FieldUpdateMeaning_ARRAYSIZE ((makesdr_FieldUpdateMeaning)(makesdr_FieldUpdateMeaning_MEANING_DELTA+1))
 
 #define makesdr_ModePb_type_ENUMTYPE makesdr_ModeType
 
@@ -507,6 +535,8 @@ extern "C" {
 
 
 
+#define makesdr_FieldUpdatePb_meaning_ENUMTYPE makesdr_FieldUpdateMeaning
+
 
 /* Initializer values for message structs */
 #define makesdr_ModePb_init_default              {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
@@ -552,6 +582,7 @@ extern "C" {
 #define makesdr_BasicIqRxTxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_DualIqRxTxSettingsPb_init_default {false, makesdr_RxTxDualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_SplitBandDualIqRxTxSettingsPb_init_default {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_FieldUpdatePb_init_default       {0, {0, 0, 0, 0, 0, 0, 0, 0}, 0, {""}, _makesdr_FieldUpdateMeaning_MIN, 0, 0, 0}
 #define makesdr_ModePb_init_zero                 {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
 #define makesdr_ModeListPb_init_zero             {0, {makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero}}
 #define makesdr_BandPb_init_zero                 {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
@@ -595,6 +626,7 @@ extern "C" {
 #define makesdr_BasicIqRxTxSettingsPb_init_zero  {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 #define makesdr_DualIqRxTxSettingsPb_init_zero   {false, makesdr_RxTxDualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 #define makesdr_SplitBandDualIqRxTxSettingsPb_init_zero {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_FieldUpdatePb_init_zero          {0, {0, 0, 0, 0, 0, 0, 0, 0}, 0, {""}, _makesdr_FieldUpdateMeaning_MIN, 0, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define makesdr_ModePb_type_tag                  1
@@ -727,6 +759,17 @@ extern "C" {
 #define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 2
 #define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 3
 #define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 4
+#define makesdr_FieldUpdatePb_path_tag           1
+#define makesdr_FieldUpdatePb_string_value_tag   2
+#define makesdr_FieldUpdatePb_int32_value_tag    3
+#define makesdr_FieldUpdatePb_uint32_value_tag   4
+#define makesdr_FieldUpdatePb_int64_value_tag    5
+#define makesdr_FieldUpdatePb_float_value_tag    6
+#define makesdr_FieldUpdatePb_bool_value_tag     7
+#define makesdr_FieldUpdatePb_meaning_tag        10
+#define makesdr_FieldUpdatePb_is_indirect_tag    11
+#define makesdr_FieldUpdatePb_is_auto_complete_tag 12
+#define makesdr_FieldUpdatePb_is_final_tag       13
 
 /* Struct field encoding specification for nanopb */
 #define makesdr_ModePb_FIELDLIST(X, a) \
@@ -1102,6 +1145,21 @@ X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
 #define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 #define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
+#define makesdr_FieldUpdatePb_FIELDLIST(X, a) \
+X(a, STATIC,   REPEATED, UINT32,   path,              1) \
+X(a, STATIC,   ONEOF,    STRING,   (value_variant,string_value,value_variant.string_value),   2) \
+X(a, STATIC,   ONEOF,    INT32,    (value_variant,int32_value,value_variant.int32_value),   3) \
+X(a, STATIC,   ONEOF,    UINT32,   (value_variant,uint32_value,value_variant.uint32_value),   4) \
+X(a, STATIC,   ONEOF,    INT64,    (value_variant,int64_value,value_variant.int64_value),   5) \
+X(a, STATIC,   ONEOF,    FLOAT,    (value_variant,float_value,value_variant.float_value),   6) \
+X(a, STATIC,   ONEOF,    BOOL,     (value_variant,bool_value,value_variant.bool_value),   7) \
+X(a, STATIC,   SINGULAR, UENUM,    meaning,          10) \
+X(a, STATIC,   SINGULAR, BOOL,     is_indirect,      11) \
+X(a, STATIC,   SINGULAR, BOOL,     is_auto_complete,  12) \
+X(a, STATIC,   SINGULAR, BOOL,     is_final,         13)
+#define makesdr_FieldUpdatePb_CALLBACK NULL
+#define makesdr_FieldUpdatePb_DEFAULT NULL
+
 extern const pb_msgdesc_t makesdr_ModePb_msg;
 extern const pb_msgdesc_t makesdr_ModeListPb_msg;
 extern const pb_msgdesc_t makesdr_BandPb_msg;
@@ -1145,6 +1203,7 @@ extern const pb_msgdesc_t makesdr_BasicRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_SplitBandDualIqRxTxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_FieldUpdatePb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define makesdr_ModePb_fields &makesdr_ModePb_msg
@@ -1190,6 +1249,7 @@ extern const pb_msgdesc_t makesdr_SplitBandDualIqRxTxSettingsPb_msg;
 #define makesdr_BasicIqRxTxSettingsPb_fields &makesdr_BasicIqRxTxSettingsPb_msg
 #define makesdr_DualIqRxTxSettingsPb_fields &makesdr_DualIqRxTxSettingsPb_msg
 #define makesdr_SplitBandDualIqRxTxSettingsPb_fields &makesdr_SplitBandDualIqRxTxSettingsPb_msg
+#define makesdr_FieldUpdatePb_fields &makesdr_FieldUpdatePb_msg
 
 /* Maximum encoded size of messages (where known) */
 #define MAKESDR_RADIOSETTINGS_PB_H_MAX_SIZE      makesdr_RadioLookupPb_size
@@ -1217,6 +1277,7 @@ extern const pb_msgdesc_t makesdr_SplitBandDualIqRxTxSettingsPb_msg;
 #define makesdr_DualIqBandSettingsPb_size        525
 #define makesdr_DualIqRxSettingsPb_size          557
 #define makesdr_DualIqRxTxSettingsPb_size        756
+#define makesdr_FieldUpdatePb_size               67
 #define makesdr_IfSettingsPb_size                26
 #define makesdr_IqCorrectionSettingsPb_size      40
 #define makesdr_ModeListPb_size                  620

@@ -1,0 +1,14 @@
+# Hashes of file build rules.
+711ba7ac72261cdea8060a0892767615 nanopb/CMakeFiles/nanopb_generator
+1cf638ec4ef4e0ba8d2050cf3fc31b82 src/radios/iq/dual/split/CMakeFiles/radios-iq-dual-split_autogen
+7d1bca53bfaa0d7ad3a634e86edcb0b0 src/radios/iq/dual/split/radios-iq-dual-split_autogen/timestamp
+3a908cdcd660542bf404823e4afaac3f src/settings/control/qt/event-targets/CMakeFiles/settings-control-qt-event-targets_autogen
+6739e9a49750227314ddf9363a297ff2 src/settings/control/qt/event-targets/settings-control-qt-event-targets_autogen/timestamp
+e8ff8cc20cd86b669bc706d335e2a979 src/settings/control/qt/sink/CMakeFiles/settings-control-qt-sink_autogen
+62953cf9bf877317f9f9ca74a0e2a0f3 src/settings/control/qt/sink/settings-control-qt-sink_autogen/timestamp
+ccbc437b92d702691281e4ddd7bcd985 src/settings/model/proto/CMakeFiles/copy_nanopb_gen_message
+606d3974ae9deeb0d510ea133d865ab6 src/settings/model/proto/CMakeFiles/copy_nanopb_gen_settings
+4ea19fbafbb0188981b2ea72531602d8 src/settings/model/proto/RadioPayloads.pb.c
+95a838f722ecbc02540c0a619b06609b src/settings/model/proto/RadioSettings.pb.c
+fe54c2185b32c74c5e2790724ed08c08 src/settings/model/proto/nanopb/generator/nanopb_generator.py
+0af1202e4d6803567ff1e3214d708264 src/settings/model/proto/nanopb/generator/proto/nanopb_pb2.py

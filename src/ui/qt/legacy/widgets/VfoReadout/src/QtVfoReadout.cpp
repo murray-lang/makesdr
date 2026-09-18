@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/QtVfoReadout.h"
+#include "ui/qt/widgets/QtVfoReadout.h"
 
 #include <QEvent>
 #include <QGraphicsWidget>
@@ -8,11 +8,12 @@
 #include <QTimer>
 #include <QStyleOption>
 
-#include <ui/qt/legacy/QtNumberReadout.h>
-#include <ui/qt/legacy/QtMiniVfoToolbar.h>
+#include <ui/qt/widgets/QtNumberReadout.h>
+#include <ui/qt/widgets/QtMiniVfoToolbar.h>
 
-QtVfoReadout::QtVfoReadout(VfoId id, QWidget* parent)
+QtVfoReadout::QtVfoReadout(IRadioSettingsUpdater* radioControl, VfoId id, QWidget* parent)
   : QWidget(parent)
+  , m_radioControl(radioControl)
   , m_id(id)
   , m_hasFocus(true)
   , m_isTx(true)
@@ -33,7 +34,7 @@ void QtVfoReadout::setBandId(SplitBandId bandId)
 }
 
 void
-QtVfoReadout::applyBandSettings(const BandSettings* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand)
+QtVfoReadout::applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand)
 {
   if (isLoneVfo) {
     setMultiVfoAction(MultiVfoAction::Multi);
@@ -66,18 +67,10 @@ void QtVfoReadout::buildUi()
   root->setSpacing(0);
 
   // Mini toolbar above the digits
-  m_toolbar = new QtMiniVfoToolbar(this);
+  m_toolbar = new QtMiniVfoToolbar(m_radioControl, this);
 
   // Ensure the toolbar knows which band/VFO it belongs to (may be None initially).
   m_toolbar->setContext(m_splitBandId, m_id);
-
-  connect(m_toolbar, &QtMiniVfoToolbar::muteToggledRequested, this, [this](bool muted) {
-    emit muteToggledRequested(m_id, muted);
-  });
-
-  // Forward setting updates upward (panel/face will apply them)
-  connect(m_toolbar, &QtMiniVfoToolbar::settingUpdateRequested,
-          this, &QtVfoReadout::settingUpdateRequested);
 
   // If you want the parent to open a mode chooser UI:
   connect(m_toolbar, &QtMiniVfoToolbar::modeSelectRequested, this, [this](SplitBandId /*bandId*/) {
@@ -210,8 +203,7 @@ bool QtVfoReadout::event(QEvent* e)
         if (isInteractiveChildAt(pos)) {
           return QWidget::event(e);
         }
-
-        emit clicked(m_id);
+        m_radioControl->setFocusPipeline(m_splitBandId, m_id);
         e->accept();
         return true;
       }
@@ -319,8 +311,7 @@ void QtVfoReadout::mousePressEvent(QMouseEvent* e)
       QWidget::mousePressEvent(e);
       return;
     }
-
-    emit clicked(m_id);
+    m_radioControl->setFocusPipeline(m_splitBandId, m_id);
     e->accept();
     return;
   }

@@ -1,9 +1,9 @@
 #pragma once
-
+#include <ResultCode.h>
 
 class PttSink
 {
 public:
   virtual ~PttSink() = default;
-  virtual void ptt(bool on) = 0;
+  virtual ResultCode ptt(bool on) = 0;
 };

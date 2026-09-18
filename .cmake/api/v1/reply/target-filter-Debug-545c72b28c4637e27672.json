@@ -1,0 +1,455 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/bessel.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/butter.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/cheby1.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/cheby2.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/ellip.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/filter_rrrf.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/filter_crcf.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/filter_cccf.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/firdes.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/firdespm.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/firdespm_halfband.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/fnyquist.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/gmsk.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/group_delay.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/hM3.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/iirdes.pll.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/iirdes.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/lpc.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/rcos.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/rkaiser.c.o"
+		},
+		{
+			"path" : "freertos-liquid-dsp-linux/CMakeFiles/filter.dir/src/filter/src/rrcos.c.o"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"add_compile_options",
+			"add_definitions",
+			"add_compile_definitions",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"third-party/liquid-dsp/CMakeLists.txt",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 348,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 117,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 45,
+				"parent" : 3
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 146,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 142,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 69,
+				"parent" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 1,
+				"line" : 63,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 491,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu11 -fdiagnostics-color=always"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-Wall"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-fPIC"
+				},
+				{
+					"backtrace" : 2,
+					"fragment" : "-O3"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "IS_LINUX"
+				},
+				{
+					"backtrace" : 5,
+					"define" : "LIQUID_COLOR_ENABLE"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "LIQUID_LOG_LEVEL_COMPILE=0"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_BANDS_PER_CATEGORY=13"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_BAND_CATEGORIES=8"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_BAND_LABEL_LENGTH=9"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_CONTROL_SINKS=4"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_CONTROL_SOURCES=4"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_DIGITAL_INPUT_HANDLERS=8"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_DIGITAL_OUTPUT_HANDLERS=4"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_DOTTED_STRING_LENGTH=64"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_FIELD_PATH_LENGTH=8"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_GPIO_LINES_PER_DEVICE=4"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_ID_LENGTH=16"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_MODES=10"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_MODE_LABEL_LENGTH=14"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_NAME_LENGTH=7"
+				},
+				{
+					"backtrace" : 7,
+					"define" : "MAX_USB_CONTROL_SINKS=1"
+				},
+				{
+					"backtrace" : 8,
+					"define" : "USE_DOTTED_STRING_PATHS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 9,
+					"path" : "/home/murray/dev/code/sdr/makesdr/third-party/liquid-dsp/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "/home/murray/dev/code/sdr/makesdr/freertos-liquid-dsp-linux"
+				}
+			],
+			"language" : "C",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "11"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20
+			]
+		}
+	],
+	"id" : "filter::@e66d97bf7fa5e8e32582",
+	"name" : "filter",
+	"paths" : 
+	{
+		"build" : "freertos-liquid-dsp-linux",
+		"source" : "third-party/liquid-dsp"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				19,
+				20
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/bessel.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/butter.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/cheby1.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/cheby2.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/ellip.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/filter_rrrf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/filter_crcf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/filter_cccf.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/firdes.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/firdespm.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/firdespm_halfband.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/fnyquist.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/gmsk.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/group_delay.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/hM3.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/iirdes.pll.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/iirdes.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/lpc.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/rcos.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/rkaiser.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "third-party/liquid-dsp/src/filter/src/rrcos.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "OBJECT_LIBRARY"
+}

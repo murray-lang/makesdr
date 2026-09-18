@@ -23,29 +23,29 @@ int main()
   bool isIndirect = false;
   AutoCompleteTrigger trigger;
 
-  SettingPath frequencyPath;
+  FieldPath frequencyPath;
   ResultCode rc = RadioSettings::resolveDottedPath("active_bands.focus_band.focus_pipeline.base.rf.centre_frequency", frequencyPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
-  SettingUpdate frequencyUpdate(frequencyPath, 1, SettingUpdate::DELTA, isIndirect, trigger);
-  rc = radioSettings.applySettingUpdate(frequencyUpdate);
+  FieldUpdate frequencyUpdate(frequencyPath, 1, FieldUpdate::DELTA, isIndirect, trigger);
+  rc = radioSettings.applyFieldUpdate(frequencyUpdate);
   if (rc != ResultCode::OK) return -1;
 
-  SettingPath bandPath;
+  FieldPath bandPath;
   rc = RadioSettings::resolveDottedPath("active_bands.focus_band.band_request", bandPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) return -1;
 
   NameString band80 = "80m";
-  SettingUpdate band80Update(bandPath, band80, SettingUpdate::VALUE, isIndirect, trigger);
-  rc = radioSettings.applySettingUpdate(band80Update);
+  FieldUpdate band80Update(bandPath, band80, FieldUpdate::VALUE, isIndirect, trigger);
+  rc = radioSettings.applyFieldUpdate(band80Update);
   if (rc != ResultCode::OK) return -1;
 
   NameString band40 = "40m";
-  SettingUpdate band40Update(bandPath, band40, SettingUpdate::VALUE, isIndirect, trigger);
-  rc = radioSettings.applySettingUpdate(band40Update);
+  FieldUpdate band40Update(bandPath, band40, FieldUpdate::VALUE, isIndirect, trigger);
+  rc = radioSettings.applyFieldUpdate(band40Update);
   if (rc != ResultCode::OK) return -1;
 
-  rc = radioSettings.applySettingUpdate(band80Update);
+  rc = radioSettings.applyFieldUpdate(band80Update);
   if (rc != ResultCode::OK) return -1;
 
   return 0;

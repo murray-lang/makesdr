@@ -23,7 +23,7 @@ public:
 
   // Override sink methods to broadcast to connected clients
   ResultCode applySettings(const RadioSettings& settings) override;
-  // ResultCode applySettingUpdate(const SettingUpdate& update) override;
+  // ResultCode applyFieldUpdate(const FieldUpdate& update) override;
 
 private:
   static int websocketCallback(

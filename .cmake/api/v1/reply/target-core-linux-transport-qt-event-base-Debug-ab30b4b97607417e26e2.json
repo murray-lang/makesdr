@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/platform/linux/transport/qt/event/base/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-linux-transport-qt-event-base::@c878dd38ef04eeeb8e50",
+	"name" : "core-linux-transport-qt-event-base",
+	"paths" : 
+	{
+		"build" : "src/core/platform/linux/transport/qt/event/base",
+		"source" : "src/core/platform/linux/transport/qt/event/base"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/transport/qt/event/base/include/transport/qt/event/MessageEventT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

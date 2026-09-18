@@ -19,5 +19,5 @@ target_include_directories(settings-control-source INTERFACE
 
 target_link_libraries(settings-control-source INTERFACE
         settings-control-base
-        settings-model-radios-selected
+        settings-model-radios-base
 )

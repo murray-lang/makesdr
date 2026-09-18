@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/radios/iq/dual/split/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "radios-iq-dual-split_autogen_timestamp_deps::@12e83c1175dfa8c4dfbb"
+		}
+	],
+	"id" : "radios-iq-dual-split_autogen::@12e83c1175dfa8c4dfbb",
+	"isGeneratorProvided" : true,
+	"name" : "radios-iq-dual-split_autogen",
+	"paths" : 
+	{
+		"build" : "src/radios/iq/dual/split",
+		"source" : "src/radios/iq/dual/split"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/radios/iq/dual/split/CMakeFiles/radios-iq-dual-split_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/radios/iq/dual/split/CMakeFiles/radios-iq-dual-split_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "src/radios/iq/dual/split/radios-iq-dual-split_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

@@ -1,0 +1,64 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/settings/control/hal/usb/sinks/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 11,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "settings-control-hal-usb-sinks::@3d9382e54651bc9bded4",
+	"name" : "settings-control-hal-usb-sinks",
+	"paths" : 
+	{
+		"build" : "src/settings/control/hal/usb/sinks",
+		"source" : "src/settings/control/hal/usb/sinks"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/sinks/include/settings/control/usb/sinks/UsbControlSinkFactoryT.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/sinks/include/settings/control/usb/sinks/UsbControlSinksT.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/settings/control/hal/usb/sinks/include/settings/control/usb/sinks/UsbControlSinkTypesT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

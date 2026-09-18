@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/charts/QtChartBase.h"
+#include "ui/qt/widgets/QtChartBase.h"
 
 QtChartBase::QtChartBase(QWidget* parent, const char* viewName, const char* themeName)  :
   m_pParent(parent)

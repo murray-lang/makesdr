@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-usb-host.a "CMakeFiles/core-linux-usb-host.dir/src/UsbHost.cpp.o" "CMakeFiles/core-linux-usb-host.dir/src/UsbHidHost.cpp.o"
+/usr/bin/ranlib libcore-linux-usb-host.a

@@ -1,27 +1,40 @@
 #pragma once
 #include <settings/model/data/band/BandCategoryList.h>
 #include <settings/model/data/mode/ModeList.h>
+#include <settings/model/message/MessageT.h>
+#include <settings/model/proto/RadioPayloads.pb.h>
+#include <settings/model/proto/RadioSettings.pb.h>
 
-class RadioLookup
+using RadioLookupMessage = MessageT<
+    makesdr_RadioLookupPb,
+    &makesdr_RadioLookupPb_msg,
+    makesdr_RadioLookupPayloadPb,
+    makesdr_RadioPayloadType_PAYLOAD_LOOKUP,
+    makesdr_RadioLookupPayloadPb_size
+  >;
+
+class RadioLookup : public RadioLookupMessage
 {
 public:
-  RadioLookup(const makesdr_RadioLookupPb& raw)
-    : m_rawSettings(raw)
-    , m_bands(raw.bands)
-    , m_modes(raw.modes)
+
+  RadioLookup()
+    : RadioLookupMessage()
+    , m_bands(m_payload.body.bands)
+    , m_modes(m_payload.body.modes)
   {}
 
-  RadioLookup(const RadioLookup& rhs) : RadioLookup(rhs.m_rawSettings) {}
-  // RadioCategories& operator=(const RadioCategories&) = delete;
+  RadioLookup(PayloadProto& payload)
+    : RadioLookupMessage(payload)
+    , m_bands(payload.body.bands)
+    , m_modes(payload.body.modes)
+  {}
 
-  // Allow moving if needed
+  RadioLookup(RadioLookup& rhs) : RadioLookup(rhs.m_payload) {}
+
   RadioLookup(RadioLookup&&) = default;
-  // RadioLookup& operator=(RadioLookup&&) = default;
 
-  [[nodiscard]] const makesdr_RadioLookupPb& raw() const { return m_rawSettings; }
-  
-  [[nodiscard]] bool hasBands() const { return m_rawSettings.has_bands; }
-  [[nodiscard]] bool hasModes() const { return m_rawSettings.has_modes; }
+  [[nodiscard]] bool hasBands() const { return m_payload.body.has_bands; }
+  [[nodiscard]] bool hasModes() const { return m_payload.body.has_modes; }
 
   BandCategoryList& bands() { return m_bands; }
   [[nodiscard]] const BandCategoryList& bands() const { return m_bands; }
@@ -34,7 +47,6 @@ public:
   }
 
 protected:
-  const makesdr_RadioLookupPb& m_rawSettings;
   BandCategoryList m_bands;
   ModeList m_modes;
 };

@@ -4,8 +4,8 @@ project(core-common-iq-base)
 
 set(IQ_BASE_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqSink.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxBase.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxTxBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxBaseT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqRxTxBaseT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/base/IqSource.h
 )
 

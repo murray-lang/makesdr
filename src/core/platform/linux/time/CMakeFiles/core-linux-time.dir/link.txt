@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-time.a "CMakeFiles/core-linux-time.dir/src/Timestamp.cpp.o"
+/usr/bin/ranlib libcore-linux-time.a

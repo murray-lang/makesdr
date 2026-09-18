@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-message.a "CMakeFiles/settings-model-message.dir/src/FieldDescriptor.cpp.o" "CMakeFiles/settings-model-message.dir/src/FieldUpdate.cpp.o" "CMakeFiles/settings-model-message.dir/src/FieldUpdateMessage.cpp.o" "CMakeFiles/settings-model-message.dir/src/MessageTraverser.cpp.o"
+/usr/bin/ranlib libsettings-model-message.a

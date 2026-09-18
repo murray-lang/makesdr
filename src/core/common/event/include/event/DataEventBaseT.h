@@ -1,12 +1,13 @@
 #pragma once
+#include <EventId.h>
 
-template<typename EventBaseT, typename EventTypeT, typename RegisterFunc>
+template<typename EventBaseT, typename EventIdT, EventId _eventId>
 class DataEventBaseT : public EventBaseT
 {
 public:
-  static inline EventTypeT eventType = RegisterFunc{}();
+  static inline EventIdT eventId = static_cast<EventIdT>(_eventId);
 
-  DataEventBaseT() : EventBaseT(eventType)
+  DataEventBaseT() : EventBaseT(eventId)
   {
   }
 };

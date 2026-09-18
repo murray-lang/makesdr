@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-path-radios-basic-rx-resolved.a "CMakeFiles/settings-model-path-radios-basic-rx-resolved.dir/src/BasicRxResolved.cpp.o"
+/usr/bin/ranlib libsettings-model-path-radios-basic-rx-resolved.a

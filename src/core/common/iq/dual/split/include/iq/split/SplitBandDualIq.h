@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iq/base/IqRxTxBase.h>
+#include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqTxPipeline.h>
 #include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
@@ -9,12 +9,15 @@
 #include "SplitBandDualIq_Rx.h"
 
 
-class SplitBandDualIqRxTxSettings;
 
-class SplitBandDualIq : public IqRxTxBase
+class SplitBandDualIq : public IqRxTxBaseT<SplitBandDualIqRxTxSettings>
 {
 public:
-  SplitBandDualIq(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  using RadioSettings = SplitBandDualIqRxTxSettings;
+  using ActiveBandSettings = SplitBandDualIqRxTxSettings::ActiveBandSettings;
+  using BandSettings = SplitBandDualIqRxTxSettings::BandSettings;
+
+  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes);
   ~SplitBandDualIq() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;
@@ -22,9 +25,9 @@ public:
   ResultCode start() override;
   void stop() override;
 
-  void ptt(bool on) override;
+  ResultCode ptt(bool on) override;
 
-  ResultCode apply(IRadioSettings& settings) override;
+  ResultCode apply(RadioSettings& settings) override;
 
 protected:
   SplitBandDualIq_Rx m_rx;

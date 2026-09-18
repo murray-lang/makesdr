@@ -10,14 +10,15 @@ struct ResolvedPath {
   std::string dottedPath;
   std::vector<uint32_t> tags;
   bool isIndirect;
-  AutoCompleteTrigger trigger;
+  bool needsAutoComplete;
 };
 
 static void generatePaths(
     const FieldEntry* table,
     const std::string& prefix,
     const std::vector<uint32_t>& currentTags,
-    std::vector<ResolvedPath>& paths)
+    std::vector<ResolvedPath>& paths,
+    bool parentIsIndirect = false)
 {
   if (table == nullptr) return;
 
@@ -31,12 +32,15 @@ static void generatePaths(
     std::vector<uint32_t> tags = currentTags;
     tags.push_back(entry->tag);
 
-    // Store this resolved path with all metadata
-    paths.push_back({currentPath, tags, entry->isIndirect, entry->trigger});
+    // Accumulate isIndirect: true if any ancestor or current node is indirect
+    bool isIndirect = parentIsIndirect || entry->isIndirect;
 
-    // Recurse into submessages
+    // Store this resolved path with all metadata
+    paths.push_back({currentPath, tags, isIndirect, entry->needsAutoComplete});
+
+    // Recurse into submessages, passing accumulated isIndirect flag
     if (entry->submsg != nullptr) {
-      generatePaths(entry->submsg, currentPath, tags, paths);
+      generatePaths(entry->submsg, currentPath, tags, paths, isIndirect);
     }
 
     entry++;
@@ -66,7 +70,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
     // Generate header file
     std::ofstream hFile(headerFile);
     hFile << "#pragma once\n";
-    hFile << "#include <settings/model/base/SettingDescriptor.h>\n\n";
+    hFile << "#include <settings/model/message/FieldDescriptor.h>\n\n";
     hFile << "// Auto-generated pre-resolved field descriptors\n";
     hFile << "// Uncomment the ones you need, likewise in " << sourceFile << "\n";
     // hFile << "namespace FieldPaths {\n\n";
@@ -78,7 +82,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
             if (c == '.') c = '_';
         }
 
-        hFile << "// extern const SettingDescriptor " << identifier << ";\n";
+        hFile << "// extern const FieldDescriptor " << identifier << ";\n";
     }
 
     // hFile << "\n} // namespace FieldPaths\n";
@@ -98,18 +102,16 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
             if (c == '.') c = '_';
         }
 
-        // Generate the SettingDescriptor with SettingPath, trigger, and isIndirect
+        // Generate the FieldDescriptor with FieldPath, trigger, and isIndirect
         cppFile << "/*\n";
-        cppFile << "const SettingDescriptor " << identifier << " = SettingDescriptor(\n";
-        cppFile << "    SettingPath{";
+        cppFile << "const FieldDescriptor " << identifier << " = FieldDescriptor(\n";
+        cppFile << "    FieldPath{";
         for (size_t i = 0; i < path.tags.size(); ++i) {
             if (i > 0) cppFile << ", ";
             cppFile << path.tags[i];
         }
         cppFile << "},\n";
-        cppFile << "    AutoCompleteTrigger::" << (path.trigger == AutoCompleteTrigger::NONE ? "NONE" :
-                                                    path.trigger == AutoCompleteTrigger::MODE ? "MODE" :
-                                                    path.trigger == AutoCompleteTrigger::BAND ? "BAND" : "NONE") << ",\n";
+        cppFile << "    " << (path.needsAutoComplete ? "true" : "false") << ",\n";
         cppFile << "    " << (path.isIndirect ? "true" : "false") << "\n";
         cppFile << ");\n";
         cppFile << "*/\n";

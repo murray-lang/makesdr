@@ -2,7 +2,10 @@
 
 
 ResultCode
-DigitalInputFactory::create(const Config::DigitalInput::Fields& config, DigitalInput& input)
+DigitalInputFactory::create(
+  const Config::DigitalInput::Fields& config,
+  DigitalInput& input,
+  ResolveDottedStringFunc resolver)
 {
-  return input.configure(config);
+  return input.configure(config, resolver);
 }

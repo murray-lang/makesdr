@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-thread.a "CMakeFiles/core-linux-thread.dir/src/WaitConditionStd.cpp.o" "CMakeFiles/core-linux-thread.dir/src/MutexStd.cpp.o" "CMakeFiles/core-linux-thread.dir/src/SemaphoreStd.cpp.o" "CMakeFiles/core-linux-thread.dir/src/ThreadStd.cpp.o"
+/usr/bin/ranlib libcore-linux-thread.a

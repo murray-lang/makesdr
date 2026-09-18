@@ -19,5 +19,5 @@ target_include_directories(settings-control-sink INTERFACE
 
 target_link_libraries(settings-control-sink INTERFACE
         settings-control-base
-        settings-model-radios-selected
+        settings-model-radios-base
 )

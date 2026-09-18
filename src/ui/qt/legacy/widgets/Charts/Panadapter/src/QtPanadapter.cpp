@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/charts/QtPanadapter.h"
+#include "ui/qt/widgets/QtPanadapter.h"
 
 #include <QValueAxis>
 #include <dsp/window/Window.h>

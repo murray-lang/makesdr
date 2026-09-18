@@ -5,14 +5,16 @@
 #include <settings/model/path/resolveDottedString.h>
 #endif
 
-BasicRxSettings::BasicRxSettings(const makesdr_RadioLookupPb& lookup, BasicBandSettingsCache& cache)
-  : BasicRxSettingsBaseType(lookup,  cache)
+BasicRxSettings::BasicRxSettings()
+  : BasicRxSettingsBaseType()
 {}
 
 #ifdef USE_DOTTED_STRING_PATHS
-ResultCode
-BasicRxSettings::resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor)
+ResolveDottedStringFunc
+BasicRxSettings::resolveDottedStringFunc()
 {
-  return ::resolveDottedString(dottedPath, basic_rx_radio_fields, descriptor);
+  return [](const char* dottedPath, FieldDescriptor& descriptor) -> ResultCode {
+    return ::resolveDottedString(dottedPath, basic_rx_radio_fields, descriptor);
+  };
 }
 #endif

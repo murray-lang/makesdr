@@ -99,7 +99,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
   // return broadcastMessage(m_txBuffer + LWS_PRE, bytes_written);
 }
 
-// ResultCode WebSocketControlSink::applySettingUpdate(const SettingUpdate& update)
+// ResultCode WebSocketControlSink::applyFieldUpdate(const FieldUpdate& update)
 // {
 //   // Serialize the field update to protobuf
 //   size_t bytes_written = 0;
@@ -107,7 +107,7 @@ ResultCode WebSocketControlSink::applySettings(const RadioSettings& settings)
 //     m_txBuffer + LWS_PRE,
 //     MAX_MESSAGE_SIZE,
 //     &bytes_written,
-//     SettingUpdate_fields,
+//     FieldUpdate_fields,
 //     update
 //   );
 //

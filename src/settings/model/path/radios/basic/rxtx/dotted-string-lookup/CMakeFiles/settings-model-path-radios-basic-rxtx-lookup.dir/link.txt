@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-path-radios-basic-rxtx-lookup.a "CMakeFiles/settings-model-path-radios-basic-rxtx-lookup.dir/src/BasicRxTxTagLookup.cpp.o" "../../../../common/CMakeFiles/settings-model-path-common.dir/src/CommonTagLookup.cpp.o"
+/usr/bin/ranlib libsettings-model-path-radios-basic-rxtx-lookup.a

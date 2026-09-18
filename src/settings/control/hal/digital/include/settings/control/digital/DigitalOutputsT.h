@@ -5,7 +5,7 @@
 #include "DigitalOutputFactoryT.h"
 
 template <typename RadioSettingsT>
-class DigitalOutputsT : public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
+class DigitalOutputsT : public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink
 {
 public:
   DigitalOutputsT() = default;
@@ -15,9 +15,9 @@ public:
   DigitalOutputsT& operator=(DigitalOutputsT&&)  noexcept = default;
 
   // ControlBase overrides;
-  ResultCode configure(const Config::DigitalOutputs::Fields& config)
+  ResultCode configure(const Config::DigitalOutputs::Fields& config, ResolveDottedStringFunc resolver)
   {
-    return createOutputs(config);
+    return createOutputs(config, resolver);
   }
 
   bool discover() override { return Gpio::isPresent(); }
@@ -62,12 +62,12 @@ public:
     return ResultCode::OK;
   }
 
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
+  ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override
   {
     for (auto& output : m_outputs) {
-      const ResultCode rc = visit([&settingDelta, &final] (auto&& dov) -> ResultCode
+      const ResultCode rc = visit([&settingDelta] (auto&& dov) -> ResultCode
       {
-        return dov.applySettingUpdate(settingDelta, final);
+        return dov.applyFieldUpdate(settingDelta);
       }, output);
       if (rc != ResultCode::OK) {
         return rc;
@@ -76,7 +76,7 @@ public:
     return ResultCode::OK;
   }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     for (auto& output : m_outputs)
     {
@@ -85,16 +85,17 @@ public:
         dov.ptt(on);
       }, output) ;
     }
+    return ResultCode::OK;
   }
 
 protected:
-  ResultCode createOutputs(const Config::DigitalOutputs::Fields& config)
+  ResultCode createOutputs(const Config::DigitalOutputs::Fields& config, ResolveDottedStringFunc resolver)
   {
     m_outputs.clear();
     ResultCode rc = ResultCode::OK;
     for (const auto& outputConfig : config.outputs) {
       typename DigitalOutputTypesT<RadioSettingsT>::Variant digitalOutput;
-      rc = DigitalOutputFactoryT<RadioSettingsT>::create(outputConfig, digitalOutput);
+      rc = DigitalOutputFactoryT<RadioSettingsT>::create(outputConfig, resolver, digitalOutput);
       if (rc == ResultCode::OK) {
         m_outputs.emplace_back(std::move(digitalOutput));
       }

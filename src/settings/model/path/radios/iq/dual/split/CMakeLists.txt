@@ -4,4 +4,3 @@ project(settings-model-path-radios-dual-iq-split)
 
 add_subdirectory(all-resolved)
 add_subdirectory(dotted-string-lookup)
-add_subdirectory(update-helper)

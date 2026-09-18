@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-audio-mixer.a "CMakeFiles/core-common-audio-mixer.dir/src/AudioMixer.cpp.o" "CMakeFiles/core-common-audio-mixer.dir/src/AudioMixerInput.cpp.o"
+/usr/bin/ranlib libcore-common-audio-mixer.a

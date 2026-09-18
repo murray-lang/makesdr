@@ -12,7 +12,8 @@
         "TARGET_PLATFORM": "linux-pc",
         "IS_QT": "ON",
         "USE_GPIO": "OFF",
-        "USE_ETL": "OFF"
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
       }
     },
     {
@@ -26,7 +27,8 @@
         "TARGET_PLATFORM": "linux-pc",
         "IS_QT": "ON",
         "USE_GPIO": "OFF",
-        "USE_ETL": "OFF"
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
       }
     },
     {
@@ -297,7 +299,8 @@
         "TARGET_EXAMPLE": "play",
         "TARGET_PLATFORM": "linux-pc",
         "USE_GPIO": "OFF",
-        "USE_ETL": "OFF"
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
       }
     },
     {
@@ -376,7 +379,8 @@
         "TARGET_PLATFORM": "linux-pc",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
-        "USE_ETL": "OFF"
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
       }
     },
     {
@@ -390,7 +394,9 @@
         "TARGET_PLATFORM": "linux-pc",
         "IS_QT": "ON",
         "USE_GPIO": "ON",
-        "USE_ETL": "OFF"
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
+
       }
     }
   ]

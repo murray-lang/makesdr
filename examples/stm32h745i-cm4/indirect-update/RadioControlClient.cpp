@@ -31,9 +31,9 @@ RadioControlClient::applySettings(const RadioSettings& settings)
   return ResultCode::OK;
 }
 ResultCode
-RadioControlClient::applySettingUpdate(const SettingUpdate& update)
+RadioControlClient::applyFieldUpdate(const FieldUpdate& update)
 {
-  ResultCode rc = m_radioSettings.applySettingUpdate(update);
+  ResultCode rc = m_radioSettings.applyFieldUpdate(update);
   if (rc == ResultCode::OK) {
     rc = notifySettings(m_radioSettings);
   }

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 4.1)
 
 
+
 set_property(CACHE TARGET_PLATFORM PROPERTY STRINGS "linux-pc" "rpi" "stm32h745i-cm7" "stm32h745i-cm4")
 set_property(CACHE TARGET_EXAMPLE PROPERTY STRINGS
         "play"
@@ -17,6 +18,9 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 project(makesdr C CXX ASM)
 
+enable_testing()
+include(cmake/GoogleTest.cmake)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Derive platform family from TARGET_PLATFORM
@@ -30,16 +34,17 @@ if(TARGET_PLATFORM MATCHES "^stm32h745i-(cm[47])$")
             -DGPIO_EVENT_QUEUE_CAPACITY=32
             -DMAX_GPIO_CONTEXT_LENGTH=4
     )
-
+    set(IS_LINUX OFF)
 elseif(TARGET_PLATFORM STREQUAL "rpi")
     set(PLATFORM_FAMILY "linux")
     set(PLATFORM_VARIANT "rpi")
-
-
+    set(IS_LINUX ON)
+    add_definitions(-DIS_LINUX)
 
 elseif(TARGET_PLATFORM STREQUAL "linux-pc")
     set(PLATFORM_FAMILY "linux")
     set(PLATFORM_VARIANT "pc")
+    set(IS_LINUX ON)
     add_definitions(-DIS_LINUX)
 endif()
 

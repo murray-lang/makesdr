@@ -6,5 +6,8 @@
 class DigitalInputFactory
 {
 public:
-  static ResultCode create(const Config::DigitalInput::Fields& config, DigitalInput& input);
+  static ResultCode create(
+    const Config::DigitalInput::Fields& config,
+    DigitalInput& input,
+    ResolveDottedStringFunc resolver);
 };

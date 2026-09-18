@@ -1,0 +1,2 @@
+/usr/bin/ar qc libradios-iq-basic-rx.a "CMakeFiles/radios-iq-basic-rx.dir/src/BasicIqRxRadio.cpp.o"
+/usr/bin/ranlib libradios-iq-basic-rx.a

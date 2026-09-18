@@ -1,0 +1,112 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"third-party/liquid-dsp/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 687,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 710,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 732,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 750,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Runtime",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"freertos-liquid-dsp-linux/libliquid.a"
+			],
+			"targetId" : "liquid-static::@e66d97bf7fa5e8e32582",
+			"targetIndex" : 61,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 1,
+			"component" : "Development",
+			"destination" : "include/liquid",
+			"paths" : 
+			[
+				"third-party/liquid-dsp/include/liquid.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/liquid-static",
+			"exportName" : "liquid-staticTargets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "liquid-static::@e66d97bf7fa5e8e32582",
+					"index" : 61
+				}
+			],
+			"paths" : 
+			[
+				"freertos-liquid-dsp-linux/CMakeFiles/Export/35736389b790dc848edacbf363ee56a6/liquid-staticTargets.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/liquid-static",
+			"paths" : 
+			[
+				"freertos-liquid-dsp-linux/liquid-staticConfig.cmake",
+				"freertos-liquid-dsp-linux/liquid-staticConfigVersion.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "lib/pkgconfig",
+			"paths" : 
+			[
+				"freertos-liquid-dsp-linux/liquid-dsp.pc"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "freertos-liquid-dsp-linux",
+		"source" : "third-party/liquid-dsp"
+	}
+}

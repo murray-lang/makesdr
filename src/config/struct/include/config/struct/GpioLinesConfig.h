@@ -21,10 +21,10 @@ namespace Config::GpioLines
 #endif
   struct Fields
   {
-    LinesVector lines;
-    ConfigString direction; // "input" or "output"
-    ConfigString bias; //"none", "pull-up" or "pull-down"
-    ConfigString edge; //"rising", "falling" or "both"
+    LinesVector lines{};
+    ConfigString direction{}; // "input" or "output"
+    ConfigString bias{}; //"none", "pull-up" or "pull-down"
+    ConfigString edge{}; //"rising", "falling" or "both"
   };
 }
 

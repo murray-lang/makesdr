@@ -5,9 +5,9 @@
 
 
 const FieldEntry band_settings_fields[] = {
-  {"band_request", makesdr_BasicBandSettingsPb_band_request_tag, nullptr, false, AutoCompleteTrigger::BAND},
+  {"band_request", makesdr_BasicBandSettingsPb_band_request_tag, nullptr, false, true},
   {"band", makesdr_BasicBandSettingsPb_band_tag,  band_fields},
-  {"mode_request", makesdr_BasicBandSettingsPb_mode_request_tag, nullptr, false, AutoCompleteTrigger::MODE},
+  {"mode_request", makesdr_BasicBandSettingsPb_mode_request_tag, nullptr, false, true},
   {"mode", makesdr_BasicBandSettingsPb_mode_tag,  mode_fields},
   {"rf", makesdr_BasicBandSettingsPb_rf_tag,  band_rf_fields},
   {"if", makesdr_BasicBandSettingsPb_if_tag,  if_fields},

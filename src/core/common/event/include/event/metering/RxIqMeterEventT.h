@@ -4,14 +4,17 @@
 #include <samples/SampleTypes.h>
 #include "RxIqMeterEventData.h"
 #include "../DataEventBaseT.h"
+#include <EventId.h>
 
-template<typename EventBaseT, typename EventTypeT, typename RegisterFunc>
-class RxIqMeterEventT : public RxIqMeterEventData, public DataEventBaseT<EventBaseT, EventTypeT, RegisterFunc>
+template<typename EventBaseT, typename EventIdT>
+class RxIqMeterEventT :
+  public RxIqMeterEventData,
+  public DataEventBaseT<EventBaseT, EventIdT, EVENT_METER_RX_IQ>
 {
 public:
   RxIqMeterEventT(float rssiDbFs, uint32_t sampleRate, optional<float> agcGainDb = nullopt)
     : RxIqMeterEventData(rssiDbFs, agcGainDb, sampleRate)
-    , DataEventBaseT<EventBaseT, EventTypeT>()
+    , DataEventBaseT<EventBaseT, EventIdT, EVENT_METER_RX_IQ>()
   {}
 
 };

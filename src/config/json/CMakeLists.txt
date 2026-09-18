@@ -18,13 +18,14 @@ set(CONFIG_SOURCES
         include/config/json/GpioInputLinesConfig.json.h
         include/config/json/GpioLinesConfig.json.h
         include/config/json/IqIoConfig.json.h
-        include/config/json/QtControlSinkConfig.json.h
-        include/config/json/QtControlSourceConfig.json.h
+        include/config/json/QtTransportConfig.json.h
+        include/config/json/QtTransportOutConfig.json.h
+        include/config/json/QtTransportInConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/IqReceiverConfig.json.h
         include/config/json/SdrConfig.json.h
         include/config/json/IqTransmitterConfig.json.h
-        include/config/json/SettingDescriptorConfig.json.h
+        include/config/json/FieldDescriptorConfig.json.h
         include/config/json/SoftRockConfig.json.h
         include/config/json/TypedJson.h
         include/config/json/UiConfig.json.h
@@ -41,7 +42,9 @@ set(CONFIG_SOURCES
         src/control/BandSelectorBandsConfig.json.cpp
         src/control/DigitalInputConfig.json.cpp
         src/control/DigitalOutputsConfig.json.cpp
-        src/control/QtControlSinkConfig.json.cpp
+        src/control/QtTransportConfig.json.cpp
+        src/control/QtTransportInConfig.json.cpp
+        src/control/QtTransportOutConfig.json.cpp
         src/control/ControlConfig.json.cpp
         src/control/DigitalOutputConfig.json.cpp
         src/control/GpioLinesConfig.json.cpp
@@ -49,8 +52,8 @@ set(CONFIG_SOURCES
         src/control/BandSelectorConfig.json.cpp
         src/control/DigitalInputsConfig.json.cpp
         src/control/FunCubeConfig.json.cpp
-        src/control/QtControlSourceConfig.json.cpp
-        src/control/SettingDescriptorConfig.json.cpp
+
+        src/control/FieldDescriptorConfig.json.cpp
         src/control/SoftRockConfig.json.cpp
         src/control/UsbControlSinksConfig.json.cpp
 

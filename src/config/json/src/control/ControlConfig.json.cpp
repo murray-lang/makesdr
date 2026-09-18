@@ -3,8 +3,8 @@
 #include "config/json/DigitalOutputsConfig.json.h"
 #include "config/json/DigitalInputsConfig.json.h"
 #include "config/json/UsbControlSinksConfig.json.h"
-#include "config/json/QtControlSinkConfig.json.h"
-#include "config/json/QtControlSourceConfig.json.h"
+#include "config/json/QtTransportOutConfig.json.h"
+#include "config/json/QtTransportInConfig.json.h"
 
 namespace Config::Control
 {
@@ -22,10 +22,10 @@ namespace Config::Control
       return result;
     }
 #endif
-#ifdef IS_QT
-    if (json.type == QtControlSink::type) {
-      QtControlSink::Fields fields{};
-      result = QtControlSink::fromJson(json.config, fields);
+#ifdef IS_LINUX
+    if (json.type == QtTransportOut::type) {
+      QtTransportOut::Fields fields{};
+      result = QtTransportOut::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
         sink = fields;
       }
@@ -56,10 +56,10 @@ namespace Config::Control
       return result;
     }
 #endif
-#ifdef IS_QT
-    if (json.type == QtControlSource::type) {
-      QtControlSource::Fields fields{};
-      result = QtControlSource::fromJson(json.config, fields);
+#ifdef IS_LINUX
+    if (json.type == QtTransportIn::type) {
+      QtTransportIn::Fields fields{};
+      result = QtTransportIn::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
         source = fields;
       }

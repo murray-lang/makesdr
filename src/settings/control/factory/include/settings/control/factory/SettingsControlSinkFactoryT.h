@@ -9,6 +9,7 @@ class SettingsControlSinkFactoryT
 public:
   static ResultCode create(
     const Config::Control::SinkConfigVariant& config,
+    ResolveDottedStringFunc resolver,
     SettingsControlSinkTypesT<RadioSettingsT>::Variant& sink)
   {
     ResultCode result = ResultCode::OK;
@@ -24,7 +25,7 @@ public:
 #ifdef USE_GPIO
     if (holds_alternative<Config::DigitalOutputs::Fields>(config)) {
       DigitalOutputsT<RadioSettingsT> douts;
-      result = douts.configure(get<Config::DigitalOutputs::Fields>(config));
+      result = douts.configure(get<Config::DigitalOutputs::Fields>(config), resolver);
       if (result == ResultCode::OK) {
         sink.template emplace<DigitalOutputsT<RadioSettingsT>>(move(douts));
       }
@@ -40,11 +41,11 @@ public:
     // }
 #endif
 
-#ifdef IS_QT
-    if (holds_alternative<Config::QtControlSink::Fields>(config)) {
-      using QtSink = typename SettingsControlSinkTypesT<RadioSettingsT>::QtSinkType;
-      sink.template emplace<QtSink>();
-      result = get<QtSink>(sink).configure(get<Config::QtControlSink::Fields>(config));
+#ifdef IS_LINUX
+    if (holds_alternative<Config::QtTransportOut::Fields>(config)) {
+      using TransportSink = typename SettingsControlSinkTypesT<RadioSettingsT>::TransportSinkType;
+      sink.template emplace<TransportSink>();
+      result = get<TransportSink>(sink).configure(get<Config::QtTransportOut::Fields>(config));
       return result;
     }
 #endif

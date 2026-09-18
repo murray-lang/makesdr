@@ -6,7 +6,7 @@
 #include "settings/control/usb/sinks/UsbControlSinkFactoryT.h"
 
 template <typename RadioSettingsT>
-class UsbControlSinksT : public SettingsControlSinkT<RadioSettingsT>, public SettingUpdateSink
+class UsbControlSinksT : public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink
 {
 public:
   UsbControlSinksT() = default;
@@ -60,12 +60,12 @@ public:
     }
     return ResultCode::OK;
   }
-  ResultCode applySettingUpdate(const SettingUpdate& settingDelta, bool final) override
+  ResultCode applyFieldUpdate(const FieldUpdate& settingDelta) override
   {
     for (auto& device : m_devices) {
-      const ResultCode rc = visit([&settingDelta, &final] (auto&& dev) -> ResultCode
+      const ResultCode rc = visit([&settingDelta] (auto&& dev) -> ResultCode
       {
-        return dev.applySettingUpdate(settingDelta, final);
+        return dev.applyFieldUpdate(settingDelta);
       }, device);
       if (rc != ResultCode::OK) {
         return rc;
@@ -74,7 +74,7 @@ public:
     return ResultCode::OK;
   }
 
-  void ptt(bool on) override
+  ResultCode ptt(bool on) override
   {
     for (auto& device : m_devices)
     {
@@ -83,6 +83,7 @@ public:
         dev.ptt(on);
       }, device) ;
     }
+    return ResultCode::OK;
   }
 
 protected:

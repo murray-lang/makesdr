@@ -4,17 +4,19 @@
 #include <settings/model/path/resolveDottedString.h>
 #endif
 
-DualIqRxTxSettings::DualIqRxTxSettings(const makesdr_RadioLookupPb& meta, RxTxDualIqBandSettingsCache& cache)
-  : DualIqRxTxSettingsBaseType(meta, cache)
+DualIqRxTxSettings::DualIqRxTxSettings()
+  : DualIqRxTxSettingsBaseType()
   , m_transmitterSettings(m_payload.body.transmitter)
 {
 }
 
 #ifdef USE_DOTTED_STRING_PATHS
-ResultCode
-DualIqRxTxSettings::resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor)
+ResolveDottedStringFunc
+DualIqRxTxSettings::resolveDottedStringFunc()
 {
-  return ::resolveDottedString(dottedPath, dual_iq_rxtx_radio_fields, descriptor);
+  return [](const char* dottedPath, FieldDescriptor& descriptor) -> ResultCode {
+    return ::resolveDottedString(dottedPath, dual_iq_rxtx_radio_fields, descriptor);
+  };
 }
 #endif
 

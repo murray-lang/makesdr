@@ -1,0 +1,52 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library"
+		],
+		"files" : 
+		[
+			"src/core/platform/linux/transport/qt/event/in/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "core-linux-transport-qt-event-in::@3bebb65722ae37473223",
+	"name" : "core-linux-transport-qt-event-in",
+	"paths" : 
+	{
+		"build" : "src/core/platform/linux/transport/qt/event/in",
+		"source" : "src/core/platform/linux/transport/qt/event/in"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/core/platform/linux/transport/qt/event/in/include/transport/in/QtTransportInT.h",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "INTERFACE_LIBRARY"
+}

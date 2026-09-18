@@ -1,8 +1,10 @@
 #pragma once
 #include <QThread>
 
-#include "config/struct/QtControlSourceConfig.h"
-#include "settings/control/source/SettingsControlSourceT.h"
+#include <config/struct/QtControlSourceConfig.h>
+#include <settings/control/source/SettingsControlSourceT.h>
+#include <event/FieldUpdateEvent.h>
+#include <EventId.h>
 #include <qeventloop.h>
 
 
@@ -26,7 +28,7 @@ public:
     return *this;
   }
 
-  ResultCode configure(const Config::QtControlSource::Fields& config) { return ResultCode::OK; }
+  ResultCode configure(const Config::QtTransportIn::Fields& config) { return ResultCode::OK; }
 
   bool discover() override { return true; }
 
@@ -48,7 +50,7 @@ public:
   void run() override
   {
     QEventLoop loop;
-    // QObject::connect(this, &QtControlSource::finished, &loop, &QEventLoop::quit);
+    // QObject::connect(this, &QtTransportIn::finished, &loop, &QEventLoop::quit);
     loop.exec();
   }
 
@@ -59,11 +61,12 @@ public:
     //   auto* radioSettingsEvent = dynamic_cast<RadioSettingsEvent*>(event);
     //   notifySettings(radioSettingsEvent->getRadioSettings());
     //
-    // } else if (event->type() == SettingUpdateEvent::SettingUpdateEventType) {
-    //
-    //   auto* settingUpdateEvent = dynamic_cast<SettingUpdateEvent*>(event);
-    //   notifySettingUpdate(settingUpdateEvent->m_setting);
-    // }
+    // } else
+    if (event->type() == static_cast<QEvent::Type>(EVENT_SETTINGS_UPDATE)) {
+
+      auto* settingUpdateEvent = dynamic_cast<FieldUpdateEvent*>(event);
+      // notifyFieldUpdate(settingUpdateEvent->m_setting);
+    }
   }
 
   // signals:

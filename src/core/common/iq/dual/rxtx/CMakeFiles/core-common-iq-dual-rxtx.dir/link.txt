@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-common-iq-dual-rxtx.a "CMakeFiles/core-common-iq-dual-rxtx.dir/src/DualIqRxTx.cpp.o" "CMakeFiles/core-common-iq-dual-rxtx.dir/src/DualIqRxTx_Rx.cpp.o"
+/usr/bin/ranlib libcore-common-iq-dual-rxtx.a

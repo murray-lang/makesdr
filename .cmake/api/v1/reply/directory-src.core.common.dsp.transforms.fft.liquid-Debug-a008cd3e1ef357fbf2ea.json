@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/core/common/dsp/transforms/fft/liquid",
+		"source" : "src/core/common/dsp/transforms/fft/liquid"
+	}
+}

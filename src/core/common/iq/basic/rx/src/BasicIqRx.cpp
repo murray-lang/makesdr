@@ -1,11 +1,10 @@
 #include "iq/rx/BasicIqRx.h"
 
 
-BasicIqRx::BasicIqRx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : IqRxBase(eventTargetProvider)
-  , m_pipelineA(eventTargetProvider, radioLookup)
+BasicIqRx::BasicIqRx(const ModeList& modes)
+  : IqRxBaseT()
+  , m_pipelineA(modes)
 {
-
 }
 
 ResultCode
@@ -34,12 +33,12 @@ BasicIqRx::stop()
 }
 
 ResultCode
-BasicIqRx::apply(IRadioSettings& settings)
+BasicIqRx::apply(BasicIqRxSettings& settings)
 {
   if (settings.hasActiveBands()) {
-    IActiveBandSettings* activeBandSettings = settings.activeBands();
+    ActiveBandSettings* activeBandSettings = settings.activeBands();
     if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
-      IBandSettings* bandSettings = activeBandSettings->focusBand();
+      BandSettings* bandSettings = activeBandSettings->focusBandSettings();
       if (bandSettings->hasFocusPipeline()) {
         RxPipelineSettings* pipelineSettings = bandSettings->focusPipeline();
         const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;

@@ -11,13 +11,13 @@
 // #include <iq/modulation/AmModulator.h>
 #include <iq/modulation/FmModulator.h>
 #include <iq/modulation/SsbModulator.h>
-#include <settings/model/radios/component/TxPipelineSettings.h>
+#include <settings/model/radios/iq/TxPipelineSettings.h>
 
 
 class IqTxPipeline : public IqPipeline
 {
 public:
-  IqTxPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  IqTxPipeline(const ModeList& modes);
   ~IqTxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;

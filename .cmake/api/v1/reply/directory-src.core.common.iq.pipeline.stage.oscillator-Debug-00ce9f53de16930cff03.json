@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "src/core/common/iq/pipeline/stage/oscillator",
+		"source" : "src/core/common/iq/pipeline/stage/oscillator"
+	}
+}

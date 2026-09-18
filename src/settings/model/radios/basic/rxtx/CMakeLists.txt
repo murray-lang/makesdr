@@ -16,7 +16,7 @@ target_include_directories(settings-model-radios-basic-rxtx PUBLIC
 
 set(BASIC_RXTX_LIBS
         settings-model-radios-base
-        settings-model-radios-basic-component
+        settings-model-radios-basic-common
         settings-model-data-radio
 )
 

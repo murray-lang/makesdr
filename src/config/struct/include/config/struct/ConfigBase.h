@@ -26,12 +26,12 @@ namespace Config
 {
 #ifdef USE_ETL
   using TypeString = etl::string<TYPE_LENGTH_INCL_0>;
-  using SettingPathString = etl::string<MAX_DOTTED_STRING_LENGTH>;
-  using SettingPathTags = etl::vector<uint32_t, MAX_FIELD_PATH_LENGTH>;
+  using FieldPathString = etl::string<MAX_DOTTED_STRING_LENGTH>;
+  using FieldPathTags = etl::vector<uint32_t, MAX_FIELD_PATH_LENGTH>;
 #else
   using TypeString = std::string;
-  using SettingPathString = std::string;
-  using SettingPathTags = std::vector<uint32_t>;
+  using FieldPathString = std::string;
+  using FieldPathTags = std::vector<uint32_t>;
 #endif
 
 

@@ -86,7 +86,7 @@ ResultCode gpioTest()
   }
 
   radioControl.connectRadioSettingsSink(radioControlSink);
-  radioControl.connectSettingUpdateSink(radioControlSink);
+  radioControl.connectFieldUpdateSink(radioControlSink);
 
   radioControlSink.connectRadioSettingsSink(radioControl);
 
@@ -107,8 +107,8 @@ ResultCode gpioTest()
   // }
   //
   // const DigitalInputVector& inputs = digitalInputs.getInputs();
-  // const SettingPath& path = inputs.at(1).getSettingPath();
-  // // printf("[CM4]\tgpioTest() SettingPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
+  // const FieldPath& path = inputs.at(1).getFieldPath();
+  // // printf("[CM4]\tgpioTest() FieldPath: %lu, %lu, %lu, %lu, %lu, %lu\r\n", path[0], path[1], path[2], path[3], path[4], path[5]);
   // // const DigitalInputVector& inputs = digitalInputs.getInputs();
   // // for (auto& input : inputs) {
   // //   SAFE_PRINTF("[CM4]\t Lines: %0x\r\n", input.getLines());
@@ -120,7 +120,7 @@ ResultCode gpioTest()
   // //   return ResultCode::ERR_SETTING_DIGITAL_INPUT_LINE_CONFIG;
   // // }
   //
-  // digitalInputs.connectSettingUpdateSink(radioSettings);
+  // digitalInputs.connectFieldUpdateSink(radioSettings);
   //
   // rc = digitalInputs.open();
   // if (rc != ResultCode::OK) {

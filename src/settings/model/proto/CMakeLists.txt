@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 4.1)
 
 project(settings-model-proto)
 
-set(PROTO_PLATFORMS "nanopb" "google")
-set(PROTO_PLATFORM "nanopb")
+#set(PROTO_PLATFORMS "nanopb" "google")
+#set(PROTO_PLATFORM "nanopb")
 
 set(GEN_DIR ${CMAKE_CURRENT_LIST_DIR}/gen)
 set(GOOGLE_GEN_DIR ${GEN_DIR}/google)
@@ -14,31 +14,31 @@ list(APPEND CMAKE_MODULE_PATH ${NANOPB_DIR}/extra)
 
 message(${NANOPB_DIR})
 
-if (PROTO_PLATFORM STREQUAL "google")
-    add_definitions(-DPROTO_GOOGLE)
-
-    find_package(Protobuf REQUIRED)
-elseif(PROTO_PLATFORM STREQUAL "nanopb")
+#if (PROTO_PLATFORM STREQUAL "google")
+#    add_definitions(-DPROTO_GOOGLE)
+#
+#    find_package(Protobuf REQUIRED)
+#elseif(PROTO_PLATFORM STREQUAL "nanopb")
     add_definitions(-DPROTO_NANOPB)
 
     # Include FindNanopb.cmake for nanopb_generate_cpp() function
     include("${NANOPB_DIR}/extra/FindNanopb.cmake")
-endif()
+#endif()
 
-if (PROTO_PLATFORM STREQUAL "google")
-    add_library(settings-model-proto OBJECT ${PROTO_DIR}/RadioSettings.proto)
-    target_link_libraries(settings-model-proto PUBLIC protobuf::libprotobuf)
-    target_include_directories(settings-model-proto PUBLIC ${GOOGLE_GEN_DIR})
-
-    protobuf_generate(
-            TARGET proto_lib
-            LANGUAGE cpp
-            ${CMAKE_CURRENT_LIST_DIR}/RadioSettings.proto
-            ${CMAKE_CURRENT_LIST_DIR}/RadioPayloads.proto
-            PROTOC_OUT_DIR ${GOOGLE_GEN_DIR}
-    )
-    add_dependencies(settings-model-proto proto_lib)
-elseif(PROTO_PLATFORM STREQUAL "nanopb")
+#if (PROTO_PLATFORM STREQUAL "google")
+#    add_library(settings-model-proto OBJECT ${PROTO_DIR}/RadioSettings.proto)
+#    target_link_libraries(settings-model-proto PUBLIC protobuf::libprotobuf)
+#    target_include_directories(settings-model-proto PUBLIC ${GOOGLE_GEN_DIR})
+#
+#    protobuf_generate(
+#            TARGET proto_lib
+#            LANGUAGE cpp
+#            ${CMAKE_CURRENT_LIST_DIR}/RadioSettings.proto
+#            ${CMAKE_CURRENT_LIST_DIR}/RadioPayloads.proto
+#            PROTOC_OUT_DIR ${GOOGLE_GEN_DIR}
+#    )
+#    add_dependencies(settings-model-proto proto_lib)
+#elseif(PROTO_PLATFORM STREQUAL "nanopb")
 
 
      nanopb_generate_cpp(
@@ -92,4 +92,4 @@ elseif(PROTO_PLATFORM STREQUAL "nanopb")
     )
     add_dependencies(settings-model-proto copy_nanopb_gen_settings copy_nanopb_gen_message)
 
-endif()
+#endif()

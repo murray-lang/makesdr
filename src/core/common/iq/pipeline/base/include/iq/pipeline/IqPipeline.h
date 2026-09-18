@@ -5,8 +5,8 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/radios/component/PipelineSettings.h>
-#include <settings/model/radios/component/BandRfSettings.h>
+#include <settings/model/radios/iq/PipelineSettings.h>
+#include <settings/model/radios/BandRfSettings.h>
 #include <settings/model/data/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"
@@ -23,7 +23,7 @@ using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 class IqPipeline : public IqSink
 {
 public:
-  explicit IqPipeline(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup);
+  explicit IqPipeline(const ModeList& modes);
   ~IqPipeline() override = default;
 
   virtual void initialise(IqIo* pIo, AudioSink* pAudioOutSink)
@@ -72,8 +72,7 @@ protected:
   void setOscillatorMixerFrequency(const BandRfSettings* bandRfSettings, const PipelineRfSettings* rfSettings);
 
 protected:
-  const EventTargetProvider& m_eventTargetProvider;
-  const RadioLookup& m_radioLookup;
+  const ModeList& m_modes;
   // MeteringSource m_meteringSource;
   // MonitorSource m_monitorSource;
   Mode::Proto m_mode;

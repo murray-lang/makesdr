@@ -1,13 +1,11 @@
 #pragma once
-#include <settings/model/radios/component/BandSettingsCacheT.h>
+#include <settings/model/radios/BandSettingsCacheT.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/data/radio/RadioLookup.h>
-#include <settings/model/radios/base/RadioSettingsBaseT.h>
-#include <settings/model/radios/component/DualIqActiveBandSettings.h>
-#include <settings/model/radios/component/DualIqBandSettingsCache.h>
-
-
+#include <settings/model/radios/RadioSettingsBaseT.h>
+#include <settings/model/radios/iq/DualIqActiveBandSettings.h>
+#include <settings/model/radios/iq/DualIqBandSettingsCache.h>
 
 using DualIqRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxSettingsPb,
@@ -26,14 +24,10 @@ public:
   using Payload = makesdr_DualIqRxSettingsPayloadPb;
   using Cache = DualIqBandSettingsCache;
 
-  DualIqRxSettings(const makesdr_RadioLookupPb& meta, DualIqBandSettingsCache& cache);
-
-  [[nodiscard]] bool hasActiveBands() const override { return m_payload.body.has_active_bands;}
-  IActiveBandSettings* activeBands() override { return &m_activeBandSettings; }
-  [[nodiscard]] const IActiveBandSettings* activeBands() const override { return &m_activeBandSettings; }
+  DualIqRxSettings();
 
 #ifdef USE_DOTTED_STRING_PATHS
-  ResultCode resolveDottedString(const char *dottedPath, SettingDescriptor& descriptor) override;
+  ResolveDottedStringFunc resolveDottedStringFunc() override;
 #endif
 
 };

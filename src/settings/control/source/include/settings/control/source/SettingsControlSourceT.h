@@ -1,20 +1,22 @@
 #pragma once
 #include <settings/control/SettingsControlBase.h>
-#include <settings/model/radios/base/RadioSettingsSourceT.h>
-#include <settings/model/radios/base/RadioSettingsSinkT.h>
-#include <settings/model/base/SettingUpdateSource.h>
-#include <settings/model/base/SettingUpdateSink.h>
+#include <settings/model/radios/RadioSettingsSourceT.h>
+#include <settings/model/radios/RadioSettingsSinkT.h>
+#include <settings/model/message/FieldUpdateSource.h>
+#include <settings/model/message/FieldUpdateSink.h>
 
 
 template <typename RadioSettingsT>
 class SettingsControlSourceT :
   public SettingsControlBase,
   public RadioSettingsSourceT<RadioSettingsT>,
-  public SettingUpdateSource
+  public FieldUpdateSource
 {
 public:
   SettingsControlSourceT()
     : SettingsControlBase()
+    , m_pSettingsSink(nullptr)
+    , m_pFieldUpdateSink(nullptr)
   {
   }
   SettingsControlSourceT(SettingsControlSourceT&& rhs) noexcept = default;
@@ -23,12 +25,12 @@ public:
 
   void connectRadioSettingsSink(RadioSettingsSinkT<RadioSettingsT>* sink) override
   {
-    m_pSettingsSink.reset(sink);
+    m_pSettingsSink = sink;
   }
 
-  void connectSettingUpdateSink(SettingUpdateSink* sink) override
+  void connectFieldUpdateSink(FieldUpdateSink* sink) override
   {
-    m_pFieldUpdateSink.reset(sink);
+    m_pFieldUpdateSink =  sink;
   }
 protected:
   ResultCode notifySettings(RadioSettingsT& radioSettings) override
@@ -40,15 +42,15 @@ protected:
   }
 
 
-  ResultCode notifySettingUpdate(const SettingUpdate& update, bool final) override
+  ResultCode notifyFieldUpdate(const FieldUpdate& update) override
   {
     if (m_pFieldUpdateSink) {
-      m_pFieldUpdateSink->applySettingUpdate(update, final);
+      m_pFieldUpdateSink->applyFieldUpdate(update);
     }
     return ResultCode::OK;
   }
 
 protected:
-  shared_ptr<RadioSettingsSinkT<RadioSettingsT>> m_pSettingsSink;
-  shared_ptr<SettingUpdateSink> m_pFieldUpdateSink;
+  RadioSettingsSinkT<RadioSettingsT>* m_pSettingsSink;
+  FieldUpdateSink* m_pFieldUpdateSink;
 };

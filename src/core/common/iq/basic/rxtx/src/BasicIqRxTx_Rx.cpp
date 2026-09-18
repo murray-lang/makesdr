@@ -1,7 +1,7 @@
 #include "iq/rxtx/BasicIqRxTx_Rx.h"
 
-BasicIqRxTx_Rx::BasicIqRxTx_Rx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : m_rxPipeline(eventTargetProvider, radioLookup)
+BasicIqRxTx_Rx::BasicIqRxTx_Rx(const ModeList& modes)
+  : m_rxPipeline(modes)
 {
 }
 

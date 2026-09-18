@@ -47,7 +47,7 @@ int main()
   bool isIndirect = false;
   AutoCompleteTrigger trigger;
 
-  SettingPath bandPath;
+  FieldPath bandPath;
   rc = RadioSettings::resolveDottedPath("active_bands.band_1.band_request", bandPath, &isIndirect, &trigger);
   if (rc != ResultCode::OK) {
     BSP_LED_On(LED_RED);
@@ -55,8 +55,8 @@ int main()
   }
 
   NameString band80 = "80m";
-  SettingUpdate band80Update(bandPath, band80, SettingUpdate::VALUE, isIndirect, trigger);
-  rc = clientRadioSettings.applySettingUpdate(band80Update);
+  FieldUpdate band80Update(bandPath, band80, FieldUpdate::VALUE, isIndirect, trigger);
+  rc = clientRadioSettings.applyFieldUpdate(band80Update);
   if (rc != ResultCode::OK) {
     BSP_LED_On(LED_RED);
     while (1) {}

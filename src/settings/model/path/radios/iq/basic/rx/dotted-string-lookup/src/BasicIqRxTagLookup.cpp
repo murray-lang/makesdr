@@ -16,7 +16,7 @@ const FieldEntry pipeline_rf_fields[] = {
 };
 
 const FieldEntry pipeline_fields[] = {
-  {"mode_request", makesdr_PipelineSettingsPb_mode_request_tag, nullptr, false, AutoCompleteTrigger::MODE},
+  {"mode_request", makesdr_PipelineSettingsPb_mode_request_tag, nullptr, false, true},
   {"mode", makesdr_PipelineSettingsPb_mode_tag,  mode_fields},
   {"rf", makesdr_PipelineSettingsPb_rf_tag,  pipeline_rf_fields},
   {"iq_corrections", makesdr_PipelineSettingsPb_iq_corrections_tag,  iq_corrections_fields},
@@ -31,7 +31,7 @@ const FieldEntry rx_pipeline_fields[] = {
 };
 
 const FieldEntry band_settings_fields[] = {
-  {"band_request", makesdr_BasicIqBandSettingsPb_band_request_tag, nullptr, false, AutoCompleteTrigger::BAND},
+  {"band_request", makesdr_BasicIqBandSettingsPb_band_request_tag, nullptr, false, true},
   {"band", makesdr_BasicIqBandSettingsPb_band_tag,  band_fields},
   {"rf", makesdr_BasicIqBandSettingsPb_rf_tag,  band_rf_fields},
   {"if", makesdr_BasicIqBandSettingsPb_if_tag,  if_fields},

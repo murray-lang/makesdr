@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/ui/icons">
+        <file>solid/arrow-right.svg</file>
+        <file>solid/arrows-left-right-to-line.svg</file>
+        <file>solid/caret-right.svg</file>
+        <file>solid/circle-xmark.svg</file>
+        <file>solid/clone.svg</file>
+        <file>solid/ear-deaf-solid-full.svg</file>
+        <file>solid/ear-listen-solid-full.svg</file>
+        <file>solid/gear.svg</file>
+        <file>solid/sliders.svg</file>
+        <file>solid/volume-solid-full.svg</file>
+        <file>solid/volume-xmark-solid-full.svg</file>
+    </qresource>
+</RCC>

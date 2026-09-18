@@ -3,15 +3,14 @@
 #include "AudioEventData.h"
 
 #include "../DataEventBaseT.h"
+#include <EventId.h>
 
-template<typename EventBaseT, typename EventTypeT, typename RegisterFunc>
-class TxAudioEventT : public AudioEventData, public DataEventBaseT<EventBaseT, EventTypeT, RegisterFunc>
+template<typename EventBaseT, typename EventIdT>
+class TxAudioEventT : public AudioEventData, public DataEventBaseT<EventBaseT, EventIdT, EVENT_AUDIO_TX>
 {
 public:
-  TxAudioEventT(const RealSamplesMax& audio, uint32_t _length, uint32_t _sampleRate)
-    : DataEventBaseT<EventBaseT, EventTypeT>()
-    , samples(audio.begin(), audio.begin() + _length)
-    , length(_length)
-    , sampleRate(_sampleRate)
+  TxAudioEventT(const RealSamplesMax& audio, uint32_t length, uint32_t sampleRate)
+    : DataEventBaseT<EventBaseT, EventIdT, EVENT_AUDIO_TX>()
+    , AudioEventData(audio, length, sampleRate)
   {}
 };

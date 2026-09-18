@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-iq-dual-common.a "CMakeFiles/settings-model-radios-iq-dual-common.dir/src/DualIqActiveBandSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-dual-common.dir/src/DualIqBandSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-dual-common.dir/src/RxTxDualIqActiveBandSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-dual-common.dir/src/RxTxDualIqBandSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-dual-common.dir/src/SplitBandDualIqActiveBandSettings.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-iq-dual-common.a

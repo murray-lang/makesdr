@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsettings-model-radios-iq-basic-common.a "CMakeFiles/settings-model-radios-iq-basic-common.dir/src/BasicIqActiveBandSettings.cpp.o" "CMakeFiles/settings-model-radios-iq-basic-common.dir/src/BasicIqBandSettings.cpp.o"
+/usr/bin/ranlib libsettings-model-radios-iq-basic-common.a

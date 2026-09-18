@@ -1,4 +1,4 @@
-#include "ui/qt/legacy/QtMiniVfoToolbar.h"
+#include "ui/qt/widgets/QtMiniVfoToolbar.h"
 
 #include <QIcon>
 #include <QStyle>
@@ -6,16 +6,18 @@
 #include <array>
 
 #include "ui_QtMiniVfoToolbar.h"
-#include "settings/model/radios/selected/UpdateHelpers.h"
 
-#include <ui/qt/legacy/QWidgetPropertySetter.h>
+#include <ui/qt/widgets/QWidgetPropertySetter.h>
 
 const auto closeIconName = QStringLiteral(":/ui/icons/solid/circle-xmark.svg");
+const auto mutedIconName = QStringLiteral(":/ui/icons/solid/volume-xmark-solid-full.svg");
+const auto unmutedIconName = QStringLiteral(":/ui/icons/solid/volume-solid-full.svg");
 const auto openIconName = QStringLiteral(":/ui/icons/solid/arrow-right.svg");
 const auto abButtonText = QStringLiteral("A/B");
 
-QtMiniVfoToolbar::QtMiniVfoToolbar(QWidget* parent)
+QtMiniVfoToolbar::QtMiniVfoToolbar(IRadioSettingsUpdater* radioControl, QWidget* parent)
   : QWidget(parent)
+  , m_radioControl(radioControl)
   , ui(std::make_unique<Ui::QtMiniVfoToolbar>())
 {
   setAttribute(Qt::WA_StyledBackground, true);
@@ -28,11 +30,7 @@ QtMiniVfoToolbar::QtMiniVfoToolbar(QWidget* parent)
   ui->txButton->setFocusPolicy(Qt::NoFocus);
   ui->modeButton->setFocusPolicy(Qt::NoFocus);
 
-  connect(ui->muteButton, &QToolButton::clicked, this, [this] {
-    setMuted(!m_muted);
-    emit muteToggledRequested(m_muted);
-  });
-
+  connect(ui->muteButton, &QToolButton::clicked, this, [this] { onMutePressed(); });
   connect(ui->abButton, &QToolButton::clicked, this, [this] { onAbPressed(); });
   connect(ui->txButton, &QToolButton::clicked, this, [this] { onTxPressed(); });
   connect(ui->modeButton, &QToolButton::clicked, this, [this] { onModePressed(); });
@@ -46,14 +44,16 @@ QtMiniVfoToolbar::QtMiniVfoToolbar(QWidget* parent)
 
 QtMiniVfoToolbar::~QtMiniVfoToolbar() = default;
 
-void QtMiniVfoToolbar::setContext(SplitBandId bandId, VfoId vfoId)
+void
+QtMiniVfoToolbar::setContext(SplitBandId bandId, VfoId vfoId)
 {
   m_bandId = bandId;
   m_vfoId = vfoId;
   // refreshFromSettings();
 }
 
-void QtMiniVfoToolbar::setFixedProperties()
+void
+QtMiniVfoToolbar::setFixedProperties()
 {
   QWidgetPropertySetter::setWidgetProperty(ui->muteButton, "role", "mute", false);
   QWidgetPropertySetter::setWidgetProperty(ui->abButton, "role", "ab", false);
@@ -61,27 +61,31 @@ void QtMiniVfoToolbar::setFixedProperties()
   QWidgetPropertySetter::setWidgetProperty(ui->modeButton, "role", "mode", false);
 }
 
-void QtMiniVfoToolbar::applyBandSettings(const BandSettings* bandSettings, bool isFocusBand, bool isTxBand)
+void
+QtMiniVfoToolbar::applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isFocusBand, bool isTxBand)
 {
   m_bandSettings = bandSettings;
   refreshFromSettings(isFocusBand, isTxBand);
 }
 
-void QtMiniVfoToolbar::setMuted(bool muted)
+void
+QtMiniVfoToolbar::setMuted(bool muted)
 {
-  if (m_muted == muted) return;
+  ui->muteButton->setProperty("active", muted);
   m_muted = muted;
   updateMutePresentation();
 }
 
-void QtMiniVfoToolbar::setAbActive(bool active)
+void
+QtMiniVfoToolbar::setAbActive(bool active)
 {
   if (m_abActive == active) return;
   m_abActive = active;
   updateAbPresentation();
 }
 
-void QtMiniVfoToolbar::setTxActive(bool active)
+void
+QtMiniVfoToolbar::setTxActive(bool active)
 {
   ui->txButton->setProperty("active", active);
   ui->txButton->style()->unpolish(ui->txButton);
@@ -97,7 +101,8 @@ void QtMiniVfoToolbar::setModeText(const QString& text)
 void QtMiniVfoToolbar::updateMutePresentation()
 {
   ui->muteButton->setProperty("active", m_muted);
-  ui->muteButton->setText(QStringLiteral("Mute"));
+  // ui->muteButton->setText(QStringLiteral("Mute"));
+  ui->muteButton->setIcon(m_muted ? QIcon(mutedIconName) : QIcon(unmutedIconName));
   ui->muteButton->style()->unpolish(ui->muteButton);
   ui->muteButton->style()->polish(ui->muteButton);
   ui->muteButton->update();
@@ -129,36 +134,37 @@ void QtMiniVfoToolbar::refreshFromSettings(bool isFocusBand, bool isTxBand)
     setTxActive(false);
     return;
   }
-
+  setMuted(getIsMuted(m_bandSettings));
   setAbActive(m_bandSettings->isMultiPipeline());
   setTxActive(m_bandSettings->txPipelineId() == m_vfoId && isTxBand);
+}
+
+bool
+QtMiniVfoToolbar::getIsMuted(const RxTxDualIqBandSettings* bandSettings) const noexcept
+{
+  const RxPipelineSettings* pipeline = bandSettings->pipeline(m_vfoId);
+  return pipeline->mute();
 }
 
 void QtMiniVfoToolbar::onAbPressed()
 {
   if (!hasValidContext() || m_bandSettings == nullptr) return;
 
-  SettingUpdateVector updates;
+  FieldUpdateVector updates;
   if (!m_bandSettings->isMultiPipeline()) {
 
-    UpdateHelpers::makeSetMultiPipeline(m_bandId, true, updates);
-    emit settingUpdateRequested(updates);
+    m_radioControl->setMultiPipeline(m_bandId, true);
     return;
   }
-
-  UpdateHelpers::makeClosePipeline(m_bandId, m_vfoId, updates);
-  emit settingUpdateRequested(updates);
+  m_radioControl->closePipeline(m_bandId, m_vfoId);
 }
 
 void QtMiniVfoToolbar::onTxPressed()
 {
   if (!hasValidContext()) return;
 
-  SettingUpdateVector updates;
-  UpdateHelpers::makeSetTxBand(m_bandId, updates);
-  UpdateHelpers::makeSetTxPipeline(m_bandId, m_vfoId, updates);
-
-  emit settingUpdateRequested(updates);
+  m_radioControl->setTxBand(m_bandId);
+  m_radioControl->setTxPipeline(m_bandId, m_vfoId);
 }
 
 void QtMiniVfoToolbar::onModePressed()
@@ -169,6 +175,13 @@ void QtMiniVfoToolbar::onModePressed()
   // When a mode is chosen, that code should call:
   //   settingUpdateRequested(RadioSettings::makeBandSetModeOnFocusPipelineUpdate(m_bandId, modeType));
   emit modeSelectRequested(m_bandId);
+}
+
+void QtMiniVfoToolbar::onMutePressed()
+{
+  if (!hasValidContext()) return;
+
+  m_radioControl->mutePipeline(m_bandId, m_vfoId, !m_muted);
 }
 
 void QtMiniVfoToolbar::lockAbButtonWidthToIconState()

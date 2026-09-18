@@ -1,9 +1,9 @@
 #include "iq/rxtx/DualIqRxTx.h"
 
-DualIqRxTx::DualIqRxTx(const EventTargetProvider& eventTargetProvider, const RadioLookup& radioLookup)
-  : IqRxTxBase(eventTargetProvider)
-  , m_rx(eventTargetProvider, radioLookup)
-  , m_tx(eventTargetProvider, radioLookup)
+DualIqRxTx::DualIqRxTx(const ModeList& modes)
+  : IqRxTxBaseT()
+  , m_rx(modes)
+  , m_tx(modes)
 {
 
 }
@@ -44,7 +44,7 @@ DualIqRxTx::ptt(bool on)
 }
 
 ResultCode
-DualIqRxTx::apply(IRadioSettings& settings)
+DualIqRxTx::apply(RadioSettings& settings)
 {
   ResultCode rc = ResultCode::OK;
   if (settings.hasActiveBands()) {

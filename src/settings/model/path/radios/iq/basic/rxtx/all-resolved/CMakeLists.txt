@@ -20,5 +20,5 @@ target_include_directories(settings-model-path-radios-basic-iq-rxtx-resolved PRI
 )
 
 target_link_libraries(settings-model-path-radios-basic-iq-rxtx-resolved PUBLIC
-        settings-model-base
+        settings-model-message
 )

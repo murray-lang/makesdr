@@ -7,6 +7,8 @@ find_package(PkgConfig)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
 set(QT_DATA_EVENT_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/event/EventDispatcher.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/event/FieldUpdateEvent.h
         ${CMAKE_CURRENT_LIST_DIR}/include/event/QtEventRegistrar.h
 
         ${CMAKE_CURRENT_LIST_DIR}/include/event/sample/RxAudioEvent.h
@@ -26,5 +28,6 @@ target_include_directories(core-linux-event-data INTERFACE
 
 target_link_libraries(core-linux-event-data INTERFACE
         core-common-event
+        settings-model-message
         Qt6::Core
 )

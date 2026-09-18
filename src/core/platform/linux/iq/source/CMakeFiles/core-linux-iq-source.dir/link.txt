@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcore-linux-iq-source.a "CMakeFiles/core-linux-iq-source.dir/src/AudioIqSource.cpp.o" "CMakeFiles/core-linux-iq-source.dir/src/AudioSignalIqSource.cpp.o" "CMakeFiles/core-linux-iq-source.dir/src/IqSourceFactory.cpp.o"
+/usr/bin/ranlib libcore-linux-iq-source.a

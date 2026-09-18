@@ -32,3 +32,6 @@ makesdr.BandCategoryPb.label max_size: 10
 makesdr.BandCategoryPb.bands max_count: 13
 
 makesdr.BandCategoryListPb.categories max_count: 8
+
+makesdr.FieldUpdatePb.path max_count: 8
+makesdr.FieldUpdatePb.string_value max_size: 8
