@@ -10,8 +10,8 @@ class RtAudioOutputT : public AudioOutput
 {
 public:
 
-  RtAudioOutputT(const RtAudio::DeviceInfo& deviceInfo, const Format& format) :
-    AudioOutput(deviceInfo, format),
+  RtAudioOutputT(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format) :
+    AudioOutput(api, deviceInfo, format),
     m_running(false),
     m_audioBuffer(),
     m_maxPacketFrames(0)
@@ -26,9 +26,7 @@ public:
   {
     m_maxPacketFrames = maxPacketFrames;
     if (!m_running) {
-      m_running = true;
       RtAudio::StreamParameters parameters;
-      parameters.deviceId = m_deviceInfo.ID;
       parameters.nChannels = 2; //std::min(m_deviceInfo.outputChannels, static_cast<unsigned int>(2));
       parameters.firstChannel = 0;
 
@@ -46,17 +44,33 @@ public:
         return self->pullSamples(outputBuffer, nFrames);
       };
 
-      RtAudioErrorType rc = m_rtAudio.openStream(
+      // Close any existing stream before opening a new one. Resolving the
+      // device afterwards keeps our own open stream from making the device
+      // look busy, and therefore unprobeable, to the re-probe.
+      if (m_rtAudio->isStreamOpen()) {
+        m_rtAudio->closeStream();
+      }
+
+      if (!resolveDeviceId(parameters.deviceId)) {
+        return ResultCode::ERR_AUDIO_NO_MATCHING_OUTPUT_DEVICE;
+      }
+
+      RtAudioErrorType rc = m_rtAudio->openStream(
         &parameters,
         nullptr,
         static_cast<RtAudioFormat>(m_format.sampleFormat),
         sampleRate,
         &m_maxPacketFrames, rtCallback, this /*, &options*/);
-
-      rc = m_rtAudio.startStream();
       if (rc != RTAUDIO_NO_ERROR) {
-        return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
+        return ResultCode::ERR_AUDIO_OUTPUT_DRIVER_START_FAILED;
       }
+
+      rc = m_rtAudio->startStream();
+      if (rc != RTAUDIO_NO_ERROR) {
+        m_rtAudio->closeStream();
+        return ResultCode::ERR_AUDIO_OUTPUT_DRIVER_START_FAILED;
+      }
+      m_running = true;
       return ResultCode::OK;
     } else {
       return ResultCode::ERR_AUDIO_OUTPUT_DRIVER_ALREADY_STARTED;
@@ -66,12 +80,12 @@ public:
 
   void stop() override
   {
-    if (m_running) {
-      if (m_rtAudio.isStreamOpen()) {
-        m_rtAudio.stopStream();
-        m_rtAudio.closeStream();
-        m_running = false;
-      }
+    // Unconditional: a failed start() can leave m_running set with no open
+    // stream, and that used to wedge the driver as permanently "started".
+    m_running = false;
+    if (m_rtAudio->isStreamOpen()) {
+      m_rtAudio->stopStream();
+      m_rtAudio->closeStream();
     }
   }
 

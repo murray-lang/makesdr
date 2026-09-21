@@ -18,12 +18,14 @@ class AudioInput : public AudioInputBase, public RtAudioDriver, public Runnable
 public:
   AudioInput();
   AudioInput(AudioSink* pSink);
-  AudioInput(const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
-  AudioInput(AudioInput&& other) noexcept;
+  AudioInput(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
+  // AudioInput(AudioInput&& other) noexcept;
 
   ~AudioInput() override;
 
-  AudioInput& operator=(AudioInput&& other) noexcept;
+  // AudioInput& operator=(AudioInput&& other) noexcept;
+
+  void configure(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
 
   [[nodiscard]] uint32_t getMaxChannels() const override {
     return m_deviceInfo.inputChannels;

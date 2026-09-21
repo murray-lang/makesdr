@@ -13,8 +13,7 @@ public:
 
   void configure(int32_t freqHiCut, int32_t offset, uint32_t sampleRate)
   {
-    const ComplexSamplesFft& complex = configureComplex(freqHiCut, offset, sampleRate);
-    complexToReal(complex, m_realCoefficients);
+    configureComplex(freqHiCut, offset, sampleRate);
   }
 
 protected:

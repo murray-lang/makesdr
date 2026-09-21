@@ -9,23 +9,16 @@ class FirKernel
 {
 public:
   FirKernel()
-    : m_complexSincPulse(FFT_SIZE, sdrcomplex(0.0, 0.0))
-    ,  m_realSincPulse(FFT_SIZE, 0.0)
-    , m_fft(WindowType::NONE)
   {
     initialise();
   }
   void initialise()
   {
     m_complexCoefficients.assign(FFT_SIZE, sdrcomplex(0, 0));
-    m_realCoefficients.assign(FFT_SIZE, static_cast<sdrreal>(0.0));
     calculateWindow();
   }
 
   const ComplexSamplesFft& getComplexCoefficients() { return m_complexCoefficients; }
-  const RealSamplesFft& getRealCoefficients() { return m_realCoefficients; }
-  const ComplexSamplesFft& getComplexSincPulse() { return m_complexSincPulse; }
-  const RealSamplesFft& getRealSincPulse() { return m_realSincPulse; }
   sdrreal getWindowAt(uint32_t i) { return m_window.at(i); }
 
 protected:
@@ -48,7 +41,6 @@ protected:
   static const RealSamplesFft& complexToReal(const ComplexSamplesFft& complex, RealSamplesFft& real)
   {
     for (int i = 0; i < complex.size(); i++) {
-      //m_realCoefficients.at(i) /= static_cast<sdrreal>(m_fftSize);
       const sdrcomplex& cpx = complex.at(i);
       real.at(i) = std::hypot(cpx.real(), cpx.imag());
     }
@@ -133,10 +125,7 @@ protected:
   // }
 
 protected:
-  ComplexSamplesFft m_complexSincPulse;
-  RealSamplesFft m_realSincPulse;
   ComplexSamplesFft m_complexCoefficients;
-  RealSamplesFft m_realCoefficients;
   RealSamplesFir m_window;
-  Fft<ComplexSamplesFft> m_fft;
+  // Fft<ComplexSamplesFft> m_fft;
 };

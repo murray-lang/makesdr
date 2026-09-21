@@ -14,8 +14,8 @@
 #include <ui/qt/widgets/QtBandDialog.h>
 #include <ui/qt/faces/FaceFactory.h>
 
-#define FFT_SIZE 2048
-#define SAMPLE_RATE 192000
+// #define FFT_SIZE 2048
+// #define SAMPLE_RATE 192000
 
 constexpr const char * toolbarPopupPropertyName = "isToolbarPopup";
 

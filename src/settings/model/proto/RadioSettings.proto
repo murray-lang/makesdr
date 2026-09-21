@@ -338,3 +338,7 @@ message FieldUpdatePb {
   bool is_auto_complete = 12;
   bool is_final = 13;
 }
+
+message IqPb {
+  repeated float interleavedIq = 1;
+}

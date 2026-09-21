@@ -1,5 +1,5 @@
 #pragma once
-#include <settings/model/base/FieldDescriptor.h>
+#include <settings/model/message/FieldDescriptor.h>
 
 // Auto-generated pre-resolved field descriptors
 // Uncomment the ones you need, likewise in BasicRxTxResolved.cpp

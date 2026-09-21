@@ -11,7 +11,7 @@ template<typename BufferType>
 class Fft
 {
 public:
-  explicit Fft(WindowType window = WindowType::NONE)
+  explicit Fft(WindowType window = WindowType::NONE);
 
   uint32_t transform(
     const BufferType& input,
@@ -27,7 +27,7 @@ public:
       for (uint32_t i = 0; i < inputLength; ++i) {
         output.at(i) = input.at(i) * m_window(i, inputLength);
       }
-    } else {
+    } else if (output.data() != input.data()){
       memcpy(output.data(), input.data(), inputLength * sizeof(sdrcomplex) );
     }
 

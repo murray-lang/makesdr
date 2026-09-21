@@ -17,12 +17,12 @@ set(IQ_MONITOR_LIBS
         core-common-iq-pipeline-stage-base
 )
 
-if(PLATFORM_FAMILY STREQUAL "linux")
-    set(IQ_MONITOR_LIBS
-            ${IQ_MONITOR_LIBS}
-            core-linux-event-data
-    )
-endif()
+#if(PLATFORM_FAMILY STREQUAL "linux")
+#    set(IQ_MONITOR_LIBS
+#            ${IQ_MONITOR_LIBS}
+#            core-linux-event-data
+#    )
+#endif()
 
 target_link_libraries(core-common-iq-pipeline-stage-monitor INTERFACE
         ${IQ_MONITOR_LIBS}

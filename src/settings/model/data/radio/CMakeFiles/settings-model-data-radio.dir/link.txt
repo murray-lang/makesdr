@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsettings-model-data-radio.a "CMakeFiles/settings-model-data-radio.dir/src/generalCoverageRadioLookup.cpp.o"
-/usr/bin/ranlib libsettings-model-data-radio.a

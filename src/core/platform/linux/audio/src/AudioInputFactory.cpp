@@ -16,7 +16,7 @@ AudioInputFactory::create(const Config::Audio::Fields& config, AudioSink* pSink,
   // format.channelCount = pConfig->getChannelCount();
   format.sampleFormat = AudioFormat::FLOAT32;
   format.bytesPerFrame = sizeof(float) * format.channelCount;
-  input = AudioInput(deviceInfo, format, pSink);
+  input.configure(api, deviceInfo, format, pSink); // = AudioInput(deviceInfo, format, pSink);
   return ResultCode::OK;
 }
 

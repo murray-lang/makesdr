@@ -31,7 +31,7 @@ DualIqRxTx::stop()
   m_rx.stop();
 }
 
-void
+ResultCode
 DualIqRxTx::ptt(bool on)
 {
   if (on) {
@@ -41,6 +41,7 @@ DualIqRxTx::ptt(bool on)
     m_tx.stop();
     m_rx.start();
   }
+  return ResultCode::OK;
 }
 
 ResultCode

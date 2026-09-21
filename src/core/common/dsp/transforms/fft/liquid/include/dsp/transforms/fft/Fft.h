@@ -68,8 +68,8 @@ public:
     std::memcpy(output.data(), m_outputBuffer.data(), inputLength * sizeof(sdrcomplex));
 
     if (normalise) {
-      for (uint32_t i = 0; i < FFT_SIZE; ++i) {
-        output[i] /= static_cast<sdrreal>(FFT_SIZE);
+      for (uint32_t i = 0; i < inputLength; ++i) {
+        output[i] /= static_cast<sdrreal>(inputLength);
       }
     }
 

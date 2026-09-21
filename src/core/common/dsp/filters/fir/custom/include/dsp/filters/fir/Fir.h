@@ -40,15 +40,19 @@ protected:
 
   void applyFftCoefficients(const ComplexSamplesFft& input, ComplexSamplesFft& output)
   {
-    uint32_t inputSize = input.size();
-    ComplexSamplesFft localInput, localOutput;
-    localInput.resize(inputSize);
-    localOutput.resize(inputSize);
-    m_fft.transform(input, localInput, FFT_SIZE, true, false);
+    m_fft.transform(input, output, FFT_SIZE, true, false);
+    multiplyByCoefficients(output, output);
+    m_fft.transform(output, output, FFT_SIZE, false, true);
 
-    multiplyByCoefficients(localInput, localOutput);
-
-    m_fft.transform(localOutput, output, FFT_SIZE, false, true);
+    // uint32_t inputSize = input.size();
+    // ComplexSamplesFft localInput, localOutput;
+    // localInput.resize(inputSize);
+    // localOutput.resize(inputSize);
+    // m_fft.transform(input, localInput, FFT_SIZE, true, false);
+    //
+    // multiplyByCoefficients(localInput, localOutput);
+    //
+    // m_fft.transform(localOutput, output, FFT_SIZE, false, true);
   }
 
   void multiplyByCoefficients(const ComplexSamplesFft& values, ComplexSamplesFft& result)
@@ -77,9 +81,6 @@ protected:
 private:
   kernel m_kernel;
   Fft<ComplexSamplesFft> m_fft;
-  ComplexSamplesFft m_inputBuffer;
-  ComplexSamplesFft m_outputBuffer;
-  ComplexSamplesFir m_overlapBuffer;
 };
 
 using BandPassFilter = Fir<BandPassFirKernel>;

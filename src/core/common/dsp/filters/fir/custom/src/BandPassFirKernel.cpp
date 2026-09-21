@@ -14,11 +14,11 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
   int32_t outStartIndex = (static_cast<int32_t>(FFT_SIZE)/2) - centreIndex;
 
 
-  m_complexSincPulse.assign(
+  ComplexSamplesFft complexSincPulse(
       FFT_SIZE,
       sdrcomplex(static_cast<sdrreal>(0.0), static_cast<sdrreal>(0.0))
   );
-  m_realSincPulse.assign(FFT_SIZE, static_cast<sdrreal>(0.0));
+  RealSamplesFft realSincPulse(FFT_SIZE, static_cast<sdrreal>(0.0));
 //  for (auto& item : m_complexSincPulse) {
 //    item = sdrcomplex(0.0f, 0.0f);
 //  }
@@ -39,7 +39,7 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
     }
     // sdrreal window = BLACKMAN(i, static_cast<sdrreal>(FIR_SIZE)); //m_window.at(i) - m_window[0];
     z *= m_window.at(i); // window; //HANNING(i, m_firSize);
-    m_realSincPulse.at( i ) = z;
+    realSincPulse.at( i ) = z;
     //shift lowpass filter coefficients in frequency by (hicut+lowcut)/2 to form bandpass filter anywhere in range
     // (also scales by 1/FFTsize since inverse FFT routine scales by FFTsize)
 //    m_complexSincPulse.at(i ) = sdrcomplex(
@@ -47,15 +47,16 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
 //        z * static_cast<sdrreal>(sin(localOsc * x))
 //    );
   }
-  normaliseCoefficients(m_realSincPulse);
+  normaliseCoefficients(realSincPulse);
   for (int32_t i = 0; i < FIR_SIZE; i++) {
     auto x = static_cast<sdrreal>(i - centreIndex);
-    sdrreal z = m_realSincPulse.at(i);
-    m_complexSincPulse.at(i) = sdrcomplex(
+    sdrreal z = realSincPulse.at(i);
+    complexSincPulse.at(i) = sdrcomplex(
         z * static_cast<sdrreal>(cos(localOsc * x)),
         z * static_cast<sdrreal>(sin(localOsc * x))
     );
   }
-  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
+  Fft<ComplexSamplesFft>fft(WindowType::NONE);
+  fft.transform(complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
   return m_complexCoefficients;
 }
