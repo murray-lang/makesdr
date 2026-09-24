@@ -5,7 +5,7 @@
 #include <iq/correction/IqCorrection.h>
 #include <iq/resample/Resampler.h>
 #include <iq/filter/FilterStage.h>
-#include <iq/monitor/MonitorStageT.h>
+#include <iq/monitor/MonitorStage.h>
 
 
 #include <iq/modulation/Demodulator.h>
@@ -17,12 +17,13 @@
 // #include <event/EventDispatcher.h>
 // #include <event/sample/RxIqEvent.h>
 #include <settings/model/radios/iq/RxPipelineSettings.h>
+#include <transport/radio/IqPublisher.h>
 
 
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const ModeList& modes);
+  IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
@@ -43,6 +44,7 @@ protected:
   void setDemodulator(const Mode& mode);
 
 private:
+  IqPublisher* m_iqPublisher;
   DcShift m_dcShift;
   IqCorrection m_iqCorrection;
   Resampler m_resampler;
@@ -53,7 +55,7 @@ private:
   SsbDemodulator m_ssbDemodulator;
   CwDemodulator m_cwDemodulator;
   Demodulator* m_pDemodulator;
-  // MonitorStageT<EventDispatcher, RxIqEvent> m_monitorStage;
+  MonitorStage m_monitorStage;
 
-  RealSamplesMax m_audioBuffer;
+  RealSamplesBuffer m_audioBuffer;
 };

@@ -1,5 +1,7 @@
 #include "iq/resample/Resampler.h"
 
+#include <cmath>
+
 Resampler::Resampler() :
   m_inputSampleRate(0),
   m_outputSampleRate(0),
@@ -42,8 +44,8 @@ Resampler::initialise()
 
 uint32_t
 Resampler::processSamples(
-  const RealSamplesMax& in,
-  RealSamplesMax& out,
+  const RealSamplesBuffer& in,
+  RealSamplesBuffer& out,
   uint32_t inputLength
 ) const
 {
@@ -62,10 +64,18 @@ Resampler::processSamples(
   uint32_t inputLength
 )
 {
-  ComplexSamplesMax& in = buffers.input();
-  ComplexSamplesMax& out = buffers.output();
+  ComplexSamplesBuffer& in = buffers.input();
+  ComplexSamplesBuffer& out = buffers.output();
+  // resamp_crcf_execute writes a burst of up to ceil(ratio)+1 samples per input,
+  // so the write cursor has to leave room for a whole burst. At ratio 1.0 the
+  // output is as long as the input, which fills out completely.
+  const unsigned int maxBurst = static_cast<unsigned int>(std::ceil(m_ratio)) + 1;
+  const unsigned int capacity = out.size();
   unsigned int numWritten = 0;
   for (uint32_t i = 0; i < inputLength; ++i) {
+    if (numWritten + maxBurst > capacity) {
+      break; // Buffer too small for this ratio - see PIPELINE_BUFFER_LENGTH.
+    }
     unsigned int n;
     // liquid-dsp uses float complex which is usually binary compatible with std::complex<float>
     resamp_crcf_execute(m_pResampleStateComplex, in.at(i), &out.at(numWritten), &n);

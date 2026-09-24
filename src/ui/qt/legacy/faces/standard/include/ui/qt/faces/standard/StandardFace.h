@@ -33,11 +33,11 @@ public:
   // void setRadio(Radio* radio) override;
   void handleRadioSettingsChanged(const RadioSettings* pRadioSettings) override;
 
-  // void handleReceiverIq(
-  //   RadioSettings* pRadioSettings,
-  //   const ComplexSamplesMax* data,
-  //   uint32_t length,
-  //   uint32_t sampleRate) override;
+  void handleReceiverIq(
+    const RadioSettings* pRadioSettings,
+    const ComplexSamplesBuffer* data,
+    uint32_t length,
+    uint32_t sampleRate) override;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
   // void handleReceiverMeter(const IqReceiverMetering& metering) override;
 

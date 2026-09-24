@@ -20,7 +20,10 @@ RxTxDualIqActiveBandSettings::updateIndirectField(const FieldUpdate &settingUpda
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }
   if (path[startingAtIndex] == makesdr_RxTxDualIqActiveBandSettingsPb_focus_band_tag) {
-    return m_focusBand.updateIndirectField(settingUpdate, startingAtIndex + 1);
+    ResultCode rc = m_focusBand.updateIndirectField(settingUpdate, startingAtIndex + 1);
+    if (rc == ResultCode::OK) {
+      this->m_rawSettings.has_focus_band = true;
+    }
   }
   return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
 }

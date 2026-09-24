@@ -6,7 +6,14 @@
 template<typename SamplesType> class PingPongBuffers
 {
 public:
-  explicit PingPongBuffers() : m_flip(false) {}
+  // Size to capacity up front. Pipeline stages index these with at() without
+  // resizing first, so size() has to cover the whole buffer or every access is
+  // out of range once ETL checks are live.
+  explicit PingPongBuffers() : m_flip(false)
+  {
+    m_ping.resize(m_ping.max_size());
+    m_pong.resize(m_pong.max_size());
+  }
 
   SamplesType& input()
   {
@@ -38,5 +45,5 @@ private:
   bool m_flip;
 };
 
-using ComplexPingPongBuffers = PingPongBuffers<ComplexSamplesMax>;
-using RealPingPongBuffers = PingPongBuffers<RealSamplesMax>;
+using ComplexPingPongBuffers = PingPongBuffers<ComplexSamplesBuffer>;
+using RealPingPongBuffers = PingPongBuffers<RealSamplesBuffer>;

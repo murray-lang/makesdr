@@ -90,10 +90,18 @@ SplitBandDualIqActiveBandSettings::updateIndirectField(const FieldUpdate &settin
       return ResultCode::ERR_SETTING_BAND_SETTINGS_FOCUS_BAND_NOT_SET;
     }
     if (bandId == SplitBandId::One ) {
-      return m_band_1.updateIndirectField(settingUpdate, startingAtIndex + 1);
+      ResultCode rc = m_band_1.updateIndirectField(settingUpdate, startingAtIndex + 1);
+      if (rc == ResultCode::OK) {
+        m_rawSettings.has_band_1 = true;
+      }
+      return rc;
     }
     if (bandId == SplitBandId::Two) {
-      return m_band_2.updateIndirectField(settingUpdate, startingAtIndex + 1);
+      ResultCode rc = m_band_2.updateIndirectField(settingUpdate, startingAtIndex + 1);
+      if (rc == ResultCode::OK) {
+        m_rawSettings.has_band_1 = true;
+      }
+      return rc;
     }
   }
   return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;

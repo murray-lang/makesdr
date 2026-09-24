@@ -36,11 +36,11 @@ public:
   // virtual void setRadio(Radio* pRadio) { m_pRadio = pRadio; }
   // [[nodiscard]] Radio* getRadio() const { return m_pRadio; }
 
-  // virtual void handleReceiverIq(
-  //   RadioSettings* pRadioSettings,
-  //   const ComplexSamplesMax* data,
-  //   uint32_t length,
-  //   uint32_t sampleRate) = 0;
+  virtual void handleReceiverIq(
+    const RadioSettings* pRadioSettings,
+    const ComplexSamplesBuffer* data,
+    uint32_t length,
+    uint32_t sampleRate) = 0;
 
   // virtual void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) = 0;
   // virtual void handleReceiverMeter(const IqReceiverMetering& metering) = 0;

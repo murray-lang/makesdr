@@ -62,7 +62,10 @@ protected:
   ResultCode sendBands();
 
 protected:
-  // const RadioLookup& m_lookup;
+#ifdef IS_QT
+  QtRadioTransportT<SplitBandDualIqRxTxSettings> m_transport;
+#endif
+
   BandCategoryList& m_bands;
   ModeList& m_modes;
   SplitBandDualIq m_transceiver;
@@ -71,7 +74,5 @@ protected:
   SplitBandDualIqRxTxSettings m_settings;
   RadioSettingsUpdater* m_pUpdater;
 
-#ifdef IS_QT
-  QtRadioTransportT<SplitBandDualIqRxTxSettings> m_transport;
-#endif
+
 };

@@ -57,6 +57,9 @@ PB_BIND(makesdr_RadioCacheRxTxDualIqPayloadPb, makesdr_RadioCacheRxTxDualIqPaylo
 PB_BIND(makesdr_FieldUpdatePayloadPb, makesdr_FieldUpdatePayloadPb, AUTO)
 
 
+PB_BIND(makesdr_IqPayloadPb, makesdr_IqPayloadPb, 4)
+
+
 
 
 

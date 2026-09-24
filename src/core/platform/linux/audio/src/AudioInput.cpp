@@ -107,6 +107,16 @@ AudioInput::start(uint32_t maxPacketFrames)
     if (rc != RTAUDIO_NO_ERROR) {
       return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
     }
+    // openStream takes maxPacketFrames as in/out and may grant a larger buffer
+    // than requested. m_outputBuffer holds channelCount interleaved floats per
+    // frame, so a granted packet has to fit within its capacity.
+    if (m_maxPacketFrames * m_format.channelCount > m_outputBuffer.max_size()) {
+      m_rtAudio->closeStream();
+      return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
+    }
+    m_outputBuffer.resize(m_maxPacketFrames * m_format.channelCount);
+    m_maxPacketFrames = std::min(m_maxPacketFrames, static_cast<uint32_t>(PIPELINE_BUFFER_LENGTH/2));
+
     rc = m_rtAudio->startStream();
     if (rc != RTAUDIO_NO_ERROR) {
       m_rtAudio->closeStream();
@@ -202,11 +212,14 @@ AudioInput::run()
   }
 }
 
-void AudioInput::getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesMax& input)
+void AudioInput::getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesBuffer& input)
 {
+  // A callback can deliver fewer than m_maxPacketFrames, so a packet is filled
+  // over several passes. Append at the frames already held, or each pass
+  // overwrites the previous one from index 0.
   for (size_t i = 0; i < numFrames; i++) {
     for (size_t j = 0; j < channelCount; j++) {
-      input.at(i * channelCount + j) = m_queue.at(i * channelCount + j);
+      input.at((m_numCurrentFrames + i) * channelCount + j) = m_queue.at(i * channelCount + j);
     }
   }
 }

@@ -14,13 +14,13 @@ AudioMixer::AudioMixer(AudioSink& output)
 uint32_t
 AudioMixer::sinkAudioInput(
     AudioMixerInput::InputId inputId,
-    const RealSamplesMax& samples,
+    const RealSamplesBuffer& samples,
     uint32_t length,
     uint32_t numChannels
     )
 {
 
-  RealSamplesMax mono;
+  RealSamplesBuffer mono;
   const uint32_t frames = downmixToMono(samples, length, numChannels, mono);
   if (frames == 0) {
     return 0;
@@ -67,10 +67,10 @@ AudioMixer::sinkAudioInput(
 }
 
 uint32_t
-AudioMixer::downmixToMono(const RealSamplesMax& in,
+AudioMixer::downmixToMono(const RealSamplesBuffer& in,
                           uint32_t length,
                           uint32_t numChannels,
-                          RealSamplesMax& outMono)
+                          RealSamplesBuffer& outMono)
 {
   if (length == 0 || numChannels == 0) {
     outMono.clear();
@@ -101,8 +101,8 @@ AudioMixer::downmixToMono(const RealSamplesMax& in,
 }
 
 void
-AudioMixer::outputStereoFromMono(const RealSamplesMax& leftMono,
-                                 const RealSamplesMax& rightMono,
+AudioMixer::outputStereoFromMono(const RealSamplesBuffer& leftMono,
+                                 const RealSamplesBuffer& rightMono,
                                  uint32_t frames)
 {
   if (frames == 0) {
@@ -121,7 +121,7 @@ AudioMixer::outputStereoFromMono(const RealSamplesMax& leftMono,
 }
 
 void
-AudioMixer::outputStereoDuplicate(const RealSamplesMax& mono, uint32_t frames)
+AudioMixer::outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames)
 {
   if (frames == 0) {
     return;

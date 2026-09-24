@@ -118,7 +118,11 @@ public:
   ResultCode updateIndirectField(const FieldUpdate &settingUpdate)
   {
     if (settingUpdate.descriptor().getPath().at(0) == COMMON_ACTIVE_BANDS_TAG) {
-      return m_activeBandSettings.updateIndirectField(settingUpdate, 1);
+      ResultCode rc = m_activeBandSettings.updateIndirectField(settingUpdate, 1);
+      if (rc == ResultCode::OK) {
+        this->m_payload.body.has_active_bands = true;
+      }
+      return rc;
     }
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }

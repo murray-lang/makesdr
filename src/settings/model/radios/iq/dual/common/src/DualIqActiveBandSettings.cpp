@@ -21,7 +21,11 @@ DualIqActiveBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, 
   }
   SplitBandId bandId = SplitBandId::None;
   if (path[startingAtIndex] == makesdr_DualIqActiveBandSettingsPb_focus_band_tag) {
-    return m_focusBand.updateIndirectField(settingUpdate, startingAtIndex + 1);
+    ResultCode rc = m_focusBand.updateIndirectField(settingUpdate, startingAtIndex + 1);
+    if (rc == ResultCode::OK) {
+      m_rawSettings.has_focus_band = true;
+    }
+    return rc;
   }
   return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
 }

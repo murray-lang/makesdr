@@ -13,7 +13,7 @@ public:
   void initialise(int numTaps, sdrreal stopBandAttenuation = 100.0);
 
 
-  uint32_t transform(const RealSamplesMax& input, uint32_t numSamples, uint32_t numChannels, ComplexSamplesMax& output);
+  uint32_t transform(const RealSamplesBuffer& input, uint32_t numSamples, uint32_t numChannels, ComplexSamplesBuffer& output);
 
 protected:
   void clearState();

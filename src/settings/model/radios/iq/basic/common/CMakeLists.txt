@@ -7,6 +7,7 @@ set(MODEL_BASIC_IQ_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/BasicIqBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/BasicIqBandSettingsCache.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/IqCorrectionSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/IqMessage.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/PipelineSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/PipelineRfSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq/RxPipelineSettings.h
@@ -15,6 +16,7 @@ set(MODEL_BASIC_IQ_FILES
 
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicIqActiveBandSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicIqBandSettings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/IqMessage.cpp
 )
 
 add_library(settings-model-radios-iq-basic-common STATIC ${MODEL_BASIC_IQ_FILES})
@@ -24,8 +26,13 @@ target_include_directories(settings-model-radios-iq-basic-common PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
+target_include_directories(settings-model-radios-iq-basic-common PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radios/iq
+)
+
 target_link_libraries(settings-model-radios-iq-basic-common PUBLIC
         settings-model-message
         settings-model-data-mode
         settings-model-radios-basic-common
+        core-common-samples
 )

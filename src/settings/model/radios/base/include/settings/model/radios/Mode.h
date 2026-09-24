@@ -10,7 +10,7 @@ class Mode
 public:
   using Proto = makesdr_ModePb;
 
-  enum Type
+  enum Type : uint32_t // uint32_t is expected by MessageTraverser for Modes
   {
     NONE = makesdr_ModeType_MODE_NONE,
     AMN = makesdr_ModeType_MODE_AMN,

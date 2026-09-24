@@ -44,7 +44,7 @@ public:
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }
     if (path[startIndex] == makesdr_PipelineSettingsPb_mode_request_tag) {
-      return autoCompleteMode(setting, startIndex + 1, modes);
+      return autoCompleteMode(setting, startIndex, modes);
     }
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
   }

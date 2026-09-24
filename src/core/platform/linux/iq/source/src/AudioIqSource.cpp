@@ -35,7 +35,7 @@ AudioIqSource::stop()
 }
 
 uint32_t
-AudioIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, uint32_t numChannels) {
+AudioIqSource::sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels) {
   // auto now = std::chrono::steady_clock::now();
   // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - m_lastTime).count();
   // m_lastTime = now;

@@ -34,11 +34,11 @@ AudioSignalIqSource::stop()
 }
 
 uint32_t
-AudioSignalIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, uint32_t numChannels)
+AudioSignalIqSource::sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels)
 {
   uint32_t numFrames = length/2; // Assume numChannels == 2
   if (m_pIqSink != nullptr) {
-    ComplexSamplesMax& input = m_iqOutputBuffers.input();
+    ComplexSamplesBuffer& input = m_iqOutputBuffers.input();
     if (m_reverse) {
       for (size_t i = 0; i < numFrames; i++) {
         input.at(i) = sdrcomplex(audioSamples.at(i*2+1), audioSamples.at(i*2));

@@ -29,11 +29,13 @@ target_link_libraries(ui-qt-radio-client PUBLIC
         radios-base
         core-common-samples
         settings-model-data-radio
-        core-linux-transport-qt-event-in
-        core-linux-transport-qt-event-out
+        settings-model-radios-selected
+        core-common-transport-radio
+        core-linux-transport-qt-event-base
+        core-linux-transport-qt-globals
 #        core-linux-event-data
-#        core-linux-event-targets
-#        settings-control-qt-event-targets
+#        core-linux-globals
+#        settings-control-qt-globals
 #        settings-model-path-radios-update-helpers
 )
 

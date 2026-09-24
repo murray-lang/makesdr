@@ -19,9 +19,9 @@ target_include_directories(core-linux-transport-qt-event-in INTERFACE
 
 target_link_libraries(core-linux-transport-qt-event-in INTERFACE
         config-struct
-        core-common-transport
+        core-common-transport-base
         core-linux-transport-qt-event-base
-        core-linux-transport-qt-event-targets
+        core-linux-transport-qt-globals
         settings-model-message
         settings-model-radios-iq-dual-split
         settings-model-data-band

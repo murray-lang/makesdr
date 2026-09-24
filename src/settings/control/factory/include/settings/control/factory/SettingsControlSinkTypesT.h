@@ -12,7 +12,7 @@
 #endif
 
 #ifdef IS_LINUX
-#include <settings/control/transport/TransportControlSinkT.h>
+// #include <settings/control/transport/TransportControlSinkT.h>
 #endif
 
 #include <settings/control/usb/sinks/UsbControlSinksT.h>
@@ -21,14 +21,14 @@ template<typename RadioSettingsT>
 struct SettingsControlSinkTypesT
 {
   // Default: use the template class for Qt sink
-  using TransportSinkType = TransportControlSinkT<RadioSettingsT>;
+  // using TransportSinkType = TransportControlSinkT<RadioSettingsT>;
 
 #ifdef USE_GPIO
 #ifdef IS_LINUX
   using Variant = variant<
     UsbControlSinksT<RadioSettingsT>,
-    DigitalOutputsT<RadioSettingsT>,
-    TransportControlSinkT<RadioSettingsT>
+    DigitalOutputsT<RadioSettingsT>//,
+    // TransportControlSinkT<RadioSettingsT>
   >;
 #else
   using Variant = variant<UsbControlSinksT<RadioSettingsT>, DigitalOutputsT<RadioSettingsT>>;

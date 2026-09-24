@@ -1,8 +1,8 @@
 #include "iq/split/SplitBandDualIq.h"
 
-SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes)
+SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
   : IqRxTxBaseT()
-  , m_rx(bands, modes)
+  , m_rx(bands, modes, iqPublisher)
   , m_tx(modes)
 {
 

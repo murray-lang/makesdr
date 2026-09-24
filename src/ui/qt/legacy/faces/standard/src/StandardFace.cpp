@@ -146,26 +146,31 @@ StandardFace::updateCursor(VfoId vfoId, const RxPipelineSettings* rxPipelineSett
   }
 }
 
-// void
-// StandardFace::handleReceiverIq(
-//   RadioSettings* pRadioSettings,
-//   const ComplexSamplesMax* data,
-//   uint32_t length,
-//   uint32_t sampleRate)
-// {
-//
-//   m_reportedIqSampleRate = sampleRate;
-//   RxPipelineSettings* rxPipelineSettings = pRadioSettings->getFocusPipeline();
-//   if (rxPipelineSettings != nullptr) {
-//     const RfSettings& rfSettings = rxPipelineSettings->getRfSettings();
-//     uint32_t centreFrequency = rfSettings.getCentreFrequency();
-//     uint32_t xMin = centreFrequency - (sampleRate / 2);
-//     uint32_t xMax = centreFrequency + (sampleRate / 2);
-//
-//     m_pPanadapter->setSeriesXMinMax(xMin, xMax);
-//     m_pPanadapter->plot(data, length, sampleRate, centreFrequency, true);
-//   }
-// }
+void
+StandardFace::handleReceiverIq(
+  const RadioSettings* pRadioSettings,
+  const ComplexSamplesBuffer* data,
+  uint32_t length,
+  uint32_t sampleRate)
+{
+
+  m_reportedIqSampleRate = sampleRate;
+  const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
+  if (!activeBandSettings->hasFocusBand()) {
+    return;
+  }
+  const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
+  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+    if (rfSettings->hasFrequency()) {
+      int64_t centreFrequency = rfSettings->frequency();
+      uint32_t xMin = centreFrequency - (sampleRate / 2);
+      uint32_t xMax = centreFrequency + (sampleRate / 2);
+      m_pPanadapter->setSeriesXMinMax(xMin, xMax);
+      m_pPanadapter->plot(data, length, sampleRate, centreFrequency, true);
+    }
+  }
+}
 
 // void
 // StandardFace::handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate)

@@ -113,7 +113,7 @@ public:
     return 0; // 0: continue, nonzero: stop
   }
 
-  uint32_t addAudioData(const RealSamplesMax& data, uint32_t length, uint32_t numChannels) override
+  uint32_t addAudioData(const RealSamplesBuffer& data, uint32_t length, uint32_t numChannels) override
   {
     lock_guard<mutex> lock(m_mutex);
     if (!m_running) return 0;

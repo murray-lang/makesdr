@@ -37,7 +37,7 @@ public:
 protected:
   void setModulator(const Mode& mode);
   void setModulatorSampleRate(uint32_t sampleRate);
-  static uint32_t interleaveComplexToReal(const ComplexSamplesMax& vcomplex, RealSamplesMax& vreal, uint32_t numComplexes);
+  static uint32_t interleaveComplexToReal(const ComplexSamplesBuffer& vcomplex, RealSamplesBuffer& vreal, uint32_t numComplexes);
 
 
 private:
@@ -51,5 +51,5 @@ private:
   CwModulator m_cwModulator;
   Modulator* m_pModulator;
 
-  RealSamplesMax m_audioBuffer;
+  RealSamplesBuffer m_audioBuffer;
 };

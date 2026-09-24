@@ -19,9 +19,9 @@ target_include_directories(core-linux-transport-qt-event-out INTERFACE
 )
 
 target_link_libraries(core-linux-transport-qt-event-out INTERFACE
-        core-common-transport
+        core-common-transport-base
         core-linux-transport-qt-event-base
-        core-linux-transport-qt-event-targets
+        core-linux-transport-qt-globals
         settings-model-message
 )
 

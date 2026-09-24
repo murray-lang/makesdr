@@ -14,7 +14,7 @@ public:
 
   void setMode(const Mode::Proto& mode) override;
 
-  uint32_t processSamples(const ComplexSamplesMax& audio, ComplexSamplesMax& output, uint32_t inputLength) override;
+  uint32_t processSamples(const ComplexSamplesBuffer& audio, ComplexSamplesBuffer& output, uint32_t inputLength) override;
 
 protected:
   Oscillator m_oscillator;

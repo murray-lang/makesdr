@@ -14,22 +14,22 @@ public:
 
   uint32_t sinkAudioInput(
     AudioMixerInput::InputId inputId,
-    const RealSamplesMax& samples,
+    const RealSamplesBuffer& samples,
     uint32_t length,
     uint32_t numChannels
     );
 
 protected:
-  static uint32_t downmixToMono(const RealSamplesMax& in,
+  static uint32_t downmixToMono(const RealSamplesBuffer& in,
                                uint32_t length,
                                uint32_t numChannels,
-                               RealSamplesMax& outMono);
+                               RealSamplesBuffer& outMono);
 
-  void outputStereoFromMono(const RealSamplesMax& leftMono,
-                            const RealSamplesMax& rightMono,
+  void outputStereoFromMono(const RealSamplesBuffer& leftMono,
+                            const RealSamplesBuffer& rightMono,
                             uint32_t frames);
 
-  void outputStereoDuplicate(const RealSamplesMax& mono, uint32_t frames);
+  void outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames);
 
 private:
   AudioMixerInput m_inputA;
@@ -40,9 +40,9 @@ private:
 
   bool m_havePendingA;
   bool m_havePendingB;
-  RealSamplesMax m_pendingA;
-  RealSamplesMax m_pendingB;
+  RealSamplesBuffer m_pendingA;
+  RealSamplesBuffer m_pendingB;
 
-  RealSamplesMax m_stereoOutInterleaved;
+  RealSamplesBuffer m_stereoOutInterleaved;
 
 };

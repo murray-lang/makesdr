@@ -16,9 +16,11 @@ FilterStage::configure(int32_t freqLoCut, int32_t freqHiCut, int32_t offset, uin
 uint32_t
 FilterStage::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength)
 {
+  static_assert(PIPELINE_BUFFER_LENGTH >= FFT_SIZE/2);
+
   uint32_t outPos = 0;
-  const ComplexSamplesMax& input = buffers.input();
-  ComplexSamplesMax& output = buffers.output();
+  const ComplexSamplesBuffer& input = buffers.input();
+  ComplexSamplesBuffer& output = buffers.output();
   for (uint32_t inputIndex = 0; inputIndex < inputLength; inputIndex++) {
     const sdrcomplex& nextInput = input[inputIndex];
     m_overlapBuffer.at(m_inputCursor) = nextInput;

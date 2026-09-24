@@ -21,6 +21,7 @@ set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-stage-modulation
         core-common-iq-pipeline-stage-resample
         core-common-iq-pipeline-stage-monitor
+        core-common-transport-radio
 )
 
 #if(PLATFORM_FAMILY STREQUAL "linux")

@@ -12,7 +12,7 @@ public:
     , m_inputGain(1.0) {}
   virtual ~Modulator() = default;
 
-  virtual uint32_t processSamples(const ComplexSamplesMax& audio, ComplexSamplesMax& output, uint32_t inputLength) = 0;
+  virtual uint32_t processSamples(const ComplexSamplesBuffer& audio, ComplexSamplesBuffer& output, uint32_t inputLength) = 0;
 
   virtual void setSampleRate(uint32_t sampleRate) {
     m_sampleRate = sampleRate;

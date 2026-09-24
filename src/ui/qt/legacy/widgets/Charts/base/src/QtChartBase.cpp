@@ -70,7 +70,7 @@ QtChartBase::applyTheme()
 }
 
 void
-QtChartBase::plot(const RealSamplesMax& data, uint32_t length)
+QtChartBase::plot(const RealSamplesBuffer& data, uint32_t length)
 {
   setSeriesXMinMax(0, length);
   QList<QPointF> seriesPoints;
@@ -82,7 +82,7 @@ QtChartBase::plot(const RealSamplesMax& data, uint32_t length)
 }
 
 void
-QtChartBase::plot(const ComplexSamplesMax& data, uint32_t length)
+QtChartBase::plot(const ComplexSamplesBuffer& data, uint32_t length)
 {
   setSeriesXMinMax(0, length);
   QList<QPointF> seriesPoints;

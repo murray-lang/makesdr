@@ -11,8 +11,8 @@
 class SplitBandDualIq_Rx : public IqSink
 {
 public:
-  SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes);
-  ~SplitBandDualIq_Rx() override = default;
+  SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher);
+  ~SplitBandDualIq_Rx() override;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);
 

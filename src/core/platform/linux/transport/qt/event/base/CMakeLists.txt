@@ -7,8 +7,10 @@ find_package(PkgConfig)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
 set(TRANSPORT_QT_EVENT_BASE_HEADERS
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/event/MessageEventT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/event/MessageEvent.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/event/QtNotifier.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/event/QtTransportBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/event/QtWakeT.h
 )
 
 set(TRANSPORT_QT_EVENT_BASE_SOURCES

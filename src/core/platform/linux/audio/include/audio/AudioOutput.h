@@ -22,7 +22,7 @@ public:
 
   ~AudioOutput() override = default;
 
-  uint32_t addAudioData(const RealSamplesMax& data, uint32_t length, uint32_t numChannels) override = 0;
+  uint32_t addAudioData(const RealSamplesBuffer& data, uint32_t length, uint32_t numChannels) override = 0;
 };
 
 

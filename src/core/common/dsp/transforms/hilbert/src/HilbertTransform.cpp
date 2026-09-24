@@ -27,7 +27,7 @@ HilbertTransform::initialise(int numTaps, sdrreal stopBandAttenuation)
 
 
 uint32_t
-HilbertTransform::transform(const RealSamplesMax& input, uint32_t numSamples, uint32_t numChannels, ComplexSamplesMax& output)
+HilbertTransform::transform(const RealSamplesBuffer& input, uint32_t numSamples, uint32_t numChannels, ComplexSamplesBuffer& output)
 {
   // qDebug() << "HilbertTransform::transform(): numSamples =" << numSamples << ", numChannels =" << numChannels;
   auto N = static_cast<size_t>(numSamples/numChannels);

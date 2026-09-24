@@ -19,7 +19,7 @@ public:
   ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
   uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
-  uint32_t sinkAudio(const RealSamplesMax& samples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels) override;
 
 protected:
   IqIo m_iqIo;

@@ -25,7 +25,7 @@ IqCorrection::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLeng
 }
 
 uint32_t
-IqCorrection::processSamples(const ComplexSamplesMax& input, ComplexSamplesMax& output,
+IqCorrection::processSamples(const ComplexSamplesBuffer& input, ComplexSamplesBuffer& output,
                                       uint32_t inputLength) const
 {
   const sdrreal gain = static_cast<sdrreal>(1.0) + m_amplitudeCorrection;

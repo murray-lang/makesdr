@@ -27,7 +27,8 @@ typedef enum _makesdr_RadioPayloadType {
     makesdr_RadioPayloadType_PAYLOAD_CACHE_BASIC = 30,
     makesdr_RadioPayloadType_PAYLOAD_CACHE_BASIC_IQ = 31,
     makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ = 32,
-    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX = 33
+    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX = 33,
+    makesdr_RadioPayloadType_PAYLOAD_IQ = 40
 } makesdr_RadioPayloadType;
 
 typedef enum _makesdr_RadioPayloadPurpose {
@@ -159,6 +160,13 @@ typedef struct _makesdr_FieldUpdatePayloadPb {
     makesdr_FieldUpdatePb body;
 } makesdr_FieldUpdatePayloadPb;
 
+typedef struct _makesdr_IqPayloadPb {
+    bool has_header;
+    makesdr_RadioPayloadHeaderPb header;
+    bool has_body;
+    makesdr_IqPb body;
+} makesdr_IqPayloadPb;
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -166,8 +174,8 @@ extern "C" {
 
 /* Helper constants for enums */
 #define _makesdr_RadioPayloadType_MIN makesdr_RadioPayloadType_PAYLOAD_NONE
-#define _makesdr_RadioPayloadType_MAX makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX
-#define _makesdr_RadioPayloadType_ARRAYSIZE ((makesdr_RadioPayloadType)(makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX+1))
+#define _makesdr_RadioPayloadType_MAX makesdr_RadioPayloadType_PAYLOAD_IQ
+#define _makesdr_RadioPayloadType_ARRAYSIZE ((makesdr_RadioPayloadType)(makesdr_RadioPayloadType_PAYLOAD_IQ+1))
 
 #define _makesdr_RadioPayloadPurpose_MIN makesdr_RadioPayloadPurpose_PURPOSE_NONE
 #define _makesdr_RadioPayloadPurpose_MAX makesdr_RadioPayloadPurpose_PURPOSE_REPLACE
@@ -180,6 +188,7 @@ extern "C" {
 #define makesdr_RadioPayloadHeaderPb_payloadType_ENUMTYPE makesdr_RadioPayloadType
 #define makesdr_RadioPayloadHeaderPb_source_ENUMTYPE makesdr_RadioPayloadSource
 #define makesdr_RadioPayloadHeaderPb_purpose_ENUMTYPE makesdr_RadioPayloadPurpose
+
 
 
 
@@ -216,6 +225,7 @@ extern "C" {
 #define makesdr_RadioCacheDualIqPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_DualIqBandSettingsCachePb_init_default}
 #define makesdr_RadioCacheRxTxDualIqPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_RxTxDualIqBandSettingsCachePb_init_default}
 #define makesdr_FieldUpdatePayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_FieldUpdatePb_init_default}
+#define makesdr_IqPayloadPb_init_default         {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_IqPb_init_default}
 #define makesdr_RadioPayloadHeaderPb_init_zero   {_makesdr_RadioPayloadType_MIN, _makesdr_RadioPayloadSource_MIN, _makesdr_RadioPayloadPurpose_MIN}
 #define makesdr_RadioPayloadBasePb_init_zero     {false, makesdr_RadioPayloadHeaderPb_init_zero}
 #define makesdr_BasicRxSettingsPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_BasicRxSettingsPb_init_zero}
@@ -233,6 +243,7 @@ extern "C" {
 #define makesdr_RadioCacheDualIqPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_DualIqBandSettingsCachePb_init_zero}
 #define makesdr_RadioCacheRxTxDualIqPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_RxTxDualIqBandSettingsCachePb_init_zero}
 #define makesdr_FieldUpdatePayloadPb_init_zero   {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_FieldUpdatePb_init_zero}
+#define makesdr_IqPayloadPb_init_zero            {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_IqPb_init_zero}
 
 /* Field tags (for use in manual encoding/decoding) */
 #define makesdr_RadioPayloadHeaderPb_payloadType_tag 1
@@ -269,6 +280,8 @@ extern "C" {
 #define makesdr_RadioCacheRxTxDualIqPayloadPb_body_tag 2
 #define makesdr_FieldUpdatePayloadPb_header_tag  1
 #define makesdr_FieldUpdatePayloadPb_body_tag    2
+#define makesdr_IqPayloadPb_header_tag           1
+#define makesdr_IqPayloadPb_body_tag             2
 
 /* Struct field encoding specification for nanopb */
 #define makesdr_RadioPayloadHeaderPb_FIELDLIST(X, a) \
@@ -404,6 +417,14 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  body,              2)
 #define makesdr_FieldUpdatePayloadPb_header_MSGTYPE makesdr_RadioPayloadHeaderPb
 #define makesdr_FieldUpdatePayloadPb_body_MSGTYPE makesdr_FieldUpdatePb
 
+#define makesdr_IqPayloadPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  header,            1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  body,              2)
+#define makesdr_IqPayloadPb_CALLBACK NULL
+#define makesdr_IqPayloadPb_DEFAULT NULL
+#define makesdr_IqPayloadPb_header_MSGTYPE makesdr_RadioPayloadHeaderPb
+#define makesdr_IqPayloadPb_body_MSGTYPE makesdr_IqPb
+
 extern const pb_msgdesc_t makesdr_RadioPayloadHeaderPb_msg;
 extern const pb_msgdesc_t makesdr_RadioPayloadBasePb_msg;
 extern const pb_msgdesc_t makesdr_BasicRxSettingsPayloadPb_msg;
@@ -421,6 +442,7 @@ extern const pb_msgdesc_t makesdr_RadioCacheBasicIqPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_RadioCacheDualIqPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_RadioCacheRxTxDualIqPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_FieldUpdatePayloadPb_msg;
+extern const pb_msgdesc_t makesdr_IqPayloadPb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define makesdr_RadioPayloadHeaderPb_fields &makesdr_RadioPayloadHeaderPb_msg
@@ -440,9 +462,10 @@ extern const pb_msgdesc_t makesdr_FieldUpdatePayloadPb_msg;
 #define makesdr_RadioCacheDualIqPayloadPb_fields &makesdr_RadioCacheDualIqPayloadPb_msg
 #define makesdr_RadioCacheRxTxDualIqPayloadPb_fields &makesdr_RadioCacheRxTxDualIqPayloadPb_msg
 #define makesdr_FieldUpdatePayloadPb_fields &makesdr_FieldUpdatePayloadPb_msg
+#define makesdr_IqPayloadPb_fields &makesdr_IqPayloadPb_msg
 
 /* Maximum encoded size of messages (where known) */
-#define MAKESDR_RADIOPAYLOADS_PB_H_MAX_SIZE      makesdr_RadioLookupPayloadPb_size
+#define MAKESDR_RADIOPAYLOADS_PB_H_MAX_SIZE      makesdr_IqPayloadPb_size
 #define makesdr_BandsPayloadPb_size              8435
 #define makesdr_BasicIqRxSettingsPayloadPb_size  386
 #define makesdr_BasicIqRxTxSettingsPayloadPb_size 410
@@ -451,6 +474,7 @@ extern const pb_msgdesc_t makesdr_FieldUpdatePayloadPb_msg;
 #define makesdr_DualIqRxSettingsPayloadPb_size   568
 #define makesdr_DualIqRxTxSettingsPayloadPb_size 767
 #define makesdr_FieldUpdatePayloadPb_size        77
+#define makesdr_IqPayloadPb_size                 40978
 #define makesdr_ModesPayloadPb_size              631
 #define makesdr_RadioCacheBasicIqPayloadPb_size  3591
 #define makesdr_RadioCacheBasicPayloadPb_size    2471

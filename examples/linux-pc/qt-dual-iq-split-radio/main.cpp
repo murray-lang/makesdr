@@ -68,6 +68,10 @@ int main(int argc, char *argv[])
   MainWindow w(radioConfig);
   rc = w.connectRadio();
   if (rc != ResultCode::OK) {
+    // radio.start() has already started the IQ source thread, which is calling
+    // into the pipelines. Stop it before returning, or those objects are
+    // destroyed from under it.
+    radio.stop();
     qDebug() << "Error connecting to radio: " << static_cast<uint32_t>(rc);
     return 1;
   }

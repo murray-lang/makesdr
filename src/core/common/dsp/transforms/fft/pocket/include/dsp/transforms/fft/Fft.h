@@ -18,6 +18,7 @@ public:
             : window == WindowType::HANNING ? window_hanning
             : window == WindowType::BLACKMAN ? window_blackman
             : window_none;
+    m_windowBuffer.resize(m_windowBuffer.max_size());
   }
 
   uint32_t transform(

@@ -17,8 +17,8 @@ public:
 
   virtual void initialise();
 
-  virtual void plot(const RealSamplesMax& data, uint32_t length);
-  virtual void plot(const ComplexSamplesMax& data, uint32_t length);
+  virtual void plot(const RealSamplesBuffer& data, uint32_t length);
+  virtual void plot(const ComplexSamplesBuffer& data, uint32_t length);
 
   void setSeriesXMinMax(int64_t min, int64_t max);
 

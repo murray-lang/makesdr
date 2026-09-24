@@ -1,12 +1,17 @@
 #include "iq/split/SplitBandDualIq_Rx.h"
 
 
-SplitBandDualIq_Rx::SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes)
-  : m_rxPipelineA(modes)
-  , m_rxPipelineB(modes)
+SplitBandDualIq_Rx::SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
+  : m_rxPipelineA(modes, iqPublisher)
+  , m_rxPipelineB(modes, iqPublisher)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {
+}
+
+SplitBandDualIq_Rx::~SplitBandDualIq_Rx()
+{
+  stop(); // Joins the IQ source thread. Idempotent if already stopped.
 }
 
 ResultCode
@@ -85,7 +90,7 @@ SplitBandDualIq_Rx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
 
   // Feed pipeline B only when enabled
   if (m_pipelineBEnabled) {
-    m_rxPipelineB.sinkIq(samples, length);
+    // m_rxPipelineB.sinkIq(samples, length);
   }
 
   return outA;

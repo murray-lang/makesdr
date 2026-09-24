@@ -35,14 +35,12 @@ DualIqBandSettings::hasFocusPipeline() const
 RxPipelineSettings*
 DualIqBandSettings::focusPipeline()
 {
-  if (m_rawSettings.has_focus_pipeline_id) {
-    if (m_rawSettings.focus_pipeline_id == static_cast<int32_t>(PipelineId::A)) {
-      return &m_pipeline_a;
-    } else {
-      return &m_pipeline_b;
-    }
+  switch (m_rawSettings.focus_pipeline_id)
+  {
+  case makesdr_PipelineId_PIPELINE_A: return &m_pipeline_a;
+  case makesdr_PipelineId_PIPELINE_B: return &m_pipeline_b;
+  default: return nullptr;
   }
-  return nullptr;
 }
 
 bool
@@ -78,12 +76,20 @@ DualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, uint32
       if (pipelineId == PipelineId::NONE) {
         return ResultCode::ERR_SETTING_BAND_SETTINGS_FOCUS_PIPELINE_NOT_SET;
       }
-      return MessageTraverser::updateField(
+      ResultCode rc = MessageTraverser::updateField(
         pipelineId == PipelineId::A ? &m_pipeline_a : &m_pipeline_b,
         &makesdr_RxPipelineSettingsPb_msg,
         settingUpdate,
         startingAtIndex + 1
         );
+      if (rc == ResultCode::OK) {
+        if (pipelineId == PipelineId::A) {
+          m_rawSettings.has_pipeline_a = true;
+        } else {
+          m_rawSettings.has_pipeline_b = true;
+        }
+      }
+      return rc;
     }
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
 }

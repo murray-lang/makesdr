@@ -1,7 +1,7 @@
 #pragma once
 #include <ResultCode.h>
 #include <transport/in/TransportInBaseT.h>
-#include <transport/qt/event/MessageEventT.h>
+#include <transport/qt/event/MessageEvent.h>
 #include <transport/qt/event/QtTransportBase.h>
 #include <transport/qt/event/globalQtEventTargets.h>
 #include <config/struct/QtTransportInConfig.h>
@@ -118,7 +118,7 @@ public:
   {
     if (event->type() == static_cast<QEvent::Type>(QEvent::User + MessageType::payloadType)) {
 
-      auto* messageEvent = dynamic_cast<MessageEventT<MessageType>*>(event);
+      auto* messageEvent = dynamic_cast<MessageEvent<MessageType>*>(event);
       if (messageEvent) {
         MessageType message(messageEvent->payload);
         this->notifyMessage(&message);

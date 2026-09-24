@@ -27,7 +27,7 @@ public:
 
   [[nodiscard]] uint32_t getSampleRate() const override { return m_audioInput.getSampleRate(); }
 
-  uint32_t sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels) override;
 
 protected:
   AudioInput m_audioInput;

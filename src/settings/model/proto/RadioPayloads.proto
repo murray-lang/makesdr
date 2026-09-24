@@ -21,6 +21,7 @@ enum RadioPayloadType {
   PAYLOAD_CACHE_BASIC_IQ = 31;
   PAYLOAD_CACHE_DUAL_IQ = 32;
   PAYLOAD_CACHE_DUAL_IQ_RXTX = 33;
+  PAYLOAD_IQ = 40;
 }
 
 enum RadioPayloadPurpose {
@@ -119,5 +120,10 @@ message RadioCacheRxTxDualIqPayloadPb {
 message FieldUpdatePayloadPb {
   RadioPayloadHeaderPb header = 1;
   FieldUpdatePb body = 2;
+}
+
+message IqPayloadPb {
+  RadioPayloadHeaderPb header = 1;
+  IqPb body = 2;
 }
 

@@ -1,6 +1,17 @@
 #include "audio/AudioInputFactory.h"
 
 ResultCode
+AudioInputFactory::validateConfig(const Config::Audio::Fields& config)
+{
+  const RtAudio::Api api = apiFromConfig(config);
+  if (api == RtAudio::UNSPECIFIED) {
+    return ResultCode::ERR_AUDIO_UNKNOWN_API;
+  }
+  RtAudio::DeviceInfo deviceInfo;
+  return findInputDevice(api, config.searchExpression, &deviceInfo);
+}
+
+ResultCode
 AudioInputFactory::create(const Config::Audio::Fields& config, AudioSink* pSink, AudioInput& input)
 {
   const RtAudio::Api api = apiFromConfig(config);

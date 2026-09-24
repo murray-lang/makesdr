@@ -15,8 +15,8 @@ public:
   void initialise();
 
   uint32_t processSamples(
-    const RealSamplesMax& in,
-    RealSamplesMax& out,
+    const RealSamplesBuffer& in,
+    RealSamplesBuffer& out,
     uint32_t inputLength
     ) const;
 

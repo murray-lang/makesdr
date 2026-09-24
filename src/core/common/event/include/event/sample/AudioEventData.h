@@ -7,13 +7,13 @@ class AudioEventData
 {
 public:
   AudioEventData() = default;
-  AudioEventData(const RealSamplesMax& samples, uint32_t _length, uint32_t _sampleRate)
+  AudioEventData(const RealSamplesBuffer& samples, uint32_t _length, uint32_t _sampleRate)
     : samples(samples.begin(), samples.begin() + _length)
     , length(_length)
     , sampleRate(_sampleRate)
   {}
 
-  RealSamplesMax samples;
+  RealSamplesBuffer samples;
   uint32_t length;
   uint32_t sampleRate;
 };

@@ -17,7 +17,7 @@ public:
   using ActiveBandSettings = SplitBandDualIqRxTxSettings::ActiveBandSettings;
   using BandSettings = SplitBandDualIqRxTxSettings::BandSettings;
 
-  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes);
+  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher);
   ~SplitBandDualIq() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;

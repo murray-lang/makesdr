@@ -340,5 +340,6 @@ message FieldUpdatePb {
 }
 
 message IqPb {
-  repeated float interleavedIq = 1;
+  repeated float interleaved = 1;
+  uint32 sample_rate = 2;
 }

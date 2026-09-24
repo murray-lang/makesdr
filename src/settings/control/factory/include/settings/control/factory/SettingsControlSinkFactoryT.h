@@ -42,12 +42,12 @@ public:
 #endif
 
 #ifdef IS_LINUX
-    if (holds_alternative<Config::QtTransportOut::Fields>(config)) {
-      using TransportSink = typename SettingsControlSinkTypesT<RadioSettingsT>::TransportSinkType;
-      sink.template emplace<TransportSink>();
-      result = get<TransportSink>(sink).configure(get<Config::QtTransportOut::Fields>(config));
-      return result;
-    }
+    // if (holds_alternative<Config::QtTransportOut::Fields>(config)) {
+    //   using TransportSink = typename SettingsControlSinkTypesT<RadioSettingsT>::TransportSinkType;
+    //   sink.template emplace<TransportSink>();
+    //   result = get<TransportSink>(sink).configure(get<Config::QtTransportOut::Fields>(config));
+    //   return result;
+    // }
 #endif
     return ResultCode::ERR_SETTING_CONTROL_SINK_UNKNOWN_TYPE;
   }

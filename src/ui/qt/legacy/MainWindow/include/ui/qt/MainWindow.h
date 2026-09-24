@@ -39,7 +39,7 @@ public slots:
   // void on_actionMode_triggered();
   // void on_actionLevels_triggered();
   void handleRadioSettings(const RadioSettings* settings/*, uint64_t sequence*/);
-  // void handleReceiverIq(const ComplexSamplesMax* data, uint32_t length, uint32_t sampleRate ) ;
+  void handleReceiverIq(const IqMessage* iq) ;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate);
   // // void handleReceiverMeter(const IqReceiverMetering& metering);
   // void handleTransmitterIq( const ComplexSamplesMax* data, uint32_t length, uint32_t sampleRate );
@@ -58,8 +58,8 @@ private:
   void setFaceByName(const Config::Ui::FaceString& faceName);
 
   void addModeButton();
-  void addModeMenuToButton(const Mode* selectedMode);
-  QMenu* createModeMenu(const ModeList* modes, const Mode* currentMode);
+  void addModeMenuToButton(const ModeList* modes);
+  QMenu* createModeMenu(const ModeList* modes);
   void updateModeButton(const Mode* mode);
   void updateBandButton(const Band* band);
   // void updateModeMenu(const Mode& mode);
@@ -86,6 +86,7 @@ private:
   // RadioSettings m_radioSettingsCopy;
 
   QToolButton* m_modeButton;
+  QMenu* m_modeMenu;
   QToolButton* m_bandButton;
   QtStepper* m_stepper;
 };

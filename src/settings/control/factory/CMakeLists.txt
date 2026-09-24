@@ -24,13 +24,13 @@ set(CONTROL_FACTORY_LIBS
         settings-control-source
 )
 
-if (PLATFORM_FAMILY STREQUAL "linux")
-    set(CONTROL_FACTORY_LIBS
-            ${CONTROL_FACTORY_LIBS}
-            settings-control-transport-sink
-            settings-control-transport-source
-    )
-endif()
+#if (PLATFORM_FAMILY STREQUAL "linux")
+#    set(CONTROL_FACTORY_LIBS
+#            ${CONTROL_FACTORY_LIBS}
+#            settings-control-transport-sink
+#            settings-control-transport-source
+#    )
+#endif()
 
 if(USE_GPIO)
     set(CONTROL_FACTORY_LIBS
