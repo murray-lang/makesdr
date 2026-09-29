@@ -1,9 +1,9 @@
 #pragma once
 
-#include <settings/model/message/FieldUpdateMessage.h>
-#include <settings/model/radios/iq/IqMessage.h>
-#include <settings/model/data/mode/ModeList.h>
-#include <settings/model/data/band/BandCategoryList.h>
+#include <settings/model/update/FieldUpdateMessage.h>
+#include <settings/model/radio/iq/IqMessage.h>
+#include <settings/model/meta/mode/ModeList.h>
+#include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelT.h>
 
 #define SETTINGS_RING_SIZE 2

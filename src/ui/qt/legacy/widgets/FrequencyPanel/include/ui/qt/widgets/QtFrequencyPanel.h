@@ -9,8 +9,8 @@
 
 #include "QtBandReadout.h"
 #include <ui/qt/widgets/QtVfoReadout.h>
-// #include <settings/model/radios/iq/SplitBandDualIqActiveBandSettings.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+// #include <settings/model/radio/iq/SplitBandDualIqActiveBandSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 namespace Ui { class QtFrequencyPanel; }
 

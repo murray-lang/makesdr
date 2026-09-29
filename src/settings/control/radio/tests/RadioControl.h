@@ -1,7 +1,7 @@
 #pragma once
 
 #include <settings/control/radio/RadioControlT.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 #define USE_DOTTED_STRING_PATHS // Enable dotted string path resolution
 

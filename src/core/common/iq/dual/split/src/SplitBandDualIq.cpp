@@ -19,9 +19,9 @@ SplitBandDualIq::configure(const Config::Sdr::Fields& sdrConfig)
 ResultCode
 SplitBandDualIq::start()
 {
-  ResultCode rc = m_rx.start();
-  if (rc != ResultCode::OK) return rc;
-  return m_tx.start();
+  return m_rx.start();
+  // if (rc != ResultCode::OK) return rc;
+  // return m_tx.start();
 }
 
 void

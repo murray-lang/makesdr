@@ -11,7 +11,7 @@
 // #include <iq/modulation/AmModulator.h>
 #include <iq/modulation/FmModulator.h>
 #include <iq/modulation/SsbModulator.h>
-#include <settings/model/radios/iq/TxPipelineSettings.h>
+#include <settings/model/radio/iq/TxPipelineSettings.h>
 
 
 class IqTxPipeline : public IqPipeline

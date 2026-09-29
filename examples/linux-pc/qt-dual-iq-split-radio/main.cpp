@@ -1,7 +1,7 @@
 #include <radios/iq/SplitBandDualIqRadio.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
-#include <settings/model/data/band/mostBandCategories.h>
-#include <settings/model/data/mode/basicModes.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/meta/band/mostBandCategories.h>
+#include <settings/model/meta/mode/basicModes.h>
 #include <config/json/RadioConfig.json.h>
 #include <linux/test-utils/QtTransportTestRadio.h>
 #include <radios/iq/SplitBandDualIqRadio.h>
@@ -15,8 +15,8 @@
 #include <ui/qt/MainWindow.h>
 #include <test-utils/testRadioSettings.h>
 
-// #include <settings/model/path/generateResolvedPathSourceFiles.h>
-// #include <settings/model/path/SplitBandDualIqTagLookup.h>
+// #include <settings/model/update/generateResolvedPathSourceFiles.h>
+// #include <settings/model/update/SplitBandDualIqTagLookup.h>
 
 BandCategoryList bandsByCategory(mostBandCategories);
 ModeList modeList(basicModes);

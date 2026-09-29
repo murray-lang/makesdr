@@ -20,7 +20,7 @@ public:
     );
 
 protected:
-  static uint32_t downmixToMono(const RealSamplesBuffer& in,
+  uint32_t downmixToMono(const RealSamplesBuffer& in,
                                uint32_t length,
                                uint32_t numChannels,
                                RealSamplesBuffer& outMono);
@@ -44,5 +44,6 @@ private:
   RealSamplesBuffer m_pendingB;
 
   RealSamplesBuffer m_stereoOutInterleaved;
+  sdrreal m_gain;
 
 };

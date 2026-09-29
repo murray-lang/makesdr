@@ -18,6 +18,6 @@ target_link_libraries(radios-iq-basic-rx PUBLIC
         radios-base
         core-common-iq-basic-rx
         settings-control-radio
-        settings-model-radios-iq-basic-rx
+        settings-model-radio-iq-basic-rx
 
 )

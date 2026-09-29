@@ -16,14 +16,14 @@
 
 // #include <event/EventDispatcher.h>
 // #include <event/sample/RxIqEvent.h>
-#include <settings/model/radios/iq/RxPipelineSettings.h>
+#include <settings/model/radio/iq/RxPipelineSettings.h>
 #include <transport/radio/IqPublisher.h>
 
 
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher);
+  IqRxPipeline(const ModeList& modes);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
@@ -44,9 +44,9 @@ protected:
   void setDemodulator(const Mode& mode);
 
 private:
-  IqPublisher* m_iqPublisher;
-  DcShift m_dcShift;
-  IqCorrection m_iqCorrection;
+
+  // DcShift m_dcShift;
+  // IqCorrection m_iqCorrection;
   Resampler m_resampler;
   FilterStage m_ifFilter;
   AmDemodulator m_amDemodulator;
@@ -55,7 +55,7 @@ private:
   SsbDemodulator m_ssbDemodulator;
   CwDemodulator m_cwDemodulator;
   Demodulator* m_pDemodulator;
-  MonitorStage m_monitorStage;
+  // MonitorStage m_monitorStage;
 
   RealSamplesBuffer m_audioBuffer;
 };

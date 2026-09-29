@@ -5,9 +5,9 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/radios/iq/PipelineSettings.h>
-#include <settings/model/radios/BandRfSettings.h>
-#include <settings/model/data/radio/RadioLookup.h>
+#include <settings/model/radio/iq/PipelineSettings.h>
+#include <settings/model/radio/BandRfSettings.h>
+#include <settings/model/meta/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"
 
@@ -34,6 +34,8 @@ public:
   {
     m_outputSampleRate = sampleRate;
   }
+
+  [[nodiscard]] uint32_t getInputSampleRate() const { return m_inputSampleRate; }
 
   [[nodiscard]] virtual uint32_t getMaxFramesPerInputPacket() const = 0;
   [[nodiscard]] virtual uint32_t getMaxFramesPerOutputPacket() const = 0;

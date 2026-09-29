@@ -1,6 +1,6 @@
 #pragma once
 #include "QtRadioClientT.h"
-#include <settings/model/radios/RadioSettings.h>
+#include <settings/model/radio/RadioSettings.h>
 
 using QtRadioClientBase = QtRadioClientT<RadioSettings>;
 

@@ -23,10 +23,10 @@ target_link_libraries(core-linux-transport-qt-event-in INTERFACE
         core-linux-transport-qt-event-base
         core-linux-transport-qt-globals
         settings-model-message
-        settings-model-radios-iq-dual-split
-        settings-model-data-band
-        settings-model-data-mode
-        settings-model-data-radio
+        settings-model-radio-iq-dual-split
+        settings-model-meta-band
+        settings-model-meta-mode
+        settings-model-meta-radio
 )
 
 if(BUILD_TESTING)

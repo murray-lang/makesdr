@@ -4,14 +4,14 @@
 #include <iq/split/SplitBandDualIq.h>
 #include <config/struct/RadioConfig.h>
 // #include <settings/model/radio/BandSettingsCache.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 #include <radios/base/RadioBaseT.h>
 #include <settings/control/radio/RadioControlT.h>
 
 #include <thread/Mutex.h>
 
-#include <settings/model/radios/RadioSettingsRequester.h>
+#include <settings/model/radio/RadioSettingsRequester.h>
 
 #ifdef IS_LINUX
 #include <transport/radio/QtRadioTransportT.h>

@@ -3,7 +3,7 @@
 #include <CrossPlatformTypes.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/radios/IRadioSettings.h>
+#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 #include <cmath>

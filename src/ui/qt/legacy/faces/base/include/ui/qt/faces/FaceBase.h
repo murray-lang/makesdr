@@ -2,8 +2,8 @@
 #include <QWidget>
 
 #include <samples/SampleTypes.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
-#include <settings/model/radios/IRadioSettingsUpdater.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/IRadioSettingsUpdater.h>
 
 
 using RadioSettings = SplitBandDualIqRxTxSettings;

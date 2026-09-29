@@ -27,6 +27,6 @@ target_link_libraries(ui-qt-widgets-mini-vfo-toolbar PUBLIC
         Qt6::Gui
         Qt6::Widgets
         config-json
-        settings-model-radios-iq-dual-common
+        settings-model-radio-iq-dual-common
         ui-qt-widgets-property-setter
 )

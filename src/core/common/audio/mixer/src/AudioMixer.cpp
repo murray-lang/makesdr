@@ -8,6 +8,7 @@ AudioMixer::AudioMixer(AudioSink& output)
   , m_output(output)
   , m_havePendingA(false)
   , m_havePendingB(false)
+  , m_gain(1000.0f)
 {
 }
 
@@ -95,7 +96,7 @@ AudioMixer::downmixToMono(const RealSamplesBuffer& in,
     for (uint32_t c = 0; c < numChannels; ++c) {
       acc += in[base + c];
     }
-    outMono[f] = static_cast<float>(acc / static_cast<double>(numChannels));
+    outMono[f] = static_cast<float>(acc / static_cast<double>(numChannels)) * m_gain;
   }
   return frames;
 }
@@ -111,8 +112,8 @@ AudioMixer::outputStereoFromMono(const RealSamplesBuffer& leftMono,
 
   m_stereoOutInterleaved.resize(frames * 2);
   for (uint32_t i = 0; i < frames; ++i) {
-    m_stereoOutInterleaved[i * 2 + 0] = leftMono[i];
-    m_stereoOutInterleaved[i * 2 + 1] = rightMono[i];
+    m_stereoOutInterleaved[i * 2 + 0] = leftMono[i] * m_gain;
+    m_stereoOutInterleaved[i * 2 + 1] = rightMono[i] * m_gain;
   }
 
   m_output.sinkAudio(m_stereoOutInterleaved,
@@ -130,8 +131,8 @@ AudioMixer::outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames
   m_stereoOutInterleaved.resize(frames * 2);
   for (uint32_t i = 0; i < frames; ++i) {
     const float s = mono[i];
-    m_stereoOutInterleaved[i * 2 + 0] = s;
-    m_stereoOutInterleaved[i * 2 + 1] = s;
+    m_stereoOutInterleaved[i * 2 + 0] = s * m_gain;
+    m_stereoOutInterleaved[i * 2 + 1] = s * m_gain;
   }
 
   m_output.sinkAudio(m_stereoOutInterleaved,

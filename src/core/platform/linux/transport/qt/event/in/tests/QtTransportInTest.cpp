@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <transport/in/QtTransportInT.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 // Template instantiation for IDE context and compile verification
 using TestQtTransportIn = QtTransportInT<SplitBandDualIqRxTxSettings>;

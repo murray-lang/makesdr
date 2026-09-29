@@ -1,7 +1,7 @@
 #pragma once
 
 #include <samples/SampleTypes.h>
-#include <settings/model/radios/Mode.h>
+#include <settings/model/radio/Mode.h>
 
 class Demodulator
 {

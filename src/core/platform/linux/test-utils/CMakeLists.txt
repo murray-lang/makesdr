@@ -16,9 +16,9 @@ target_link_libraries(linux-test-utils
         test-utils
         core-linux-transport-qt-event-radio
         config-struct
-        settings-model-radios-iq-dual-split
-        settings-model-data-band
-        settings-model-data-mode
+        settings-model-radio-iq-dual-split
+        settings-model-meta-band
+        settings-model-meta-mode
         radios-base
-        #        settings-model-data-radio
+        #        settings-model-meta-radio
 )

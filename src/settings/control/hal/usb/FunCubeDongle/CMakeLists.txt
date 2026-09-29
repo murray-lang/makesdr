@@ -11,7 +11,7 @@ set(FUNCUBE_LIBS
         config-struct
         settings-control-base
         settings-control-sink
-        settings-model-radios-base
+        settings-model-radio-base
 )
 
 if (PLATFORM_FAMILY STREQUAL "linux")

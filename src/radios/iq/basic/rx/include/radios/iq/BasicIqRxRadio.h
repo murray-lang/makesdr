@@ -4,8 +4,8 @@
 #include <iq/rx/BasicIqRx.h>
 #include <config/struct/RadioConfig.h>
 #include <settings/control/radio/RadioControlT.h>
-#include <settings/model/radios/iq/BasicIqRxSettings.h>
-#include <settings/model/data/radio/RadioLookup.h>
+#include <settings/model/radio/iq/BasicIqRxSettings.h>
+#include <settings/model/meta/radio/RadioLookup.h>
 
 #include <radios/base/RadioBaseT.h>
 

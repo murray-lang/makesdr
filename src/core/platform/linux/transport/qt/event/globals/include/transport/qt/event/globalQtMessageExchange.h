@@ -1,6 +1,6 @@
 #pragma once
 
-#include <settings/model/radios/RadioSettings.h>
+#include <settings/model/radio/RadioSettings.h>
 #include <transport/radio/RadioMessageExchangeT.h>
 #include <transport/qt/event/QtNotifier.h>
 

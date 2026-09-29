@@ -7,7 +7,7 @@
 #include <QMouseEvent>
 
 #include "ui_QtBandDialog.h"
-#include <settings/model/data/band/BandList.h>
+#include <settings/model/meta/band/BandList.h>
 
 
 

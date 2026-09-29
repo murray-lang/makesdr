@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <ui/qt/QtRadioClient.h>
 #include <ui/qt/faces/FaceBase.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 #include <ui/qt/widgets/QtBandDialog.h>
 #include <ui/qt/widgets/QtStepper.h>
 

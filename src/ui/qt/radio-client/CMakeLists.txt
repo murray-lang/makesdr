@@ -28,15 +28,15 @@ target_link_libraries(ui-qt-radio-client PUBLIC
         linux-test-utils
         radios-base
         core-common-samples
-        settings-model-data-radio
-        settings-model-radios-selected
+        settings-model-meta-radio
+        settings-model-radio-selected
         core-common-transport-radio
         core-linux-transport-qt-event-base
         core-linux-transport-qt-globals
 #        core-linux-event-data
 #        core-linux-globals
 #        settings-control-qt-globals
-#        settings-model-path-radios-update-helpers
+#        settings-model-update-radios-update-helpers
 )
 
 if(BUILD_TESTING)

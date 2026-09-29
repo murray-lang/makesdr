@@ -18,7 +18,7 @@ target_include_directories(core-common-transport-radio INTERFACE
 target_link_libraries(core-common-transport-radio INTERFACE
         core-common-transport-base
         settings-model-message
-        settings-model-radios-iq-basic-common
-        settings-model-data-band
-        settings-model-data-mode
+        settings-model-radio-iq-basic-common
+        settings-model-meta-band
+        settings-model-meta-mode
 )

@@ -1,6 +1,6 @@
 #pragma once
 #include "DigitalOutputT.h"
-#include <settings/model/radios/IRadioSettings.h>
+#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/BandSelectorConfig.h>
 
 template <typename RadioSettingsT>

@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <config/struct/QtTransportConfig.h>
 #include <linux/test-utils/QtTransportInOutT.h>
-#include <settings/model/message/FieldUpdateMessage.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
-#include <settings/model/data/mode/ModeList.h>
-#include <settings/model/data/band/BandCategoryList.h>
+#include <settings/model/update/FieldUpdateMessage.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/meta/mode/ModeList.h>
+#include <settings/model/meta/band/BandCategoryList.h>
 
 using Target = Config::QtTransport::Target;
 using Message = Config::QtTransport::Message;

@@ -5,9 +5,9 @@ project(settings-model)
 add_definitions(-DMAX_BANDS=34)
 
 add_subdirectory(proto)
-add_subdirectory(data)
-add_subdirectory(path)
-add_subdirectory(radios)
+add_subdirectory(meta)
+add_subdirectory(update)
+add_subdirectory(radio)
 #add_subdirectory(util)
 add_subdirectory(message)
 

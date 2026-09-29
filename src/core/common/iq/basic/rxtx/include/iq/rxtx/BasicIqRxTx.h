@@ -2,7 +2,7 @@
 
 #include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
-#include <settings/model/radios/iq/BasicIqRxTxSettings.h>
+#include <settings/model/radio/iq/BasicIqRxTxSettings.h>
 #include <iq/common/IqTransmitter.h>
 
 #include "BasicIqRxTx_Rx.h"

@@ -3,7 +3,7 @@
 #include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqTxPipeline.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 #include <iq/common/IqTransmitter.h>
 
 #include "SplitBandDualIq_Rx.h"

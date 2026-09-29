@@ -4,7 +4,7 @@
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqTxPipeline.h>
 #include <iq/common/IqTransmitter.h>
-#include <settings/model/radios/iq/DualIqRxTxSettings.h>
+#include <settings/model/radio/iq/DualIqRxTxSettings.h>
 #include "DualIqRxTx_Rx.h"
 
 

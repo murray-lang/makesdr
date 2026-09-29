@@ -1,8 +1,8 @@
 #pragma once
 
 #include <transport/out/QtTransportOutT.h>
-#include <settings/model/message/FieldUpdateMessage.h>
-#include <settings/model/message/FieldUpdateSink.h>
+#include <settings/model/update/FieldUpdateMessage.h>
+#include <settings/model/update/FieldUpdateSink.h>
 
 template<PayloadSource source>
 class QtTransportFieldUpdateOut : public QtTransportOutT<FieldUpdateMessage, source>, public FieldUpdateSink

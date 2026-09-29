@@ -3,12 +3,12 @@
 #include <ResultCode.h>
 #include <settings/model/message/PayloadType.h>
 #include <settings/model/message/PayloadSource.h>
-#include <settings/model/message/FieldUpdate.h>
-#include <settings/model/message/FieldUpdateMessage.h>
-#include <settings/model/message/FieldUpdateSink.h>
-#include <settings/model/radios/iq/IqMessage.h>
-#include <settings/model/data/mode/ModeList.h>
-#include <settings/model/data/band/BandCategoryList.h>
+#include <settings/model/update/FieldUpdate.h>
+#include <settings/model/update/FieldUpdateMessage.h>
+#include <settings/model/update/FieldUpdateSink.h>
+#include <settings/model/radio/iq/IqMessage.h>
+#include <settings/model/meta/mode/ModeList.h>
+#include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelSinkT.h>
 #include <transport/MessageChannelSourceT.h>
 

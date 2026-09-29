@@ -1,0 +1,132 @@
+
+
+QWidget#StandardFace QtSMeter#sMeter {
+    qproperty-barThicknessPx: 6;
+    qproperty-showScale: true;
+    qproperty-overS9MaxDb: 40;
+    qproperty-scalePlacementText: bottom;
+    qproperty-scalePadPx: 0;
+    qproperty-backgroundColor: #061922;
+    qproperty-borderColor: #30343a;
+    qproperty-borderWidth: 0;
+
+    qproperty-barTrackColor: #1e2126;
+    qproperty-barOkColor: #3bd16f;
+    qproperty-barWarnColor: #ffd24a;
+    qproperty-barAlarmColor: #ff4d4d;
+
+    qproperty-tickColor: white;
+    qproperty-labelColor: white;
+
+    qproperty-endPaddingPx: 12;
+    qproperty-hideLabelsWhenTight: false;
+}
+
+QWidget#StandardFace QLabel#sMeterLabel {
+    color: white;
+    font-size: 12pt;
+    vertical-align: top;
+}
+
+QWidget#StandardFace QtFrequencyPanel {
+    
+}
+
+QWidget#StandardFace QtBandReadout {
+    border-width: 1px;
+    border-style: solid;
+    border-top-color: #061922;
+    border-left-color: #061922;
+    border-bottom-color: #065a7f;
+    border-right-color: #065a7f;
+    background-color: black;
+}
+
+QWidget#StandardFace QToolButton {
+    border: 1px solid rgba(255,255,255,80);
+    border-radius: 2px;
+    padding: 0px;
+    color: black;
+}
+
+QWidget#StandardFace QtBandReadout QToolButton[role=split] {
+    border-color: #0dacf1;
+    background-color: #0dacf1;
+}
+
+
+QWidget#StandardFace QtFrequencyPanel QtVfoReadout QLabel {
+    color: #0dacf1;
+    padding-right: 5px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+QWidget#StandardFace QtFrequencyPanel[isSplit=false] QtVfoReadout QLabel {
+    font-size: 52px;
+}
+
+QWidget#StandardFace QtFrequencyPanel[isSplit=true] QtVfoReadout QLabel {
+    font-size: 36px;
+}
+
+QWidget#StandardFace QtVfoReadout[vfo="A"] {
+    /*border: 1px solid orange;*/
+}
+
+QWidget#StandardFace QtVfoReadout[vfo="B"] {
+    /*border: 1px solid purple;*/
+}
+
+QWidget#StandardFace QtVfoReadout[focusVfo=true] QtNumberReadout {
+    border-bottom-color: #0384bc;
+    border-bottom-width: 3px;
+    /*border-radius: 3px;*/
+    border-style: solid;
+}
+
+QWidget#StandardFace QtMiniVfoToolbar {
+    /*border: 1px solid red;*/
+}
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton {
+    color: black;
+}
+
+/*
+QWidget#StandardFace QtMiniVfoToolbar QToolButton:pressed {
+  background: rgba(255,255,255,40);
+}
+*/
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=mute][active=false] {
+    border-color: #00d03f;
+    background-color: #00d03f;
+    
+}
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=mute][active=true] {
+    border-color: #052810;
+    background-color: #052810;
+}
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=ab] {
+    border-color: #0dacf1;
+    background-color: #0dacf1;
+}
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=tx][active=false] {
+    border-color: #360d07;
+    background-color: #360d07;
+}
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=tx][active=true] {
+    border-color: #ff2402;
+    background-color: #ff2402;
+}
+
+QWidget#StandardFace QtMiniVfoToolbar QToolButton[role=mode] {
+    border-color: #ca6b00;
+    background-color: #ca6b00;
+    color: black;
+}
+

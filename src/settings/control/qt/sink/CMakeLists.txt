@@ -21,5 +21,5 @@ target_link_libraries(settings-control-qt-sink PUBLIC
         config-struct
         settings-control-base
         settings-control-sink
-        settings-model-radios-base
+        settings-model-radio-base
 )

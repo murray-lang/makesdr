@@ -1,12 +1,12 @@
 #pragma once
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
-#include <settings/model/data/mode/ModeList.h>
-#include <settings/model/data/band/BandCategoryList.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/meta/mode/ModeList.h>
+#include <settings/model/meta/band/BandCategoryList.h>
 #include <radios/base/RadioBaseT.h>
-#include <settings/model/message/FieldUpdateMessage.h>
+#include <settings/model/update/FieldUpdateMessage.h>
 // #include <transport/in-out/QtTransportInOutT.h>
 #include <transport/radio/QtRadioTransportT.h>
-#include <settings/model/radios/RadioSettingsRequester.h>
+#include <settings/model/radio/RadioSettingsRequester.h>
 
 
 class QtTransportTestRadio :

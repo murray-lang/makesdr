@@ -4,7 +4,7 @@
 #include "IqSink.h"
 #include <config/struct/IqReceiverConfig.h>
 
-#include <settings/model/radios/IRadioSettings.h>
+#include <settings/model/radio/IRadioSettings.h>
 
 #include <event/EventTarget.h>
 // #include <settings/model/radio/BandSettings.h>

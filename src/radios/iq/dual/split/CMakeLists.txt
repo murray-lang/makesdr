@@ -21,7 +21,7 @@ set(DUAL_SPLIT_RADIO_LIBS
         radios-base
         core-common-iq-dual-split
         settings-control-radio
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
 )
 
 if(IS_QT)

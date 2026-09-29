@@ -9,9 +9,9 @@
 #include <transport/radio/ClientTransportT.h>
 #include <transport/qt/event/QtWakeT.h>
 #include <transport/qt/event/globalQtMessageExchange.h>
-#include <settings/model/data/radio/RadioLookup.h>
-#include <settings/model/radios/RadioSettingsUpdater.h>
-#include <settings/model/radios/RadioSettingsRequester.h>
+#include <settings/model/meta/radio/RadioLookup.h>
+#include <settings/model/radio/RadioSettingsUpdater.h>
+#include <settings/model/radio/RadioSettingsRequester.h>
 #include <radios/base/RadioBaseT.h>
 
 

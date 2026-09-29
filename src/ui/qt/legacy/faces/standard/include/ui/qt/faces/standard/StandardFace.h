@@ -3,8 +3,8 @@
 #include <ui/qt/faces/FaceBase.h>
 #include <memory>
 
-#include <settings/model/radios/iq/RxTxDualIqBandSettings.h>
-#include <settings/model/radios/IRadioSettingsUpdater.h>
+#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/IRadioSettingsUpdater.h>
 
 class QtFrequencyPanel;
 class QtTimeSeriesChart;

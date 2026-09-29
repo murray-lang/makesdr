@@ -18,6 +18,6 @@ target_link_libraries(core-common-iq-basic-rx PUBLIC
         core-common-iq-base
         core-common-iq-pipeline-rx
         core-common-iq-io
-        settings-model-radios-iq-basic-rx
+        settings-model-radio-iq-basic-rx
 
 )

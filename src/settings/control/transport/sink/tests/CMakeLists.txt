@@ -6,7 +6,7 @@ target_link_libraries(settings-control-transport-sink-tests
         PRIVATE
         GTest::gtest_main
         settings-control-transport-sink
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
 )
 
 gtest_discover_tests(settings-control-transport-sink-tests)

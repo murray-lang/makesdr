@@ -5,7 +5,7 @@
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
 
-#include "settings/model/radios/iq/RxTxDualIqBandSettings.h"
+#include "settings/model/radio/iq/RxTxDualIqBandSettings.h"
 
 
 class SplitBandDualIq_Rx : public IqSink
@@ -27,6 +27,11 @@ public:
 
 protected:
   IqIo m_iqIo;
+
+  IqPublisher* m_iqPublisher;
+  IqCorrection m_iqCorrection;
+  MonitorStage m_monitorStage;
+
   IqRxPipeline m_rxPipelineA;
   IqRxPipeline m_rxPipelineB;
   bool m_pipelineBEnabled;

@@ -199,9 +199,8 @@ MainWindow::on_actionBand_triggered()
 {
   if (m_bandButton != nullptr) {
     // QWidget* centralWidget = this->centralWidget();
-    QWidget* existing = findChild<QWidget*>("bandPanel");
-    if (existing) {
-      existing->close();
+    if (m_bandDialog != nullptr) {
+      m_bandDialog->close();
       m_bandDialog = nullptr;
       return;
     }
@@ -266,6 +265,9 @@ MainWindow::eventFilter(QObject *watched, QEvent *event)
         // If the click is outside this panel, close it
         if (!panel->geometry().contains(mouseEvent->pos())) {
           panel->close();
+          if (panel == m_bandDialog) {
+            m_bandDialog = nullptr;
+          }
           return true; // Consume the event so it doesn't click the UI behind
         }
       }

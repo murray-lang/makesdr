@@ -1,6 +1,6 @@
 #pragma once
 #include <config/struct/RadioConfig.h>
-#include <settings/model/radios/RadioSettingsSink.h>
+#include <settings/model/radio/RadioSettingsSink.h>
 #include <settings/control/sink/PttSink.h>
 
 #include <event/EventTarget.h>

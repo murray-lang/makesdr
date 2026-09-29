@@ -3,7 +3,7 @@
 #include <iq/base/IqRxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqRxPipeline.h>
-#include <settings/model/radios/iq/BasicIqRxSettings.h>
+#include <settings/model/radio/iq/BasicIqRxSettings.h>
 
 
 class BasicIqRx : public IqRxBaseT<BasicIqRxSettings>

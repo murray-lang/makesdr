@@ -24,7 +24,7 @@ target_link_libraries(core-linux-transport-qt-globals PUBLIC
         config-struct
         core-common-transport-radio
         core-linux-transport-qt-event-base
-        settings-model-radios-selected
+        settings-model-radio-selected
         Qt6::Core
 )
 
