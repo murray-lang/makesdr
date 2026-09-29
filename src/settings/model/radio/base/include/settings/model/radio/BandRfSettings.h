@@ -17,10 +17,12 @@ public:
 
   ResultCode applyBandDefaults(const Band& band, const BandCategoryList* bands, const ModeList* modes) override
   {
+    // This is for the centre frequency, not the main tuning dial. For now, just apply 
+    // multipliers to the band defaults (which are for the main dial) in lieu of separate settings
     m_rawSettings.has_frequency = true;
     m_rawSettings.frequency.value = band.landingFrequency();
-    m_rawSettings.frequency.coarse_delta = band.defaultCoarseStep();
-    m_rawSettings.frequency.fine_delta = band.defaultFineStep();
+    m_rawSettings.frequency.coarse_delta = band.defaultCoarseStep() * 10;
+    m_rawSettings.frequency.fine_delta = band.defaultFineStep() * 10;
     return ResultCode::OK;
   }
 

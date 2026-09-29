@@ -92,10 +92,16 @@ SplitBandDualIq_Rx::apply(IBandSettings* bandSettings)
 uint32_t
 SplitBandDualIq_Rx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
 {
+  // static uint32_t numCalls = 0;
   uint32_t nextLength = m_iqCorrection.processSamples(samples, length);
   samples.flip();
-  nextLength = m_monitorStage.processSamples(samples, nextLength);
-  samples.flip();
+  // numCalls++;
+  // if (numCalls == 100) {
+    // numCalls = 0;
+    nextLength = m_monitorStage.processSamples(samples, nextLength);
+    samples.flip();
+  // }
+  
   uint32_t outA = m_rxPipelineA.sinkIq(samples, nextLength);
 
   // Feed pipeline B only when enabled

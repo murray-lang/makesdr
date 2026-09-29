@@ -1,0 +1,99 @@
+#include <radios/iq/SplitBandDualIqRadio.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/meta/band/mostBandCategories.h>
+#include <settings/model/meta/mode/basicModes.h>
+#include <config/json/RadioConfig.json.h>
+#include <linux/test-utils/QtTransportTestRadio.h>
+#include <radios/iq/SplitBandDualIqRadio.h>
+#include <fstream>
+
+// #include <QCoreApplication>
+#include <QApplication>
+#include <QDir>
+#include <QFile>
+#include <ui/qt/util/QtUtil.h>
+#include <ui/qt/MainWindow.h>
+#include <test-utils/testRadioSettings.h>
+#include <gpio/service/Gpio.h>
+
+// #include <settings/model/update/generateResolvedPathSourceFiles.h>
+// #include <settings/model/update/SplitBandDualIqTagLookup.h>
+
+BandCategoryList bandsByCategory(mostBandCategories);
+ModeList modeList(basicModes);
+SplitBandDualIqRxTxSettings::Cache bandSettingsCache;
+
+int main(int argc, char *argv[])
+{
+  // generateResolvedPathSourceFiles(split_band_dual_iq_radio_fields, "SplitBandDualIqResolved");
+  // return 0;
+  // QtTransportTestRadio radio;
+  // SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
+
+  // ResultCode rc = radio.configure();
+  // if (rc != ResultCode::OK) {
+  //   return -1;
+  // }
+  // QCoreApplication app(argc, argv);
+
+  const QString configHome = QDir::homePath() + "/.config/nexusdr";
+  const QString configPath = configHome + "/dual-iq-split-radio-test.json";
+  Config::Radio::Fields radioConfig;
+  ResultCode rc = loadRadioConfig(configPath, radioConfig);
+  if (rc != ResultCode::OK) {
+    return -1;
+  }
+  SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
+  rc = radio.configure(radioConfig);
+  if (rc != ResultCode::OK) {
+    return -1;
+  }
+  SplitBandDualIqRxTxSettings settings(testRadioSettingsPayloadPb);
+  radio.setSettings(settings);
+
+  QApplication app(argc, argv);
+
+  rc = loadStylesheets(configHome, app);
+  if (rc != ResultCode::OK) {
+    qDebug() << "Error loading stylesheets: " << static_cast<uint32_t>(rc);
+    return -1;
+  }
+
+  Gpio& gpioInstance = Gpio::getInstance();
+  rc = gpioInstance.open();
+  if (rc != ResultCode::OK) {
+    qDebug() << "Failed to open GPIO interface";
+    return -1;
+  }
+
+  rc = radio.start();
+  if (rc != ResultCode::OK) {
+    radio.stop();
+    qDebug() << "Error starting radio: " << static_cast<uint32_t>(rc);
+    return 1;
+  }
+
+  MainWindow w(radioConfig);
+  rc = w.connectRadio();
+  if (rc != ResultCode::OK) {
+    // radio.start() has already started the IQ source thread, which is calling
+    // into the pipelines. Stop it before returning, or those objects are
+    // destroyed from under it.
+    radio.stop();
+    qDebug() << "Error connecting to radio: " << static_cast<uint32_t>(rc);
+    return 1;
+  }
+
+  w.show();
+
+  int rc2 = app.exec();
+
+  radio.stop();
+
+  // while (true) {
+  //   // QCoreApplication::processEvents();
+  //   std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  // }
+
+  return 0; //rc2;
+}

@@ -91,7 +91,12 @@ DualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, uint32
       }
       return rc;
     }
-    return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
+    return MessageTraverser::updateField(
+      &m_rawSettings,
+      &makesdr_DualIqBandSettingsPb_msg,
+      settingUpdate,
+      startingAtIndex
+      );
 }
 
 ResultCode

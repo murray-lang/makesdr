@@ -96,7 +96,7 @@ RxTxDualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, ui
       &m_rawSettings,
       &makesdr_RxTxDualIqBandSettingsPb_msg,
       settingUpdate,
-      startingAtIndex + 1
+      startingAtIndex
       );
 }
 

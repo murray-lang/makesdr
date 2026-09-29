@@ -398,6 +398,37 @@
         "BUILD_TESTING": "ON"
 
       }
+    },
+    {
+      "name": "rpi-dual-iq-split-radio-debug",
+      "displayName": "rpi-dual-iq-split-radio Debug (RPi)",
+      "binaryDir": "${sourceDir}/build-rpi-dual-iq-split-radio-debug",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "rpi-dual-iq-split-radio",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
+      }
+    },
+    {
+      "name": "rpi-dual-iq-split-radio-release",
+      "displayName": "rpi-dual-iq-split-radio Release (RPi)",
+      "binaryDir": "${sourceDir}/build-rpi-dual-iq-split-radio-release",
+      "toolchainFile": "${sourceDir}/linux-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "rpi-dual-iq-split-radio",
+        "TARGET_PLATFORM": "rpi",
+        "IS_QT": "ON",
+        "USE_GPIO": "ON",
+        "USE_ETL": "OFF",
+        "BUILD_TESTING": "ON"
+
+      }
     }
   ]
 }

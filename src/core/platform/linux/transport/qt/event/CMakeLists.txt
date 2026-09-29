@@ -4,9 +4,9 @@ project(core-linux-transport-qt-event)
 
 add_subdirectory(base)
 add_subdirectory(globals)
-add_subdirectory(out)
-add_subdirectory(in)
-add_subdirectory(in-out)
+# add_subdirectory(out)
+# add_subdirectory(in)
+# add_subdirectory(in-out)
 add_subdirectory(radio)
 
 if(BUILD_TESTING)

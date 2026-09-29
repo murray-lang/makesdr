@@ -6,9 +6,9 @@
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelT.h>
 
-#define SETTINGS_RING_SIZE 2
-#define UPDATE_RING_SIZE 4
-#define IQ_RING_SIZE 4
+#define SETTINGS_RING_SIZE 1
+#define UPDATE_RING_SIZE 2
+#define IQ_RING_SIZE 1
 #define MODES_RING_SIZE 1
 #define BANDS_RING_SIZE 1
 
