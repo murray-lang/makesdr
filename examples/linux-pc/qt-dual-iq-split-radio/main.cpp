@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
   SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
+    qDebug() << "Error configuring radio: " << static_cast<uint32_t>(rc);
     return -1;
   }
   SplitBandDualIqRxTxSettings settings(testRadioSettingsPayloadPb);

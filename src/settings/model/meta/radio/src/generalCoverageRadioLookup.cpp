@@ -22,7 +22,7 @@ makesdr_RadioLookupPb generalCoverageRadioLookup = {
             {"80m", "80m", 3500000, 3800000, 3600000, 100, 1000, makesdr_ModeType_MODE_LSB},
             {"40m", "40m", 7000000, 7300000, 7100000, 100, 1000, makesdr_ModeType_MODE_LSB},
             {"30m", "30m", 10100000, 10150000, 10125000, 100, 1000, makesdr_ModeType_MODE_USB},
-            {"20m", "20m", 14000000, 14350000, 14200000, 100, 1000, makesdr_ModeType_MODE_USB},
+            {"20m", "20m", 14000000, 14350000, 14220000, 100, 1000, makesdr_ModeType_MODE_AMN},
             {"17m", "17m", 18068000, 18168000, 18100000, 100, 1000, makesdr_ModeType_MODE_USB},
             {"15m", "15m", 21000000, 21450000, 21200000, 100, 1000, makesdr_ModeType_MODE_USB},
             {"12m", "12m", 24890000, 24990000, 24930000, 100, 1000, makesdr_ModeType_MODE_USB},

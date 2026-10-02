@@ -41,10 +41,7 @@ SplitBandDualIqRadio::configure(const Config::Radio::Fields& config)
 ResultCode
 SplitBandDualIqRadio::start()
 {
-  m_settings.setPurpose(PayloadPurpose::PURPOSE_REPLACE);
-  ResultCode rc = applySettings(m_settings);
-  if (rc != ResultCode::OK) return rc;
-  rc = m_transceiver.start();
+  ResultCode rc = m_transceiver.start();
   if (rc != ResultCode::OK) return rc;
   m_control.connectRadioSettingsSink(this);
   m_control.connectFieldUpdateSink(this);
@@ -52,7 +49,11 @@ SplitBandDualIqRadio::start()
   if (rc != ResultCode::OK) return rc;
   m_transport.connectRadioSettingsSink(this);
   m_transport.connectFieldUpdateSink(this);
-  return m_transport.start();;
+  rc = m_transport.start();
+  if (rc != ResultCode::OK) return rc;
+  m_settings.setPurpose(PayloadPurpose::PURPOSE_REPLACE);
+  // m_settings.setAllFieldsPresence(true);
+  return applySettings(m_settings);
 }
 
 void

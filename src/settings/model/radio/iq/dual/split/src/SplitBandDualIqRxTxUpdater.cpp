@@ -157,7 +157,7 @@ ResultCode
 SplitBandDualIqRxTxUpdater::setFocusPipelineFrequency(int64_t frequency)
 {
   return notifyFieldUpdate(
-    FieldUpdate(active_bands_focus_band_focus_pipeline_base_rf_frequency, frequency, FieldUpdateMeaning::VALUE)
+    FieldUpdate(active_bands_focus_band_focus_pipeline_base_rf_frequency_value, frequency, FieldUpdateMeaning::VALUE)
   );
 }
 

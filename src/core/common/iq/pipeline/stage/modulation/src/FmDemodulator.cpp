@@ -32,10 +32,10 @@ FmDemodulator::processSamples(
     uint32_t inputLength)
 {
   for(uint32_t i=0; i<inputLength; i++) {
-    sdrcomplex sample = in.at(i);
+    sdrcomplex sample = in[i];
     float outSample;
     freqdem_demodulate(m_demod, sample, &outSample);
-    out.at(i) = outSample;
+    out[i] = outSample;
   }
   return inputLength;
 }

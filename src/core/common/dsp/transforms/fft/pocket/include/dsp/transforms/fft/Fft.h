@@ -11,7 +11,8 @@ class Fft
 public:
 
   explicit Fft(WindowType window = WindowType::NONE)
-    : m_pocketfft_stride{sizeof(sdrcomplex)}
+    : m_windowType(window)
+    , m_pocketfft_stride{sizeof(sdrcomplex)}
     , m_pocketfft_axes{0}
   {
     m_window =  window == WindowType::HAMMING ? window_hamming
@@ -30,7 +31,7 @@ public:
   {
     const BufferType* inBuffer = &input;
 
-    if (forward) {
+    if (forward && m_windowType != WindowType::NONE) {
       for (uint32_t i = 0; i < inputLength; ++i) {
         m_windowBuffer.at(i) = input.at(i) * m_window(i, inputLength);
       }
@@ -53,6 +54,7 @@ public:
   }
 
 protected:
+  WindowType m_windowType;
   WindowFunction m_window;
   pocketfft::stride_t m_pocketfft_stride;
   pocketfft::shape_t m_pocketfft_axes;

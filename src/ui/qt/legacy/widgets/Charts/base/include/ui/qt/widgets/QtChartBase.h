@@ -8,12 +8,12 @@
 #include <samples/SampleTypes.h>
 
 
-class QtChartBase
+class QtChartBase : public QWidget
 {
-  // Q_OBJECT
+  Q_OBJECT
 public:
   QtChartBase(QWidget* parent, const char* viewName, const char* themeName);
-  virtual ~QtChartBase() = default;
+  ~QtChartBase() override = default;
 
   virtual void initialise();
 
@@ -22,7 +22,15 @@ public:
 
   void setSeriesXMinMax(int64_t min, int64_t max);
 
+
+
+  bool eventFilter(QObject *watched, QEvent *event) override;
+
 protected:
+  virtual void handleChartClick(qreal xValue) {}
+
+  void handleChartClick(const QPointF &scenePos);
+
   virtual void applyTheme();
 
 

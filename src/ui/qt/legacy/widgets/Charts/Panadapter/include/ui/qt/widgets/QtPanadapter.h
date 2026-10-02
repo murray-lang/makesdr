@@ -7,11 +7,17 @@
 
 class QtPanadapter : public QtChartBase
 {
+  Q_OBJECT
 public:
   QtPanadapter(QWidget* parent, const char* viewName, const char* themeName);
-  ~QtPanadapter() override = default;
+  ~QtPanadapter() override
+  {
+
+  };
 
   void initialise() override;
+
+
 
   void showCursorB(bool show);
 
@@ -38,7 +44,11 @@ public:
   void updateCursorPositionA(int64_t frequency, int32_t loCut, int32_t hiCut);
   void updateCursorPositionB(int64_t frequency, int32_t loCut, int32_t hiCut);
 
+  signals:
+  void frequencySelected(int64_t frequency);
+
 protected:
+  void handleChartClick(qreal xValue) override;
   void powerSpectrum(const ComplexSamplesBuffer& timeSeries, uint32_t timeSeriesLength, RealSamplesBuffer& spectrumOut);
 
   void refreshOverlays();

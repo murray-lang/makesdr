@@ -8,7 +8,7 @@ AudioMixer::AudioMixer(AudioSink& output)
   , m_output(output)
   , m_havePendingA(false)
   , m_havePendingB(false)
-  , m_gain(1000.0f)
+  , m_gain(1.0f)
 {
 }
 
@@ -27,43 +27,69 @@ AudioMixer::sinkAudioInput(
     return 0;
   }
 
-  if (!m_inputBEnabled) {
+  // if (!m_inputBEnabled) {
     // A-only mode: duplicate to stereo. (If B accidentally calls, still harmless.)
-    outputStereoDuplicate(mono, frames);
-    return frames;
-  }
-
+    // outputStereoFromSingle(mono, frames);
+    // return frames;
+  // }
   if (inputId == AudioMixerInput::INPUT_A) {
+    if (m_havePendingA || !m_inputBEnabled) {
+      // If we have a pending A then we're doubling up, maybe due to a problem with B.
+      // Ignore the oldest and just play the latest.
+      outputStereoFromSingle(m_pendingA, frames);
+      m_pendingA.swap(mono);
+      m_havePendingA = true;
+      m_havePendingB = false;
+      return frames;
+    }
     m_pendingA.swap(mono);
     m_havePendingA = true;
-
-    // If B already arrived first (unexpected), pair immediately.
     if (m_havePendingB) {
+      // We have both now. Play them.
       const uint32_t n = std::min<uint32_t>(
         static_cast<uint32_t>(m_pendingA.size()),
         static_cast<uint32_t>(m_pendingB.size())
       );
-      outputStereoFromMono(m_pendingA, m_pendingB, n);
+      outputStereoFromPair(m_pendingA, m_pendingB, n);
+      m_havePendingA = false;
+      m_havePendingB = false;
+      return frames;
+    }
+
+
+    // // If B already arrived first (unexpected), pair immediately.
+    // if (m_havePendingB) {
+    //   const uint32_t n = std::min<uint32_t>(
+    //     static_cast<uint32_t>(m_pendingA.size()),
+    //     static_cast<uint32_t>(m_pendingB.size())
+    //   );
+    //   outputStereoFromPair(m_pendingA, m_pendingB, n);
+    //   m_havePendingA = false;
+    //   m_havePendingB = false;
+    // }
+    // return frames;
+  } else if (m_inputBEnabled) {
+    if (m_havePendingB) {
+      // If we have a pending B then we're doubling up, maybe due to a problem with A.
+      // Ignore the oldest and just play the latest.
+      outputStereoFromSingle(m_pendingB, frames);
+      m_havePendingA = false;
+      m_pendingB.swap(mono);
+      return frames;
+    }
+    m_pendingB.swap(mono);
+    m_havePendingB = true;
+    if (m_havePendingA) {
+      // We have both now. Play them.
+      const uint32_t n = std::min<uint32_t>(
+        static_cast<uint32_t>(m_pendingA.size()),
+        static_cast<uint32_t>(m_pendingB.size())
+      );
+      outputStereoFromPair(m_pendingA, m_pendingB, n);
       m_havePendingA = false;
       m_havePendingB = false;
     }
-    return frames;
   }
-
-  // InputId::B
-  if (m_havePendingA) {
-    const uint32_t n = std::min<uint32_t>(
-      static_cast<uint32_t>(m_pendingA.size()),
-      static_cast<uint32_t>(mono.size())
-    );
-    outputStereoFromMono(m_pendingA, mono, n);
-    m_havePendingA = false;
-    return frames;
-  }
-
-  // B arrived before A (should be rare). Keep it for pairing.
-  m_pendingB.swap(mono);
-  m_havePendingB = true;
   return frames;
 }
 
@@ -86,7 +112,10 @@ AudioMixer::downmixToMono(const RealSamplesBuffer& in,
   }
 
   if (numChannels == 1) {
-    std::copy(in.begin(), in.begin() + frames, outMono.begin());
+    // std::copy(in.begin(), in.begin() + frames, outMono.begin());
+    for (uint32_t s = 0; s < frames; ++s) {
+      outMono[s] = in[s] * m_gain;
+    }
     return frames;
   }
 
@@ -102,7 +131,7 @@ AudioMixer::downmixToMono(const RealSamplesBuffer& in,
 }
 
 void
-AudioMixer::outputStereoFromMono(const RealSamplesBuffer& leftMono,
+AudioMixer::outputStereoFromPair(const RealSamplesBuffer& leftMono,
                                  const RealSamplesBuffer& rightMono,
                                  uint32_t frames)
 {
@@ -112,8 +141,8 @@ AudioMixer::outputStereoFromMono(const RealSamplesBuffer& leftMono,
 
   m_stereoOutInterleaved.resize(frames * 2);
   for (uint32_t i = 0; i < frames; ++i) {
-    m_stereoOutInterleaved[i * 2 + 0] = leftMono[i] * m_gain;
-    m_stereoOutInterleaved[i * 2 + 1] = rightMono[i] * m_gain;
+    m_stereoOutInterleaved[i * 2 + 0] = leftMono[i];
+    m_stereoOutInterleaved[i * 2 + 1] = rightMono[i];
   }
 
   m_output.sinkAudio(m_stereoOutInterleaved,
@@ -122,7 +151,7 @@ AudioMixer::outputStereoFromMono(const RealSamplesBuffer& leftMono,
 }
 
 void
-AudioMixer::outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames)
+AudioMixer::outputStereoFromSingle(const RealSamplesBuffer& mono, uint32_t frames)
 {
   if (frames == 0) {
     return;
@@ -131,8 +160,8 @@ AudioMixer::outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames
   m_stereoOutInterleaved.resize(frames * 2);
   for (uint32_t i = 0; i < frames; ++i) {
     const float s = mono[i];
-    m_stereoOutInterleaved[i * 2 + 0] = s * m_gain;
-    m_stereoOutInterleaved[i * 2 + 1] = s * m_gain;
+    m_stereoOutInterleaved[i * 2 + 0] = s;
+    m_stereoOutInterleaved[i * 2 + 1] = s;
   }
 
   m_output.sinkAudio(m_stereoOutInterleaved,

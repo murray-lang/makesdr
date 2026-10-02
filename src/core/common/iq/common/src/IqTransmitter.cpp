@@ -1,8 +1,9 @@
 #include "iq/common/IqTransmitter.h"
 
 
-IqTransmitter::IqTransmitter(const ModeList& modes)
-  : m_txPipeline(modes)
+IqTransmitter::IqTransmitter(ComplexPingPongBuffers& pingPongBuffers, const ModeList& modes)
+  : m_pingPongBuffers(pingPongBuffers)
+  , m_txPipeline(modes)
 {
 }
 
@@ -44,9 +45,11 @@ IqTransmitter::apply(const BandRfSettings* bandRfSettings, PipelineSettings* set
 }
 
 uint32_t
-IqTransmitter::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
+IqTransmitter::sinkIq(ComplexSamplesBuffer& samples, uint32_t length)
 {
-  return m_txPipeline.sinkIq(samples, length);
+  m_pingPongBuffers.reset();
+  std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
+  return m_txPipeline.processSamples(m_pingPongBuffers, length);
 }
 
 uint32_t

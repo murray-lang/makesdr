@@ -30,6 +30,7 @@ public:
   ResultCode apply(RadioSettings& settings) override;
 
 protected:
+  ComplexPingPongBuffers m_pingPongBuffers;
   SplitBandDualIq_Rx m_rx;
   IqTransmitter m_tx;
 };

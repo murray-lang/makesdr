@@ -330,13 +330,13 @@ const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency =
     false,
     true
 );
-/*
+/**/
 const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_value = FieldDescriptor(
     FieldPath{1, 1, 10, 1, 3, 1001, 1},
     false,
     true
 );
-*/
+/**/
 /*
 const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_coarse_delta = FieldDescriptor(
     FieldPath{1, 1, 10, 1, 3, 1001, 2},

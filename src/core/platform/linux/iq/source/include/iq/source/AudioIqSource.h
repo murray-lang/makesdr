@@ -32,7 +32,8 @@ public:
 protected:
   AudioInput m_audioInput;
   HilbertTransform m_hilbert;
-  ComplexPingPongBuffers m_iqOutputBuffers;
+  // ComplexPingPongBuffers m_iqOutputBuffers;
+  ComplexSamplesBuffer m_outputBuffer;
   // std::chrono::steady_clock::time_point m_lastTime;
 };
 

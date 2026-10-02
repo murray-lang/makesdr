@@ -1,6 +1,7 @@
 #include "iq/resample/Resampler.h"
 
 #include <cmath>
+// #include <QDebug>
 
 Resampler::Resampler() :
   m_inputSampleRate(0),
@@ -50,11 +51,13 @@ Resampler::processSamples(
 ) const
 {
   unsigned int numWritten = 0;
+
   for (uint32_t i = 0; i < inputLength; ++i) {
     unsigned int n;
-    resamp_rrrf_execute(m_pResampleStateReal, in.at(i), &out.at(numWritten), &n);
+    resamp_rrrf_execute(m_pResampleStateReal, in[i], &out[numWritten], &n);
     numWritten += n;
   }
+
   return numWritten;
 }
 
@@ -72,16 +75,20 @@ Resampler::processSamples(
   const unsigned int maxBurst = static_cast<unsigned int>(std::ceil(m_ratio)) + 1;
   const unsigned int capacity = out.size();
   unsigned int numWritten = 0;
+  // sdrreal sum = 0.0;
   for (uint32_t i = 0; i < inputLength; ++i) {
     if (numWritten + maxBurst > capacity) {
       break; // Buffer too small for this ratio - see PIPELINE_BUFFER_LENGTH.
     }
+    // sdrreal mag = std::abs(in[i]);
+    // sum += mag;
     unsigned int n;
     // liquid-dsp uses float complex which is usually binary compatible with std::complex<float>
-    resamp_crcf_execute(m_pResampleStateComplex, in.at(i), &out.at(numWritten), &n);
+    resamp_crcf_execute(m_pResampleStateComplex, in[i], &out[numWritten], &n);
     numWritten += n;
   }
-
+  // sdrreal avg = sum / static_cast<sdrreal>(numWritten);
+  // qDebug() << "Resampler: avg in = " << avg;
   return numWritten;
 }
 

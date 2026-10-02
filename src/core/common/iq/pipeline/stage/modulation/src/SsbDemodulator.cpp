@@ -12,7 +12,7 @@ SsbDemodulator::processSamples(
   out.resize(inputLength);
   if (m_modeType == Mode::Type::USB) {
     for (uint32_t i = 0; i < inputLength; ++i) {
-      out[i] = in[i].real() * 100;
+      out[i] = in[i].real();
     }
   } else {
     for (uint32_t i = 0; i < inputLength; ++i) {

@@ -1,5 +1,6 @@
 #include "dsp/filters/fir/kernels/BandPassFirKernel.h"
 #include <samples/SampleTypes.h>
+// #include <QDebug>
 
 
 const ComplexSamplesFft&
@@ -40,6 +41,8 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
     // sdrreal window = BLACKMAN(i, static_cast<sdrreal>(FIR_SIZE)); //m_window.at(i) - m_window[0];
     z *= m_window.at(i); // window; //HANNING(i, m_firSize);
     realSincPulse.at( i ) = z;
+    // qDebug() << z;
+
     //shift lowpass filter coefficients in frequency by (hicut+lowcut)/2 to form bandpass filter anywhere in range
     // (also scales by 1/FFTsize since inverse FFT routine scales by FFTsize)
 //    m_complexSincPulse.at(i ) = sdrcomplex(
@@ -58,5 +61,12 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
   }
   Fft<ComplexSamplesFft>fft(WindowType::NONE);
   fft.transform(complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
+  // static int times = 0;
+  // times++;
+  // if (times == 2) {
+  //   for (int i = 0; i < FFT_SIZE; i++) {
+  //     qDebug() << std::abs(m_complexCoefficients.at(i));
+  //   }
+  // }
   return m_complexCoefficients;
 }

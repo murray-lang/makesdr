@@ -25,11 +25,11 @@ protected:
                                uint32_t numChannels,
                                RealSamplesBuffer& outMono);
 
-  void outputStereoFromMono(const RealSamplesBuffer& leftMono,
+  void outputStereoFromPair(const RealSamplesBuffer& leftMono,
                             const RealSamplesBuffer& rightMono,
                             uint32_t frames);
 
-  void outputStereoDuplicate(const RealSamplesBuffer& mono, uint32_t frames);
+  void outputStereoFromSingle(const RealSamplesBuffer& mono, uint32_t frames);
 
 private:
   AudioMixerInput m_inputA;

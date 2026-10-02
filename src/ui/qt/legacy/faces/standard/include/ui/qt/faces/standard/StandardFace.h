@@ -25,6 +25,8 @@ public:
   explicit StandardFace(QWidget* parent = nullptr);
   ~StandardFace() override;
 
+
+
   void initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater) override;
 
   // void connect(FieldUpdateSink* pSink) override { m_pExternalSettingsSink = pSink; }
@@ -48,6 +50,10 @@ public:
   //   uint32_t sampleRate) override;
   // void handleTransmitterAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
 
+public slots:
+  void frequencySelected(uint64_t frequency);
+
+
 protected:
 
   void updatePanadapter(const BandSettings* bandSettings);
@@ -57,6 +63,7 @@ protected:
 
   private:
   std::unique_ptr<Ui::StandardFace> ui;
+  IRadioSettingsUpdater* m_pRadioSettingsUpdater;
 
   QtTimeSeriesChart* m_pTimeSeriesChart;
   QtPanadapter* m_pPanadapter;

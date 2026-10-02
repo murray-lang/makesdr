@@ -1,8 +1,7 @@
 #include "iq/modulation/AmDemodulator.h"
 
 #include <algorithm>
-
-#define DC_ALPHA 0.99	//ALPHA for DC removal filter ~20Hz Fcut with 15625Hz Sample Rate
+#include <QDebug>
 
 uint32_t
 AmDemodulator::processSamples(
@@ -14,26 +13,24 @@ AmDemodulator::processSamples(
   {
     return 0;
   }
-  sdrreal sum = 0.0;
+
   for(uint32_t i=0; i<inputLength; i++)
   {
-    //calculate instantaneous power magnitude of pInData which is I*I + Q*Q
-    sdrcomplex iq = in.at(i);
-    sdrreal mag = std::abs(iq);
-    sum += mag;
-    //High pass filter(DC removal) with IIR filter
-    // H(z) = (1 - z^-1)/(1 - ALPHA*z^-1)
-    // sdrreal z0 = mag + static_cast<sdrreal>(m_z * DC_ALPHA);
-    out.at(i) = mag; //z0 - m_z;
-    // m_z = z0;
+    ampmodem_demodulate(m_demodulator, in[i], &out[i]);
   }
-  sdrreal avg = sum / static_cast<sdrreal>(inputLength);
-  // if (std::abs(avg) > 0.0)
+  // sdrreal sum = 0.0;
+  // for(uint32_t i=0; i<inputLength; i++)
   // {
-  std::for_each(out.begin(), out.begin() + inputLength, [avg](sdrreal& v) {
-      v -= avg;
-  });
-  //
+  //   //calculate instantaneous power magnitude of pInData which is I*I + Q*Q
+  //   sdrcomplex iq = in.at(i);
+  //   sdrreal mag = std::abs(iq);
+  //   sum += mag;
+  //   out.at(i) = mag;
   // }
+  // sdrreal avg = sum / static_cast<sdrreal>(inputLength);
+  // // qDebug() << "AM avg: " << avg;
+  // std::for_each(out.begin(), out.begin() + inputLength, [avg](sdrreal& v) {
+  //     v -= avg;
+  // });
   return inputLength;
 }

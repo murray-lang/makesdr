@@ -16,6 +16,7 @@ public:
   MonitorStage(IqPublisher* iqPublisher)
     : m_iqPublisher(iqPublisher)
     , m_sampleRateProvider([]() { return 0; })
+    , m_enabled(false)
   {
   }
 
@@ -23,9 +24,13 @@ public:
     m_sampleRateProvider = ::move(sampleRateProvider);
   }
 
+  void enable(bool enable) {
+    m_enabled = enable;
+  }
+
   uint32_t processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength) override
   {
-    if (m_iqPublisher != nullptr) {
+    if (m_iqPublisher != nullptr && m_enabled) {
       if (IqMessage* msg = m_iqPublisher->reserve()) {
         msg->initialise(buffers.input(), inputLength, m_sampleRateProvider());
         m_iqPublisher->commit(msg);
@@ -38,4 +43,5 @@ public:
 protected:
   IqPublisher* m_iqPublisher;
   SampleRateProvider m_sampleRateProvider;
+  bool m_enabled;
 };

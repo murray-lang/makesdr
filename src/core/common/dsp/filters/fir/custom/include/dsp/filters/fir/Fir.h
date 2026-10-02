@@ -6,6 +6,7 @@
 // #include "kernels/BandStopFirKernel.h"
 // #include "kernels/LowPassFirKernel.h"
 #include <dsp/transforms/fft/Fft.h>
+// #include <QDebug>
 
 template<class kernel>
 class Fir
@@ -13,7 +14,7 @@ class Fir
 public:
   explicit Fir()
     : m_kernel()
-    , m_fft(WindowType::HANNING)
+    , m_fft(WindowType::NONE)
   {
   }
   virtual ~Fir() = default;
@@ -40,9 +41,21 @@ protected:
 
   void applyFftCoefficients(const ComplexSamplesFft& input, ComplexSamplesFft& output)
   {
+
     m_fft.transform(input, output, FFT_SIZE, true, false);
+
     multiplyByCoefficients(output, output);
-    m_fft.transform(output, output, FFT_SIZE, false, true);
+
+    m_fft.transform(output, output, FFT_SIZE, false, false);
+
+    // sdrreal sum = 0;
+    // for (int i = 0; i < FFT_SIZE; i++) {
+    //   sdrreal mag = std::abs(output[i]);
+    //   sum += mag;
+    // }
+    // sdrreal avg = sum / FFT_SIZE;
+    // qDebug() << "Filter out avg" << avg;
+
 
     // uint32_t inputSize = input.size();
     // ComplexSamplesFft localInput, localOutput;
@@ -51,6 +64,7 @@ protected:
     // m_fft.transform(input, localInput, FFT_SIZE, true, false);
     //
     // multiplyByCoefficients(localInput, localOutput);
+    //
     //
     // m_fft.transform(localOutput, output, FFT_SIZE, false, true);
   }

@@ -1,17 +1,15 @@
 #include "iq/split/SplitBandDualIq_Rx.h"
 
 
-SplitBandDualIq_Rx::SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
-  : m_iqPublisher(iqPublisher)
-  , m_iqCorrection()
-  , m_monitorStage(iqPublisher)
-  , m_rxPipelineA(modes)
-  , m_rxPipelineB(modes)
+SplitBandDualIq_Rx::SplitBandDualIq_Rx(ComplexPingPongBuffers& pingPongBuffers,const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
+  : m_pingPongBuffers(pingPongBuffers)
+  , m_rxPipelineA(modes, iqPublisher)
+  , m_rxPipelineB(modes, iqPublisher)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {
-  m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_rxPipelineA.getInputSampleRate(); });
-
+  m_rxPipelineA.enableMonitoring(true);
+  m_rxPipelineB.enableMonitoring(false);
 }
 
 SplitBandDualIq_Rx::~SplitBandDualIq_Rx()
@@ -90,26 +88,18 @@ SplitBandDualIq_Rx::apply(IBandSettings* bandSettings)
 }
 
 uint32_t
-SplitBandDualIq_Rx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
+SplitBandDualIq_Rx::sinkIq(ComplexSamplesBuffer& samples, uint32_t length)
 {
-  // static uint32_t numCalls = 0;
-  uint32_t nextLength = m_iqCorrection.processSamples(samples, length);
-  samples.flip();
-  // numCalls++;
-  // if (numCalls == 100) {
-    // numCalls = 0;
-    nextLength = m_monitorStage.processSamples(samples, nextLength);
-    samples.flip();
-  // }
-  
-  uint32_t outA = m_rxPipelineA.sinkIq(samples, nextLength);
+  m_pingPongBuffers.reset();
+  std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
+  uint32_t out = m_rxPipelineA.processSamples(m_pingPongBuffers, length);
 
-  // Feed pipeline B only when enabled
   if (m_pipelineBEnabled) {
-    m_rxPipelineB.sinkIq(samples, length);
+    m_pingPongBuffers.reset();
+    std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
+    out = m_rxPipelineB.processSamples(m_pingPongBuffers, length);
   }
-
-  return outA;
+  return out;
 }
 
 IqRxPipeline*

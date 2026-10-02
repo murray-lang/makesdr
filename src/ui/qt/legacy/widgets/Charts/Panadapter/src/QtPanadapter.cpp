@@ -93,6 +93,13 @@ QtPanadapter::initialise()
 }
 
 void
+QtPanadapter::handleChartClick(qreal xValue)
+{
+  auto frequency = static_cast<uint64_t>(xValue);
+  emit frequencySelected(frequency);
+}
+
+void
 QtPanadapter::showCursorB(bool show)
 {
   if (m_verticalCursorLineB) {

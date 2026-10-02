@@ -31,6 +31,8 @@ QtChartBase::initialise()
   }
   m_pChart->addSeries(&m_lineSeries);
   applyTheme();
+
+  m_pChartView->viewport()->installEventFilter(this);
 }
 
 void
@@ -103,4 +105,45 @@ QtChartBase::setSeriesXMinMax(int64_t min, int64_t max)
     m_pChart->axes(Qt::Horizontal)
       .first()->setRange(static_cast<qlonglong>(m_xMin), static_cast<qlonglong>(m_xMax));
   }
+}
+
+bool
+QtChartBase::eventFilter(QObject *watched, QEvent *event) {
+  // Check if the event comes from our chart view's viewport
+  if (m_pChartView != nullptr && watched == m_pChartView->viewport()) {
+    if (event->type() == QEvent::MouseButtonPress) {
+      auto *mouseEvent = dynamic_cast<QMouseEvent*>(event);
+      if (mouseEvent->button() == Qt::LeftButton) {
+
+        // Map the viewport position to the chart scene position
+        QPointF scenePos = m_pChartView->mapToScene(mouseEvent->position().toPoint());
+        handleChartClick(scenePos);
+
+        // Return false to let Qt continue propagating the click
+        // so normal chart behaviors (zoom/pan/tooltips) still work
+        return false;
+      }
+    }
+  }
+  return QObject::eventFilter(watched, event);
+}
+
+void
+QtChartBase::handleChartClick(const QPointF &scenePos) {
+  if (m_pChart == nullptr || m_pChart->series().isEmpty()) return;
+
+  // Convert scene coordinates down to the chart's local coordinates
+  QPointF chartPos = m_pChart->mapFromScene(scenePos);
+
+  // Filter out clicks on the legend or outer margins
+  if (!m_pChart->plotArea().contains(chartPos)) return;
+
+  // Map to domain space
+  QAbstractSeries *series = m_pChart->series().first();
+  QPointF domainValue = m_pChart->mapToValue(chartPos, series);
+
+  qreal xValue = domainValue.x();
+  // qDebug() << "Domain X clicked from composition class:" << xValue;
+  handleChartClick(xValue);
+  // Move your cursor here using xValue
 }

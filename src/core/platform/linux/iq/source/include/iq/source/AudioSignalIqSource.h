@@ -8,7 +8,7 @@
 #include <audio/AudioInputFactory.h>
 #include <samples/PingPongBuffers.h>
 
-class AudioSignalIqSource : public IqSource, private AudioSink
+class AudioSignalIqSource : public IqSource, AudioSink
 {
 public:
   AudioSignalIqSource();
@@ -26,12 +26,11 @@ public:
 
   [[nodiscard]] uint32_t getSampleRate() const override { return m_audioInput.getSampleRate(); }
 
-private:
   uint32_t sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels) override;
 
 protected:
   AudioInput m_audioInput;
-  ComplexPingPongBuffers m_iqOutputBuffers;
+  ComplexSamplesBuffer m_outputBuffer;
   bool m_reverse;
 
 };

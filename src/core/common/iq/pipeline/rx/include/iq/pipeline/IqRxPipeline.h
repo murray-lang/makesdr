@@ -6,6 +6,7 @@
 #include <iq/resample/Resampler.h>
 #include <iq/filter/FilterStage.h>
 #include <iq/monitor/MonitorStage.h>
+#include <iq/agc/AgcStage.h>
 
 
 #include <iq/modulation/Demodulator.h>
@@ -23,13 +24,13 @@
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const ModeList& modes);
+  IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
   void setOutputSampleRate(uint32_t outputSampleRate) override;
 
-  uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
+  uint32_t processSamples(ComplexPingPongBuffers& samples, uint32_t length) override;
 
   ResultCode apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* settings);
 
@@ -40,22 +41,28 @@ public:
 
   void setMode(const Mode& mode) override;
 
+  void enableMonitoring(bool enable) { m_monitorStage.enable(enable); }
+
 protected:
   void setDemodulator(const Mode& mode);
 
 private:
 
   // DcShift m_dcShift;
-  // IqCorrection m_iqCorrection;
+
+  IqPublisher* m_iqPublisher;
+  IqCorrection m_iqCorrection;
   Resampler m_resampler;
   FilterStage m_ifFilter;
+
   AmDemodulator m_amDemodulator;
   FmDemodulator m_fmnDemodulator;
   FmDemodulator m_fmwDemodulator;
   SsbDemodulator m_ssbDemodulator;
   CwDemodulator m_cwDemodulator;
   Demodulator* m_pDemodulator;
-  // MonitorStage m_monitorStage;
+  MonitorStage m_monitorStage;
+  AgcStage m_agcStage;
 
   RealSamplesBuffer m_audioBuffer;
 };

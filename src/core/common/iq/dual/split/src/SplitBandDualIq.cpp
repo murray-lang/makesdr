@@ -2,8 +2,8 @@
 
 SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
   : IqRxTxBaseT()
-  , m_rx(bands, modes, iqPublisher)
-  , m_tx(modes)
+  , m_rx(m_pingPongBuffers, bands, modes, iqPublisher)
+  , m_tx(m_pingPongBuffers, modes)
 {
 
 }

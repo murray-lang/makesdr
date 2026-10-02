@@ -44,36 +44,44 @@ public:
 
   ResultCode applySettings(RadioSettingsT& radioSettings) override
   {
+
     if (!radioSettings.hasActiveBands()) {
-      return ResultCode:: OK;
+      return ResultCode::OK;
     }
 
     const typename RadioSettingsT::ActiveBandSettings* activeBandSettings = radioSettings.activeBands();
     if (!activeBandSettings->hasFocusBand()) {
-      return ResultCode:: OK;
+      return ResultCode::OK;
     }
+
+    ResultCode rc = ResultCode::OK;
     const typename RadioSettingsT::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
     if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
       const BandRfSettings* rfSettings = bandSettings->rfSettings();
       if (rfSettings->hasFrequency()) {
         int64_t centreFrequency = rfSettings->frequency();
-        setFrequency(centreFrequency);
-        setRfFilter(centreFrequency);
+        rc = setFrequency(centreFrequency);
+        // if (rc != ResultCode::OK) return rc;
+        rc = setRfFilter(centreFrequency);
+        // if (rc != ResultCode::OK) return rc;
       }
       if (rfSettings->hasGain()) {
         float gain = rfSettings->gain();
-        setLnaGain(gain);
+        rc = setLnaGain(gain);
+        // if (rc != ResultCode::OK) return rc;
         m_lastRfGain = gain;
       }
     }
     if (bandSettings != nullptr && bandSettings->hasIfSettings()) {
       const IfSettings* ifSettings = bandSettings->ifSettings();
       if (ifSettings->hasBandwidth()) {
-        setIfFilter(ifSettings->bandwidth());
+        rc = setIfFilter(ifSettings->bandwidth());
+        // if (rc != ResultCode::OK) return rc;
       }
       if (ifSettings->hasGain()) {
         float gain = ifSettings->gain();
-        setIfGain(gain);
+        rc = setIfGain(gain);
+        // if (rc != ResultCode::OK) return rc;
         m_lastIfGain = gain;
       }
     }
