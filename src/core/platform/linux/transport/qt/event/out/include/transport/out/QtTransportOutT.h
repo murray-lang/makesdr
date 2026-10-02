@@ -4,7 +4,7 @@
 #include <transport/out/TransportOutBaseT.h>
 #include <transport/qt/event/QtTransportBase.h>
 #include <transport/qt/event/globalQtEventTargets.h>
-#include <transport/qt/event/MessageEventT.h>
+#include <transport/qt/event/MessageEvent.h>
 #include <settings/model/message/PayloadSource.h>
 #include <QCoreApplication>
 
@@ -106,7 +106,7 @@ public:
   {
     if (m_qtEventTarget != nullptr && message != nullptr) {
       message->setSource(source);
-      auto* event = new MessageEventT<MessageType>(*message);
+      auto* event = new MessageEvent<MessageType>(*message);
 
       QCoreApplication::postEvent(m_qtEventTarget, event);
     }

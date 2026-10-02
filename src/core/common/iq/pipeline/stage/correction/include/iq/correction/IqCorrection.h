@@ -2,7 +2,7 @@
 
 #include <samples/SampleTypes.h>
 #include <iq/pipeline/stage/IqPipelineStage.h>
-#include <settings/model/radios/iq/IqCorrectionSettings.h>
+#include <settings/model/radio/iq/IqCorrectionSettings.h>
 
 class IqCorrection : public IqPipelineStage
 {
@@ -13,7 +13,7 @@ public:
   void apply(const IqCorrectionSettings& correctionSettings);
 
   uint32_t processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength) override;
-  uint32_t processSamples(const ComplexSamplesMax& input, ComplexSamplesMax& output, uint32_t inputLength) const;
+  uint32_t processSamples(const ComplexSamplesBuffer& input, ComplexSamplesBuffer& output, uint32_t inputLength) const;
 protected:
   sdrreal m_amplitudeCorrection;
   sdrreal m_phaseCorrection;

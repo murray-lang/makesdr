@@ -1,0 +1,168 @@
+QMainWindow {
+    background-color: #061922;
+}
+QChartView {
+    background-color: #061922;
+}
+
+#chartTheme {
+    qproperty-textColor: "white";
+    qproperty-backgroundColor: "#061922";
+    qproperty-plotAreaColor: "#061922";
+    qproperty-seriesLineColor: "#0c394c";
+    qproperty-seriesAreaColor: "#00952d";
+    qproperty-gridColor: "#0c394c";
+    qproperty-cursorALineColor: "#ca1c00";
+    qproperty-cursorAAreaColor: "#80791d0e";
+    qproperty-cursorBLineColor: "#ca6B00";
+    qproperty-cursorBAreaColor: "#8079470e";
+}
+
+QToolBar#toolBar {
+    background-color: #061922;
+    qproperty-iconSize: 48px 48px;
+}
+
+QToolBar#toolBar QToolButton {
+    color: palette(window-text);
+    border-radius: 0px;
+    qproperty-iconSize: 48px 48px;
+    min-width: 100px;
+    max-width: 100px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+QtStepper {
+    background-color: #061922;
+    border: 1px solid #061922;
+}
+
+QtStepper QToolButton {
+    background-color: #0c394c;
+    border: 1px solid #0c394c;
+}
+
+QtStepper QToolButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
+}
+
+QToolButton.toolbarButtonA {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
+    margin-right: 10px;
+}
+
+QToolButton.toolbarButtonA:pressed {
+    background-color: #0c8cef;
+    border: 1px solid #0c8cef;
+}
+
+QToolButton.toolbarButtonB {
+    background-color: #eb1d3a;
+    border: 1px solid #eb1d3a;
+}
+
+QToolButton.toolbarButtonB:pressed {
+    background-color: #fd0023;
+    border: 1px solid #fd0023;
+}
+
+QToolButton.toolbarButtonC {
+    background-color: #00952d;
+    border: 1px solid #00952d;
+}
+
+QToolButton.toolbarButtonC:pressed {
+    background-color: #00d03f;
+    border: 1px solid #00d03f;
+}
+
+QToolButton.toolbarButtonD {
+    background-color: #f79b1f;
+    border: 1px solid #f79b1f;
+     margin-left: 10px;
+}
+
+QToolButton.toolbarButtonD:pressed {
+    background-color: #ff9200;
+    border: 1px solid #ff9200;
+}
+
+QMenu.toolbarMenu {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QMenu.toolbarMenu::item:selected {
+    font-style: italic;
+}
+
+QMenu.toolbarMenu::item:checked {
+    font-size: 18px;
+}
+
+QMenu.toolbarMenu::item:checked:selected {
+    font-size: 18px;
+}
+
+QMenu.toolbarMenu.mode {
+    background-color: #00952d;
+    border: 1px solid #00952d;
+}
+
+/* Style items for any menu with the 'toolbarMenu' class */
+QMenu.toolbarMenu::item {
+    padding: 10px 30px;
+    color: black;
+}
+
+/* Hover state for those items */
+QMenu.toolbarMenu.mode::item:selected {
+    background-color: #0b5922;
+    color: white;
+}
+
+.toolbarDialog {
+    background-color: #ff061922;
+    opacity: 1;
+}
+
+.toolbarDialogTabs {
+    background-color: #ff0384bc;
+    opacity: 1;
+}
+
+.toolbarDialogTabs QTabBar::tab {
+    background-color: #065a7f;
+    opacity: 1;
+    font-weight: bold;
+}
+
+.toolbarDialogTabs QTabBar::tab:selected {
+    background-color: #ff0384bc;
+    opacity: 1;
+}
+/*
+.toolbarDialogTabs::pane {
+    background-color: red;
+    opacity: 1;
+}
+*/
+
+.toolbarDialogTab {
+    opacity: 1;
+}
+
+QPushButton.toolbarDialogButton {
+    background-color: #061922;
+    opacity: 1;
+    color: white;
+}
+
+QPushButton.toolbarDialogButton[selected=true] {
+    background-color: #0384bc;
+    opacity: 1;
+    color: black;
+}

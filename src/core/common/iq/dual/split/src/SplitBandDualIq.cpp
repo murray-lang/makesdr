@@ -1,9 +1,9 @@
 #include "iq/split/SplitBandDualIq.h"
 
-SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes)
+SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
   : IqRxTxBaseT()
-  , m_rx(bands, modes)
-  , m_tx(modes)
+  , m_rx(m_pingPongBuffers, bands, modes, iqPublisher)
+  , m_tx(m_pingPongBuffers, modes)
 {
 
 }
@@ -19,9 +19,9 @@ SplitBandDualIq::configure(const Config::Sdr::Fields& sdrConfig)
 ResultCode
 SplitBandDualIq::start()
 {
-  ResultCode rc = m_rx.start();
-  if (rc != ResultCode::OK) return rc;
-  return m_tx.start();
+  return m_rx.start();
+  // if (rc != ResultCode::OK) return rc;
+  // return m_tx.start();
 }
 
 void

@@ -19,9 +19,9 @@ DualIqRxTx::configure(const Config::Sdr::Fields& sdrConfig)
 ResultCode
 DualIqRxTx::start()
 {
-  ResultCode rc = m_rx.start();
-  if (rc != ResultCode::OK) return rc;
-  return m_tx.start();
+  return m_rx.start();
+  // if (rc != ResultCode::OK) return rc;
+  // return m_tx.start();
 }
 
 void
@@ -31,7 +31,7 @@ DualIqRxTx::stop()
   m_rx.stop();
 }
 
-void
+ResultCode
 DualIqRxTx::ptt(bool on)
 {
   if (on) {
@@ -41,6 +41,7 @@ DualIqRxTx::ptt(bool on)
     m_tx.stop();
     m_rx.start();
   }
+  return ResultCode::OK;
 }
 
 ResultCode
@@ -48,9 +49,9 @@ DualIqRxTx::apply(RadioSettings& settings)
 {
   ResultCode rc = ResultCode::OK;
   if (settings.hasActiveBands()) {
-    IActiveBandSettings* activeBandSettings = settings.activeBands();
+    ActiveBandSettings* activeBandSettings = settings.activeBands();
     if (activeBandSettings != nullptr && activeBandSettings->hasFocusBand()) {
-      IBandSettings* bandSettings = activeBandSettings->focusBand();
+      IBandSettings* bandSettings = activeBandSettings->focusBandSettings();
       rc = m_rx.apply(bandSettings);
       if (rc != ResultCode::OK) return rc;
 

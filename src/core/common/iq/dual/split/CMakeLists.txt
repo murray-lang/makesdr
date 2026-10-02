@@ -26,6 +26,6 @@ target_link_libraries(core-common-iq-dual-split PUBLIC
         core-common-iq-pipeline-rx
         core-common-iq-pipeline-tx
         core-common-audio-mixer
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
 
 )

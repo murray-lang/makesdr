@@ -5,7 +5,7 @@
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
 
-#include "settings/model/radios/iq/RxTxDualIqBandSettings.h"
+#include "settings/model/radio/iq/RxTxDualIqBandSettings.h"
 
 
 class DualIqRxTx_Rx : public IqSink

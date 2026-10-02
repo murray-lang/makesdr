@@ -3,23 +3,33 @@
 #define DEFAULT_SAMPLE_RATE 48000
 
 
-IqRxPipeline::IqRxPipeline(const ModeList& modes)
+IqRxPipeline::IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher)
   : IqPipeline(modes)
+  , m_iqPublisher(iqPublisher)
+  , m_iqCorrection()
   , m_amDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_AMN), DEFAULT_SAMPLE_RATE)
   , m_fmnDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
   , m_fmwDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
   , m_ssbDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
   , m_cwDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
   , m_pDemodulator(nullptr)
-  // , m_monitorStage(m_eventTargetProvider)
+  , m_monitorStage(iqPublisher)
+  , m_agcStage()
 {
-  // m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
+  m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
   appendStage(&m_iqCorrection);
+  appendStage(&m_monitorStage);
   appendStage(&m_oscillatorMixer);
+
   appendStage(&m_ifFilter);
+  // appendStage(&m_monitorStage);
+
   appendStage(&m_resampler);
+  appendStage(&m_agcStage);
 
   m_pDemodulator = &m_ssbDemodulator; // For now TODO: Get setting updates working again.
+
+  m_agcStage.setSpeed(AgcSpeed::DEFAULT);
 }
 
 void
@@ -121,7 +131,7 @@ IqRxPipeline::setDemodulator(const Mode& mode)
 }
 
 uint32_t
-IqRxPipeline::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
+IqRxPipeline::processSamples(ComplexPingPongBuffers& samples, uint32_t length)
 {
   uint32_t outputLength = length;
 
@@ -131,6 +141,7 @@ IqRxPipeline::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
     samples.flip();
   }
   if (m_pDemodulator != nullptr) {
+
     outputLength = m_pDemodulator->processSamples(samples.input(), m_audioBuffer, outputLength);
     m_audioBuffer.resize(outputLength);
   } else {

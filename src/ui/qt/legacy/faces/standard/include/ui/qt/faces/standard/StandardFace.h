@@ -3,8 +3,8 @@
 #include <ui/qt/faces/FaceBase.h>
 #include <memory>
 
-#include <settings/model/radios/iq/RxTxDualIqBandSettings.h>
-#include <settings/model/radios/IRadioSettingsUpdater.h>
+#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/IRadioSettingsUpdater.h>
 
 class QtFrequencyPanel;
 class QtTimeSeriesChart;
@@ -25,6 +25,8 @@ public:
   explicit StandardFace(QWidget* parent = nullptr);
   ~StandardFace() override;
 
+
+
   void initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater) override;
 
   // void connect(FieldUpdateSink* pSink) override { m_pExternalSettingsSink = pSink; }
@@ -33,11 +35,11 @@ public:
   // void setRadio(Radio* radio) override;
   void handleRadioSettingsChanged(const RadioSettings* pRadioSettings) override;
 
-  // void handleReceiverIq(
-  //   RadioSettings* pRadioSettings,
-  //   const ComplexSamplesMax* data,
-  //   uint32_t length,
-  //   uint32_t sampleRate) override;
+  void handleReceiverIq(
+    const RadioSettings* pRadioSettings,
+    const ComplexSamplesBuffer* data,
+    uint32_t length,
+    uint32_t sampleRate) override;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
   // void handleReceiverMeter(const IqReceiverMetering& metering) override;
 
@@ -48,6 +50,10 @@ public:
   //   uint32_t sampleRate) override;
   // void handleTransmitterAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
 
+public slots:
+  void frequencySelected(uint64_t frequency);
+
+
 protected:
 
   void updatePanadapter(const BandSettings* bandSettings);
@@ -57,6 +63,7 @@ protected:
 
   private:
   std::unique_ptr<Ui::StandardFace> ui;
+  IRadioSettingsUpdater* m_pRadioSettingsUpdater;
 
   QtTimeSeriesChart* m_pTimeSeriesChart;
   QtPanadapter* m_pPanadapter;

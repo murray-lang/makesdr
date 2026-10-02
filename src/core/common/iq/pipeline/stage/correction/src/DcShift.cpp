@@ -11,8 +11,8 @@ DcShift::DcShift(const sdrcomplex& shift)
 uint32_t
 DcShift::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength)
 {
-  const ComplexSamplesMax& input = buffers.input();
-  ComplexSamplesMax& output = buffers.output();
+  const ComplexSamplesBuffer& input = buffers.input();
+  ComplexSamplesBuffer& output = buffers.output();
 
   for (uint32_t i = 0; i < inputLength; i++) {
     output[i] = input[i] + m_shift;

@@ -10,8 +10,8 @@
 #endif
 
 #ifdef IS_LINUX
-#include <config/struct/QtTransportInConfig.h>
-#include <settings/control/transport/TransportControlSourceT.h>
+// #include <config/struct/QtTransportInConfig.h>
+// #include <settings/control/transport/TransportControlSourceT.h>
 #endif
 
 template <typename RadioSettingsT>
@@ -35,14 +35,14 @@ public:
     }
 #endif
 #ifdef IS_LINUX
-    if (holds_alternative<Config::QtTransportIn::Fields>(config)) {
-      TransportControlSourceT<RadioSettingsT> qtcs;
-      result = qtcs.configure(get<Config::QtTransportIn::Fields>(config));
-      if (result == ResultCode::OK) {
-        source.template emplace<TransportControlSourceT<RadioSettingsT>>(::move(qtcs));
-      }
-      return result;
-    }
+    // if (holds_alternative<Config::QtTransportIn::Fields>(config)) {
+    //   TransportControlSourceT<RadioSettingsT> qtcs;
+    //   result = qtcs.configure(get<Config::QtTransportIn::Fields>(config));
+    //   if (result == ResultCode::OK) {
+    //     source.template emplace<TransportControlSourceT<RadioSettingsT>>(::move(qtcs));
+    //   }
+    //   return result;
+    // }
 #endif
     return ResultCode::ERR_SETTING_CONTROL_NO_SOURCES_DEFINED;
   }

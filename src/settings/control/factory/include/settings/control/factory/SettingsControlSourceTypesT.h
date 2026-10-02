@@ -13,7 +13,7 @@
 #endif
 
 #ifdef IS_LINUX
-#include <settings/control/transport/TransportControlSourceT.h>
+// #include <settings/control/transport/TransportControlSourceT.h>
 #endif
 
 
@@ -22,7 +22,10 @@ struct SettingsControlSourceTypesT
 {
 #ifdef USE_GPIO
 #ifdef IS_LINUX
-  using Variant = variant<TransportControlSourceT<RadioSettingsT>, DigitalInputsT<RadioSettingsT>>;
+  using Variant = variant<
+    // TransportControlSourceT<RadioSettingsT>,
+    DigitalInputsT<RadioSettingsT>
+  >;
 #else
   using Variant = variant<DigitalInputsT<RadioSettingsT>>;
 #endif // IS_LINUX

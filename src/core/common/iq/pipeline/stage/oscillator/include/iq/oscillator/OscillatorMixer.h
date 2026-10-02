@@ -15,8 +15,8 @@ public:
       if (m_oscillator.getFrequency() == 0) {
           buffers.flip(); // Zero frequency means no heterodyne. Just return the original signal.
       } else {
-          const ComplexSamplesMax& input = buffers.input();
-          ComplexSamplesMax& output = buffers.output();
+          const ComplexSamplesBuffer& input = buffers.input();
+          ComplexSamplesBuffer& output = buffers.output();
           for (uint32_t i = 0; i < inputLength; i++) {
               output[i] = m_oscillator * input[i];
               ++m_oscillator;

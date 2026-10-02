@@ -5,7 +5,7 @@ SsbModulator::SsbModulator(const Mode::Proto& mode, uint32_t sampleRate) :
 {}
 
 uint32_t
-SsbModulator::processSamples(const ComplexSamplesMax& audio, ComplexSamplesMax& output, uint32_t inputLength)
+SsbModulator::processSamples(const ComplexSamplesBuffer& audio, ComplexSamplesBuffer& output, uint32_t inputLength)
 {
 
   if (m_modeType == Mode::LSB) {

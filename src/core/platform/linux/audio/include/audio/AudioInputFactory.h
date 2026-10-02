@@ -7,6 +7,8 @@
 class AudioInputFactory : public AudioFactoryBase
 {
 public:
+
+  static ResultCode validateConfig(const Config::Audio::Fields& config);
   static ResultCode create(const Config::Audio::Fields& config, AudioSink* pSink, AudioInput& input);
 
   static ResultCode findInputDevice(

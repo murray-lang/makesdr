@@ -2,12 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/_deps/googletest-src" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build-qt-dual-iq-split-radio-debug/_deps/googletest-src" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/build-qt-dual-iq-split-radio-release/_deps/googletest-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/ArduinoJson" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/FreeRTOS-Kernel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/etl" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third-party/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/libwebsockets" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/liquid-dsp" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third-party/lvgl" vcs="Git" />

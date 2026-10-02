@@ -124,7 +124,12 @@ add_subdirectory(${NANOPB_DIR} nanopb)
 add_subdirectory(${ARDUINO_JSON_DIR} arduinoJson)
 
 add_subdirectory(${ETL_DIR} etl)
-target_compile_definitions(etl INTERFACE ETL_NO_CHECKS) #Make sure that it can't throw exceptions
+# ETL_ASSERT is only live when ETL_IS_DEBUG_BUILD is 1, which needs _DEBUG, DEBUG
+# or ETL_DEBUG (see etl/platform.h). CMake's Debug config on GCC/Clang defines
+# none of them, so without this every etl at() is an unchecked operator[].
+target_compile_definitions(etl INTERFACE $<$<CONFIG:Debug>:ETL_DEBUG> ETL_NO_CHECKS)
+# The embedded toolchain sets ETL_NO_CHECKS itself (arm-none-eabi-toolchain.cmake),
+# which wins over the above and keeps the MCU build exception- and assert-free.
 
 
 add_subdirectory(src/core)

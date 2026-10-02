@@ -10,7 +10,7 @@ target_link_libraries(settings-control-radio-tests
         PRIVATE
         GTest::gtest_main
         settings-control-radio
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
         config-json
         ArduinoJson
 )

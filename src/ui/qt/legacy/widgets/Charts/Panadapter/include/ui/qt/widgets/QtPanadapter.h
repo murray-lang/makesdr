@@ -7,11 +7,17 @@
 
 class QtPanadapter : public QtChartBase
 {
+  Q_OBJECT
 public:
   QtPanadapter(QWidget* parent, const char* viewName, const char* themeName);
-  ~QtPanadapter() override = default;
+  ~QtPanadapter() override
+  {
+
+  };
 
   void initialise() override;
+
+
 
   void showCursorB(bool show);
 
@@ -21,7 +27,7 @@ public:
   void updatePassbandOverlayB(int64_t loCut, int64_t hiCut);
 
   void plot(
-    const ComplexSamplesMax* timeSeriesData,
+    const ComplexSamplesBuffer* timeSeriesData,
     uint32_t length,
     uint32_t sampleRate,
     int64_t centreFrequency,
@@ -29,7 +35,7 @@ public:
   );
 
   void plot(
-    const RealSamplesMax* spectrumData,
+    const RealSamplesBuffer* spectrumData,
     uint32_t sampleRate,
     int64_t centreFrequency,
     bool shuffle = true
@@ -38,8 +44,12 @@ public:
   void updateCursorPositionA(int64_t frequency, int32_t loCut, int32_t hiCut);
   void updateCursorPositionB(int64_t frequency, int32_t loCut, int32_t hiCut);
 
+  signals:
+  void frequencySelected(int64_t frequency);
+
 protected:
-  void powerSpectrum(const ComplexSamplesMax& timeSeries, uint32_t timeSeriesLength, RealSamplesMax& spectrumOut);
+  void handleChartClick(qreal xValue) override;
+  void powerSpectrum(const ComplexSamplesBuffer& timeSeries, uint32_t timeSeriesLength, RealSamplesBuffer& spectrumOut);
 
   void refreshOverlays();
 
@@ -51,7 +61,7 @@ protected:
     int32_t hiCut = 0;
   };
 
-  Fft<ComplexSamplesMax> m_fft;
+  Fft<ComplexSamplesBuffer> m_fft;
   CursorState m_cursorA;
   CursorState m_cursorB;
 

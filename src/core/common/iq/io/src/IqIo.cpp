@@ -37,7 +37,7 @@ IqIo::setIqSink(IqSink* pIqSink)
 }
 
 uint32_t
-IqIo::sinkAudio(const RealSamplesMax& samples, uint32_t length, uint32_t numChannels)
+IqIo::sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels)
 {
   if (m_pAudioOutputAsBase) {
     return m_pAudioOutputAsBase->addAudioData(samples, length, numChannels);

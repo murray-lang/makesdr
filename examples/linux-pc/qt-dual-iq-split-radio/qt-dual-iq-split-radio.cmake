@@ -28,6 +28,6 @@ target_link_libraries(example-qt-dual-iq-split-radio PUBLIC
 #        Qt6::Widgets
         ui-qt-util
 
-#        settings-model-path-util-resolve-many
-#        settings-model-path-radios-dual-iq-split-lookup
+#        settings-model-update-util-resolve-many
+#        settings-model-update-radios-dual-iq-split-lookup
 )

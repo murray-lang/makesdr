@@ -2,8 +2,8 @@
 #include <QDialog>
 
 #include <settings/model/proto/RadioSettings.pb.h>
-#include <settings/model/data/band/BandCategoryList.h>
-#include <settings/model/radios/Band.h>
+#include <settings/model/meta/band/BandCategoryList.h>
+#include <settings/model/radio/Band.h>
 
 using BandCategory = makesdr_BandCategoryPb;
 

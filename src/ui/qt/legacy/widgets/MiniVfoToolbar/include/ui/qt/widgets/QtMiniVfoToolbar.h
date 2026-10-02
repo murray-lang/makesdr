@@ -3,10 +3,10 @@
 #include <QWidget>
 #include <memory>
 
-#include <settings/model/radios/PipelineId.h>
-#include <settings/model/radios/SplitBandId.h>
-#include <settings/model/radios/IRadioSettingsUpdater.h>
-#include <settings/model/radios/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/PipelineId.h>
+#include <settings/model/radio/SplitBandId.h>
+#include <settings/model/radio/IRadioSettingsUpdater.h>
+#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
 
 namespace Ui { class QtMiniVfoToolbar; }
 

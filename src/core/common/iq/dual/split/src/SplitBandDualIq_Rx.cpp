@@ -1,12 +1,20 @@
 #include "iq/split/SplitBandDualIq_Rx.h"
 
 
-SplitBandDualIq_Rx::SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes)
-  : m_rxPipelineA(modes)
-  , m_rxPipelineB(modes)
+SplitBandDualIq_Rx::SplitBandDualIq_Rx(ComplexPingPongBuffers& pingPongBuffers,const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
+  : m_pingPongBuffers(pingPongBuffers)
+  , m_rxPipelineA(modes, iqPublisher)
+  , m_rxPipelineB(modes, iqPublisher)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {
+  m_rxPipelineA.enableMonitoring(true);
+  m_rxPipelineB.enableMonitoring(false);
+}
+
+SplitBandDualIq_Rx::~SplitBandDualIq_Rx()
+{
+  stop(); // Joins the IQ source thread. Idempotent if already stopped.
 }
 
 ResultCode
@@ -51,8 +59,8 @@ SplitBandDualIq_Rx::apply(IBandSettings* bandSettings)
       m_mixer.setInputBEnabled(m_pipelineBEnabled);
     }
   }
-  const BandRfSettings* bandRfSettings = bandSettings->hasRfSettings() ? bandSettings->rfSettings() : nullptr;
-  if (dualPipelineChanged) {
+  const BandRfSettings* bandRfSettings = bandSettings->rfSettings(); // Always get these for RF offset calcs.
+  // if (dualPipelineChanged) {
     if (bandSettings->hasPipeline(PipelineId::A)) {
       RxPipelineSettings* rxPipelineASettings = bandSettings->pipeline(PipelineId::A);
       m_rxPipelineA.apply(bandRfSettings, rxPipelineASettings);
@@ -63,15 +71,16 @@ SplitBandDualIq_Rx::apply(IBandSettings* bandSettings)
         m_rxPipelineB.apply(bandRfSettings, rxPipelineBSettings);
       }
     }
-  } else if (bandSettings->hasFocusPipeline()) {
-    RxPipelineSettings* focusPipelineSettings = bandSettings->focusPipeline();
-    if (focusPipelineSettings != nullptr) {
-      IqRxPipeline* focusRxPipeline = focusPipeline(bandSettings);
-      if (focusRxPipeline != nullptr) {
-        focusRxPipeline->apply(bandRfSettings, focusPipelineSettings);
-      }
-    }
-  }
+  // }
+  // else if (bandSettings->hasFocusPipeline()) {
+  //   RxPipelineSettings* focusPipelineSettings = bandSettings->focusPipeline();
+  //   if (focusPipelineSettings != nullptr) {
+  //     IqRxPipeline* focusRxPipeline = focusPipeline(bandSettings);
+  //     if (focusRxPipeline != nullptr) {
+  //       focusRxPipeline->apply(bandRfSettings, focusPipelineSettings);
+  //     }
+  //   }
+  // }
   if (bandSettings->hasFocusPipelineId()) {
     // TODO: Handle any monitoring changes etc.
   }
@@ -79,16 +88,18 @@ SplitBandDualIq_Rx::apply(IBandSettings* bandSettings)
 }
 
 uint32_t
-SplitBandDualIq_Rx::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
+SplitBandDualIq_Rx::sinkIq(ComplexSamplesBuffer& samples, uint32_t length)
 {
-  uint32_t outA = m_rxPipelineA.sinkIq(samples, length);
+  m_pingPongBuffers.reset();
+  std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
+  uint32_t out = m_rxPipelineA.processSamples(m_pingPongBuffers, length);
 
-  // Feed pipeline B only when enabled
   if (m_pipelineBEnabled) {
-    m_rxPipelineB.sinkIq(samples, length);
+    m_pingPongBuffers.reset();
+    std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
+    out = m_rxPipelineB.processSamples(m_pingPongBuffers, length);
   }
-
-  return outA;
+  return out;
 }
 
 IqRxPipeline*

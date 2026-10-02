@@ -1,7 +1,7 @@
 
 #include "linux/test-utils/QtTransportTestRadio.h"
-#include <settings/model/data/band/mostBandCategories.h>
-#include <settings/model/data/mode/basicModes.h>
+#include <settings/model/meta/band/mostBandCategories.h>
+#include <settings/model/meta/mode/basicModes.h>
 #include <test-utils/testRadioSettings.h>
 
 using Target = Config::QtTransport::Target;

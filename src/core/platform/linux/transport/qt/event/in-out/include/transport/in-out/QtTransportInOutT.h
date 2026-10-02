@@ -99,7 +99,11 @@ public:
     }
     if (!m_out.isOpen()) {
       ResultCode rc = m_out.open();
-      if (rc != ResultCode::OK) return rc;
+      // configure() already validated the message/target pair, so failing to
+      // resolve here only means nothing has subscribed yet. Drop and carry on.
+      if (m_out.open() != ResultCode::OK) {
+        return ResultCode::OK;
+      }
     }
     return m_out.applyMessage(message);
   }

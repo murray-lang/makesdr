@@ -11,6 +11,8 @@ set (QT_PANADAPTER_SOURCES
 
 add_library(ui-qt-widgets-charts-panadapter STATIC ${QT_PANADAPTER_SOURCES})
 
+set_target_properties(ui-qt-widgets-charts-panadapter PROPERTIES AUTOMOC ON)
+
 target_include_directories(ui-qt-widgets-charts-panadapter PUBLIC
         ${INCLUDE_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include

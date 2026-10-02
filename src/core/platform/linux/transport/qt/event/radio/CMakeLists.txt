@@ -23,12 +23,11 @@ target_include_directories(core-linux-transport-qt-event-radio PUBLIC
 
 target_link_libraries(core-linux-transport-qt-event-radio PUBLIC
         Qt6::Core
-        settings-model-message
-        settings-model-data-band
-        settings-model-data-mode
-        core-linux-transport-qt-event-in-out
+        core-common-transport-radio
+        core-linux-transport-qt-event-base
+        core-linux-transport-qt-globals
 )
 
-#if(BUILD_TESTING)
-#    add_subdirectory(tests)
-#endif()
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()

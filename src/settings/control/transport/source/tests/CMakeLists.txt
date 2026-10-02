@@ -6,7 +6,7 @@ target_link_libraries(settings-control-transport-source-tests
         PRIVATE
         GTest::gtest_main
         settings-control-transport-source
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
 )
 
 gtest_discover_tests(settings-control-transport-source-tests)

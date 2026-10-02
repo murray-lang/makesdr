@@ -8,17 +8,21 @@
 class AudioOutput : public AudioOutputBase, public RtAudioDriver
 {
 public:
-  AudioOutput(const RtAudio::DeviceInfo& deviceInfo, const Format& format) :
+  AudioOutput(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format) :
     AudioOutputBase(format),
-    RtAudioDriver(deviceInfo)
+    RtAudioDriver(api, deviceInfo)
   {}
 
-  AudioOutput(AudioOutput&&) = default;
+  // RtAudio owns a raw RtApi* and has no move members, so any defaulted
+  // move here would silently resolve to a shallow copy and double-delete it.
+  AudioOutput(const AudioOutput&)            = delete;
+  AudioOutput& operator=(const AudioOutput&) = delete;
+  AudioOutput(AudioOutput&&)                 = delete;
+  AudioOutput& operator=(AudioOutput&&)      = delete;
+
   ~AudioOutput() override = default;
 
-  AudioOutput& operator=(AudioOutput&&) = default;
-
-  uint32_t addAudioData(const RealSamplesMax& data, uint32_t length, uint32_t numChannels) override = 0;
+  uint32_t addAudioData(const RealSamplesBuffer& data, uint32_t length, uint32_t numChannels) override = 0;
 };
 
 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcore-gpio-base.a "CMakeFiles/core-gpio-base.dir/src/GpioInputLines.cpp.o" "CMakeFiles/core-gpio-base.dir/src/GpioLineDebouncer.cpp.o" "CMakeFiles/core-gpio-base.dir/src/GpioLines.cpp.o" "CMakeFiles/core-gpio-base.dir/src/GpioRotaryEncoder.cpp.o" "CMakeFiles/core-gpio-base.dir/src/GpioTransitionHandlers.cpp.o"
-/usr/bin/ranlib libcore-gpio-base.a

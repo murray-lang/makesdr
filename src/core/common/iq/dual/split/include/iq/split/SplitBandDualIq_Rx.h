@@ -5,14 +5,19 @@
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
 
-#include "settings/model/radios/iq/RxTxDualIqBandSettings.h"
+#include "settings/model/radio/iq/RxTxDualIqBandSettings.h"
 
 
 class SplitBandDualIq_Rx : public IqSink
 {
 public:
-  SplitBandDualIq_Rx(const BandCategoryList& bands, const ModeList& modes);
-  ~SplitBandDualIq_Rx() override = default;
+  SplitBandDualIq_Rx(
+    ComplexPingPongBuffers& pingPongBuffers,
+    const BandCategoryList& bands,
+    const ModeList& modes,
+    IqPublisher* iqPublisher
+    );
+  ~SplitBandDualIq_Rx() override;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);
 
@@ -21,12 +26,13 @@ public:
 
   ResultCode apply(IBandSettings* bandSettings);
 
-  uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
+  uint32_t sinkIq(ComplexSamplesBuffer& samples, uint32_t length) override;
 
   IqRxPipeline* focusPipeline(IBandSettings* bandSettings);
 
 protected:
   IqIo m_iqIo;
+  ComplexPingPongBuffers& m_pingPongBuffers;
   IqRxPipeline m_rxPipelineA;
   IqRxPipeline m_rxPipelineB;
   bool m_pipelineBEnabled;

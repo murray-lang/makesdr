@@ -14,8 +14,8 @@
 #include <ui/qt/widgets/QtBandDialog.h>
 #include <ui/qt/faces/FaceFactory.h>
 
-#define FFT_SIZE 2048
-#define SAMPLE_RATE 192000
+// #define FFT_SIZE 2048
+// #define SAMPLE_RATE 192000
 
 constexpr const char * toolbarPopupPropertyName = "isToolbarPopup";
 
@@ -29,8 +29,9 @@ MainWindow::MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent)
   , ui(new Ui::MainWindow)
   , m_pFaceLayout(new QVBoxLayout)
   , m_reportedIqSampleRate(0)
-  ,m_modeButton(nullptr)
-  ,m_bandButton(nullptr)
+  , m_modeButton(nullptr)
+  , m_modeMenu(nullptr)
+  , m_bandButton(nullptr)
 {
   // Initialize Qt resources from icons.qrc
   Q_INIT_RESOURCE(icons);
@@ -40,7 +41,7 @@ MainWindow::MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent)
   connect(&m_radioClient, &QtRadioClient::radioSettingsReceived, this, &MainWindow::handleRadioSettings);
   // connect(&m_radioClient, &QtRadioClient::settingUpdateReceived, this, &MainWindow::handleFieldUpdate);
   // connect(&m_radioClient, &QtRadioClient::receiverAudioReceived, this, &MainWindow::handleReceiverAudio);
-  // connect(&m_radioClient, &QtRadioClient::receiverIqReceived, this, &MainWindow::handleReceiverIq);
+  connect(&m_radioClient, &QtRadioClient::receiverIqReceived, this, &MainWindow::handleReceiverIq);
   // connect(&m_radioClient, &QtRadioClient::meteringReceived, this, &MainWindow::handleReceiverMeter);
   // connect(&m_radioClient, &QtRadioClient::transmitterAudioReceived, this, &MainWindow::handleTransmitterAudio);
   // connect(&m_radioClient, &QtRadioClient::transmitterIqReceived, this, &MainWindow::handleTransmitterIq);
@@ -69,17 +70,33 @@ MainWindow::connectRadio()
 
   rc = m_radioClient.requestAll();
   if (rc != ResultCode::OK) return rc;
-  // createModeButton(nullptr);
+
+  const ModeList* modes = m_radioClient.getModes();
+  if (modes != nullptr) {
+    addModeMenuToButton(modes);
+    const RadioSettings* settings = m_radioClient.getSettings();
+    if (settings != nullptr) {
+      const Mode* focusMode = settings->getFocusMode();
+      if (focusMode != nullptr) {
+        updateModeButton(focusMode);
+      }
+    }
+  }
   return ResultCode::OK;
 }
 
-// void
-// MainWindow::handleReceiverIq(const ComplexSamplesMax* data, uint32_t length, uint32_t sampleRate)
-// {
-//   if (m_pFace) {
-//     m_pFace->handleReceiverIq(&m_radioSettingsCopy, data, length, sampleRate);
-//   }
-// }
+void
+MainWindow::handleReceiverIq(const IqMessage* iq)
+{
+  if (m_pFace != nullptr && iq != nullptr) {
+    const RadioSettings* settings = m_radioClient.getSettings();
+    const auto* complex_ptr = reinterpret_cast<const std::complex<float>*>(iq->data());
+    uint32_t complexLength = iq->length()/2;
+    ComplexSamplesBuffer buffer(complex_ptr, complex_ptr + complexLength);
+    buffer.resize(complexLength);
+    m_pFace->handleReceiverIq(settings, &buffer, complexLength, iq->sampleRate());
+  }
+}
 //
 // void
 // MainWindow::handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate)
@@ -124,9 +141,9 @@ MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t 
     return;
   }
   // uint64_t currentSequence = sequence; //m_pRadio->getUpdateSequenceNo();
-  if (radioSettings->purpose() == PayloadPurpose::PURPOSE_REPLACE) {
-    handleRefreshedSettings(radioSettings);
-  }
+  // if (radioSettings->purpose() == PayloadPurpose::PURPOSE_REPLACE) {
+  //   handleRefreshedSettings(radioSettings);
+  // }
   // auto* bandDialog = findChild<QtBandDialog*>("bandPanel");
   if (m_bandDialog != nullptr) {
     const Band* focusBand = radioSettings->getFocusBand();
@@ -173,8 +190,8 @@ MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t 
 void
 MainWindow::handleRefreshedSettings(const RadioSettings* settings)
 {
-  const Mode* focusMode = settings->getFocusMode();
-  addModeMenuToButton(focusMode);
+  // const Mode* focusMode = settings->getFocusMode();
+  // addModeMenuToButton(focusMode);
 }
 
 void
@@ -182,9 +199,8 @@ MainWindow::on_actionBand_triggered()
 {
   if (m_bandButton != nullptr) {
     // QWidget* centralWidget = this->centralWidget();
-    QWidget* existing = findChild<QWidget*>("bandPanel");
-    if (existing) {
-      existing->close();
+    if (m_bandDialog != nullptr) {
+      m_bandDialog->close();
       m_bandDialog = nullptr;
       return;
     }
@@ -249,6 +265,9 @@ MainWindow::eventFilter(QObject *watched, QEvent *event)
         // If the click is outside this panel, close it
         if (!panel->geometry().contains(mouseEvent->pos())) {
           panel->close();
+          if (panel == m_bandDialog) {
+            m_bandDialog = nullptr;
+          }
           return true; // Consume the event so it doesn't click the UI behind
         }
       }
@@ -340,34 +359,27 @@ MainWindow::addModeButton()
 }
 
 void
-MainWindow::addModeMenuToButton(const Mode* selectedMode)
+MainWindow::addModeMenuToButton(const ModeList* modes)
 {
-  const ModeList* modes = m_radioClient.getModes();
-  if (modes == nullptr) {
-    return;
-  }
+  m_modeMenu = createModeMenu(modes);
+  m_modeMenu->setProperty("class", "toolbarMenu mode");
+  // m_modeButton->setMenu(newModeMenu);
 
-  QMenu* modeMenu = createModeMenu(modes, selectedMode);
-  updateModeButton(selectedMode);
-  modeMenu->setProperty("class", "toolbarMenu mode");
-  connect(m_modeButton, &QToolButton::pressed, this, [this, modeMenu, selectedMode]() {
+  connect(m_modeButton, &QToolButton::pressed, this, [this]() {
+    // QMenu* modeMenu = m_modeButton->menu();
     // Calculate the top-left position of the button in global screen coordinates
     QPoint pos = m_modeButton->mapToGlobal(QPoint(0, 0));
 
     // Move the point up by the height of the menu
     // hint: sizeHint() is usually accurate for menus before they are shown
-    pos.setY(pos.y() - modeMenu->sizeHint().height());
+    pos.setY(pos.y() - m_modeMenu->sizeHint().height());
 
-    for (QAction *action : modeMenu->actions()) {
-      bool checked = selectedMode != nullptr && action->text() == selectedMode->name().c_str();
-      action->setChecked(checked);
-    }
-    modeMenu->exec(pos);
+    m_modeMenu->exec(pos);
   });
 }
 
 QMenu*
-MainWindow::createModeMenu(const ModeList* modes, const Mode* selectedMode)
+MainWindow::createModeMenu(const ModeList* modes)
 {
   auto modeMenu = new QMenu(this);
 
@@ -383,16 +395,18 @@ MainWindow::createModeMenu(const ModeList* modes, const Mode* selectedMode)
 
       RadioSettingsUpdater* updater = m_radioClient.getUpdater();
       if (updater != nullptr) {
-        updater->setFocusMode(mode.type());
+        // QTimer::singleShot(100, this, [updater, mode]() {
+          updater->setFocusMode(mode.type());
+        // });
       }
     });
     action->setCheckable(true);
     action->setActionGroup(actionGroup);
 
     // Highlight the currently active mode
-    if (selectedMode != nullptr && mode.type() == selectedMode->type()) {
-      action->setChecked(true);
-    }
+    // if (selectedMode != nullptr && mode.type() == selectedMode->type()) {
+    //   action->setChecked(true);
+    // }
   }
   return modeMenu;
 }
@@ -406,6 +420,13 @@ MainWindow::updateModeButton(const Mode* mode)
     } else {
       m_modeButton->setText(mode->name().c_str());
     }
+    if (m_modeMenu != nullptr) {
+      for (QAction *action : m_modeMenu->actions()) {
+        bool checked = m_modeMenu != nullptr && action->text() == mode->name().c_str();
+        action->setChecked(checked);
+      }
+    }
+
   }
 }
 

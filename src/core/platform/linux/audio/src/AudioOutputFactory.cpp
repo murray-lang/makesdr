@@ -13,16 +13,16 @@ AudioOutputFactory::create(const Config::IqIo::AudioOutputConfigVariant& configV
     AudioBase::Format format{};
     getOutputFormat(config, deviceInfo, format);
     if (format.sampleFormat == AudioFormat::FLOAT32) {
-      output.emplace<RtAudioOutputFloat>(deviceInfo, format);
+      output.emplace<RtAudioOutputFloat>(api, deviceInfo, format);
     }
     else if (format.sampleFormat == AudioFormat::SINT32 || format.sampleFormat == AudioFormat::SINT24) {
-      output.emplace<RtAudioOutput32>(deviceInfo, format);
+      output.emplace<RtAudioOutput32>(api, deviceInfo, format);
     }
     else if (format.sampleFormat == AudioFormat::SINT16) {
-      output.emplace<RtAudioOutput16>(deviceInfo, format);
+      output.emplace<RtAudioOutput16>(api, deviceInfo, format);
     }
     else if (format.sampleFormat == AudioFormat::SINT8) {
-      output.emplace<RtAudioOutput8>(deviceInfo, format);
+      output.emplace<RtAudioOutput8>(api, deviceInfo, format);
     }
     else {
       return ResultCode::ERR_AUDIO_UNKNOWN_FORMAT;

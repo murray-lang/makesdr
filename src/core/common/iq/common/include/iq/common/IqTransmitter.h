@@ -8,7 +8,7 @@
 class IqTransmitter :  public IqSink, public AudioSink
 {
 public:
-  IqTransmitter(const ModeList& modes);
+  IqTransmitter(ComplexPingPongBuffers& pingPongBuffers, const ModeList& modes);
   ~IqTransmitter() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig);
@@ -18,10 +18,11 @@ public:
 
   ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
-  uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
-  uint32_t sinkAudio(const RealSamplesMax& samples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkIq(ComplexSamplesBuffer& samples, uint32_t length) override;
+  uint32_t sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels) override;
 
 protected:
+  ComplexPingPongBuffers& m_pingPongBuffers;
   IqIo m_iqIo;
   IqTxPipeline m_txPipeline;
 };

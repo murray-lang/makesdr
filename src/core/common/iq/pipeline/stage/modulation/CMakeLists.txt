@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 4.1)
 
 project(core-common-iq-pipeline-stage-modulation)
 
+find_package(PkgConfig)
+
+find_package(Qt6 REQUIRED COMPONENTS Core) # Temporary for debugging with qDebug()
+
 set(MOD_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/modulation/AmDemodulator.h
         ${CMAKE_CURRENT_LIST_DIR}/include/iq/modulation/CwDemodulator.h
@@ -34,16 +38,17 @@ target_include_directories(core-common-iq-pipeline-stage-modulation PUBLIC
 if(USE_FREERTOS)
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-radios-base
+            settings-model-radio-base
             core-common-iq-pipeline-stage-oscillator
             core-freertos-liquid-dsp
     )
 else()
     target_link_libraries(core-common-iq-pipeline-stage-modulation PUBLIC
             core-common-samples
-            settings-model-radios-base
+            settings-model-radio-base
             core-common-iq-pipeline-stage-oscillator
             core-linux-liquid-dsp
+            Qt6::Core
     )
 endif()
 

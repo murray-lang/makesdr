@@ -1,0 +1,95 @@
+{
+  "testMessage": "Hello from JSON!",
+  "radio": {
+    "ui": {
+      "face": "standard"
+    },
+    "control": {
+      "sinks": [
+        {
+          "type": "usbcontrolsinks",
+          "config":{
+            "devices": [
+              {
+                "type": "funcube",
+                "config": {
+                }
+              }
+            ]
+          }
+        }
+        
+      ],
+      "_sources": [
+        {
+          "type": "qtcontrolsource",
+          "config": {
+          }
+        }
+      ]
+    },
+    "sdr": {
+      "receiver": {
+        "iqIo": {
+          "iqSource": {
+            "type": "audioSignalIqSource",
+            "config": {
+              "audioInput": {
+                "isInput": true,
+                "isIq": true,
+                "soundApi": "alsa",
+                "searchExpression": "FUNcube",
+                "sampleRate": 192000,
+                "channelCount": 2,
+                "format": "float32"
+              },
+              "reverse": false
+            }
+          },
+          "audioOutput": {
+            "type": "audio",
+            "config": {
+              "isInput": false,
+              "isIq": false,
+              "soundApi": "alsa",
+              "searchExpression": "HDMI 0",
+              "sampleRate": 48000,
+              "channelCount": 2,
+              "format": "sint16"
+            }
+          }
+        }
+      },
+      "transmitter": {
+          "iqIo": {
+            "iqSource": {
+              "type": "audioIqSource",
+              "config": {
+                "audioInput": {
+			      "isInput": true,
+			      "isIq": true,
+			      "soundApi": "alsa",
+			      "searchExpression": "Modu",
+                  "sampleRate": 48000,
+                  "channelCount": 1,
+                  "format": "sint16"
+                }
+              }
+            },
+            "audioOutput": {
+              "type": "audio",
+              "config": {
+			    "isInput": false,
+			    "isIq": false,
+                "soundApi": "alsa",
+                "searchExpression": "Modu",
+                "sampleRate": 48000,
+                "channelCount": 2,
+                "format": "float32"
+              }
+            }
+          }
+        }
+    }
+  }
+}

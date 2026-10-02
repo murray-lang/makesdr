@@ -3,7 +3,7 @@
 #include <iq/base/IqRxTxBaseT.h>
 #include <iq/io/IqIo.h>
 #include <iq/pipeline/IqTxPipeline.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 #include <iq/common/IqTransmitter.h>
 
 #include "SplitBandDualIq_Rx.h"
@@ -17,7 +17,7 @@ public:
   using ActiveBandSettings = SplitBandDualIqRxTxSettings::ActiveBandSettings;
   using BandSettings = SplitBandDualIqRxTxSettings::BandSettings;
 
-  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes);
+  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher);
   ~SplitBandDualIq() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;
@@ -30,6 +30,7 @@ public:
   ResultCode apply(RadioSettings& settings) override;
 
 protected:
+  ComplexPingPongBuffers m_pingPongBuffers;
   SplitBandDualIq_Rx m_rx;
   IqTransmitter m_tx;
 };

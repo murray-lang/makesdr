@@ -2,7 +2,7 @@
 
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHost.h>
-#include <settings/model/radios/IRadioSettings.h>
+#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/SoftRockConfig.h>
 #include <cmath>
 

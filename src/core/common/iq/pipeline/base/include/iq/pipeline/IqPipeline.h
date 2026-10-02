@@ -5,9 +5,9 @@
 #include <audio/AudioSink.h>
 #include <iq/io/IqIo.h>
 #include <iq/oscillator/OscillatorMixer.h>
-#include <settings/model/radios/iq/PipelineSettings.h>
-#include <settings/model/radios/BandRfSettings.h>
-#include <settings/model/data/radio/RadioLookup.h>
+#include <settings/model/radio/iq/PipelineSettings.h>
+#include <settings/model/radio/BandRfSettings.h>
+#include <settings/model/meta/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"
 
@@ -20,11 +20,11 @@
 
 using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 
-class IqPipeline : public IqSink
+class IqPipeline
 {
 public:
   explicit IqPipeline(const ModeList& modes);
-  ~IqPipeline() override = default;
+  virtual ~IqPipeline() = default;
 
   virtual void initialise(IqIo* pIo, AudioSink* pAudioOutSink)
   {
@@ -34,6 +34,10 @@ public:
   {
     m_outputSampleRate = sampleRate;
   }
+
+  [[nodiscard]] uint32_t getInputSampleRate() const { return m_inputSampleRate; }
+
+  virtual uint32_t processSamples(ComplexPingPongBuffers& samples, uint32_t length) = 0;
 
   [[nodiscard]] virtual uint32_t getMaxFramesPerInputPacket() const = 0;
   [[nodiscard]] virtual uint32_t getMaxFramesPerOutputPacket() const = 0;

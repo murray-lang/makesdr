@@ -2,8 +2,8 @@
 
 uint32_t
 CwDemodulator::processSamples(
-    const ComplexSamplesMax& in,
-    RealSamplesMax& out,
+    const ComplexSamplesBuffer& in,
+    RealSamplesBuffer& out,
     uint32_t inputLength)
 {
   if (inputLength == 0) {

@@ -21,5 +21,5 @@ target_include_directories(ui-qt-faces-base PUBLIC
 target_link_libraries(ui-qt-faces-base PUBLIC
         Qt6::Widgets
         core-common-samples
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
 )

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <CrossPlatformTypes.h>
-#include <settings/model/radios/RadioSettingsSinkT.h>
-#include <settings/model/radios/RadioSettingsSourceT.h>
-#include <settings/model/message/FieldUpdateSource.h>
-#include <settings/model/message/ResolveDottedStringFunc.h>
+#include <settings/model/radio/RadioSettingsSinkT.h>
+#include <settings/model/radio/RadioSettingsSourceT.h>
+#include <settings/model/update/FieldUpdateSource.h>
+#include <settings/model//update/ResolveDottedStringFunc.h>
 
 #include <settings/control/sink/PttSink.h>
 #include <settings/control/factory/SettingsControlSinkFactoryT.h>

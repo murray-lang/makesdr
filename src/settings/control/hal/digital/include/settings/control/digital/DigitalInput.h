@@ -3,14 +3,14 @@
 #include <gpio/input/GpioInputLines.h>
 #include <gpio/input/GpioInputLinesRequest.h>
 
-#include <settings/model/message/FieldUpdate.h>
+#include <settings/model/update/FieldUpdate.h>
 #include <config/struct/DigitalInputConfig.h>
 
-#include <settings/model/message/FieldDescriptor.h>
-#include <settings/model/message/FieldUpdateSource.h>
+#include <settings/model/update/FieldDescriptor.h>
+#include <settings/model/update/FieldUpdateSource.h>
 
 // #ifdef USE_DOTTED_STRING_PATHS
-#include <settings/model/message/ResolveDottedStringFunc.h>
+#include <settings/model//update/ResolveDottedStringFunc.h>
 // #endif
 
 

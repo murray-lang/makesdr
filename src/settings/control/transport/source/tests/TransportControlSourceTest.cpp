@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <settings/control/transport/TransportControlSourceT.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 // Template instantiation for IDE context and compile verification
 using TestTransportControlSource = TransportControlSourceT<SplitBandDualIqRxTxSettings>;

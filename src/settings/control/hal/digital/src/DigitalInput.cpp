@@ -1,7 +1,7 @@
 #include <CrossPlatformTypes.h>
 #include "settings/control/digital/DigitalInput.h"
 
-#include "settings/model/message/FieldUpdateSink.h"
+#include "settings/model/update/FieldUpdateSink.h"
 
 DigitalInput::DigitalInput()
   : m_lineEventCallback(

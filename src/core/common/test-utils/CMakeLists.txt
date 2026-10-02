@@ -12,8 +12,8 @@ target_link_libraries(test-utils
         PUBLIC
         GTest::gtest  # Changed from gtest_main - Using QtTestMain
         config-struct
-        settings-model-radios-iq-dual-split
-        settings-model-data-band
-        settings-model-data-mode
+        settings-model-radio-iq-dual-split
+        settings-model-meta-band
+        settings-model-meta-mode
         radios-base
 )

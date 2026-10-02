@@ -12,8 +12,8 @@ public:
   void setMode(const Mode::Proto& mode) override;
 
   uint32_t processSamples(
-      const ComplexSamplesMax& in,
-      RealSamplesMax& out,
+      const ComplexSamplesBuffer& in,
+      RealSamplesBuffer& out,
       uint32_t inputLength
   ) override;
 

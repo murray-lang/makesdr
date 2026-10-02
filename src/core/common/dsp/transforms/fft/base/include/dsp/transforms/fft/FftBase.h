@@ -18,8 +18,8 @@ public:
   ) = 0;
 
   virtual uint32_t transform(
-    const ComplexSamplesMax& input,
-    ComplexSamplesMax& output,
+    const ComplexSamplesBuffer& input,
+    ComplexSamplesBuffer& output,
     uint32_t inputLength,
     bool forward,
     bool normalise

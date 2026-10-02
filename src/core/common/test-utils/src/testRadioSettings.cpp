@@ -28,24 +28,27 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
         .has_frequency = true,
         .frequency =  {
           .value =  14200000,
-          .coarse_delta =  1000,
-          .fine_delta =  100
+          .coarse_delta =  50000,
+          .fine_delta =  10000,
         },
         .has_gain = true,
         .gain =  {
-          .value =  1.0,
+          .value =  0.0,
           .coarse_delta =  0.01,
           .fine_delta =  0.001
         }
       },
       .has_if_ = true,
         .if_ =  {
+          .has_bandwidth = true,
+          .bandwidth = 200000,
           .has_gain = true,
           .gain =  {
-            .value =  1.0,
+            .value =  0.0,
             .coarse_delta =  0.01,
             .fine_delta =  0.001
-          }
+          },
+
         },
       .has_pipeline_a = true,
       .pipeline_a =  {
@@ -53,7 +56,7 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
         .base = {
           .which_mode_or_request = makesdr_PipelineSettingsPb_mode_request_tag,
           .mode_or_request =  {
-            .mode_request =  makesdr_ModeType_MODE_USB,
+            .mode_request =  makesdr_ModeType_MODE_AMN,
           },
           .has_rf = true,
           .rf =  {
@@ -63,9 +66,10 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
             .max_positive_offset = 0,
             .has_frequency = true,
             .frequency =  {
-              .value =  14200000,
+              .value =  14220000,
               .coarse_delta =  1000,
-              .fine_delta =  100
+              .fine_delta =  100,
+              .use_fine = false
             }
           }
         },
@@ -92,7 +96,8 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
             .frequency =  {
               .value =  14200000,
               .coarse_delta =  1000,
-              .fine_delta =  100
+              .fine_delta =  100,
+              .use_fine = false
             },
           }
         },
@@ -102,7 +107,7 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
         .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_is_multi_pipeline = true,
-      .is_multi_pipeline =  true,
+      .is_multi_pipeline =  false,
       .has_focus_pipeline_id = true,
       .focus_pipeline_id =  makesdr_PipelineId_PIPELINE_A,
       .has_tx_pipeline = true,
@@ -123,7 +128,8 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
             .frequency =  {
               .value =  14200000,
               .coarse_delta =  1000,
-              .fine_delta =  100
+              .fine_delta =  100,
+              .use_fine = true
             }
           }
         }
@@ -138,6 +144,32 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
       .band_or_request {
         .band_request = "40m",
       },
+      .has_rf = true,
+      .rf =  {
+        .has_frequency = true,
+        .frequency =  {
+          .value =  7100000,
+          .coarse_delta =  10000,
+          .fine_delta =  1000,
+        },
+        .has_gain = true,
+        .gain =  {
+          .value =  0.0,
+          .coarse_delta =  0.01,
+          .fine_delta =  0.001
+        }
+      },
+      .has_if_ = true,
+        .if_ =  {
+          .has_bandwidth = true,
+          .bandwidth = 200000,
+          .has_gain = true,
+          .gain =  {
+            .value =  1.0,
+            .coarse_delta =  0.01,
+            .fine_delta =  0.001
+          }
+        },
       .has_pipeline_a = true,
       .pipeline_a =  {
         .has_base = true,
@@ -156,7 +188,8 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
             .frequency =  {
               .value =  7100000,
               .coarse_delta =  1000,
-              .fine_delta =  100
+              .fine_delta =  100,
+              .use_fine = false
             }
           }
         },
@@ -183,7 +216,8 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
             .frequency =  {
               .value =  7100000,
               .coarse_delta =  1000,
-              .fine_delta =  100
+              .fine_delta =  100,
+              .use_fine = false
             }
           }
         },

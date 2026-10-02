@@ -42,7 +42,7 @@ class TwoToneSignalStage : public IqPipelineStage
     return processSamples(buffers.input(), buffers.output(), inputLength);
   }
 
-  uint32_t processSamples(const ComplexSamplesMax& input, ComplexSamplesMax& output, uint32_t inputLength)
+  uint32_t processSamples(const ComplexSamplesBuffer& input, ComplexSamplesBuffer& output, uint32_t inputLength)
   {
     for (uint32_t i = 0; i < inputLength; i++) {
       output.at(i) = (m_tone1.getState() + m_tone2.getState() /*+ m_tone3.getState()*/) * m_gain;

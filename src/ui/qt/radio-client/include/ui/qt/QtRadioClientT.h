@@ -1,15 +1,17 @@
 #pragma once
-#include <QThread>
+#include <type_traits>
+
+#include <QEventLoop>
 #include <QTimer>
 // #include <ui/qt/QtRadioClientBase.h>
 #include <config/struct/RadioConfig.h>
 #include <samples/SampleTypes.h>
-#include <transport/in/QtTransportInT.h>
-#include <transport/out/QtTransportOutT.h>
-#include <transport/out/QtTransportFieldUpdateOut.h>
-#include <settings/model/data/radio/RadioLookup.h>
-#include <settings/model/radios/RadioSettingsUpdater.h>
-#include <settings/model/radios/RadioSettingsRequester.h>
+#include <transport/radio/ClientTransportT.h>
+#include <transport/qt/event/QtWakeT.h>
+#include <transport/qt/event/globalQtMessageExchange.h>
+#include <settings/model/meta/radio/RadioLookup.h>
+#include <settings/model/radio/RadioSettingsUpdater.h>
+#include <settings/model/radio/RadioSettingsRequester.h>
 #include <radios/base/RadioBaseT.h>
 
 
@@ -19,9 +21,13 @@ class QtRadioClientT :
   public IRadioSettingsUpdater,
   public RadioBaseT<RadioSettingsT>,
   public MessageSinkT<RadioSettingsT>,
+  public MessageSinkT<IqMessage>,
   public MessageSinkT<BandCategoryList>,
   public MessageSinkT<ModeList>
 {
+  static_assert(std::is_same_v<RadioSettingsT, QtRadioMessageExchange::Settings>,
+                "The client's settings type must match the build's RadioSettings");
+
 public:
   using CacheType = typename RadioSettingsT::Cache;
   using MessageSinkT<RadioSettingsT>::applyMessage;
@@ -34,38 +40,28 @@ public:
   , m_bands{}
   , m_modes{}
   , m_pUpdater(m_settings.updater())
-  , m_settingsIn(Config::QtTransport::Target::Client, Config::QtTransport::Message::Settings)
-  // , m_cacheIn(Config::QtTransport::Role::Client, Config::QtTransport::Target::Setting)
-  , m_bandsIn(Config::QtTransport::Target::Client, Config::QtTransport::Message::Bands)
-  , m_modesIn(Config::QtTransport::Target::Client, Config::QtTransport::Message::Modes)
-  , m_settingsOut(Config::QtTransport::Target::Radio, Config::QtTransport::Message::Settings)
-  , m_fieldUpdateOut(Config::QtTransport::Target::Radio)
+  , m_transport(globalQtMessageExchange())
+  , m_wake(m_transport)   // stays on the constructing (GUI) thread
   , m_waitingForSettings(false)
   , m_waitingForModes(false)
   , m_waitingForBands(false)
   , m_pWaitLoop(nullptr)
   {
-    // Move all handlers to the same thread
-    m_settingsIn.moveToThread(QThread::currentThread());
-    // m_cacheIn.moveToThread(&m_transportThread);
-    m_bandsIn.moveToThread(QThread::currentThread());
-    m_modesIn.moveToThread(QThread::currentThread());
+    m_transport.connectRadioSettingsSink(this);
+    m_transport.connectIqSink(this);
+    m_transport.connectBandsSink(this);
+    m_transport.connectModesSink(this);
 
-    m_settingsIn.connectMessageSink(this);
-    m_bandsIn.connectMessageSink(this);
-    m_modesIn.connectMessageSink(this);
-    // m_lookupIn.connectMessageSink(this);
-
-    m_requester.connectFieldUpdateSink(&m_fieldUpdateOut);
+    m_requester.connectFieldUpdateSink(&m_transport);
     if (m_pUpdater != nullptr) {
-      m_pUpdater->connectFieldUpdateSink(&m_fieldUpdateOut);
+      m_pUpdater->connectFieldUpdateSink(&m_transport);
     }
   }
 
+  // Detach before m_wake is destroyed, so nothing more is posted to it.
   ~QtRadioClientT() override
   {
-    // m_transportThread.quit();
-    // m_transportThread.wait();
+    m_transport.detach();
   }
 
   [[nodiscard]] const RadioSettingsT* getSettings() const override { return &m_settings; }
@@ -73,55 +69,21 @@ public:
   [[nodiscard]] const ModeList* getModes() const { return &m_modes; }
   RadioSettingsUpdater* getUpdater() { return m_pUpdater; }
 
+  // Nothing to configure: the channels are fixed.
   ResultCode configure(const Config::Radio::Fields& config) override
   {
-    ResultCode rc = m_settingsIn.configure();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_bandsIn.configure();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_modesIn.configure();
-    if (rc != ResultCode::OK) return rc;
-
-    rc = m_settingsOut.configure();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_fieldUpdateOut.configure();
-    if (rc != ResultCode::OK) return rc;
-
-    rc = m_settingsIn.setQtEventTarget();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_bandsIn.setQtEventTarget();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_modesIn.setQtEventTarget();
-    if (rc != ResultCode::OK) return rc;
-
-    return rc;
+    return ResultCode::OK;
   }
 
   ResultCode start() override
   {
-    ResultCode rc = m_settingsIn.open();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_bandsIn.open();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_modesIn.open();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_settingsOut.open();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_fieldUpdateOut.open();
-    if (rc != ResultCode::OK) return rc;
-
+    m_transport.attach(&m_wake);
     return ResultCode::OK;
   }
 
   void stop() override
   {
-    // m_transportThread.quit();
-    // m_transportThread.wait();
-    m_settingsIn.close();
-    m_bandsIn.close();
-    m_modesIn.close();
-    m_settingsOut.close();
-    m_fieldUpdateOut.close();
+    m_transport.detach();
   }
 
   ResultCode requestAll()
@@ -163,6 +125,12 @@ public:
     return ResultCode::OK;
   }
 
+  ResultCode applyMessage(IqMessage* message) final
+  {
+    emitReceiverIqReceived(message);
+    return ResultCode::OK;
+  }
+
   ResultCode applyMessage(BandCategoryList* message) final
   {
     setBands(message);
@@ -191,7 +159,7 @@ public:
 
   ResultCode applyFieldUpdate(const FieldUpdate& update) override
   {
-    return m_fieldUpdateOut.applyFieldUpdate(update);
+    return m_transport.applyFieldUpdate(update);
   }
 
   virtual void setBands(BandCategoryList* message) // virtual for mocking only
@@ -276,6 +244,7 @@ public:
 
 protected:
   virtual void emitRadioSettingsReceived(const RadioSettingsT* settings) = 0;
+  virtual void emitReceiverIqReceived(const IqMessage* iq) = 0;
   ResultCode requestCurrentSettings() { return m_requester.requestSettings(); }
   ResultCode requestModes() { return m_requester.requestModes(); }
   ResultCode requestBands() { return m_requester.requestBands(); }
@@ -323,13 +292,11 @@ private:
   ModeList m_modes;
   RadioSettingsRequester m_requester;
   RadioSettingsUpdater* m_pUpdater;
-  // QThread m_transportThread;  // Single thread for all incoming messages
-  QtTransportInT<RadioSettingsT> m_settingsIn;
-  // QtTransportInT<CacheType> m_cacheIn;
-  QtTransportInT<BandCategoryList> m_bandsIn;
-  QtTransportInT<ModeList> m_modesIn;
-  QtTransportOutT<RadioSettingsT, PayloadSource::SOURCE_FRONT_END> m_settingsOut;
-  QtTransportFieldUpdateOut<PayloadSource::SOURCE_FRONT_END> m_fieldUpdateOut;
+
+  using Transport = ClientTransportT<QtRadioMessageExchange>;
+  // Declaration order matters: m_wake refers to m_transport, so is destroyed first.
+  Transport m_transport;
+  QtWakeT<Transport> m_wake;
   bool m_waitingForSettings = false;
   bool m_waitingForModes = false;
   bool m_waitingForBands = false;

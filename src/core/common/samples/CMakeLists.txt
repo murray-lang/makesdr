@@ -10,7 +10,7 @@ set(SAMPLE_SOURCES
 add_library(core-common-samples INTERFACE ${SAMPLE_SOURCES})
 
 target_compile_definitions(core-common-samples INTERFACE
-        PIPELINE_BUFFER_LENGTH=8192
+        PIPELINE_BUFFER_LENGTH=4096
         FFT_SIZE=2048
 )
 

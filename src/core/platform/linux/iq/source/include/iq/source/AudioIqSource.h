@@ -27,12 +27,13 @@ public:
 
   [[nodiscard]] uint32_t getSampleRate() const override { return m_audioInput.getSampleRate(); }
 
-  uint32_t sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels) override;
 
 protected:
   AudioInput m_audioInput;
   HilbertTransform m_hilbert;
-  ComplexPingPongBuffers m_iqOutputBuffers;
+  // ComplexPingPongBuffers m_iqOutputBuffers;
+  ComplexSamplesBuffer m_outputBuffer;
   // std::chrono::steady_clock::time_point m_lastTime;
 };
 

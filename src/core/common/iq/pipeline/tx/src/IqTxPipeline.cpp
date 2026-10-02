@@ -36,7 +36,7 @@ IqTxPipeline::setOutputSampleRate(uint32_t outputSampleRate)
 }
 
 uint32_t
-IqTxPipeline::sinkIq(ComplexPingPongBuffers& samples, uint32_t length)
+IqTxPipeline::processSamples(ComplexPingPongBuffers& samples, uint32_t length)
 {
   uint32_t outputLength = 0;
   lock_guard<mutex> lock(m_settingsMutex);
@@ -140,7 +140,7 @@ IqTxPipeline::setModulatorSampleRate(uint32_t sampleRate)
 }
 
 uint32_t
-IqTxPipeline::interleaveComplexToReal(const ComplexSamplesMax& vcomplex, RealSamplesMax& vreal, uint32_t numComplexes)
+IqTxPipeline::interleaveComplexToReal(const ComplexSamplesBuffer& vcomplex, RealSamplesBuffer& vreal, uint32_t numComplexes)
 {
   vreal.resize(numComplexes * 2);
 

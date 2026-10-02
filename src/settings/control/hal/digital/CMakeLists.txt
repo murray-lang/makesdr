@@ -24,7 +24,8 @@ set(GPIO_LIBRARIES
         settings-control-base
         settings-control-source
         settings-control-sink
-        settings-model-radios-base
+        settings-model-update-base
+        settings-model-radio-base
         etl
 )
 

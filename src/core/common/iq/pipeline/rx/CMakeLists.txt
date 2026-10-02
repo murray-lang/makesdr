@@ -21,14 +21,16 @@ set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-stage-modulation
         core-common-iq-pipeline-stage-resample
         core-common-iq-pipeline-stage-monitor
+        core-common-iq-pipeline-stage-agc
+        core-common-transport-radio
 )
 
-if(PLATFORM_FAMILY STREQUAL "linux")
-    set(PIPELINE_RX_LIBS
-            ${PIPELINE_RX_LIBS}
-            core-linux-event-data
-    )
-endif()
+#if(PLATFORM_FAMILY STREQUAL "linux")
+#    set(PIPELINE_RX_LIBS
+#            ${PIPELINE_RX_LIBS}
+#            core-linux-event-data
+#    )
+#endif()
 
 target_link_libraries(core-common-iq-pipeline-rx PUBLIC
         ${PIPELINE_RX_LIBS}

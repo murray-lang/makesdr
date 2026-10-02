@@ -19,14 +19,14 @@ target_include_directories(core-linux-transport-qt-event-in INTERFACE
 
 target_link_libraries(core-linux-transport-qt-event-in INTERFACE
         config-struct
-        core-common-transport
+        core-common-transport-base
         core-linux-transport-qt-event-base
-        core-linux-transport-qt-event-targets
+        core-linux-transport-qt-globals
         settings-model-message
-        settings-model-radios-iq-dual-split
-        settings-model-data-band
-        settings-model-data-mode
-        settings-model-data-radio
+        settings-model-radio-iq-dual-split
+        settings-model-meta-band
+        settings-model-meta-mode
+        settings-model-meta-radio
 )
 
 if(BUILD_TESTING)

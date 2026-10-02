@@ -35,7 +35,7 @@ AudioIqSource::stop()
 }
 
 uint32_t
-AudioIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, uint32_t numChannels) {
+AudioIqSource::sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels) {
   // auto now = std::chrono::steady_clock::now();
   // auto duration = std::chrono::duration_cast<std::chrono::microseconds>(now - m_lastTime).count();
   // m_lastTime = now;
@@ -45,7 +45,7 @@ AudioIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, ui
     uint32_t numFrames = length / numChannels;
     // m_iqOutputBuffers.resize(numFrames);
     // uint32_t outputLength = numFrames;
-    uint32_t outputLength = m_hilbert.transform(audioSamples, length, numChannels, m_iqOutputBuffers.input());
+    uint32_t outputLength = m_hilbert.transform(audioSamples, length, numChannels, m_outputBuffer);
     // for (int i = 0; i < numFrames; ++i) {
     //   size_t audioIndex = i * numChannels;
     //   sdrreal real = audioSamples[audioIndex] * 100; // Take first channel only for now
@@ -55,7 +55,7 @@ AudioIqSource::sinkAudio(const RealSamplesMax& audioSamples, uint32_t length, ui
     //   m_iqOutputBuffers[i] = sdrcomplex(real, imag);
 
     // }
-    m_pIqSink->sinkIq(m_iqOutputBuffers, outputLength);
+    m_pIqSink->sinkIq(m_outputBuffer, outputLength);
     return length;
   }
   return 0;

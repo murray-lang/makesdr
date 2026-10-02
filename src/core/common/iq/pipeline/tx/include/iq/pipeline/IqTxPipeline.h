@@ -11,7 +11,7 @@
 // #include <iq/modulation/AmModulator.h>
 #include <iq/modulation/FmModulator.h>
 #include <iq/modulation/SsbModulator.h>
-#include <settings/model/radios/iq/TxPipelineSettings.h>
+#include <settings/model/radio/iq/TxPipelineSettings.h>
 
 
 class IqTxPipeline : public IqPipeline
@@ -23,7 +23,7 @@ public:
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
   void setOutputSampleRate(uint32_t outputSampleRate) override;
 
-  uint32_t sinkIq(ComplexPingPongBuffers& samples, uint32_t length) override;
+  uint32_t processSamples(ComplexPingPongBuffers& samples, uint32_t length) override;
 
   ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings) override;
 
@@ -37,7 +37,7 @@ public:
 protected:
   void setModulator(const Mode& mode);
   void setModulatorSampleRate(uint32_t sampleRate);
-  static uint32_t interleaveComplexToReal(const ComplexSamplesMax& vcomplex, RealSamplesMax& vreal, uint32_t numComplexes);
+  static uint32_t interleaveComplexToReal(const ComplexSamplesBuffer& vcomplex, RealSamplesBuffer& vreal, uint32_t numComplexes);
 
 
 private:
@@ -51,5 +51,5 @@ private:
   CwModulator m_cwModulator;
   Modulator* m_pModulator;
 
-  RealSamplesMax m_audioBuffer;
+  RealSamplesBuffer m_audioBuffer;
 };

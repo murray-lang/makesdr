@@ -1,23 +1,35 @@
 #pragma once
+#include <type_traits>
+
 #include <QThread>
-#include <transport/in-out/QtTransportInOutT.h>
-#include <settings/model/message/FieldUpdateMessage.h>
-#include <settings/model/data/mode/ModeList.h>
-#include <settings/model/data/band/BandCategoryList.h>
+#include <ResultCode.h>
+#include <transport/radio/RadioTransportT.h>
+#include <transport/qt/event/QtWakeT.h>
+#include <transport/qt/event/globalQtMessageExchange.h>
 
-
+//*****************************************************************************
+// The radio's transport on Qt: a RadioTransportT over the process-wide
+// exchange, woken on the radio's own thread.
+//
+// The radio knows nothing of any client; it only sends into, and is woken by,
+// the channels in globalQtMessageExchange().
+//*****************************************************************************
 template<typename RadioSettingsT>
 class QtRadioTransportT
 {
+  static_assert(std::is_same_v<RadioSettingsT, QtRadioMessageExchange::Settings>,
+                "The radio's settings type must match the build's RadioSettings");
+
 public:
   QtRadioTransportT()
     : m_thread()
-    , m_settingsTransport(m_thread)
-    , m_updateTransport(m_thread)
-    , m_modesTransport(m_thread)
-    , m_bandsTransport(m_thread)
+    , m_transport(globalQtMessageExchange())
+    , m_wake(m_transport)
   {
+    // Before the thread starts, so events are handled there from the outset.
+    m_wake.moveToThread(&m_thread);
   }
+
   // Must join m_thread before it is destroyed, otherwise ~QThread calls qFatal()
   // ("Destroyed while thread is still running") on any path that skips stop().
   ~QtRadioTransportT()
@@ -27,89 +39,44 @@ public:
 
   void connectRadioSettingsSink(MessageSinkT<RadioSettingsT>* settingsSink)
   {
-    m_settingsTransport.connectMessageInSink(settingsSink);
+    m_transport.connectRadioSettingsSink(settingsSink);
   }
 
   void connectFieldUpdateSink(MessageSinkT<FieldUpdateMessage>* updateSink)
   {
-    m_updateTransport.connectMessageInSink(updateSink);
+    m_transport.connectFieldUpdateSink(updateSink);
   }
 
-  ResultCode configure()
-  {
-    QtTransportIoConfig settingsConfig  {
-      .in =  { .message = Message::Settings, .target = Target::Radio },
-      .out = { .message = Message::Settings, .target = Target::Client }
-    };
-    ResultCode rc = m_settingsTransport.configure(settingsConfig);
-    if (rc != ResultCode::OK) return rc;
-
-    QtTransportIoConfig updateConfig  {
-      .in =  { .message = Message::Update, .target = Target::Radio },
-      .out = { .message = Message::None, .target = Target::Client }
-    };
-    rc = m_updateTransport.configure(updateConfig);
-    if (rc != ResultCode::OK) return rc;
-
-    QtTransportIoConfig modesConfig  {
-      .in =  { .message = Message::None, .target = Target::Radio },
-      .out = { .message = Message::Modes, .target = Target::Client }
-    };
-    rc = m_modesTransport.configure(modesConfig);
-    if (rc != ResultCode::OK) return rc;
-
-    QtTransportIoConfig bandsConfig  {
-      .in =  { .message = Message::None, .target = Target::Radio },
-      .out = { .message = Message::Bands, .target = Target::Client }
-    };
-    rc = m_bandsTransport.configure(bandsConfig);
-    if (rc != ResultCode::OK) return rc;
-    return ResultCode::OK;
-  }
+  // Nothing to configure: the channels are fixed. Kept for existing callers.
+  ResultCode configure() { return ResultCode::OK; }
 
   ResultCode start()
   {
-    ResultCode rc = m_settingsTransport.start();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_updateTransport.start();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_modesTransport.start();
-    if (rc != ResultCode::OK) return rc;
-    rc = m_bandsTransport.start();
-    if (rc != ResultCode::OK) return rc;
+    m_transport.attach(&m_wake);
     m_thread.start();
     return ResultCode::OK;
   }
 
   void stop()
   {
-    m_settingsTransport.stop();
-    m_updateTransport.stop();
-    m_modesTransport.stop();
-    m_bandsTransport.stop();
+    m_transport.detach();
     m_thread.quit();
     m_thread.wait();
   }
 
-  ResultCode send(RadioSettingsT* settings)
-  {
-    return m_settingsTransport.send(settings);
-  }
+  IqPublisher* getIqPublisher() { return m_transport.getIqPublisher(); }
 
-  ResultCode send(ModeList* modes)
-  {
-    return m_modesTransport.send(modes);
-  }
-
-  ResultCode send(BandCategoryList* bands)
-  {
-    return m_bandsTransport.send(bands);
-  }
+  ResultCode send(RadioSettingsT* settings)  { return m_transport.send(settings); }
+  ResultCode send(IqMessage* iq)             { return m_transport.send(iq); }
+  ResultCode send(ModeList* modes)           { return m_transport.send(modes); }
+  ResultCode send(BandCategoryList* bands)   { return m_transport.send(bands); }
 
 private:
-  QThread m_thread;
-  QtTransportInOutT<RadioSettingsT, PayloadSource::SOURCE_BACK_END> m_settingsTransport;
-  QtTransportInOutT<FieldUpdateMessage, PayloadSource::SOURCE_BACK_END> m_updateTransport;
-  QtTransportInOutT<ModeList, PayloadSource::SOURCE_BACK_END> m_modesTransport;
-  QtTransportInOutT<BandCategoryList, PayloadSource::SOURCE_BACK_END> m_bandsTransport;
+  using Transport = RadioTransportT<QtRadioMessageExchange>;
+
+  // Declaration order matters: m_wake refers to m_transport and lives in
+  // m_thread, so it is destroyed first.
+  QThread                m_thread;
+  Transport              m_transport;
+  QtWakeT<Transport>     m_wake;
 };

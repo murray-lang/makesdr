@@ -3,12 +3,12 @@
 #include <QWidget>
 #include <QStackedLayout>
 
-#include <settings/model/radios/PipelineId.h>
-#include <settings/model/radios/SplitBandId.h>
-#include <settings/model/radios/IRadioSettingsUpdater.h>
-#include <settings/model/radios/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/PipelineId.h>
+#include <settings/model/radio/SplitBandId.h>
+#include <settings/model/radio/IRadioSettingsUpdater.h>
+#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
 #include <ui/qt/widgets/QtVfoReadout.h>
-#include <ui/qt/widgets/VfoActions.h>
+#include <settings/model/update/FieldUpdateSink.h>
 
 class QToolButton;
 

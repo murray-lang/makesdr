@@ -6,10 +6,10 @@
 #include <gpio/service/Gpio.h>
 #include <gpio/service/GpioOutputLinesSource.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/message/FieldDescriptor.h>
-#include <settings/model/message/FieldUpdate.h>
-#include <settings/model/message/FieldUpdateSink.h>
-#include <settings/model/message/ResolveDottedStringFunc.h>
+#include <settings/model/update/FieldDescriptor.h>
+#include <settings/model/update/FieldUpdate.h>
+#include <settings/model/update/FieldUpdateSink.h>
+#include <settings/model//update/ResolveDottedStringFunc.h>
 
 template <typename RadioSettingsT>
 class DigitalOutputT : public GpioLines, public SettingsControlSinkT<RadioSettingsT>, public FieldUpdateSink

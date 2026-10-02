@@ -7,7 +7,7 @@ SplitBandDualIqRadio::SplitBandDualIqRadio(
   )
   : m_bands(bands)
   , m_modes(modes)
-  , m_transceiver(bands, modes)
+  , m_transceiver(bands, modes, m_transport.getIqPublisher())
   , m_settings()
   , m_pUpdater(m_settings.updater())
 {
@@ -49,7 +49,11 @@ SplitBandDualIqRadio::start()
   if (rc != ResultCode::OK) return rc;
   m_transport.connectRadioSettingsSink(this);
   m_transport.connectFieldUpdateSink(this);
-  return m_transport.start();;
+  rc = m_transport.start();
+  if (rc != ResultCode::OK) return rc;
+  m_settings.setPurpose(PayloadPurpose::PURPOSE_REPLACE);
+  // m_settings.setAllFieldsPresence(true);
+  return applySettings(m_settings);
 }
 
 void

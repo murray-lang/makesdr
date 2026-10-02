@@ -138,6 +138,9 @@ PB_BIND(makesdr_SplitBandDualIqRxTxSettingsPb, makesdr_SplitBandDualIqRxTxSettin
 PB_BIND(makesdr_FieldUpdatePb, makesdr_FieldUpdatePb, AUTO)
 
 
+PB_BIND(makesdr_IqPb, makesdr_IqPb, 4)
+
+
 
 
 

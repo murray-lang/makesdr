@@ -27,7 +27,7 @@ target_include_directories(core-linux-transport-qt-event-in-out PUBLIC
 target_link_libraries(core-linux-transport-qt-event-in-out PUBLIC
         Qt6::Core
         core-linux-transport-qt-event-base
-        core-linux-transport-qt-event-targets
+        core-linux-transport-qt-globals
         core-linux-transport-qt-event-in
         core-linux-transport-qt-event-out
 )

@@ -35,3 +35,5 @@ makesdr.BandCategoryListPb.categories max_count: 8
 
 makesdr.FieldUpdatePb.path max_count: 8
 makesdr.FieldUpdatePb.string_value max_size: 8
+
+makesdr.IqPb.interleaved max_count: 8192

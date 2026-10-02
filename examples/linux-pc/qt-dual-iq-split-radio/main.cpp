@@ -1,7 +1,7 @@
 #include <radios/iq/SplitBandDualIqRadio.h>
-#include <settings/model/radios/iq/SplitBandDualIqRxTxSettings.h>
-#include <settings/model/data/band/mostBandCategories.h>
-#include <settings/model/data/mode/basicModes.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/meta/band/mostBandCategories.h>
+#include <settings/model/meta/mode/basicModes.h>
 #include <config/json/RadioConfig.json.h>
 #include <linux/test-utils/QtTransportTestRadio.h>
 #include <radios/iq/SplitBandDualIqRadio.h>
@@ -15,8 +15,8 @@
 #include <ui/qt/MainWindow.h>
 #include <test-utils/testRadioSettings.h>
 
-// #include <settings/model/path/generateResolvedPathSourceFiles.h>
-// #include <settings/model/path/SplitBandDualIqTagLookup.h>
+// #include <settings/model/update/generateResolvedPathSourceFiles.h>
+// #include <settings/model/update/SplitBandDualIqTagLookup.h>
 
 BandCategoryList bandsByCategory(mostBandCategories);
 ModeList modeList(basicModes);
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
   SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
+    qDebug() << "Error configuring radio: " << static_cast<uint32_t>(rc);
     return -1;
   }
   SplitBandDualIqRxTxSettings settings(testRadioSettingsPayloadPb);
@@ -68,6 +69,10 @@ int main(int argc, char *argv[])
   MainWindow w(radioConfig);
   rc = w.connectRadio();
   if (rc != ResultCode::OK) {
+    // radio.start() has already started the IQ source thread, which is calling
+    // into the pipelines. Stop it before returning, or those objects are
+    // destroyed from under it.
+    radio.stop();
     qDebug() << "Error connecting to radio: " << static_cast<uint32_t>(rc);
     return 1;
   }

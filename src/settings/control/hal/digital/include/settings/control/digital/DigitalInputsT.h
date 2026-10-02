@@ -2,7 +2,7 @@
 
 #include <settings/control/source/SettingsControlSourceT.h>
 #include <config/struct/DigitalInputsConfig.h>
-#include <settings/model/radios/IRadioSettings.h>
+#include <settings/model/radio/IRadioSettings.h>
 // #include <stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h>
 
 #include <settings/control/digital/DigitalInputTypes.h>

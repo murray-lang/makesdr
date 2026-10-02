@@ -2,7 +2,7 @@
 
 #include <config/struct/QtControlSinkConfig.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
-#include <settings/model/radios/RadioSettingsEventT.h>
+#include <settings/model/radio/RadioSettingsEventT.h>
 #include <settings/control/qt/QtGlobalControlEventTargets.h>
 #include <settings/control/qt/QtSettingsControlSinkBase.h>
 #include <event/QtEventRegistrar.h>

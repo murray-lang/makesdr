@@ -13,7 +13,7 @@ target_link_libraries(ui-qt-radio-client-tests
         GTest::gtest
         GTest::gmock
         ui-qt-radio-client
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
         Qt6::Core
 )
 

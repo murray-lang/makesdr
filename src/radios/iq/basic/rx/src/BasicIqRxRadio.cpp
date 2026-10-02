@@ -23,7 +23,7 @@ BasicIqRxRadio::configure(const Config::Radio::Fields& config)
   ResultCode rc = m_receiver.configure(*sdr.receiver);
   if (rc != ResultCode::OK) return rc;
 
-  return m_control.configure(config.control);
+  return m_control.configure(config.control, m_settings.resolveDottedStringFunc());
 }
 
 ResultCode

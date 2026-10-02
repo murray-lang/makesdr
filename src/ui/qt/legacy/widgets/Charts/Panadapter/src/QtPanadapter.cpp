@@ -93,6 +93,13 @@ QtPanadapter::initialise()
 }
 
 void
+QtPanadapter::handleChartClick(qreal xValue)
+{
+  auto frequency = static_cast<uint64_t>(xValue);
+  emit frequencySelected(frequency);
+}
+
+void
 QtPanadapter::showCursorB(bool show)
 {
   if (m_verticalCursorLineB) {
@@ -226,7 +233,7 @@ QtPanadapter::updatePassbandOverlayB(int64_t loCut, int64_t hiCut)
 }
 
 void
-QtPanadapter::plot(const ComplexSamplesMax* timeSeriesData,
+QtPanadapter::plot(const ComplexSamplesBuffer* timeSeriesData,
     uint32_t length,
     uint32_t sampleRate,
     int64_t centreFrequency,
@@ -235,14 +242,14 @@ QtPanadapter::plot(const ComplexSamplesMax* timeSeriesData,
   if (centreFrequency != 14190000) {
     bool pb = true;
   }
-  RealSamplesMax spectrum(length);
+  RealSamplesBuffer spectrum(length);
   powerSpectrum(*timeSeriesData, length, spectrum);
   plot(&spectrum, sampleRate, centreFrequency, shuffle);
 }
 
 void
 QtPanadapter::plot(
-    const RealSamplesMax* spectrumData,
+    const RealSamplesBuffer* spectrumData,
     uint32_t sampleRate,
     int64_t centreFrequency,
     bool shuffle
@@ -274,9 +281,9 @@ QtPanadapter::plot(
 }
 
 void
-QtPanadapter::powerSpectrum(const ComplexSamplesMax& timeSeries, uint32_t timeSeriesLength, RealSamplesMax& spectrumOut)
+QtPanadapter::powerSpectrum(const ComplexSamplesBuffer& timeSeries, uint32_t timeSeriesLength, RealSamplesBuffer& spectrumOut)
 {
-  ComplexSamplesMax fftOut(timeSeriesLength);
+  ComplexSamplesBuffer fftOut(timeSeriesLength);
   m_fft.transform(timeSeries, fftOut, timeSeriesLength, true, false);
 
   spectrumOut.resize(timeSeriesLength);

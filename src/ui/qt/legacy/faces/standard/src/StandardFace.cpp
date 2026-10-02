@@ -18,6 +18,7 @@
 StandardFace::StandardFace(QWidget* parent)
   : FaceBase(parent)
   , ui(std::make_unique<Ui::StandardFace>())
+  , m_pRadioSettingsUpdater(nullptr)
   , m_pTimeSeriesChart(nullptr)
   , m_pPanadapter(nullptr)
   , m_reportedIqSampleRate(0)
@@ -40,6 +41,8 @@ StandardFace::~StandardFace()
 void
 StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater)
 {
+  m_pRadioSettingsUpdater = updater;
+
   FaceBase::initialise( pRadioSettings, updater);
   auto* chartTheme = new QtChartTheme(this);
   chartTheme->setObjectName("chartTheme");
@@ -47,6 +50,8 @@ StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpda
 
   m_pPanadapter = new QtPanadapter(this, "panadapterView", "chartTheme");
   m_pPanadapter->initialise();
+
+  connect(m_pPanadapter, &QtPanadapter::frequencySelected, this, &StandardFace::frequencySelected);
 
   m_pTimeSeriesChart = new QtTimeSeriesChart(this, "timeseriesView", "chartTheme");
   m_pTimeSeriesChart->initialise();
@@ -94,6 +99,14 @@ StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpda
 //     m_pSmeter->setReading(metering.rssiDbFs, metering.agcGainDb);
 //   }
 // }
+
+void
+StandardFace::frequencySelected(uint64_t frequency)
+{
+  if (m_pRadioSettingsUpdater != nullptr) {
+    m_pRadioSettingsUpdater->setFocusPipelineFrequency(frequency);
+  }
+}
 
 void StandardFace::handleRadioSettingsChanged(const RadioSettings* pRadioSettings)
 {
@@ -146,26 +159,31 @@ StandardFace::updateCursor(VfoId vfoId, const RxPipelineSettings* rxPipelineSett
   }
 }
 
-// void
-// StandardFace::handleReceiverIq(
-//   RadioSettings* pRadioSettings,
-//   const ComplexSamplesMax* data,
-//   uint32_t length,
-//   uint32_t sampleRate)
-// {
-//
-//   m_reportedIqSampleRate = sampleRate;
-//   RxPipelineSettings* rxPipelineSettings = pRadioSettings->getFocusPipeline();
-//   if (rxPipelineSettings != nullptr) {
-//     const RfSettings& rfSettings = rxPipelineSettings->getRfSettings();
-//     uint32_t centreFrequency = rfSettings.getCentreFrequency();
-//     uint32_t xMin = centreFrequency - (sampleRate / 2);
-//     uint32_t xMax = centreFrequency + (sampleRate / 2);
-//
-//     m_pPanadapter->setSeriesXMinMax(xMin, xMax);
-//     m_pPanadapter->plot(data, length, sampleRate, centreFrequency, true);
-//   }
-// }
+void
+StandardFace::handleReceiverIq(
+  const RadioSettings* pRadioSettings,
+  const ComplexSamplesBuffer* data,
+  uint32_t length,
+  uint32_t sampleRate)
+{
+
+  m_reportedIqSampleRate = sampleRate;
+  const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
+  if (!activeBandSettings->hasFocusBand()) {
+    return;
+  }
+  const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
+  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+    if (rfSettings->hasFrequency()) {
+      int64_t centreFrequency = rfSettings->frequency();
+      uint32_t xMin = centreFrequency - (sampleRate / 2);
+      uint32_t xMax = centreFrequency + (sampleRate / 2);
+      m_pPanadapter->setSeriesXMinMax(xMin, xMax);
+      m_pPanadapter->plot(data, length, sampleRate, centreFrequency, true);
+    }
+  }
+}
 
 // void
 // StandardFace::handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate)

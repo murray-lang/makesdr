@@ -18,12 +18,14 @@ class AudioInput : public AudioInputBase, public RtAudioDriver, public Runnable
 public:
   AudioInput();
   AudioInput(AudioSink* pSink);
-  AudioInput(const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
-  AudioInput(AudioInput&& other) noexcept;
+  AudioInput(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
+  // AudioInput(AudioInput&& other) noexcept;
 
   ~AudioInput() override;
 
-  AudioInput& operator=(AudioInput&& other) noexcept;
+  // AudioInput& operator=(AudioInput&& other) noexcept;
+
+  void configure(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink);
 
   [[nodiscard]] uint32_t getMaxChannels() const override {
     return m_deviceInfo.inputChannels;
@@ -44,7 +46,7 @@ public:
 
   void run() override;
 
-  void getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesMax& input);
+  void getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesBuffer& input);
 
 private:
   Thread m_thread;
@@ -54,7 +56,7 @@ private:
   RtAudio::StreamParameters m_params;
 
   AudioSink* m_pSink;
-  RealSamplesMax m_outputBuffer;
+  RealSamplesBuffer m_outputBuffer;
   uint32_t m_maxPacketFrames;
   uint32_t m_numCurrentFrames;
   Mutex m_mutex;

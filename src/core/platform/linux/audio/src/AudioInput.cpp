@@ -20,31 +20,31 @@ AudioInput::AudioInput(AudioSink* pSink)
 
 }
 
-AudioInput::AudioInput(const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink)
+AudioInput::AudioInput(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink)
   : AudioInputBase(format, pSink)
-  , RtAudioDriver(deviceInfo)
+  , RtAudioDriver(api, deviceInfo)
   , m_thread(*this)
   , m_running(false)
   , m_pSink(pSink)
   , m_maxPacketFrames(0)
   , m_numCurrentFrames(0)
 {
-  m_params.deviceId = m_deviceInfo.ID;
+  // deviceId is left for start() to fill in via resolveDeviceId().
   m_params.nChannels = format.channelCount;
   m_params.firstChannel = 0;
 }
 
-AudioInput::AudioInput(AudioInput&& other) noexcept
-  : AudioInputBase(std::move(other))
-  , RtAudioDriver(std::move(other))
-  , m_thread(*this)
-  , m_running(false)
-  , m_params(other.m_params)
-  , m_pSink(other.m_pSink)
-  , m_maxPacketFrames(other.m_maxPacketFrames)
-  , m_numCurrentFrames(0)
-{
-}
+// AudioInput::AudioInput(AudioInput&& other) noexcept
+//   : AudioInputBase(std::move(other))
+//   , RtAudioDriver(std::move(other))
+//   , m_thread(*this)
+//   , m_running(false)
+//   , m_params(other.m_params)
+//   , m_pSink(other.m_pSink)
+//   , m_maxPacketFrames(other.m_maxPacketFrames)
+//   , m_numCurrentFrames(0)
+// {
+// }
 
 AudioInput::~AudioInput()
 {
@@ -52,16 +52,27 @@ AudioInput::~AudioInput()
   // m_thread.join();
 }
 
-AudioInput& AudioInput::operator=(AudioInput&& other) noexcept
+// AudioInput& AudioInput::operator=(AudioInput&& other) noexcept
+// {
+//   AudioInputBase::operator=(std::move(other));
+//   RtAudioDriver::operator=(std::move(other));
+//   m_running = false;
+//   m_params = other.m_params;
+//   m_pSink = other.m_pSink;
+//   m_maxPacketFrames = other.m_maxPacketFrames;
+//   m_numCurrentFrames = 0;
+//   return *this;
+// }
+
+void AudioInput::configure(RtAudio::Api api, const RtAudio::DeviceInfo& deviceInfo, const Format& format, AudioSink* pSink)
 {
-  AudioInputBase::operator=(std::move(other));
-  RtAudioDriver::operator=(std::move(other));
-  m_running = false;
-  m_params = other.m_params;
-  m_pSink = other.m_pSink;
-  m_maxPacketFrames = other.m_maxPacketFrames;
-  m_numCurrentFrames = 0;
-  return *this;
+  stop();
+  bindApi(api, deviceInfo);
+  m_format             = format;
+  m_pSink              = pSink;
+  // deviceId is left for start() to fill in via resolveDeviceId().
+  m_params.nChannels   = format.channelCount;
+  m_params.firstChannel = 0;
 }
 
 ResultCode
@@ -71,12 +82,20 @@ AudioInput::start(uint32_t maxPacketFrames)
   if (!m_running) {
     // unsigned int bufferFrames = DEFAULT_BUFFER_SIZE;
 
-    // Close any existing stream before opening a new one
-    if (m_rtAudio.isStreamOpen()) {
-      m_rtAudio.closeStream();
+    if (!isApiBound()) {
+      return ResultCode::ERR_AUDIO_DRIVER_NOT_CONFIGURED;
     }
 
-    RtAudioErrorType rc = m_rtAudio.openStream(
+    // Close any existing stream before opening a new one
+    if (m_rtAudio->isStreamOpen()) {
+      m_rtAudio->closeStream();
+    }
+
+    if (!resolveDeviceId(m_params.deviceId)) {
+      return ResultCode::ERR_AUDIO_NO_MATCHING_INPUT_DEVICE;
+    }
+
+    RtAudioErrorType rc = m_rtAudio->openStream(
       nullptr, // no output
       &m_params, // input params
       static_cast<RtAudioFormat>(m_format.sampleFormat), // sample format
@@ -88,8 +107,19 @@ AudioInput::start(uint32_t maxPacketFrames)
     if (rc != RTAUDIO_NO_ERROR) {
       return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
     }
-    rc = m_rtAudio.startStream();
+    // openStream takes maxPacketFrames as in/out and may grant a larger buffer
+    // than requested. m_outputBuffer holds channelCount interleaved floats per
+    // frame, so a granted packet has to fit within its capacity.
+    if (m_maxPacketFrames * m_format.channelCount > m_outputBuffer.max_size()) {
+      m_rtAudio->closeStream();
+      return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
+    }
+    m_outputBuffer.resize(m_maxPacketFrames * m_format.channelCount);
+    m_maxPacketFrames = std::min(m_maxPacketFrames, static_cast<uint32_t>(PIPELINE_BUFFER_LENGTH/2));
+
+    rc = m_rtAudio->startStream();
     if (rc != RTAUDIO_NO_ERROR) {
+      m_rtAudio->closeStream();
       return ResultCode::ERR_AUDIO_INPUT_DRIVER_START_FAILED;
     }
     m_running = true;
@@ -104,8 +134,10 @@ AudioInput::stop()
 {
   if (m_running) {
     m_running = false;
-    m_rtAudio.stopStream();
-    m_rtAudio.closeStream();
+    if (m_rtAudio->isStreamOpen()) {
+      m_rtAudio->stopStream();
+      m_rtAudio->closeStream();
+    }
     m_dataAvailable.wakeOne();
     m_thread.join();
   }
@@ -180,11 +212,14 @@ AudioInput::run()
   }
 }
 
-void AudioInput::getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesMax& input)
+void AudioInput::getSamplesFromBuffer(size_t numFrames, uint32_t channelCount, RealSamplesBuffer& input)
 {
+  // A callback can deliver fewer than m_maxPacketFrames, so a packet is filled
+  // over several passes. Append at the frames already held, or each pass
+  // overwrites the previous one from index 0.
   for (size_t i = 0; i < numFrames; i++) {
     for (size_t j = 0; j < channelCount; j++) {
-      input.at(i * channelCount + j) = m_queue.at(i * channelCount + j);
+      input.at((m_numCurrentFrames + i) * channelCount + j) = m_queue.at(i * channelCount + j);
     }
   }
 }

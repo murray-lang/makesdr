@@ -6,7 +6,7 @@ target_link_libraries(core-linux-transport-qt-event-in-tests
         PRIVATE
         GTest::gtest_main
         core-linux-transport-qt-event-in
-        settings-model-radios-iq-dual-split
+        settings-model-radio-iq-dual-split
         Qt6::Core
 )
 

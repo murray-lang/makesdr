@@ -24,8 +24,8 @@ FmModulator::setMode(const Mode::Proto& mode)
 
 uint32_t
 FmModulator::processSamples(
-    const ComplexSamplesMax& in,
-    ComplexSamplesMax& out,
+    const ComplexSamplesBuffer& in,
+    ComplexSamplesBuffer& out,
     uint32_t inputLength
 )
 {

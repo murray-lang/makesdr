@@ -7,14 +7,14 @@ class IqEventData
 {
 public:
   IqEventData() = default;
-  IqEventData(const ComplexSamplesMax& iq, uint32_t _length, uint32_t _sampleRate)
+  IqEventData(const ComplexSamplesBuffer& iq, uint32_t _length, uint32_t _sampleRate)
     : samples(iq.begin(), iq.begin() + _length)
     , length(_length)
     , sampleRate(_sampleRate)
   {
   }
 
-  ComplexSamplesMax samples;
+  ComplexSamplesBuffer samples;
   uint32_t length;
   uint32_t sampleRate;
 };
