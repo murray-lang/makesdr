@@ -27,9 +27,22 @@ QToolBar#toolBar QToolButton {
     color: palette(window-text);
     border-radius: 0px;
     qproperty-iconSize: 48px 48px;
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 70px;
+    max-width: 70px;
     font-size: 24px;
+    font-weight: bold;
+}
+
+QtNumericKeypad {
+    background-color: #061922;
+}
+
+QtNumericKeypad QPushButton {
+    background-color: #065a7f;
+}
+
+QtNumericKeypad QLineEdit {
+    background-color: #065a7f;
     font-weight: bold;
 }
 
@@ -48,51 +61,75 @@ QtStepper QToolButton:pressed {
     border: 1px solid #0384bc;
 }
 
-QToolButton.toolbarButtonA {
-    background-color: #0384bc;
-    border: 1px solid #0384bc;
+QToolButton.toolbarButton {
+    background-color: #065a7f;
+    border-width: 1px;
+    border-style: solid;
+    border-top-color: #0384bc;
+    border-left-color: #0384bc;
+    border-bottom-color: #0c394c;
+    border-right-color: #0c394c;
     margin-right: 10px;
 }
 
-QToolButton.toolbarButtonA:pressed {
-    background-color: #0c8cef;
-    border: 1px solid #0c8cef;
+QToolButton.toolbarConfigButton {
+
 }
 
-QToolButton.toolbarButtonB {
-    background-color: #eb1d3a;
-    border: 1px solid #eb1d3a;
+/* The added selector here lets it override ToolBar#toolBar QToolButton. */
+QToolBar#toolBar QToolButton.toolbarKeypadButton {
+    min-width: 50px;
+    max-width: 50px;
+    qproperty-iconSize: 32px 32px;
 }
 
-QToolButton.toolbarButtonB:pressed {
-    background-color: #fd0023;
-    border: 1px solid #fd0023;
+QToolButton.toolbarConfigButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
 }
 
-QToolButton.toolbarButtonC {
-    background-color: #00952d;
-    border: 1px solid #00952d;
+QToolButton.toolbarBandButton {
+
 }
 
-QToolButton.toolbarButtonC:pressed {
-    background-color: #00d03f;
-    border: 1px solid #00d03f;
+QToolButton.toolbarBandButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
 }
 
-QToolButton.toolbarButtonD {
-    background-color: #f79b1f;
-    border: 1px solid #f79b1f;
-     margin-left: 10px;
+QToolButton.toolbarModeButton {
+
 }
 
-QToolButton.toolbarButtonD:pressed {
-    background-color: #ff9200;
-    border: 1px solid #ff9200;
+QToolButton.toolbarModeButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
+}
+
+QToolButton.toolbarAgcButton {
+
+}
+
+QToolButton.toolbarAgcButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
+}
+
+QToolButton.toolbarLevelsButton {
+ 
+}
+
+QToolButton.toolbarLevelsButton:pressed {
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
 }
 
 QMenu.toolbarMenu {
     font-size: 16px;
     font-weight: bold;
+
+    background-color: #0384bc;
+    border: 1px solid #0384bc;
 }
 
 QMenu.toolbarMenu::item:selected {
@@ -107,10 +144,11 @@ QMenu.toolbarMenu::item:checked:selected {
     font-size: 18px;
 }
 
-QMenu.toolbarMenu.mode {
-    background-color: #00952d;
-    border: 1px solid #00952d;
+QMenu.toolbarMenu::item:selected {
+    background-color: #0c394c;
+    color: white;
 }
+
 
 /* Style items for any menu with the 'toolbarMenu' class */
 QMenu.toolbarMenu::item {
@@ -118,11 +156,7 @@ QMenu.toolbarMenu::item {
     color: black;
 }
 
-/* Hover state for those items */
-QMenu.toolbarMenu.mode::item:selected {
-    background-color: #0b5922;
-    color: white;
-}
+
 
 .toolbarDialog {
     background-color: #ff061922;

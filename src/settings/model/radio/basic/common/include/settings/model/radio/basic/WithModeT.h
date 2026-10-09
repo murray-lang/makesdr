@@ -1,5 +1,5 @@
 #pragma once
-#include <settings/model/update/FieldDescriptor.h>
+#include <settings/model/update/FieldUpdate.h>
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/radio/Mode.h>
 #include <settings/model/radio/IApplyBandDefaults.h>
@@ -45,9 +45,9 @@ public:
     return ResultCode::OK;
   }
 
-  ResultCode autoCompleteMode(const FieldDescriptor& setting, uint32_t startIndex, const ModeList* modes)
+  ResultCode autoCompleteMode(const FieldUpdate& setting, uint32_t startIndex, const ModeList* modes)
   {
-    const FieldPath& path = setting.getPath();
+    const FieldPath& path = setting.path();
     if (startIndex >= path.size()) {
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }

@@ -132,14 +132,14 @@ SplitBandDualIqActiveBandSettings::autoComplete(
 
 ResultCode
 SplitBandDualIqActiveBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands,
   const ModeList* modes,
   RxTxDualIqBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
 
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
@@ -191,20 +191,19 @@ SplitBandDualIqActiveBandSettings::autoCompleteSplit(
 {
   auto txId = static_cast<SplitBandId>(m_rawSettings.tx_band_id);
   if (m_rawSettings.is_split) {
+    ResultCode rc = ResultCode::OK;
     if (txId == SplitBandId::None) {
       if (m_rawSettings.band_2.which_band_or_request == 0) {
         m_rawSettings.tx_band_id = makesdr_SplitBandId_SPLIT_BAND_ONE;
         m_rawSettings.has_tx_band_id = true;
-        return ResultCode::OK;
-      }
-      ResultCode rc = ResultCode::OK;
-      if (m_rawSettings.band_2.which_band_or_request == makesdr_RxTxDualIqBandSettingsPb_band_request_tag) {
+      } else if (m_rawSettings.band_2.which_band_or_request == makesdr_RxTxDualIqBandSettingsPb_band_request_tag) {
         rc = m_band_2.autoComplete(bands, modes, cache);
       } // Otherwise m_payload.body.band_2.which_band_or_request == makesdr_BandSettingsPb_band_tag
       if (rc == ResultCode::OK) {
         m_rawSettings.tx_band_id = makesdr_SplitBandId_SPLIT_BAND_TWO;
         m_rawSettings.has_tx_band_id = true;
       }
+      m_rawSettings.has_band_2 = true;
     }
   } else {
     auto focusId = static_cast<SplitBandId>(m_rawSettings.focus_band_id);
@@ -216,6 +215,8 @@ SplitBandDualIqActiveBandSettings::autoCompleteSplit(
       m_rawSettings.rx_band_id = m_rawSettings.focus_band_id;
       m_rawSettings.has_rx_band_id = true;
     }
+    m_rawSettings.has_band_2 = false;
   }
+  m_rawSettings.has_is_split = true;
   return ResultCode::OK;
 }

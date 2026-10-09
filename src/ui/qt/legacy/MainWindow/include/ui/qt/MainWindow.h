@@ -36,12 +36,14 @@ public slots:
   // void on_actionConfigure_triggered();
   void on_actionBand_triggered();
   void handleMainStep(int step);
+  void on_actionKeypad_triggered();
   // void on_actionMode_triggered();
   // void on_actionLevels_triggered();
   void handleRadioSettings(const RadioSettings* settings/*, uint64_t sequence*/);
   void handleReceiverIq(const IqMessage* iq) ;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate);
-  // // void handleReceiverMeter(const IqReceiverMetering& metering);
+  void handleRxMetering(const RxMeteringMessage* metering);
+  void handleMonitorFft(const FftMessage* fft);
   // void handleTransmitterIq( const ComplexSamplesMax* data, uint32_t length, uint32_t sampleRate );
   // void handleTransmitterAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate);
 
@@ -61,12 +63,17 @@ private:
   void addModeMenuToButton(const ModeList* modes);
   QMenu* createModeMenu(const ModeList* modes);
   void updateModeButton(const Mode* mode);
+
+  void addAgcButton();
+  void updateAgcButton(AgcSpeed agcSpeed);
+  QMenu* createAgcMenu();
   void updateBandButton(const Band* band);
   // void updateModeMenu(const Mode& mode);
   void addLevelsButton();
   void addConfigButton();
   void addStepper();
   void addBandButton();
+  void addKeypadButton();
   void bandUpdateCallback(const char * bandName);
 
 private:
@@ -89,5 +96,8 @@ private:
   QMenu* m_modeMenu;
   QToolButton* m_bandButton;
   QtStepper* m_stepper;
+
+  QToolButton* m_agcButton;
+  QMenu* m_agcMenu;
 };
 

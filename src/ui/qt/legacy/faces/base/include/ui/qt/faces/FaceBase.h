@@ -3,7 +3,10 @@
 
 #include <samples/SampleTypes.h>
 #include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/RxMeteringMessage.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
+
+#include <settings/model/radio/iq/FftMessage.h>
 
 
 using RadioSettings = SplitBandDualIqRxTxSettings;
@@ -43,7 +46,9 @@ public:
     uint32_t sampleRate) = 0;
 
   // virtual void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) = 0;
-  // virtual void handleReceiverMeter(const IqReceiverMetering& metering) = 0;
+  virtual void handleRxMetering(const RxMeteringMessage* metering) = 0;
+
+  virtual void handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg) = 0;
 
   // virtual void handleTransmitterIq(
   //   RadioSettings* pRadioSettings,

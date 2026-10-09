@@ -348,10 +348,10 @@ void QtBandReadout::onLeftActionClicked()
 {
   switch (m_addRemoveBandAction) {
     case BandAction::Split:
-      m_radioControl->split();
+      m_radioControl->split(true);
       break;
     case BandAction::Close:
-      m_radioControl->unsplit(m_splitBandId);
+      m_radioControl->unsplit(m_splitBandId, true);
       break;
     case BandAction::Disabled:
       break;

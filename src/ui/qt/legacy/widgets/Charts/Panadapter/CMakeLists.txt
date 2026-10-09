@@ -20,5 +20,6 @@ target_include_directories(ui-qt-widgets-charts-panadapter PUBLIC
 
 target_link_libraries(ui-qt-widgets-charts-panadapter PUBLIC
         ui-qt-widgets-charts-base
-        core-common-dsp-transforms-fft-liquid
+        settings-model-radio-iq-basic-common
+        core-common-dsp-transforms-power-spectrum
 )

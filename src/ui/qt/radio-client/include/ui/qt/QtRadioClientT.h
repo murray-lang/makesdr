@@ -23,16 +23,21 @@ class QtRadioClientT :
   public MessageSinkT<RadioSettingsT>,
   public MessageSinkT<IqMessage>,
   public MessageSinkT<BandCategoryList>,
-  public MessageSinkT<ModeList>
+  public MessageSinkT<ModeList>,
+  public MessageSinkT<RxMeteringMessage>,
+  public MessageSinkT<FftMessage>
 {
   static_assert(std::is_same_v<RadioSettingsT, QtRadioMessageExchange::Settings>,
                 "The client's settings type must match the build's RadioSettings");
 
 public:
+  using RadioSettings = RadioSettingsT;
   using CacheType = typename RadioSettingsT::Cache;
   using MessageSinkT<RadioSettingsT>::applyMessage;
   using MessageSinkT<BandCategoryList>::applyMessage;
   using MessageSinkT<ModeList>::applyMessage;
+  using MessageSinkT<RxMeteringMessage>::applyMessage;
+  using MessageSinkT<FftMessage>::applyMessage;
 
   QtRadioClientT(QObject* parent)
   :  m_settings{}
@@ -51,6 +56,8 @@ public:
     m_transport.connectIqSink(this);
     m_transport.connectBandsSink(this);
     m_transport.connectModesSink(this);
+    m_transport.connectRxMeteringSink(this);
+    m_transport.connectFftSink(this);
 
     m_requester.connectFieldUpdateSink(&m_transport);
     if (m_pUpdater != nullptr) {
@@ -151,6 +158,18 @@ public:
     return ResultCode::OK;
   }
 
+  ResultCode applyMessage(RxMeteringMessage* message) final
+  {
+    emitRxMeteringReceived(message);
+    return ResultCode::OK;
+  }
+
+  ResultCode applyMessage(FftMessage* message) final
+  {
+    emitFftReceived(message);
+    return ResultCode::OK;
+  }
+
   ResultCode applySettings(RadioSettingsT& settings) override
   {
     // emit radioSettingsReceived(settings, settings->sequence);
@@ -180,71 +199,78 @@ public:
   {
     return m_pUpdater != nullptr ? m_pUpdater->ptt(on) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode selectBand(const char* bandName) override
+  ResultCode selectBand(const char* bandName, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->selectBand(bandName) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->selectBand(bandName, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setMultiPipeline(SplitBandId bandId, bool isMulti) override
+  ResultCode setMultiPipeline(SplitBandId bandId, bool isMulti, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setMultiPipeline(bandId, isMulti) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setMultiPipeline(bandId, isMulti, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode closePipeline(SplitBandId bandId, PipelineId pipelineId) override
+  ResultCode closePipeline(SplitBandId bandId, PipelineId pipelineId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->closePipeline(bandId, pipelineId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->closePipeline(bandId, pipelineId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setTxBand(SplitBandId bandId) override
+  ResultCode setTxBand(SplitBandId bandId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setTxBand(bandId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setTxBand(bandId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setTxPipeline(SplitBandId bandId, PipelineId pipelineId) override
+  ResultCode setTxPipeline(SplitBandId bandId, PipelineId pipelineId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setTxPipeline(bandId, pipelineId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setTxPipeline(bandId, pipelineId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setFocusBand(SplitBandId bandId) override
+  ResultCode setFocusBand(SplitBandId bandId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setFocusBand(bandId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setFocusBand(bandId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setFocusPipeline(SplitBandId bandId, PipelineId pipelineId) override
+  ResultCode setFocusPipeline(SplitBandId bandId, PipelineId pipelineId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setFocusPipeline(bandId, pipelineId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setFocusPipeline(bandId, pipelineId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode mutePipeline(SplitBandId bandId, PipelineId pipelineId, bool mute) override
+  ResultCode mutePipeline(SplitBandId bandId, PipelineId pipelineId, bool mute, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->mutePipeline(bandId, pipelineId, mute) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->mutePipeline(bandId, pipelineId, mute, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode split() override
+  ResultCode split(bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->split() : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->split(final) : ResultCode::ERR_UPDATER_NOT_SET;
 
   }
-  ResultCode unsplit(SplitBandId closeBandId) override
+  ResultCode unsplit(SplitBandId closeBandId, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->unsplit(closeBandId) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->unsplit(closeBandId, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setFocusMode(Mode::Type modeType) override
+  ResultCode setFocusMode(Mode::Type modeType, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setFocusMode(modeType) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setFocusMode(modeType, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setCentreFrequency(int64_t frequency) override
+  ResultCode setFocusAgc(AgcSpeed agcSpeed, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setCentreFrequency(frequency) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setFocusAgc(agcSpeed, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode stepCentreFrequency(int32_t steps) override
+  ResultCode setCentreFrequency(int64_t frequency, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->stepCentreFrequency(steps) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setCentreFrequency(frequency, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode setFocusPipelineFrequency(int64_t frequency) override
+  ResultCode stepCentreFrequency(int32_t steps, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->setFocusPipelineFrequency(frequency) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->stepCentreFrequency(steps, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
-  ResultCode stepFocusPipelineFrequency(int32_t steps) override
+  ResultCode setFocusPipelineFrequency(int64_t frequency, bool final) override
   {
-    return m_pUpdater != nullptr ? m_pUpdater->stepFocusPipelineFrequency(steps) : ResultCode::ERR_UPDATER_NOT_SET;
+    return m_pUpdater != nullptr ? m_pUpdater->setFocusPipelineFrequency(frequency, final) : ResultCode::ERR_UPDATER_NOT_SET;
+  }
+  ResultCode stepFocusPipelineFrequency(int32_t steps, bool final) override
+  {
+    return m_pUpdater != nullptr ? m_pUpdater->stepFocusPipelineFrequency(steps, final) : ResultCode::ERR_UPDATER_NOT_SET;
   }
 
 protected:
   virtual void emitRadioSettingsReceived(const RadioSettingsT* settings) = 0;
   virtual void emitReceiverIqReceived(const IqMessage* iq) = 0;
+  virtual void emitRxMeteringReceived(const RxMeteringMessage* iq) = 0;
+  virtual void emitFftReceived(const FftMessage* fft) = 0;
+
   ResultCode requestCurrentSettings() { return m_requester.requestSettings(); }
   ResultCode requestModes() { return m_requester.requestModes(); }
   ResultCode requestBands() { return m_requester.requestBands(); }

@@ -3,7 +3,7 @@
 
 IqTransmitter::IqTransmitter(ComplexPingPongBuffers& pingPongBuffers, const ModeList& modes)
   : m_pingPongBuffers(pingPongBuffers)
-  , m_txPipeline(modes)
+  , m_txPipeline(PipelineId::NONE, modes)
 {
 }
 

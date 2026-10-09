@@ -28,6 +28,7 @@ set(RADIOS_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IRadioSettingsWithUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/ReceiverSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RxMeteringMessage.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/SplitBandId.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/StringRef.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/TransmitterSettings.h

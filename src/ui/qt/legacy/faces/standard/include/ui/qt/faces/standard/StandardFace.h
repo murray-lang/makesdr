@@ -7,8 +7,8 @@
 #include <settings/model/radio/IRadioSettingsUpdater.h>
 
 class QtFrequencyPanel;
-class QtTimeSeriesChart;
 class QtPanadapter;
+class QtWaterfall;
 class QtSMeter;
 class Radio;
 
@@ -41,7 +41,9 @@ public:
     uint32_t length,
     uint32_t sampleRate) override;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
-  // void handleReceiverMeter(const IqReceiverMetering& metering) override;
+  void handleRxMetering(const RxMeteringMessage* metering) override;
+
+  void handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg) override;
 
   // void handleTransmitterIq(
   //   RadioSettings* pRadioSettings,
@@ -65,8 +67,8 @@ protected:
   std::unique_ptr<Ui::StandardFace> ui;
   IRadioSettingsUpdater* m_pRadioSettingsUpdater;
 
-  QtTimeSeriesChart* m_pTimeSeriesChart;
   QtPanadapter* m_pPanadapter;
+  QtWaterfall* m_pWaterfall;
   QtFrequencyPanel* m_pFrequencyPanel{};
   uint32_t m_reportedIqSampleRate;
 

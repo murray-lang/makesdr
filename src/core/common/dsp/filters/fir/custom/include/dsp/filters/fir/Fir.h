@@ -42,18 +42,18 @@ protected:
   void applyFftCoefficients(const ComplexSamplesFft& input, ComplexSamplesFft& output)
   {
 
-    m_fft.transform(input, output, FFT_SIZE, true, false);
+    m_fft.transform(input.data(), output.data(), FILTER_FFT_SIZE, true, false);
 
     multiplyByCoefficients(output, output);
 
-    m_fft.transform(output, output, FFT_SIZE, false, false);
+    m_fft.transform(output.data(), output.data(), FILTER_FFT_SIZE, false, false);
 
     // sdrreal sum = 0;
-    // for (int i = 0; i < FFT_SIZE; i++) {
+    // for (int i = 0; i < FILTER_FFT_SIZE; i++) {
     //   sdrreal mag = std::abs(output[i]);
     //   sum += mag;
     // }
-    // sdrreal avg = sum / FFT_SIZE;
+    // sdrreal avg = sum / FILTER_FFT_SIZE;
     // qDebug() << "Filter out avg" << avg;
 
 
@@ -61,12 +61,12 @@ protected:
     // ComplexSamplesFft localInput, localOutput;
     // localInput.resize(inputSize);
     // localOutput.resize(inputSize);
-    // m_fft.transform(input, localInput, FFT_SIZE, true, false);
+    // m_fft.transform(input, localInput, FILTER_FFT_SIZE, true, false);
     //
     // multiplyByCoefficients(localInput, localOutput);
     //
     //
-    // m_fft.transform(localOutput, output, FFT_SIZE, false, true);
+    // m_fft.transform(localOutput, output, FILTER_FFT_SIZE, false, true);
   }
 
   void multiplyByCoefficients(const ComplexSamplesFft& values, ComplexSamplesFft& result)
@@ -94,7 +94,7 @@ protected:
 
 private:
   kernel m_kernel;
-  Fft<ComplexSamplesFft> m_fft;
+  Fft<FILTER_FFT_SIZE> m_fft;
 };
 
 using BandPassFilter = Fir<BandPassFirKernel>;

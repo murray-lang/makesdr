@@ -60,6 +60,12 @@ PB_BIND(makesdr_FieldUpdatePayloadPb, makesdr_FieldUpdatePayloadPb, AUTO)
 PB_BIND(makesdr_IqPayloadPb, makesdr_IqPayloadPb, 4)
 
 
+PB_BIND(makesdr_FftPayloadPb, makesdr_FftPayloadPb, 2)
+
+
+PB_BIND(makesdr_RxMeteringPayloadPb, makesdr_RxMeteringPayloadPb, AUTO)
+
+
 
 
 

@@ -2,8 +2,8 @@
 
 #define DEFAULT_SAMPLE_RATE 48000
 
-IqTxPipeline::IqTxPipeline(const ModeList& modes)
-: IqPipeline(modes)
+IqTxPipeline::IqTxPipeline(PipelineId pipelineId, const ModeList& modes)
+  : IqPipeline(pipelineId, modes)
   , m_fmnModulator(*modes.findModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
   , m_fmwModulator(*modes.findModeByType(makesdr_ModeType_MODE_FMW),DEFAULT_SAMPLE_RATE)
   , m_ssbModulator(*modes.findModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)

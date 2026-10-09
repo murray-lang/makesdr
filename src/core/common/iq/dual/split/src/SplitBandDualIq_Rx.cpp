@@ -1,15 +1,23 @@
 #include "iq/split/SplitBandDualIq_Rx.h"
 
 
-SplitBandDualIq_Rx::SplitBandDualIq_Rx(ComplexPingPongBuffers& pingPongBuffers,const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
+SplitBandDualIq_Rx::SplitBandDualIq_Rx(
+  ComplexPingPongBuffers& pingPongBuffers,
+  const BandCategoryList& bands,
+  const ModeList& modes,
+  IRadioPublishers* radioPublishers
+  )
   : m_pingPongBuffers(pingPongBuffers)
-  , m_rxPipelineA(modes, iqPublisher)
-  , m_rxPipelineB(modes, iqPublisher)
+  , m_rxPipelineA(PipelineId::A, modes, radioPublishers)
+  , m_rxPipelineB(PipelineId::B, modes, radioPublishers)
   , m_pipelineBEnabled(false)
   , m_mixer(m_iqIo)
 {
   m_rxPipelineA.enableMonitoring(true);
+  m_rxPipelineA.enableMetering(true);
   m_rxPipelineB.enableMonitoring(false);
+  m_rxPipelineB.enableMetering(false);
+
 }
 
 SplitBandDualIq_Rx::~SplitBandDualIq_Rx()

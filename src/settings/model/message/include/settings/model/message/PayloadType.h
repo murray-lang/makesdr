@@ -21,5 +21,7 @@ enum PayloadType : uint16_t
   PAYLOAD_TYPE_CACHE_BASIC_IQ = makesdr_RadioPayloadType_PAYLOAD_CACHE_BASIC_IQ,
   PAYLOAD_TYPE_CACHE_DUAL_IQ = makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ,
   PAYLOAD_TYPE_CACHE_DUAL_IQ_RXTX = makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX,
-  PAYLOAD_TYPE_IQ = makesdr_RadioPayloadType_PAYLOAD_IQ
+  PAYLOAD_TYPE_IQ = makesdr_RadioPayloadType_PAYLOAD_IQ,
+  PAYLOAD_TYPE_RX_METERING = makesdr_RadioPayloadType_PAYLOAD_RX_METERING,
+  PAYLOAD_TYPE_FFT = makesdr_RadioPayloadType_PAYLOAD_FFT
 };

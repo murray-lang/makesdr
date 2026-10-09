@@ -134,7 +134,7 @@ void QtSMeter::setOrientation(Qt::Orientation o)
   update();
 }
 
-void QtSMeter::setReading(float rssiDbFs, std::optional<float> agcGainDb)
+void QtSMeter::setReading(float rssiDbFs, float agcGainDb)
 {
   if (!std::isfinite(rssiDbFs)) {
     return;
@@ -146,16 +146,16 @@ void QtSMeter::setReading(float rssiDbFs, std::optional<float> agcGainDb)
   update();
 }
 
-void QtSMeter::updateToolTip(float rssiDbFs, const std::optional<float>& agcGainDb)
+void QtSMeter::updateToolTip(float rssiDbFs, const float agcGainDb)
 {
   QString tip;
-  if (agcGainDb.has_value()) {
+  // if (agcGainDb != nullptr) {
     tip = QString("RSSI: %1 dBFS\nAGC: %2 dB")
             .arg(rssiDbFs, 0, 'f', 1)
-            .arg(*agcGainDb, 0, 'f', 1);
-  } else {
-    tip = QString("RSSI: %1 dBFS").arg(rssiDbFs, 0, 'f', 1);
-  }
+            .arg(agcGainDb, 0, 'f', 1);
+  // } else {
+  //   tip = QString("RSSI: %1 dBFS").arg(rssiDbFs, 0, 'f', 1);
+  // }
 
   if (tip != m_lastToolTip) {
     m_lastToolTip = tip;

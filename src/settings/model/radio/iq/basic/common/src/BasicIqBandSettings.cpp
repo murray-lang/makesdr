@@ -12,7 +12,7 @@ BasicIqBandSettings::BasicIqBandSettings(Proto& rawSettings)
 ResultCode
 BasicIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicIqBandSettingsCache* cache)
 {
-  ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+  ResultCode rcBand = autoCompleteBand(nullptr, bands, modes, cache, this);
   ResultCode rcPipeline = m_focusPipeline.autoComplete(modes);
   if (rcPipeline != ResultCode::OK) {
     return rcPipeline;
@@ -25,14 +25,14 @@ BasicIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList*
 
 ResultCode
 BasicIqBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands,
   const ModeList* modes,
   BasicIqBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }

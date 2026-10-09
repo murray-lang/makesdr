@@ -189,7 +189,7 @@ public:
       rc = m_traverser.updateField(settingUpdate);
     }
     if (rc == ResultCode::OK && settingUpdate.needsAutoComplete()) {
-      rc = autoComplete(settingUpdate.descriptor());
+      rc = autoComplete(settingUpdate);
     }
     return rc;
   }
@@ -224,16 +224,30 @@ public:
   [[nodiscard]] bool hasPtt() const override { return this->m_payload.body.has_ptt; }
   [[nodiscard]] bool ptt() const override { return this->m_payload.body.ptt; }
 
+  [[nodiscard]] int64_t getCentreFrequency() const
+  {
+    const typename ActiveBandSettings::BandSettings* bandSettings = m_activeBandSettings.focusBandSettings();
+    if (bandSettings != nullptr) {
+      const BandRfSettings* rfSettings = bandSettings->rfSettings();
+      if (rfSettings != nullptr) {
+        return rfSettings->frequency();
+      }
+    }
+
+    return 0;
+  }
+
+
   ResultCode autoComplete()
   {
     return m_activeBandSettings.autoComplete(m_bands, m_modes, m_cache);
   }
 
-  ResultCode autoComplete(const FieldDescriptor& setting)
+  ResultCode autoComplete(const FieldUpdate& update)
   {
-    const FieldPath& path = setting.getPath();
+    const FieldPath& path = update.path();
     if (path[0] == COMMON_ACTIVE_BANDS_TAG) {
-      return m_activeBandSettings.autoComplete(setting, 1, m_bands, m_modes, m_cache);
+      return m_activeBandSettings.autoComplete(update, 1, m_bands, m_modes, m_cache);
     }
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_NOT_IMPLEMENTED;
   }

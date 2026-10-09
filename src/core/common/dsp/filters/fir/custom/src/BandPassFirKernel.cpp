@@ -12,14 +12,14 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
   sdrreal signal = (hiCutRate - loCutRate) / 2.0f;
   sdrreal localOsc = K_2PI * (hiCutRate + loCutRate) / 2.0;
   int32_t centreIndex = static_cast<int32_t>(FIR_SIZE-1)/2;
-  int32_t outStartIndex = (static_cast<int32_t>(FFT_SIZE)/2) - centreIndex;
+  int32_t outStartIndex = (static_cast<int32_t>(FILTER_FFT_SIZE)/2) - centreIndex;
 
 
   ComplexSamplesFft complexSincPulse(
-      FFT_SIZE,
+      FILTER_FFT_SIZE,
       sdrcomplex(static_cast<sdrreal>(0.0), static_cast<sdrreal>(0.0))
   );
-  RealSamplesFft realSincPulse(FFT_SIZE, static_cast<sdrreal>(0.0));
+  RealSamplesFft realSincPulse(FILTER_FFT_SIZE, static_cast<sdrreal>(0.0));
 //  for (auto& item : m_complexSincPulse) {
 //    item = sdrcomplex(0.0f, 0.0f);
 //  }
@@ -59,12 +59,12 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
         z * static_cast<sdrreal>(sin(localOsc * x))
     );
   }
-  Fft<ComplexSamplesFft>fft(WindowType::NONE);
-  fft.transform(complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
+  Fft<FILTER_FFT_SIZE>fft(WindowType::NONE);
+  fft.transform(complexSincPulse.data(), m_complexCoefficients.data(), FILTER_FFT_SIZE, true, true);
   // static int times = 0;
   // times++;
   // if (times == 2) {
-  //   for (int i = 0; i < FFT_SIZE; i++) {
+  //   for (int i = 0; i < FILTER_FFT_SIZE; i++) {
   //     qDebug() << std::abs(m_complexCoefficients.at(i));
   //   }
   // }

@@ -10,6 +10,7 @@
 #include <settings/model/meta/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"
+#include "settings/model/radio/PipelineId.h"
 
 // #include <qcoreevent.h>
 
@@ -23,8 +24,10 @@ using PipelineStages = etl::vector<IqPipelineStage*, MAX_PIPELINE_STAGES>;
 class IqPipeline
 {
 public:
-  explicit IqPipeline(const ModeList& modes);
+  explicit IqPipeline(PipelineId pipelineId, const ModeList& modes);
   virtual ~IqPipeline() = default;
+
+  [[nodiscard]] PipelineId getPipelineId() const { return m_pipelineId; }
 
   virtual void initialise(IqIo* pIo, AudioSink* pAudioOutSink)
   {
@@ -76,6 +79,7 @@ protected:
   void setOscillatorMixerFrequency(const BandRfSettings* bandRfSettings, const PipelineRfSettings* rfSettings);
 
 protected:
+  PipelineId m_pipelineId;
   const ModeList& m_modes;
   // MeteringSource m_meteringSource;
   // MonitorSource m_monitorSource;

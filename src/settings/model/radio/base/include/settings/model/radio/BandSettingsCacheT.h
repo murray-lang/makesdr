@@ -85,29 +85,28 @@ public:
 
   bool hasBand(const char * bandName) const  { return findEntryIndex(bandName) != -1; }
 
-  ResultCode get(BandSettingsType* bandSettings)
+  ResultCode get(const char* bandName, BandSettingsType* bandSettings)
   {
     if (bandSettings->band_or_request.band.name[0] == '\0') {
       return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND_NAME;
     }
 
-    int32_t index = findEntryIndex(bandSettings->band_or_request.band.name);
+    int32_t index = findEntryIndex(bandName);
     if (index == -1) {
       return ResultCode::ERR_SETTING_BAND_SETTINGS_NOT_AVAILABLE;
     }
     *bandSettings = m_rawSettings.band_settings[index].value;
     return ResultCode::OK;
   }
-  ResultCode set(const BandSettingsType* bandSettings)
+  ResultCode set(const char* bandName, const BandSettingsType* bandSettings)
   {
-    if (bandSettings->which_band_or_request != makesdr_BasicBandSettingsPb_band_tag) {
+    // The full band information, not just the request, needs to be present for this entry
+    // to be deemed valid. Assume that if band_or_request.band.landing_frequency is present then the
+    // full band information is present.
+    if (bandSettings->band_or_request.band.landing_frequency == 0) {
       return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND;
     }
-    if (bandSettings->band_or_request.band.name[0] == '\0') {
-      return ResultCode::ERR_SETTING_BAND_SETTINGS_HAS_NO_BAND_NAME;
-    }
-
-    int32_t index = findEntryIndex(bandSettings->band_or_request.band.name);
+    int32_t index = findEntryIndex(bandName);
     if (index != -1) {
       updateRawEntry(index, *bandSettings);
     } else {
@@ -116,7 +115,7 @@ public:
         return ResultCode::ERR_SETTING_BAND_SETTINGS_CACHE_FULL;
       }
       pb_size_t newIndex = incrementRawCount() - 1;
-      setRawEntry(newIndex, bandSettings->band_or_request.band.name, *bandSettings);
+      setRawEntry(newIndex, bandName, *bandSettings);
 
       // Now point a new wrapper entry to it
       m_entries.emplace_back(m_rawSettings.band_settings[newIndex]);
@@ -139,6 +138,12 @@ protected:
   {
     memcpy(m_rawSettings.band_settings[index].key, bandName, MAX_NAME_LENGTH+1);
     m_rawSettings.band_settings[index].value = rawBandSettings;
+
+    // If the bandSettings->band_or_request.request differs from bandSettings->band_or_request.band.name
+    // then the former was likely set as part of a band change, to be followed up by an autocomplete.
+    // Make the request the same as the band name so that any difference doesn't
+    // trigger an autocomplete when this entry is restored, which would overwrite the correct band information.
+    memcpy(m_rawSettings.band_settings[index].value.band_or_request.band_request, bandName, MAX_NAME_LENGTH+1);
 
   }
 

@@ -42,6 +42,6 @@ LowPassFirKernel::configureComplex(int32_t freqHiCut, int32_t offset, uint32_t s
         z * static_cast<sdrreal>(sin(localOsc * x))
     );
   }
-  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
+  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FILTER_FFT_SIZE, true, true);
   return m_complexCoefficients;
 }

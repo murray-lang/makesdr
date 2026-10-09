@@ -14,7 +14,7 @@ public:
   }
   void initialise()
   {
-    m_complexCoefficients.assign(FFT_SIZE, sdrcomplex(0, 0));
+    m_complexCoefficients.assign(FILTER_FFT_SIZE, sdrcomplex(0, 0));
     calculateWindow();
   }
 

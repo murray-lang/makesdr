@@ -1,12 +1,17 @@
 #include "ui/qt/widgets/QtPanadapter.h"
 
+#include <QGraphicsLayout>
 #include <QValueAxis>
 #include <dsp/window/Window.h>
 
 #include <cmath>
 
+#include <dsp/transforms/power-spectrum/PowerSpectrumT.h>
+
 QtPanadapter::QtPanadapter(QWidget* parent, const char* viewName, const char* themeName)
   : QtChartBase(parent, viewName, themeName)
+  , m_floor(-120)
+  , m_ceiling(0)
   , m_fft(WindowType::HANNING)
   , m_verticalCursorLineA(new QGraphicsLineItem() )
   , m_filterPassbandRectA(nullptr)
@@ -43,7 +48,20 @@ QtPanadapter::initialise()
   QColor textColor(textColorStr);
   m_pChart->setTitleBrush(QBrush(textColor));
 
-  m_pChart->createDefaultAxes();
+  // Replace the default axes created by QtChartBase::applyTheme() so that the
+  // x-axis can sit above the plot (alignment can't be changed after adding).
+  for (auto* axis : m_pChart->axes()) {
+    m_pChart->removeAxis(axis);
+    delete axis;
+  }
+  auto* xAxis = new QValueAxis();
+  auto* yAxis = new QValueAxis();
+  m_pChart->addAxis(xAxis, Qt::AlignTop);    // labels above the plot
+  m_pChart->addAxis(yAxis, Qt::AlignLeft);
+  for (auto* series : m_pChart->series()) {
+    series->attachAxis(xAxis);
+    series->attachAxis(yAxis);
+  }
 
   for (auto* axis : m_pChart->axes()) {
     axis->setGridLinePen(gridPen);
@@ -57,14 +75,30 @@ QtPanadapter::initialise()
     xAxis->setRange(m_xMin, m_xMax);
     xAxis->setLabelFormat(QString("%i"));
   }
-  m_pChart->axes(Qt::Vertical).first()->setRange(-110, -50);
+  m_pChart->axes(Qt::Vertical).first()->setRange(m_floor, m_ceiling);
 
   m_pChart->legend()->hide();
+
+  // Run the plot area down to the bottom edge of the view so a waterfall
+  // placed directly below butts up against it (the x-axis is on top)
+  QMargins margins = m_pChart->margins();
+  margins.setBottom(0);
+  m_pChart->setMargins(margins);
+  if (m_pChart->layout() != nullptr) {
+    qreal left, top, right, bottom;
+    m_pChart->layout()->getContentsMargins(&left, &top, &right, &bottom);
+    m_pChart->layout()->setContentsMargins(left, top, right, 0);
+  }
+  m_pChart->setBackgroundRoundness(0);
+  if (m_pChartView) {
+    m_pChartView->setFrameShape(QFrame::NoFrame);
+  }
 
   // Recalculate cursor/overlay positions whenever the chart mapping changes
   if (m_pChartView) {
     QObject::connect(m_pChart, &QChart::plotAreaChanged, m_pChartView, [this](const QRectF&) {
       refreshOverlays();
+      emitPlotAreaMargins();
     });
 
     if (!m_pChart->axes(Qt::Horizontal).isEmpty()) {
@@ -129,6 +163,19 @@ QtPanadapter::refreshOverlays()
   if (m_cursorB.valid && m_cursorB.visible) {
     updateCursorPositionB(m_cursorB.frequency, m_cursorB.loCut, m_cursorB.hiCut);
   }
+}
+
+void
+QtPanadapter::emitPlotAreaMargins()
+{
+  // QChartView keeps its scene the size of the view with the chart at the
+  // origin, so scene coordinates are view pixels (as the overlays assume).
+  // Don't use mapFromScene(): before the first layout it applies a stale
+  // centring offset from when the scene was smaller than the viewport.
+  QRectF plotArea = m_pChart->mapToScene(m_pChart->plotArea()).boundingRect();
+  int left = qRound(plotArea.left());
+  int right = m_pChartView->width() - qRound(plotArea.right());
+  emit plotAreaMarginsChanged(left, right);
 }
 
 void
@@ -239,41 +286,39 @@ QtPanadapter::plot(const ComplexSamplesBuffer* timeSeriesData,
     int64_t centreFrequency,
     bool shuffle)
 {
-  if (centreFrequency != 14190000) {
-    bool pb = true;
-  }
   RealSamplesBuffer spectrum(length);
   powerSpectrum(*timeSeriesData, length, spectrum);
-  plot(&spectrum, sampleRate, centreFrequency, shuffle);
+  plot(spectrum.data(), length, sampleRate, centreFrequency, shuffle);
 }
 
 void
 QtPanadapter::plot(
-    const RealSamplesBuffer* spectrumData,
+    const sdrreal* spectrumData,
+    uint32_t length,
     uint32_t sampleRate,
     int64_t centreFrequency,
     bool shuffle
   )
 {
   qreal plotX = static_cast<qreal>(centreFrequency) - (static_cast<qreal>(sampleRate) / 2);
-  qreal binWidth = static_cast<qreal>(sampleRate) / static_cast<qreal>(spectrumData->size());
+  qreal binWidth = static_cast<qreal>(sampleRate) / static_cast<qreal>(length);
 
   QList<QPointF> spectrumPoints;
-  size_t fftSize = spectrumData->size();
+  size_t fftSize = length;
   if (shuffle)
   {
     for (size_t bin = fftSize/2; bin < fftSize; bin++) {
-      spectrumPoints.append(QPointF(plotX, spectrumData->at(bin)));
+      spectrumPoints.append(QPointF(plotX, spectrumData[bin]));
       plotX += binWidth;
     }
-    for (size_t bin = 0; bin < fftSize/2 -1; bin++) {
-      spectrumPoints.append(QPointF(plotX, spectrumData->at(bin)));
+    for (size_t bin = 0; bin < fftSize/2; bin++) {
+      spectrumPoints.append(QPointF(plotX, spectrumData[bin]));
       plotX += binWidth;
     }
   } else
   {
     for (size_t bin = 0; bin < fftSize; bin++) {
-      spectrumPoints.append(QPointF(plotX, spectrumData->at(bin)));
+      spectrumPoints.append(QPointF(plotX, spectrumData[bin]));
       plotX += binWidth;
     }
   }
@@ -281,17 +326,41 @@ QtPanadapter::plot(
 }
 
 void
+QtPanadapter::plot(const FftMessage* fftMsg, int64_t centreFrequency)
+{
+  float floor = fftMsg->floor();
+  float ceiling = fftMsg->ceiling();
+
+  if (m_floor != floor || m_ceiling != ceiling) {
+    m_pChart->axes(Qt::Vertical).first()->setRange(floor, ceiling);
+    m_floor = floor;
+    m_ceiling = ceiling;
+  }
+  uint32_t numBins = fftMsg->bins().size;
+  PowerSpectrumT<uint8_t, MONITOR_FFT_SIZE > powerSpectrum(floor, ceiling);
+  RealMonitorFft scaled;
+  powerSpectrum.rescale(fftMsg->bins().bytes, numBins, scaled.data());
+
+  plot(scaled.data(), numBins, fftMsg->sampleRate(), centreFrequency, false);
+}
+
+void
 QtPanadapter::powerSpectrum(const ComplexSamplesBuffer& timeSeries, uint32_t timeSeriesLength, RealSamplesBuffer& spectrumOut)
 {
   ComplexSamplesBuffer fftOut(timeSeriesLength);
-  m_fft.transform(timeSeries, fftOut, timeSeriesLength, true, false);
+  m_fft.transform(timeSeries.data(), fftOut.data(), timeSeriesLength, true, false);
 
   spectrumOut.resize(timeSeriesLength);
 
-  auto rbw = static_cast<float>(timeSeriesLength);
-  auto normalization = static_cast<float>(timeSeriesLength);
+  // A tone of amplitude A gives |X| = A * sum(w), so normalising by sum(w)^2
+  // makes a full-scale tone read 0 dBFS whatever the window. Must match m_fft's window.
+  float windowSum = 0.0f;
+  for (uint32_t i = 0; i < timeSeriesLength; i++) {
+    windowSum += window_hanning(i, timeSeriesLength);
+  }
+  const float normalisation = windowSum * windowSum;
   for (uint32_t i = 0; i < timeSeriesLength; i++) {
     float mag_sq = std::norm(fftOut.at(i));
-    spectrumOut.at(i) = 10.0f * std::log10(mag_sq / (rbw * normalization));
+    spectrumOut.at(i) = 10.0f * std::log10(mag_sq / normalisation);
   }
 }

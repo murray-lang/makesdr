@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 4.1)
 
 project(core-common-dsp-transforms-fft-pocket)
 
-set(TRANSFORM_SOURCES
+set(POCKET_FFT_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/dsp/transforms/fft/Fft.h
         ${CMAKE_CURRENT_LIST_DIR}/include/dsp/transforms/fft/pocketfft_hdronly.h
 )
 
-add_library(core-common-dsp-transforms-fft-pocket INTERFACE ${TRANSFORM_SOURCES})
+add_library(core-common-dsp-transforms-fft-pocket INTERFACE ${POCKET_FFT_SOURCES})
 
 target_include_directories(core-common-dsp-transforms-fft-pocket INTERFACE
         ${INCLUDE_DIR}

@@ -37,6 +37,8 @@ public:
     stop();
   }
 
+  IRadioPublishers* getRadioPublishers() { return &m_transport; }
+
   void connectRadioSettingsSink(MessageSinkT<RadioSettingsT>* settingsSink)
   {
     m_transport.connectRadioSettingsSink(settingsSink);
@@ -65,11 +67,14 @@ public:
   }
 
   IqPublisher* getIqPublisher() { return m_transport.getIqPublisher(); }
+  RxMeteringPublisher* getRxMeteringPublisher() { return m_transport.getRxMeteringPublisher(); }
 
   ResultCode send(RadioSettingsT* settings)  { return m_transport.send(settings); }
   ResultCode send(IqMessage* iq)             { return m_transport.send(iq); }
   ResultCode send(ModeList* modes)           { return m_transport.send(modes); }
   ResultCode send(BandCategoryList* bands)   { return m_transport.send(bands); }
+  ResultCode send(RxMeteringMessage* metering) { return m_transport.send(metering); }
+  ResultCode send(FftMessage* fft)           { return m_transport.send(fft); }
 
 private:
   using Transport = RadioTransportT<QtRadioMessageExchange>;

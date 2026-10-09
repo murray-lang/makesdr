@@ -22,6 +22,7 @@ set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-stage-resample
         core-common-iq-pipeline-stage-monitor
         core-common-iq-pipeline-stage-agc
+        core-common-iq-pipeline-stage-s-meter
         core-common-transport-radio
 )
 

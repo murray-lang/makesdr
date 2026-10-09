@@ -17,7 +17,7 @@
 class IqTxPipeline : public IqPipeline
 {
 public:
-  IqTxPipeline(const ModeList& modes);
+  IqTxPipeline(PipelineId pipelineId,const ModeList& modes);
   ~IqTxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;

@@ -102,7 +102,7 @@ DualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, uint32
 ResultCode
 DualIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, DualIqBandSettingsCache* cache)
 {
-    ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+    ResultCode rcBand = autoCompleteBand(nullptr, bands, modes, cache, this);
     ResultCode rcPipelineA = m_pipeline_a.autoComplete(modes);
     if (rcPipelineA == ResultCode::OK) {
       m_rawSettings.has_pipeline_a = true;
@@ -126,14 +126,14 @@ DualIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* 
 
 ResultCode
 DualIqBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands,
   const ModeList* modes,
   DualIqBandSettingsCache* cache
   )
 {
-    const FieldPath& path = setting.getPath();
+    const FieldPath& path = setting.path();
     if (startIndex >= path.size()) {
       return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
     }

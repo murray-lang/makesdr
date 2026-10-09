@@ -23,14 +23,14 @@ BasicIqActiveBandSettings::autoComplete(const BandCategoryList* bands, const Mod
 
 ResultCode
 BasicIqActiveBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands,
   const ModeList* modes,
   BasicIqBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }

@@ -69,7 +69,7 @@ extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_freq
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_iq_corrections_phase_fine_delta;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_iq_corrections_phase_use_fine;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_mute;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_agc_speed;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_agc_speed;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a_base;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a_base_mode_request;

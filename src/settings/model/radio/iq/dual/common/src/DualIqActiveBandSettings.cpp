@@ -38,13 +38,13 @@ DualIqActiveBandSettings::autoComplete(const BandCategoryList* bands, const Mode
 
 ResultCode
 DualIqActiveBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands, const ModeList* modes,
   DualIqBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }

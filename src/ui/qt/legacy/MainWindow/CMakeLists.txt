@@ -31,6 +31,7 @@ target_link_libraries(ui-qt-main-window PUBLIC
         Qt6::Widgets
         settings-model-radio-iq-dual-split
         ui-qt-widgets-band-dialog
+        ui-qt-widgets-numeric-keypad
         ui-qt-widgets-stepper
         ui-qt-faces-factory
         ui-qt-faces-standard
