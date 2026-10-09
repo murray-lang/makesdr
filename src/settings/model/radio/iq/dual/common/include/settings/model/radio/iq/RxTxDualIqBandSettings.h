@@ -15,6 +15,7 @@
 class RxTxDualIqBandSettings
   : public WithBandT<
       makesdr_RxTxDualIqBandSettingsPb,
+      &makesdr_RxTxDualIqBandSettingsPb_msg,
       makesdr_RxTxDualIqBandSettingsPb_band_request_tag,
       makesdr_RxTxDualIqBandSettingsPb_band_tag,
       RxTxDualIqBandSettingsCache
@@ -78,7 +79,7 @@ public:
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, RxTxDualIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

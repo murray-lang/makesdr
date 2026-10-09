@@ -5,7 +5,8 @@
 #include <iq/pipeline/IqRxPipeline.h>
 #include <audio/mixer/AudioMixer.h>
 
-#include "settings/model/radio/iq/RxTxDualIqBandSettings.h"
+#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <transport/radio/IRadioPublishers.h>
 
 
 class SplitBandDualIq_Rx : public IqSink
@@ -15,7 +16,7 @@ public:
     ComplexPingPongBuffers& pingPongBuffers,
     const BandCategoryList& bands,
     const ModeList& modes,
-    IqPublisher* iqPublisher
+    IRadioPublishers* radioPublishers
     );
   ~SplitBandDualIq_Rx() override;
 

@@ -7,6 +7,7 @@
 #include <iq/filter/FilterStage.h>
 #include <iq/monitor/MonitorStage.h>
 #include <iq/agc/AgcStage.h>
+#include <iq/s-meter/SMeterStage.h>
 
 
 #include <iq/modulation/Demodulator.h>
@@ -19,12 +20,15 @@
 // #include <event/sample/RxIqEvent.h>
 #include <settings/model/radio/iq/RxPipelineSettings.h>
 #include <transport/radio/IqPublisher.h>
+#include <transport/radio/RxMeteringPublisher.h>
+
+#include <transport/radio/IRadioPublishers.h>
 
 
 class IqRxPipeline : public IqPipeline
 {
 public:
-  IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher);
+  IqRxPipeline(PipelineId pipelineId, const ModeList& modes, IRadioPublishers* radioPublishers);
   ~IqRxPipeline() override = default;
 
   void initialise(IqIo* pIo, AudioSink* pAudioSink) override;
@@ -42,6 +46,8 @@ public:
   void setMode(const Mode& mode) override;
 
   void enableMonitoring(bool enable) { m_monitorStage.enable(enable); }
+  void setMonitorAverageBuffers(uint32_t buffers) { m_monitorStage.setAverageBuffers(buffers); }
+  void enableMetering(bool enable) { m_sMeterStage.enable(enable); }
 
 protected:
   void setDemodulator(const Mode& mode);
@@ -51,6 +57,7 @@ private:
   // DcShift m_dcShift;
 
   IqPublisher* m_iqPublisher;
+  FftPublisher* m_fftPublisher;
   IqCorrection m_iqCorrection;
   Resampler m_resampler;
   FilterStage m_ifFilter;
@@ -63,6 +70,8 @@ private:
   Demodulator* m_pDemodulator;
   MonitorStage m_monitorStage;
   AgcStage m_agcStage;
+  SMeterStage m_sMeterStage;
 
   RealSamplesBuffer m_audioBuffer;
+  bool m_mute;
 };

@@ -15,6 +15,7 @@
 class DualIqBandSettings
   : public WithBandT<
     makesdr_DualIqBandSettingsPb,
+    &makesdr_DualIqBandSettingsPb_msg,
     makesdr_DualIqBandSettingsPb_band_request_tag,
     makesdr_DualIqBandSettingsPb_band_tag,
     DualIqBandSettingsCache
@@ -67,7 +68,7 @@ public:
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, DualIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

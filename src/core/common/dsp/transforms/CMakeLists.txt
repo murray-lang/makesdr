@@ -4,3 +4,4 @@ project(core-common-dsp-transforms)
 
 add_subdirectory(fft)
 add_subdirectory(hilbert)
+add_subdirectory(power-spectrum)

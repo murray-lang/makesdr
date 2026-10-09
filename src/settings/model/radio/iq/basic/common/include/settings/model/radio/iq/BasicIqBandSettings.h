@@ -14,6 +14,7 @@ class BasicIqBandSettings
   : public IBandSettings
   , public WithBandT<
     makesdr_BasicIqBandSettingsPb,
+    &makesdr_BasicIqBandSettingsPb_msg,
     makesdr_BasicIqBandSettingsPb_band_request_tag,
     makesdr_BasicIqBandSettingsPb_band_tag,
     BasicIqBandSettingsCache
@@ -47,7 +48,7 @@ public:
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

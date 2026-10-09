@@ -203,7 +203,7 @@ bool QtVfoReadout::event(QEvent* e)
         if (isInteractiveChildAt(pos)) {
           return QWidget::event(e);
         }
-        m_radioControl->setFocusPipeline(m_splitBandId, m_id);
+        m_radioControl->setFocusPipeline(m_splitBandId, m_id, true);
         e->accept();
         return true;
       }
@@ -311,7 +311,7 @@ void QtVfoReadout::mousePressEvent(QMouseEvent* e)
       QWidget::mousePressEvent(e);
       return;
     }
-    m_radioControl->setFocusPipeline(m_splitBandId, m_id);
+    m_radioControl->setFocusPipeline(m_splitBandId, m_id, true);
     e->accept();
     return;
   }

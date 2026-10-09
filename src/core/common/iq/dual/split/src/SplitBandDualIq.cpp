@@ -1,8 +1,12 @@
 #include "iq/split/SplitBandDualIq.h"
 
-SplitBandDualIq::SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher)
+SplitBandDualIq::SplitBandDualIq(
+  const BandCategoryList& bands,
+  const ModeList& modes,
+  IRadioPublishers* radioPublishers
+  )
   : IqRxTxBaseT()
-  , m_rx(m_pingPongBuffers, bands, modes, iqPublisher)
+  , m_rx(m_pingPongBuffers, bands, modes, radioPublishers)
   , m_tx(m_pingPongBuffers, modes)
 {
 

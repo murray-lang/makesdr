@@ -4,6 +4,7 @@
 // #include "settings/model/core/MessageTagLookup.h"
 
 #include "pb_common.h"
+#include <cmath>
 #include <cstring>
 
 ResultCode
@@ -96,21 +97,25 @@ MessageTraverser::updateField(pb_field_iter_t* iter, const FieldUpdateVariant &v
 void
 MessageTraverser::pb_calc_steppable_float(float oldValue, float delta, float coarseStep, float fineStep, bool useFine, float* newValue)
 {
-  if (useFine) {
-    *newValue = oldValue + delta*fineStep;
-  } else {
-    *newValue = oldValue + delta*coarseStep;
+  float step = useFine ? fineStep : coarseStep;
+  float value = oldValue + delta*step;
+  // Snap to a multiple of the step size
+  if (step != 0.0f) {
+    value = std::floor(value / step) * step;
   }
+  *newValue = value;
 }
 
 void
 MessageTraverser::pb_calc_steppable_int64(int64_t oldValue, int64_t delta, int64_t coarseStep, int64_t fineStep, int64_t useFine, int64_t* newValue)
 {
-  if (useFine) {
-    *newValue = oldValue + delta*fineStep;
-  } else {
-    *newValue = oldValue + delta*coarseStep;
+  int64_t step = useFine ? fineStep : coarseStep;
+  int64_t value = oldValue + delta*step;
+  // Snap to a multiple of the step size
+  if (step != 0) {
+    value -= value % step;
   }
+  *newValue = value;
 }
 
 ResultCode

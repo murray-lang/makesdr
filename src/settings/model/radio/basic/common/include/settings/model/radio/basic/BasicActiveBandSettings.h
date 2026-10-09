@@ -33,7 +33,7 @@ public:
     );
 
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

@@ -28,7 +28,7 @@ public:
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, RxTxDualIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

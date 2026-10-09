@@ -13,9 +13,22 @@
 #include <QToolButton>
 #include <ui/qt/widgets/QtBandDialog.h>
 #include <ui/qt/faces/FaceFactory.h>
+#include <ui/qt/widgets/QtNumericKeypad.h>
 
-// #define FFT_SIZE 2048
-// #define SAMPLE_RATE 192000
+struct AgcInfo
+{
+  AgcSpeed agcSpeed{};
+  std::string label{};
+};
+
+static std::vector<AgcInfo> agcInfo = {
+  { AgcSpeed::OFF, "Off" },
+  { AgcSpeed::SLOW, "Slow" },
+  { AgcSpeed::MEDIUM, "Medium" },
+  { AgcSpeed::FAST, "Fast" }
+};
+
+Q_DECLARE_METATYPE(AgcInfo);
 
 constexpr const char * toolbarPopupPropertyName = "isToolbarPopup";
 
@@ -32,6 +45,8 @@ MainWindow::MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent)
   , m_modeButton(nullptr)
   , m_modeMenu(nullptr)
   , m_bandButton(nullptr)
+  , m_agcButton(nullptr)
+  , m_agcMenu(nullptr)
 {
   // Initialize Qt resources from icons.qrc
   Q_INIT_RESOURCE(icons);
@@ -42,7 +57,8 @@ MainWindow::MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent)
   // connect(&m_radioClient, &QtRadioClient::settingUpdateReceived, this, &MainWindow::handleFieldUpdate);
   // connect(&m_radioClient, &QtRadioClient::receiverAudioReceived, this, &MainWindow::handleReceiverAudio);
   connect(&m_radioClient, &QtRadioClient::receiverIqReceived, this, &MainWindow::handleReceiverIq);
-  // connect(&m_radioClient, &QtRadioClient::meteringReceived, this, &MainWindow::handleReceiverMeter);
+  connect(&m_radioClient, &QtRadioClient::rxMeteringReceived, this, &MainWindow::handleRxMetering);
+  connect(&m_radioClient, &QtRadioClient::fftReceived, this, &MainWindow::handleMonitorFft);
   // connect(&m_radioClient, &QtRadioClient::transmitterAudioReceived, this, &MainWindow::handleTransmitterAudio);
   // connect(&m_radioClient, &QtRadioClient::transmitterIqReceived, this, &MainWindow::handleTransmitterIq);
 
@@ -106,13 +122,22 @@ MainWindow::handleReceiverIq(const IqMessage* iq)
 //   }
 // }
 //
-// void
-// MainWindow::handleReceiverMeter(const IqReceiverMetering& metering)
-// {
-//   if (m_pFace) {
-//     m_pFace->handleReceiverMeter(metering);
-//   }
-// }
+void
+MainWindow::handleRxMetering(const RxMeteringMessage* metering)
+{
+  if (m_pFace) {
+    m_pFace->handleRxMetering(metering);
+  }
+}
+
+void
+MainWindow::handleMonitorFft(const FftMessage* fftMsg)
+{
+  if (m_pFace != nullptr && fftMsg != nullptr) {
+    const RadioSettings* settings = m_radioClient.getSettings();
+    m_pFace->handleMonitorFft(settings, fftMsg);
+  }
+}
 //
 // void
 // MainWindow::handleTransmitterIq(
@@ -163,6 +188,7 @@ MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t 
           if (rxPipelineSettings != nullptr) {
             const Mode* mode = &rxPipelineSettings->base().mode();
             updateModeButton(mode);
+            updateAgcButton(rxPipelineSettings->agcSpeed());
           }
         }
       }
@@ -237,9 +263,29 @@ MainWindow::on_actionBand_triggered()
 }
 
 void
+MainWindow::on_actionKeypad_triggered()
+{
+  QtNumericKeypad keypad("Centre Frequency", 200000, 6000000000, this);
+  keypad.setAutoFillBackground(true);
+  keypad.setProperty("class", "keypad");
+
+  int64_t centreFrequency = m_radioClient.getSettings()->getCentreFrequency();
+
+  // Optional: Pass the existing value from your main window target field
+  keypad.setInitialValue(centreFrequency);
+
+  // exec() opens it as a modal pop-up and waits until the user clicks OK or Cancel
+  if (keypad.exec() == QDialog::Accepted) {
+    // Retrieve the final typed string and assign it back
+    // ui->targetLineEdit->setText(keypad.getValue());
+  }
+}
+
+void
 MainWindow::handleMainStep(int step)
 {
-  m_radioClient.stepFocusPipelineFrequency(step);
+  m_radioClient.stepFocusPipelineFrequency(step, true);
+  // m_radioClient.stepCentreFrequency(step, true);
 }
 
 void
@@ -309,6 +355,7 @@ void MainWindow::initializeWindow()
 
   addConfigButton();
   addBandButton();
+  addKeypadButton();
 
   QWidget* spacer1 = new QWidget();
   spacer1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -320,6 +367,7 @@ void MainWindow::initializeWindow()
   spacer2->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   ui->toolBar->addWidget(spacer2);
 
+  addAgcButton();
   addModeButton();
   addLevelsButton();
 }
@@ -346,6 +394,83 @@ MainWindow::setFaceByName(const Config::Ui::FaceString& faceName)
 }
 
 void
+MainWindow::addAgcButton()
+{
+  m_agcButton = new QToolButton();
+  m_agcButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  m_agcButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+  // Force the button to draw its background based on the current palette
+  m_agcButton->setAutoFillBackground(true);
+  m_agcButton->setProperty("class", "toolbarButton toolbarAgcButton");
+  m_agcMenu = createAgcMenu();
+  m_agcMenu->setProperty("class", "toolbarMenu agc");
+  // m_modeButton->setMenu(newModeMenu);
+
+  connect(m_agcButton, &QToolButton::pressed, this, [this]() {
+    // QMenu* modeMenu = m_modeButton->menu();
+    // Calculate the top-left position of the button in global screen coordinates
+    QPoint pos = m_agcButton->mapToGlobal(QPoint(0, 0));
+
+    // Move the point up by the height of the menu
+    // hint: sizeHint() is usually accurate for menus before they are shown
+    pos.setY(pos.y() - m_agcMenu->sizeHint().height());
+
+    m_agcMenu->exec(pos);
+  });
+  ui->toolBar->addWidget(m_agcButton);
+}
+
+QMenu*
+MainWindow::createAgcMenu()
+{
+  auto agcMenu = new QMenu(this);
+
+  auto* actionGroup = new QActionGroup(this);
+  actionGroup->setExclusive(true); // Only one can be checked at a time
+
+  for (const auto& agc : agcInfo) {
+    // Mode::Type modeType = static_cast<Mode::Type>(mode.type);
+    QAction* action = agcMenu->addAction(agc.label.data(), this, [this, agc]()
+    {
+
+      RadioSettingsUpdater* updater = m_radioClient.getUpdater();
+      if (updater != nullptr) {
+        // QTimer::singleShot(100, this, [updater, mode]() {
+          updater->setFocusAgc(agc.agcSpeed, true);
+        // });
+      }
+    });
+    action->setCheckable(true);
+    action->setActionGroup(actionGroup);
+    action->setData(QVariant::fromValue(agc));
+
+    // Highlight the currently active mode
+    // if (selectedMode != nullptr && mode.type() == selectedMode->type()) {
+    //   action->setChecked(true);
+    // }
+  }
+  return agcMenu;
+}
+
+void
+MainWindow::updateAgcButton(AgcSpeed agcSpeed)
+{
+  if (m_agcMenu != nullptr) {
+    for (QAction *action : m_agcMenu->actions()) {
+      QVariant data = action->data();
+      if (data.canConvert<AgcInfo>()) {
+        auto agc = data.value<AgcInfo>();
+        bool checked = m_agcMenu != nullptr && agc.agcSpeed == agcSpeed;
+        action->setChecked(checked);
+        if (checked) {
+          m_agcButton->setText(QString::fromStdString(agc.label));
+        }
+      }
+    }
+  }
+}
+
+void
 MainWindow::addModeButton()
 {
   m_modeButton = new QToolButton();
@@ -353,7 +478,7 @@ MainWindow::addModeButton()
   m_modeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   // Force the button to draw its background based on the current palette
   m_modeButton->setAutoFillBackground(true);
-  m_modeButton->setProperty("class", "toolbarButton toolbarButtonC");
+  m_modeButton->setProperty("class", "toolbarButton toolbarModeButton");
   updateModeButton(nullptr);
   ui->toolBar->addWidget(m_modeButton);
 }
@@ -396,7 +521,7 @@ MainWindow::createModeMenu(const ModeList* modes)
       RadioSettingsUpdater* updater = m_radioClient.getUpdater();
       if (updater != nullptr) {
         // QTimer::singleShot(100, this, [updater, mode]() {
-          updater->setFocusMode(mode.type());
+          updater->setFocusMode(mode.type(), true);
         // });
       }
     });
@@ -443,7 +568,7 @@ MainWindow::bandUpdateCallback(const char * bandName)
 {
   RadioSettingsUpdater* shortcuts = m_radioClient.getUpdater();
   if (shortcuts != nullptr) {
-    shortcuts->selectBand(bandName);
+    shortcuts->selectBand(bandName, true);
   }
 }
 
@@ -466,7 +591,7 @@ MainWindow::addLevelsButton()
   levelsBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   // Force the button to draw its background based on the current palette
   levelsBtn->setAutoFillBackground(true);
-  levelsBtn->setProperty("class", "toolbarButton toolbarButtonD");
+  levelsBtn->setProperty("class", "toolbarButton toolbarLevelsButton");
   ui->toolBar->addWidget(levelsBtn);
 }
 
@@ -477,10 +602,11 @@ MainWindow::addConfigButton()
   // configBtn->setDefaultAction(ui->actionConfigure);
   // tabsBtn->setFixedWidth(100);
   configBtn->setIcon(QIcon(":ui//icons/solid/gear.svg"));
+  configBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
   configBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   // Force the button to draw its background based on the current palette
   configBtn->setAutoFillBackground(true);
-  configBtn->setProperty("class", "toolbarButton toolbarButtonA");
+  configBtn->setProperty("class", "toolbarButton toolbarConfigButton");
   ui->toolBar->addWidget(configBtn);
 }
 
@@ -491,9 +617,24 @@ MainWindow::addBandButton()
   m_bandButton->setDefaultAction(ui->actionBand);
   m_bandButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   m_bandButton->setAutoFillBackground(true);
-  m_bandButton->setProperty("class", "toolbarButton toolbarButtonB");
+  m_bandButton->setProperty("class", "toolbarButton toolbarBandButton");
   ui->toolBar->addWidget(m_bandButton);
 }
+
+void
+MainWindow::addKeypadButton()
+{
+  auto* keypadBtn = new QToolButton();
+  keypadBtn->setDefaultAction(ui->actionKeypad);
+  keypadBtn->setIcon(QIcon(":ui//icons/solid/keyboard-regular-full.svg"));
+  keypadBtn->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  keypadBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+  // Force the button to draw its background based on the current palette
+  keypadBtn->setAutoFillBackground(true);
+  keypadBtn->setProperty("class", "toolbarButton toolbarKeypadButton");
+  ui->toolBar->addWidget(keypadBtn);
+}
+
 
 void
 MainWindow::addStepper()

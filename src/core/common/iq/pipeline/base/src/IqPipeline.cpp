@@ -3,8 +3,9 @@
 
 class ModeSettings;
 
-IqPipeline::IqPipeline(const ModeList& modes)
-  : m_modes(modes)
+IqPipeline::IqPipeline(PipelineId pipelineId, const ModeList& modes)
+  : m_pipelineId(pipelineId)
+  , m_modes(modes)
   , m_mode{}
   , m_inputSampleRate(0)
   , m_outputSampleRate(0)

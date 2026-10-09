@@ -34,7 +34,7 @@ BandStopFirKernel::configureComplex(int32_t freqLoPass, int32_t freqHiPass, int3
         z * sin(localOsc * x)
     );
   }
-  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FFT_SIZE, true, true);
+  m_fft.transform(m_complexSincPulse, m_complexCoefficients, FILTER_FFT_SIZE, true, true);
   clampCoefficientsToZero(m_complexCoefficients);
   return m_complexCoefficients;
 }
@@ -42,7 +42,7 @@ BandStopFirKernel::configureComplex(int32_t freqLoPass, int32_t freqHiPass, int3
 void
 BandStopFirKernel::clampCoefficientsToZero(ComplexSamplesFft& coefficients)
 {
-  sdrreal shift = static_cast<sdrreal>(1.0)/static_cast<sdrreal>(FFT_SIZE);
+  sdrreal shift = static_cast<sdrreal>(1.0)/static_cast<sdrreal>(FILTER_FFT_SIZE);
   for (auto& item : coefficients) {
     sdrreal mag = std::hypot(item.real(), item.imag());
     double phase = std::arg(item);

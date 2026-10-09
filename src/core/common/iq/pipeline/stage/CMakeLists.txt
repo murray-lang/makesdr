@@ -10,4 +10,5 @@ add_subdirectory(modulation)
 add_subdirectory(monitor)
 add_subdirectory(oscillator)
 add_subdirectory(resample)
+add_subdirectory(s-meter)
 

@@ -14,6 +14,8 @@ public:
   signals:
     void radioSettingsReceived(const RadioSettings* settings);
     void receiverIqReceived(const IqMessage* iq);
+    void rxMeteringReceived(const RxMeteringMessage* rxMetering);
+    void fftReceived(const FftMessage* fft);
 
 protected:
   void emitRadioSettingsReceived(const RadioSettings* settings) override
@@ -24,5 +26,15 @@ protected:
   void emitReceiverIqReceived(const IqMessage* iq) override
   {
     emit receiverIqReceived(iq);
+  }
+
+  void emitRxMeteringReceived(const RxMeteringMessage* rxMetering) override
+  {
+    emit rxMeteringReceived(rxMetering);
+  }
+
+  void emitFftReceived(const FftMessage* fft) override
+  {
+    emit fftReceived(fft);
   }
 };

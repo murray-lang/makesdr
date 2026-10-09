@@ -7,7 +7,7 @@
 // #include "../factory/RegisterFace.h"
 #include <ui/qt/widgets/QtChartTheme.h>
 #include <ui/qt/widgets/QtPanadapter.h>
-#include <ui/qt/widgets/QtTimeSeriesChart.h>
+#include <ui/qt/widgets/QtWaterfall.h>
 #include <ui/qt/widgets/QtFrequencyPanel.h>
 #include <ui/qt/widgets/QtSMeter.h>
 #include <ui/qt/faces/RegisterFace.h>
@@ -19,8 +19,8 @@ StandardFace::StandardFace(QWidget* parent)
   : FaceBase(parent)
   , ui(std::make_unique<Ui::StandardFace>())
   , m_pRadioSettingsUpdater(nullptr)
-  , m_pTimeSeriesChart(nullptr)
   , m_pPanadapter(nullptr)
+  , m_pWaterfall(nullptr)
   , m_reportedIqSampleRate(0)
   , m_pSmeter(nullptr)
   , m_rssiMinDbFs(-114.0f)
@@ -35,7 +35,6 @@ StandardFace::StandardFace(QWidget* parent)
 StandardFace::~StandardFace()
 {
   delete m_pPanadapter;
-  delete m_pTimeSeriesChart;
 }
 
 void
@@ -53,8 +52,18 @@ StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpda
 
   connect(m_pPanadapter, &QtPanadapter::frequencySelected, this, &StandardFace::frequencySelected);
 
-  m_pTimeSeriesChart = new QtTimeSeriesChart(this, "timeseriesView", "chartTheme");
-  m_pTimeSeriesChart->initialise();
+  if (ui->waterfallSlot != nullptr) {
+    auto* l = new QVBoxLayout(ui->waterfallSlot);
+    l->setContentsMargins(0, 0, 0, 0);
+    l->setSpacing(0);
+    m_pWaterfall = new QtWaterfall(ui->waterfallSlot);
+    m_pWaterfall->setObjectName("waterfall");
+    m_pWaterfall->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    l->addWidget(m_pWaterfall);
+
+    connect(m_pWaterfall, &QtWaterfall::frequencySelected, this, &StandardFace::frequencySelected);
+    connect(m_pPanadapter, &QtPanadapter::plotAreaMarginsChanged, m_pWaterfall, &QtWaterfall::setPlotMargins);
+  }
 
   if (ui->sMeterSlot != nullptr && m_pSmeter == nullptr) {
 
@@ -93,18 +102,18 @@ StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpda
   }
 }
 
-// void StandardFace::handleReceiverMeter(const IqReceiverMetering& metering)
-// {
-//   if (m_pSmeter) {
-//     m_pSmeter->setReading(metering.rssiDbFs, metering.agcGainDb);
-//   }
-// }
+void StandardFace::handleRxMetering(const RxMeteringMessage* metering)
+{
+  if (m_pSmeter && metering) {
+    m_pSmeter->setReading(metering->rssiDbFs(), metering->agcGainDb());
+  }
+}
 
 void
 StandardFace::frequencySelected(uint64_t frequency)
 {
   if (m_pRadioSettingsUpdater != nullptr) {
-    m_pRadioSettingsUpdater->setFocusPipelineFrequency(frequency);
+    m_pRadioSettingsUpdater->setFocusPipelineFrequency(frequency, true);
   }
 }
 
@@ -180,7 +189,44 @@ StandardFace::handleReceiverIq(
       uint32_t xMin = centreFrequency - (sampleRate / 2);
       uint32_t xMax = centreFrequency + (sampleRate / 2);
       m_pPanadapter->setSeriesXMinMax(xMin, xMax);
-      m_pPanadapter->plot(data, length, sampleRate, centreFrequency, true);
+
+      // One FFT, streamed to every spectrum view
+      RealSamplesBuffer spectrum(length);
+      m_pPanadapter->powerSpectrum(*data, length, spectrum);
+      m_pPanadapter->plot(spectrum.data(), length, sampleRate, centreFrequency, true);
+      if (m_pWaterfall != nullptr) {
+        m_pWaterfall->addSpectrum(&spectrum, sampleRate, centreFrequency, true);
+      }
+    }
+  }
+}
+
+void
+StandardFace::handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg)
+{
+  if (pRadioSettings == nullptr || fftMsg == nullptr) return;
+
+  const makesdr_FftPb_bins_t& bins = fftMsg->bins();
+  m_reportedIqSampleRate = fftMsg->sampleRate();
+  const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
+  if (!activeBandSettings->hasFocusBand()) {
+    return;
+  }
+  const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
+  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+    if (rfSettings->hasFrequency()) {
+      int64_t centreFrequency = rfSettings->frequency();
+      uint32_t xMin = centreFrequency - (m_reportedIqSampleRate / 2);
+      uint32_t xMax = centreFrequency + (m_reportedIqSampleRate / 2);
+      m_pPanadapter->setSeriesXMinMax(xMin, xMax);
+
+      // One FFT, streamed to every spectrum view
+      m_pPanadapter->plot(fftMsg, centreFrequency);
+      if (m_pWaterfall != nullptr) {
+        m_pWaterfall->addSpectrum(fftMsg, centreFrequency);
+        // m_pWaterfall->addSpectrum(bins.bytes, bins.size, m_reportedIqSampleRate, centreFrequency, true);
+      }
     }
   }
 }

@@ -227,7 +227,7 @@ makesdr_SplitBandDualIqRxTxSettingsPb testRadioSettingsPb = {
         .agc_speed = makesdr_AgcSpeed_AGC_FAST
       },
       .has_is_multi_pipeline = true,
-      .is_multi_pipeline =  true,
+      .is_multi_pipeline =  false,
       .has_focus_pipeline_id = true,
       .focus_pipeline_id =  makesdr_PipelineId_PIPELINE_A,
       .has_tx_pipeline = true,

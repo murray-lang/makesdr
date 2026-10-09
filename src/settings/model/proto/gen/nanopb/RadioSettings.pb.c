@@ -141,6 +141,12 @@ PB_BIND(makesdr_FieldUpdatePb, makesdr_FieldUpdatePb, AUTO)
 PB_BIND(makesdr_IqPb, makesdr_IqPb, 4)
 
 
+PB_BIND(makesdr_FftPb, makesdr_FftPb, 2)
+
+
+PB_BIND(makesdr_RxMeteringPb, makesdr_RxMeteringPb, AUTO)
+
+
 
 
 

@@ -6,6 +6,7 @@ set(MODEL_BASIC_IQ_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/BasicIqActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/BasicIqBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/BasicIqBandSettingsCache.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/FftMessage.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/IqCorrectionSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/IqMessage.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/PipelineSettings.h
@@ -16,6 +17,7 @@ set(MODEL_BASIC_IQ_FILES
 
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicIqActiveBandSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicIqBandSettings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/FftMessage.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/IqMessage.cpp
 )
 

@@ -29,7 +29,7 @@ public:
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicIqBandSettingsCache* cache);
   ResultCode autoComplete(
-    const FieldDescriptor& setting,
+    const FieldUpdate& setting,
     uint32_t startIndex,
     const BandCategoryList* bands,
     const ModeList* modes,

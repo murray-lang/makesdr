@@ -1,7 +1,7 @@
 #pragma once
 #include <settings/model/proto/RadioSettings.pb.h>
 
-enum class AgcSpeed
+enum AgcSpeed : uint32_t
 {
   OFF = makesdr_AgcSpeed_AGC_OFF,
   SLOW = makesdr_AgcSpeed_AGC_SLOW,

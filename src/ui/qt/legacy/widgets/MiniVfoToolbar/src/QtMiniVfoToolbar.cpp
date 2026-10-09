@@ -153,18 +153,18 @@ void QtMiniVfoToolbar::onAbPressed()
   FieldUpdateVector updates;
   if (!m_bandSettings->isMultiPipeline()) {
 
-    m_radioControl->setMultiPipeline(m_bandId, true);
+    m_radioControl->setMultiPipeline(m_bandId, true, true);
     return;
   }
-  m_radioControl->closePipeline(m_bandId, m_vfoId);
+  m_radioControl->closePipeline(m_bandId, m_vfoId, true);
 }
 
 void QtMiniVfoToolbar::onTxPressed()
 {
   if (!hasValidContext()) return;
 
-  m_radioControl->setTxBand(m_bandId);
-  m_radioControl->setTxPipeline(m_bandId, m_vfoId);
+  m_radioControl->setTxBand(m_bandId, false);
+  m_radioControl->setTxPipeline(m_bandId, m_vfoId, true);
 }
 
 void QtMiniVfoToolbar::onModePressed()
@@ -181,7 +181,7 @@ void QtMiniVfoToolbar::onMutePressed()
 {
   if (!hasValidContext()) return;
 
-  m_radioControl->mutePipeline(m_bandId, m_vfoId, !m_muted);
+  m_radioControl->mutePipeline(m_bandId, m_vfoId, !m_muted, true);
 }
 
 void QtMiniVfoToolbar::lockAbButtonWidthToIconState()

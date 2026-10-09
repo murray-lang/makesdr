@@ -2,9 +2,9 @@
 #include <cstring>
 
 
-IqMessage::IqMessage(const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate)
+IqMessage::IqMessage(PipelineId pipelineId, const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate)
 {
-  initialise(iq, length, sampleRate);
+  initialise(pipelineId, iq, length, sampleRate);
 }
 
 IqMessage&
@@ -17,8 +17,9 @@ IqMessage::operator=(const IqMessage& other)
 }
 
 void
-IqMessage::initialise(const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate)
+IqMessage::initialise(PipelineId pipelineId, const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate)
 {
+  m_payload.body.pipeline_id = static_cast<makesdr_PipelineId>(pipelineId);
   const uint32_t count = std::min(static_cast<uint32_t>(iq.size()), length);
   std::memcpy(m_payload.body.interleaved, iq.data(), count * sizeof(sdrcomplex));
   m_payload.body.interleaved_count = static_cast<pb_size_t>(count * 2);

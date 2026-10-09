@@ -73,7 +73,7 @@ public:
   [[nodiscard]] int barThickness() const noexcept { return m_barThicknessPx; }
   void setBarThickness(int px);
 
-  void setReading(float rssiDbFs, std::optional<float> agcGainDb = std::nullopt);
+  void setReading(float rssiDbFs, float agcGainDb);
 
   // -----------------------
   // Scale visibility + placement
@@ -152,7 +152,7 @@ protected:
   bool event(QEvent* e) override;
 
 private:
-  void updateToolTip(float rssiDbFs, const std::optional<float>& agcGainDb);
+  void updateToolTip(float rssiDbFs, float agcGainDb);
 
   [[nodiscard]] int scaleBandThicknessPx() const;
 

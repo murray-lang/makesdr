@@ -3,7 +3,8 @@
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
 
-#include "samples/SampleTypes.h"
+#include <samples/SampleTypes.h>
+#include <settings/model/radio/PipelineId.h>
 
 
 class IqMessage : public MessageT<
@@ -18,10 +19,16 @@ public:
   IqMessage() = default;
   IqMessage(const PayloadProto& payload) : MessageT(payload) {}
   IqMessage(const IqMessage& other) = default;
-  IqMessage(const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate);
+  IqMessage(PipelineId pipelineId, const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate);
   IqMessage& operator=(const IqMessage& other);
 
-  void initialise(const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate);
+  void initialise(PipelineId pipelineId, const ComplexSamplesBuffer& iq, uint32_t length, uint32_t sampleRate);
+
+  [[nodiscard]] PipelineId pipelineId() const { return static_cast<PipelineId>(m_payload.body.pipeline_id); }
+  // void setPipelineId(PipelineId pipelineId)
+  // {
+  //   m_payload.body.pipeline_id = static_cast<makesdr_PipelineId>(pipelineId);
+  // }
 
   [[nodiscard]] const float* data() const { return m_payload.body.interleaved; }
   [[nodiscard]] uint32_t length() const { return m_payload.body.interleaved_count; }

@@ -7,7 +7,7 @@
 #include <iq/common/IqTransmitter.h>
 
 #include "SplitBandDualIq_Rx.h"
-
+#include <transport/radio/IRadioPublishers.h>
 
 
 class SplitBandDualIq : public IqRxTxBaseT<SplitBandDualIqRxTxSettings>
@@ -17,7 +17,11 @@ public:
   using ActiveBandSettings = SplitBandDualIqRxTxSettings::ActiveBandSettings;
   using BandSettings = SplitBandDualIqRxTxSettings::BandSettings;
 
-  SplitBandDualIq(const BandCategoryList& bands, const ModeList& modes, IqPublisher* iqPublisher);
+  SplitBandDualIq(
+    const BandCategoryList& bands,
+    const ModeList& modes,
+    IRadioPublishers* radioPublishers
+    );
   ~SplitBandDualIq() override = default;
 
   ResultCode configure(const Config::Sdr::Fields& sdrConfig) override;

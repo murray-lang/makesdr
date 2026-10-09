@@ -33,8 +33,8 @@ target_link_libraries(ui-qt-faces-standard-obj PUBLIC
         ui-qt-faces-factory
         settings-model-radio-iq-dual-split
         ui-qt-widgets-frequency-panel
-        ui-qt-widgets-charts-timeseries
         ui-qt-widgets-charts-panadapter
+        ui-qt-widgets-charts-waterfall
         ui-qt-widgets-s-meter
 )
 

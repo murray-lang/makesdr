@@ -5,11 +5,17 @@
 #include <settings/model/message/PayloadSource.h>
 #include <settings/model/update/FieldUpdateMessage.h>
 #include <settings/model/radio/iq/IqMessage.h>
+#include <settings/model/radio/iq/FftMessage.h>
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelSinkT.h>
 #include <transport/MessageChannelSourceT.h>
+#include "settings/model/radio/RxMeteringMessage.h"
 #include "IqPublisher.h"
+#include "RxMeteringPublisher.h"
+#include "FftPublisher.h"
+#include "IRadioPublishers.h"
+
 
 //*****************************************************************************
 // The radio's end of a RadioMessageExchangeT, independent of platform.
@@ -22,7 +28,7 @@
 // target with attach() and detaches with detach().
 //*****************************************************************************
 template<typename ExchangeT>
-class RadioTransportT
+class RadioTransportT : public IRadioPublishers
 {
 public:
   using Settings = typename ExchangeT::Settings;
@@ -34,12 +40,16 @@ public:
     , m_iqOut(exchange.iqToClient())
     , m_modesOut(exchange.modesToClient())
     , m_bandsOut(exchange.bandsToClient())
+    , m_rxMeteringOut(exchange.rxMeteringToClient())
+    , m_fftOut(exchange.fftToClient())
     , m_settingsIn(exchange.settingsToRadio())
     , m_updateIn(exchange.updateToRadio())
   {
   }
 
-  IqPublisher* getIqPublisher() { return &m_iqOut; }
+  IqPublisher* getIqPublisher() override  { return &m_iqOut; }
+  RxMeteringPublisher* getRxMeteringPublisher() override { return &m_rxMeteringOut; }
+  FftPublisher* getFftPublisher() override { return &m_fftOut; }
 
   //--- outgoing (radio -> client) --------------------------------------------
 
@@ -48,6 +58,8 @@ public:
   ResultCode send(IqMessage* iq)            { return stampAndSend(m_iqOut, iq); }
   ResultCode send(ModeList* modes)          { return stampAndSend(m_modesOut, modes); }
   ResultCode send(BandCategoryList* bands)  { return stampAndSend(m_bandsOut, bands); }
+  ResultCode send(RxMeteringMessage* metering)  { return stampAndSend(m_rxMeteringOut, metering); }
+  ResultCode send(FftMessage* fft)          { return stampAndSend(m_fftOut, fft); }
 
   //--- incoming (client -> radio) --------------------------------------------
 
@@ -90,6 +102,8 @@ private:
   MessageChannelSinkT<typename ExchangeT::IqChannel>       m_iqOut;
   MessageChannelSinkT<typename ExchangeT::ModesChannel>    m_modesOut;
   MessageChannelSinkT<typename ExchangeT::BandsChannel>    m_bandsOut;
+  MessageChannelSinkT<typename ExchangeT::RxMeteringChannel>    m_rxMeteringOut;
+  MessageChannelSinkT<typename ExchangeT::FftChannel>    m_fftOut;
 
   MessageChannelSourceT<typename ExchangeT::SettingsChannel> m_settingsIn;
   MessageChannelSourceT<typename ExchangeT::UpdateChannel>   m_updateIn;

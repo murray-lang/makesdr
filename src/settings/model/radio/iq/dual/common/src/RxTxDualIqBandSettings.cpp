@@ -92,6 +92,13 @@ RxTxDualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, ui
     }
     return rc;
   }
+  if (tag == makesdr_RxTxDualIqBandSettingsPb_band_request_tag) {
+    // Change nothing now for band requests. Read the FieldUpdate in the autocomplete instead.
+    // I tried setting band_or_request.band_request to the band name provided in the update, but since nanopb uses
+    // unions for oneof, updating band_or_request.band_request also updated band_or_request.band.name, meaning
+    // that the identity of the previous band was lost so could not be saved in the cache.
+    return ResultCode::OK;
+  }
   return MessageTraverser::updateField(
       &m_rawSettings,
       &makesdr_RxTxDualIqBandSettingsPb_msg,
@@ -103,7 +110,7 @@ RxTxDualIqBandSettings::updateIndirectField(const FieldUpdate &settingUpdate, ui
 ResultCode
 RxTxDualIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, RxTxDualIqBandSettingsCache* cache)
 {
-  ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+  ResultCode rcBand = autoCompleteBand(nullptr, bands, modes, cache, this);
   ResultCode rcPipelineA = m_pipeline_a.autoComplete(modes);
   if (rcPipelineA == ResultCode::OK) {
     m_rawSettings.has_pipeline_a = true;
@@ -135,13 +142,13 @@ RxTxDualIqBandSettings::autoComplete(const BandCategoryList* bands, const ModeLi
 
 ResultCode
 RxTxDualIqBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands, const ModeList* modes,
   RxTxDualIqBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }
@@ -213,14 +220,21 @@ RxTxDualIqBandSettings::autoCompleteMultiPipeline()
       m_rawSettings.focus_pipeline_id = makesdr_PipelineId_PIPELINE_B;
       m_rawSettings.has_focus_pipeline_id = true;
     }
-  } else { // Back to a single pipeline
-    m_rawSettings.tx_pipeline_id = makesdr_PipelineId_PIPELINE_A;
-    m_rawSettings.has_tx_pipeline_id = true;
-    m_rawSettings.tx_pipeline.base = m_rawSettings.pipeline_a.base; // Copy basics for tx tracking
-    if (!m_rawSettings.has_focus_pipeline_id) {
+  } else { // Back to a single pipeline. Always A. Copy B across if B had focus.
+
+    // If the focus pipeline is not A, then copy B to A to keep the B details.
+    if (m_rawSettings.focus_pipeline_id == makesdr_PipelineId_PIPELINE_B) {
+      m_rawSettings.pipeline_a = m_rawSettings.pipeline_b;
+      m_rawSettings.has_pipeline_a = true;
       m_rawSettings.focus_pipeline_id = makesdr_PipelineId_PIPELINE_A;
       m_rawSettings.has_focus_pipeline_id = true;
     }
+    // Tx must follow A
+    m_rawSettings.tx_pipeline_id = makesdr_PipelineId_PIPELINE_A;
+    m_rawSettings.has_tx_pipeline_id = true;
+    m_rawSettings.tx_pipeline.base = m_rawSettings.pipeline_a.base; // Copy basics for tx tracking
+    m_rawSettings.has_tx_pipeline = true;
+    m_rawSettings.tx_pipeline.has_base = true;
   }
   return ResultCode::OK;
 }

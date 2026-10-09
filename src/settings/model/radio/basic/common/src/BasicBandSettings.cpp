@@ -12,7 +12,7 @@ BasicBandSettings::BasicBandSettings(makesdr_BasicBandSettingsPb& rawSettings)
 ResultCode
 BasicBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* modes, BasicBandSettingsCache* cache)
 {
-  ResultCode rcBand = autoCompleteBand(bands, modes, cache, this);
+  ResultCode rcBand = autoCompleteBand(nullptr, bands, modes, cache, this);
   ResultCode rcMode = autoCompleteMode(modes);
   if (rcBand != ResultCode::OK) {
     return rcBand;
@@ -25,14 +25,14 @@ BasicBandSettings::autoComplete(const BandCategoryList* bands, const ModeList* m
 
 ResultCode
 BasicBandSettings::autoComplete(
-  const FieldDescriptor& setting,
+  const FieldUpdate& setting,
   uint32_t startIndex,
   const BandCategoryList* bands,
   const ModeList* modes,
   BasicBandSettingsCache* cache
   )
 {
-  const FieldPath& path = setting.getPath();
+  const FieldPath& path = setting.path();
   if (startIndex >= path.size()) {
     return ResultCode::ERR_SETTING_AUTOCOMPLETE_PATH_INVALID;
   }

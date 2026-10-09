@@ -3,9 +3,14 @@
 #define DEFAULT_SAMPLE_RATE 48000
 
 
-IqRxPipeline::IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher)
-  : IqPipeline(modes)
-  , m_iqPublisher(iqPublisher)
+IqRxPipeline::IqRxPipeline(
+  PipelineId pipelineId,
+  const ModeList& modes,
+  IRadioPublishers* radioPublishers
+  )
+  : IqPipeline(pipelineId, modes)
+  , m_iqPublisher(radioPublishers->getIqPublisher())
+  , m_fftPublisher(radioPublishers->getFftPublisher())
   , m_iqCorrection()
   , m_amDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_AMN), DEFAULT_SAMPLE_RATE)
   , m_fmnDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_FMN),DEFAULT_SAMPLE_RATE)
@@ -13,11 +18,17 @@ IqRxPipeline::IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher)
   , m_ssbDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_USB),DEFAULT_SAMPLE_RATE)
   , m_cwDemodulator(*modes.findModeByType(makesdr_ModeType_MODE_CWU),DEFAULT_SAMPLE_RATE)
   , m_pDemodulator(nullptr)
-  , m_monitorStage(iqPublisher)
+  , m_monitorStage(pipelineId, radioPublishers->getIqPublisher(), radioPublishers->getFftPublisher())
   , m_agcStage()
+  , m_sMeterStage(pipelineId, radioPublishers->getRxMeteringPublisher())
+  , m_mute(false)
 {
-  m_monitorStage.setSampleRateProvider([this]() -> uint32_t { return this->m_inputSampleRate; });
-  appendStage(&m_iqCorrection);
+  SampleRateProvider sampleRateProvider = [this]() { return this->m_inputSampleRate; };
+  m_monitorStage.setSampleRateProvider(sampleRateProvider);
+  m_monitorStage.setAverageBuffers(8);
+  m_sMeterStage.setSampleRateProvider(sampleRateProvider);
+  m_sMeterStage.setAgcGainProvider([this]() { return this->m_agcStage.getGainDb(); });
+  // appendStage(&m_iqCorrection);
   appendStage(&m_monitorStage);
   appendStage(&m_oscillatorMixer);
 
@@ -25,7 +36,9 @@ IqRxPipeline::IqRxPipeline(const ModeList& modes, IqPublisher* iqPublisher)
   // appendStage(&m_monitorStage);
 
   appendStage(&m_resampler);
+  appendStage(&m_sMeterStage);
   appendStage(&m_agcStage);
+
 
   m_pDemodulator = &m_ssbDemodulator; // For now TODO: Get setting updates working again.
 
@@ -72,10 +85,13 @@ IqRxPipeline::apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* se
 {
   ResultCode rc = IqPipeline::apply(bandRfSettings, &settings->base());
   if (rc != ResultCode::OK) return rc;
+  if (settings->hasMute()) {
+    m_mute = settings->mute();
+  }
   if (settings->hasAgcSpeed()) {
     const AgcSpeed agcSpeed = settings->agcSpeed();
     lock_guard<mutex> lock(m_settingsMutex);
-    // m_iqAgcStage.setSpeed(agcSpeed);
+    m_agcStage.setSpeed(agcSpeed);
   }
   return ResultCode::OK;
 }
@@ -147,7 +163,7 @@ IqRxPipeline::processSamples(ComplexPingPongBuffers& samples, uint32_t length)
   } else {
     outputLength = 0;
   }
-  if (outputLength > 0 && m_pAudioOutSink != nullptr) {
+  if (outputLength > 0 && m_pAudioOutSink != nullptr && !m_mute) {
     m_pAudioOutSink->sinkAudio(m_audioBuffer, outputLength, m_pDemodulator->getNumOutputChannels());
   }
   return outputLength;

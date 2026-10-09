@@ -67,7 +67,7 @@ public:
       }
       if (rfSettings->hasGain()) {
         float gain = rfSettings->gain();
-        rc = setLnaGain(gain);
+        // rc = setLnaGain(gain);
         // if (rc != ResultCode::OK) return rc;
         m_lastRfGain = gain;
       }
@@ -75,12 +75,12 @@ public:
     if (bandSettings != nullptr && bandSettings->hasIfSettings()) {
       const IfSettings* ifSettings = bandSettings->ifSettings();
       if (ifSettings->hasBandwidth()) {
-        rc = setIfFilter(ifSettings->bandwidth());
+        // rc = setIfFilter(ifSettings->bandwidth());
         // if (rc != ResultCode::OK) return rc;
       }
       if (ifSettings->hasGain()) {
         float gain = ifSettings->gain();
-        rc = setIfGain(gain);
+        // rc = setIfGain(gain);
         // if (rc != ResultCode::OK) return rc;
         m_lastIfGain = gain;
       }
@@ -114,6 +114,7 @@ protected:
     size_t bytesRW;
     ResultCode rc = m_hid.write(buf, 65, &bytesRW);
     if (rc != ResultCode::OK) return rc;
+    buf[0] = 0;
     buf[1] = 0;
     return m_hid.read(buf, 65, &bytesRW);
   }

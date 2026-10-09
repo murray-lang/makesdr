@@ -14,9 +14,9 @@ So this collapses to:
 ```cpp
 void applyFftCoefficients(const ComplexSamplesFft& input, ComplexSamplesFft& output)
 {
-  m_fft.transform(input, output, FFT_SIZE, true, false);
+  m_fft.transform(input, output, FILTER_FFT_SIZE, true, false);
   multiplyByCoefficients(output, output);
-  m_fft.transform(output, output, FFT_SIZE, false, true);
+  m_fft.transform(output, output, FILTER_FFT_SIZE, false, true);
 }
 ```
 
@@ -37,4 +37,4 @@ if (output.data() != input.data()) {
 
 Also worth noting the liquid `Fft` already carries its own `m_inputBuffer` + `m_outputBuffer` (16 KiB each), and you have two `Fft` instances in that path — `Fir::m_fft` and `FirKernel::m_fft` — so that's 64 KiB of FFT scratch on top of the 32 KiB of stack locals. The kernel's FFT is only used at `configure()` time (`BandPassFirKernel.cpp:59`), so it's 32 KiB resident for something that runs on mode changes.
 
-Two inconsistencies while you're in there: liquid's `normalise` loop runs to `FFT_SIZE` (`Fft.h:71`) while STM32's runs to `inputLength` (`Fft.h:48`); and `applyFftCoefficients` resizes its locals to `input.size()` but calls `transform` with `FFT_SIZE`, so a short input would have the FFT write past `size()` while `std::transform` only multiplies the first `size()` elements. Currently masked because `FilterStage::initialiseBuffers` assigns exactly `FFT_SIZE` — but it's a silent trap if a partial block ever reaches it.
+Two inconsistencies while you're in there: liquid's `normalise` loop runs to `FILTER_FFT_SIZE` (`Fft.h:71`) while STM32's runs to `inputLength` (`Fft.h:48`); and `applyFftCoefficients` resizes its locals to `input.size()` but calls `transform` with `FILTER_FFT_SIZE`, so a short input would have the FFT write past `size()` while `std::transform` only multiplies the first `size()` elements. Currently masked because `FilterStage::initialiseBuffers` assigns exactly `FILTER_FFT_SIZE` — but it's a silent trap if a partial block ever reaches it.

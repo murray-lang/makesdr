@@ -340,6 +340,21 @@ message FieldUpdatePb {
 }
 
 message IqPb {
-  repeated float interleaved = 1;
-  uint32 sample_rate = 2;
+  PipelineId pipeline_id = 1;
+  repeated float interleaved = 2;
+  uint32 sample_rate = 3;
+}
+
+message FftPb {
+  PipelineId pipeline_id = 1;
+  bytes bins = 2;
+  uint32 sample_rate = 3;
+  float floor = 4;
+  float ceiling = 5;
+}
+
+message RxMeteringPb {
+  PipelineId pipeline_id = 1;
+  float rssiDbFs = 2;
+  float agcGainDb = 3;
 }

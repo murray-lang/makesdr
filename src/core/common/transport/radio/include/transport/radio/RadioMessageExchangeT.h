@@ -5,12 +5,17 @@
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelT.h>
+#include <settings/model/radio/RxMeteringMessage.h>
+#include <settings/model/radio/iq/FftMessage.h>
 
 #define SETTINGS_RING_SIZE 1
 #define UPDATE_RING_SIZE 2
 #define IQ_RING_SIZE 1
 #define MODES_RING_SIZE 1
 #define BANDS_RING_SIZE 1
+#define RX_METERING_RING_SIZE 2
+#define FFT_RING_SIZE 1
+
 
 //*****************************************************************************
 // Every channel between a radio and its client, owned by neither.
@@ -33,6 +38,8 @@ public:
   using IqChannel       = MessageChannelT<IqMessage, IQ_RING_SIZE, NotifierT>;
   using ModesChannel    = MessageChannelT<ModeList, MODES_RING_SIZE, NotifierT>;
   using BandsChannel    = MessageChannelT<BandCategoryList, BANDS_RING_SIZE, NotifierT>;
+  using RxMeteringChannel = MessageChannelT<RxMeteringMessage, RX_METERING_RING_SIZE, NotifierT>;
+  using FftChannel      = MessageChannelT<FftMessage, FFT_RING_SIZE, NotifierT>;
 
   //--- client -> radio -------------------------------------------------------
 
@@ -45,6 +52,8 @@ public:
   IqChannel&       iqToClient()       { return m_iqToClient; }
   ModesChannel&    modesToClient()    { return m_modesToClient; }
   BandsChannel&    bandsToClient()    { return m_bandsToClient; }
+  RxMeteringChannel& rxMeteringToClient() { return m_rxMeteringToClient; }
+  FftChannel&      fftToClient()      { return m_fftToClient; }
 
   //--- attaching consumers (only where NotifierT supports it) ----------------
 
@@ -71,11 +80,15 @@ public:
     m_iqToClient.notifier().attach(target);
     m_modesToClient.notifier().attach(target);
     m_bandsToClient.notifier().attach(target);
+    m_rxMeteringToClient.notifier().attach(target);
+    m_fftToClient.notifier().attach(target);
 
     m_settingsToClient.wakeIfPending();
     m_iqToClient.wakeIfPending();
     m_modesToClient.wakeIfPending();
     m_bandsToClient.wakeIfPending();
+    m_rxMeteringToClient.wakeIfPending();
+    m_fftToClient.wakeIfPending();
   }
 
   void detachClient()
@@ -84,6 +97,8 @@ public:
     m_iqToClient.notifier().detach();
     m_modesToClient.notifier().detach();
     m_bandsToClient.notifier().detach();
+    m_rxMeteringToClient.notifier().detach();
+    m_fftToClient.notifier().detach();
   }
 
 protected:
@@ -94,4 +109,6 @@ protected:
   IqChannel       m_iqToClient;
   ModesChannel    m_modesToClient;
   BandsChannel    m_bandsToClient;
+  RxMeteringChannel m_rxMeteringToClient;
+  FftChannel      m_fftToClient;
 };

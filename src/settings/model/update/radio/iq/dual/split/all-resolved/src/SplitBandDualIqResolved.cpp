@@ -456,13 +456,13 @@ const FieldDescriptor active_bands_focus_band_focus_pipeline_mute = FieldDescrip
     true
 );
 */
-/*
+/**/
 const FieldDescriptor active_bands_focus_band_focus_pipeline_agc_speed = FieldDescriptor(
     FieldPath{1, 1, 10, 3},
     false,
     true
 );
-*/
+/**/
 /*
 const FieldDescriptor active_bands_focus_band_pipeline_a = FieldDescriptor(
     FieldPath{1, 1, 11},

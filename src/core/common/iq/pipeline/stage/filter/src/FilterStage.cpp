@@ -2,7 +2,7 @@
 // #include <QDebug>
 
 FilterStage::FilterStage()
-  : m_inputCentre(FFT_SIZE / 2)
+  : m_inputCentre(FILTER_FFT_SIZE / 2)
   , m_inputCursor(0)
 {
   initialiseBuffers();
@@ -17,7 +17,7 @@ FilterStage::configure(int32_t freqLoCut, int32_t freqHiCut, int32_t offset, uin
 uint32_t
 FilterStage::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength)
 {
-  static_assert(PIPELINE_BUFFER_LENGTH >= FFT_SIZE/2);
+  static_assert(PIPELINE_BUFFER_LENGTH >= FILTER_FFT_SIZE/2);
 
   uint32_t outPos = 0;
   const ComplexSamplesBuffer& input = buffers.input();
@@ -31,12 +31,12 @@ FilterStage::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLengt
     uint32_t fftInputIndex = m_inputCentre + m_inputCursor++;
     m_inputBuffer.at(fftInputIndex) = nextInput;
     if (m_inputCursor == FIR_SIZE - 1) {
-      // for (int i = 0; i < FFT_SIZE; i++) {
+      // for (int i = 0; i < FILTER_FFT_SIZE; i++) {
       //   m_outputBuffer[i] = m_inputBuffer[i];
       // }
       m_fir.filter(m_inputBuffer, m_outputBuffer);
       // sdrreal sum = 0.0;
-      for(uint32_t filteredIndex = m_inputCentre; filteredIndex < FFT_SIZE; filteredIndex++) {
+      for(uint32_t filteredIndex = m_inputCentre; filteredIndex < FILTER_FFT_SIZE; filteredIndex++) {
         // sdrreal mag = std::abs(m_outputBuffer[filteredIndex]);
         // sum += mag;
         output[outPos++] = m_outputBuffer[filteredIndex];
@@ -58,6 +58,6 @@ void
 FilterStage::initialiseBuffers()
 {
   m_overlapBuffer.assign(FIR_SIZE, sdrcomplex(0, 0));
-  m_inputBuffer.assign(FFT_SIZE, sdrcomplex(0, 0));
-  m_outputBuffer.assign(FFT_SIZE, sdrcomplex(0, 0));
+  m_inputBuffer.assign(FILTER_FFT_SIZE, sdrcomplex(0, 0));
+  m_outputBuffer.assign(FILTER_FFT_SIZE, sdrcomplex(0, 0));
 }

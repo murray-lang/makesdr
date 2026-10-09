@@ -7,6 +7,8 @@
 #include <settings/model/update/FieldUpdateMessage.h>
 #include <settings/model/update/FieldUpdateSink.h>
 #include <settings/model/radio/iq/IqMessage.h>
+#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/RxMeteringMessage.h>
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <transport/MessageChannelSinkT.h>
@@ -38,6 +40,8 @@ public:
     , m_iqIn(exchange.iqToClient())
     , m_modesIn(exchange.modesToClient())
     , m_bandsIn(exchange.bandsToClient())
+    , m_rxMeteringIn(exchange.rxMeteringToClient())
+    , m_fftIn(exchange.fftToClient())
   {
   }
 
@@ -67,26 +71,34 @@ public:
   void connectIqSink(MessageSinkT<IqMessage>* sink)               { m_iqIn.connectMessageSink(sink); }
   void connectModesSink(MessageSinkT<ModeList>* sink)             { m_modesIn.connectMessageSink(sink); }
   void connectBandsSink(MessageSinkT<BandCategoryList>* sink)     { m_bandsIn.connectMessageSink(sink); }
+  void connectRxMeteringSink(MessageSinkT<RxMeteringMessage>* sink)      { m_rxMeteringIn.connectMessageSink(sink); }
+  void connectFftSink(MessageSinkT<FftMessage>* sink)             { m_fftIn.connectMessageSink(sink); }
 
   // Client thread only. Delivers whatever is pending on the channel the
   // payload type identifies; unknown types are ignored.
   void dispatch(PayloadType payloadType)
   {
     switch (static_cast<int>(payloadType)) {
-      case Settings::payloadType:
-        m_settingsIn.consumePending();
-        break;
-      case PAYLOAD_TYPE_IQ:
-        m_iqIn.consumePending();
-        break;
-      case PAYLOAD_TYPE_MODES:
-        m_modesIn.consumePending();
-        break;
-      case PAYLOAD_TYPE_BANDS:
-        m_bandsIn.consumePending();
-        break;
-      default:
-        break;
+    case Settings::payloadType:
+      m_settingsIn.consumePending();
+      break;
+    case PAYLOAD_TYPE_IQ:
+      m_iqIn.consumePending();
+      break;
+    case PAYLOAD_TYPE_MODES:
+      m_modesIn.consumePending();
+      break;
+    case PAYLOAD_TYPE_BANDS:
+      m_bandsIn.consumePending();
+      break;
+    case PAYLOAD_TYPE_RX_METERING:
+      m_rxMeteringIn.consumePending();
+      break;
+    case PAYLOAD_TYPE_FFT:
+      m_fftIn.consumePending();
+      break;
+    default:
+      break;
     }
   }
 
@@ -106,4 +118,6 @@ private:
   MessageChannelSourceT<typename ExchangeT::IqChannel>       m_iqIn;
   MessageChannelSourceT<typename ExchangeT::ModesChannel>    m_modesIn;
   MessageChannelSourceT<typename ExchangeT::BandsChannel>    m_bandsIn;
+  MessageChannelSourceT<typename ExchangeT::RxMeteringChannel>    m_rxMeteringIn;
+  MessageChannelSourceT<typename ExchangeT::FftChannel>    m_fftIn;
 };
