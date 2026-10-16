@@ -19,10 +19,10 @@
 // #include <event/EventDispatcher.h>
 // #include <event/sample/RxIqEvent.h>
 #include <settings/model/radio/iq/RxPipelineSettings.h>
-#include <transport/radio/IqPublisher.h>
-#include <transport/radio/RxMeteringPublisher.h>
+#include <transport/IqPublisher.h>
+#include <transport/RxMeteringPublisher.h>
 
-#include <transport/radio/IRadioPublishers.h>
+#include <transport/IRadioPublishers.h>
 
 
 class IqRxPipeline : public IqPipeline

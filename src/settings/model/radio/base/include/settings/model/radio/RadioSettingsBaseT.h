@@ -1,14 +1,13 @@
 #pragma once
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/proto/ProtobufIo.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 #include <settings/model/update/FieldUpdateSink.h>
 #include <EventId.h>
 #include "IRadioSettingsWithUpdater.h"
 #include <settings/model/message/MessageT.h>
 #include <settings/model/update/MessageTraverser.h>
 
-#define COMMON_ACTIVE_BANDS_TAG 1
+#define COMMON_ACTIVE_BANDS_TAG 2
 
 template<
   typename SettingsPbType,
@@ -38,6 +37,7 @@ public:
   : MessageBase()
   , m_deemComplete(false)
   , m_traverser(&MessageBase::body(), descriptor)
+  // , m_capabilities(this->m_payload.body.capabilities)
   , m_activeBandSettings(this->m_payload.body.active_bands)
   , m_receiver(this->m_payload.body.receiver)
   , m_bands(nullptr)
@@ -50,6 +50,7 @@ public:
     : MessageBase(other)
     , m_deemComplete(other.m_deemComplete)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(other.m_bands)
@@ -62,6 +63,7 @@ public:
     : MessageBase(other)
     , m_deemComplete(other.m_deemComplete)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(other.m_bands)
@@ -74,6 +76,7 @@ public:
     : MessageBase(payload, complete)
     , m_deemComplete(false)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(nullptr)
@@ -113,7 +116,7 @@ public:
 
   ResultCode setAllFieldsPresence(bool present)
   {
-    return m_traverser.setAllFieldsPresence(present);
+    return m_traverser.setAllFieldsPresence(present, true); // true to ignore first (capabilities)
   }
 
   ResultCode updateField(const FieldPath &path, const FieldUpdateVariant &value)
@@ -206,6 +209,9 @@ public:
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }
 
+  // [[nodiscard]] const Capabilities& capabilities() const { return m_capabilities; }
+  // Capabilities& capabilities() { return m_capabilities; }
+
   void setBands(const BandCategoryList* bands) { m_bands = bands; }
   void setModes(const ModeList* modes) { m_modes = modes; }
   void setCache(CacheClass* cache) { m_cache = cache; }
@@ -255,7 +261,7 @@ public:
 protected:
   bool m_deemComplete;
   MessageTraverser m_traverser;
-
+  // Capabilities m_capabilities;
   ActiveBandSettingsClass m_activeBandSettings;
   ReceiverSettings m_receiver;
 

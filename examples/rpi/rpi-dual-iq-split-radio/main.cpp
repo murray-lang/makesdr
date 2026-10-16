@@ -1,5 +1,5 @@
 #include <radios/iq/SplitBandDualIqRadio.h>
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
 #include <settings/model/meta/band/mostBandCategories.h>
 #include <settings/model/meta/mode/basicModes.h>
 #include <config/json/RadioConfig.json.h>

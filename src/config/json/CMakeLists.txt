@@ -9,6 +9,7 @@ set(CONFIG_SOURCES
         include/config/json/AudioSignalIqSourceConfig.json.h
         include/config/json/BandSelectorBandsConfig.json.h
         include/config/json/BandSelectorConfig.json.h
+        include/config/json/CapabilitiesConfig.json.h
         include/config/json/ConfigBase.json.h
         include/config/json/DigitalInputConfig.json.h
         include/config/json/DigitalInputsConfig.json.h
@@ -17,6 +18,7 @@ set(CONFIG_SOURCES
         include/config/json/FunCubeConfig.json.h
         include/config/json/GpioInputLinesConfig.json.h
         include/config/json/GpioLinesConfig.json.h
+        include/config/json/IqCapabilitiesConfig.json.h
         include/config/json/IqIoConfig.json.h
         include/config/json/QtTransportConfig.json.h
         include/config/json/QtTransportOutConfig.json.h
@@ -26,7 +28,10 @@ set(CONFIG_SOURCES
         include/config/json/SdrConfig.json.h
         include/config/json/IqTransmitterConfig.json.h
         include/config/json/FieldDescriptorConfig.json.h
+        include/config/json/FrequencyRangeConfig.json.h
+        include/config/json/FrequencyRangesConfig.json.h
         include/config/json/SoftRockConfig.json.h
+        include/config/json/TxCapabilitiesConfig.json.h
         include/config/json/TypedJson.h
         include/config/json/UiConfig.json.h
         include/config/json/UsbControlSinksConfig.json.h
@@ -38,6 +43,12 @@ set(CONFIG_SOURCES
         src/audio/IqIoConfig.json.cpp
 
         src/base/ConfigBase.json.cpp
+
+        src/capabilities/CapabilitiesConfig.json.cpp
+        src/capabilities/IqCapabilitiesConfig.json.cpp
+        src/capabilities/TxCapabilitiesConfig.json.cpp
+        src/capabilities/FrequencyRangeConfig.json.cpp
+        src/capabilities/FrequencyRangesConfig.json.cpp
 
         src/control/BandSelectorBandsConfig.json.cpp
         src/control/DigitalInputConfig.json.cpp

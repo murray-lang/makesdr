@@ -1,114 +1,91 @@
 #pragma once
-
 #include <cstdint>
-#include <etl/array.h>
-#include <etl/queue_spsc_atomic.h>
-#include <etl/error_handler.h>
+#include <utility>
+
+#include <settings/model/message/PayloadType.h>
+
+#include "MessageRingBufferT.h"
+#include "IMessagePublisherT.h"
+#include "IMessageSubscriberT.h"
+
 
 //*****************************************************************************
-// A fixed-capacity, lock-free, single-producer / single-consumer ring of
-// preallocated message slots.
+// A MessageRingT paired with a notifier that wakes the consumer.
 //
-// Slots circulate in one direction only:
+// The producer reserves and commits slots exactly as with the ring; committing
+// also invokes the notifier with the message's payload type. The notifier is
+// platform-specific (e.g. QtNotifier posts a MessageEvent whose event type is
+// the payload type); it may use the type to identify the channel, or ignore it.
 //
-//   m_free --pop--> producer --push--> m_ready --pop--> consumer --push--> m_free
-//           (P)                 (P)               (C)                (C)
-//
-// Each queue therefore has exactly one writer and one reader. Nothing may move
-// a slot against that circuit; there is deliberately no "discard" or "return"
-// operation on either side.
-//
-// Both reserves are idempotent and non-destructive: reserving twice without an
-// intervening commit yields the same slot, and abandoning a reservation costs
-// nothing. Only the commits advance anything.
-//
-// Each side may hold at most one reservation at a time.
+// A wake means "check the channel", not "one message arrived": one wake may
+// find several messages or none, so consumers must always drain until empty
+// and tolerate finding nothing.
 //*****************************************************************************
-template<typename T, uint8_t N>
+template<typename T, uint8_t N, typename NotifierT>
 class MessageRingT
 {
 public:
-  using Tag = uint8_t;
-  static constexpr Tag NoTag = N;          // N is never a valid slot index
+  using MessageType = T;
 
-  static_assert(N > 0, "MessageRingT needs at least one slot");
+  using Publisher = IMessagePublisherT<T>;
+  using Subscriber = IMessageSubscriberT<T>;
 
-  MessageRingT()
-    : m_writeReservation(NoTag)
-    , m_readReservation(NoTag)
+  // Arguments construct the notifier in place, so it need not be copyable or
+  // movable (QtNotifier holds a mutex).
+  template<typename... NotifierArgs>
+  explicit MessageRingT(NotifierArgs&&... notifierArgs)
+    : m_notifier(std::forward<NotifierArgs>(notifierArgs)...)
   {
-    // Safe as the sole third writer to m_free only because this runs before
-    // either thread exists. On an AMP target the ring must be constructed by
-    // exactly one core, with the other blocked until the handshake completes.
-    for (Tag i = 0; i < N; ++i) {
-      m_free.push(i);
+  }
+
+  // Both threads hold references to the one instance; a copy would be a
+  // different, disconnected channel.
+  MessageRingT(const MessageRingT&) = delete;
+  MessageRingT& operator=(const MessageRingT&) = delete;
+
+  // For attaching and detaching the consumer, where the notifier supports it.
+  NotifierT& notifier() { return m_notifier; }
+
+  // Call after attaching a consumer. Messages committed while nothing was
+  // attached had their notifications dropped, and if they filled the ring the
+  // producer can commit nothing more to trigger another: without this wake the
+  // channel would stay stuck. A commit racing the attach may cause a second
+  // wake, which consumers already tolerate.
+  void wakeIfPending()
+  {
+    if (pending() > 0) {
+      m_notifier(static_cast<PayloadType>(T::payloadType));
     }
   }
 
   //--- producer thread only --------------------------------------------------
 
-  // Returns the reserved slot, or nullptr if the ring is full. Idempotent:
-  // returns the same slot until commitWrite(). Abandoning costs nothing.
-  [[nodiscard]] T* reserveWrite()
-  {
-    if (m_writeReservation == NoTag) {
-      Tag tag;
-      if (!m_free.pop(tag)) {
-        return nullptr;
-      }
-      m_writeReservation = tag;
-    }
-    return &m_slots[m_writeReservation];
-  }
+  [[nodiscard]] T* reserveWrite() { return m_ring.reserveWrite(); }
 
-  // Publishes the reserved slot to the consumer.
   void commitWrite(T* pmsg)
   {
-    ETL_ASSERT(tagOf(pmsg) == m_writeReservation, ETL_ERROR(etl::array_out_of_range));
-    m_ready.push(m_writeReservation);
-    m_writeReservation = NoTag;
+    // Read before committing: once committed, the slot belongs to the consumer.
+    const PayloadType payloadType = pmsg->getPayloadType();
+    m_ring.commitWrite(pmsg);
+    m_notifier(payloadType);
   }
 
   //--- consumer thread only --------------------------------------------------
 
-  // Returns the oldest published slot, or nullptr if none. Idempotent:
-  // returns the same slot until commitRead().
-  [[nodiscard]] T* reserveRead()
+  // Hands each pending message to handler, returning every slot to
+  // circulation whether or not the handler acted on it.
+  template<typename HandlerT>
+  void consumePending(HandlerT&& handler)
   {
-    if (m_readReservation == NoTag) {
-      Tag tag;
-      if (!m_ready.pop(tag)) {
-        return nullptr;
-      }
-      m_readReservation = tag;
+    while (T* pmsg = m_ring.reserveRead()) {
+      handler(*pmsg);
+      m_ring.commitRead(pmsg);
     }
-    return &m_slots[m_readReservation];
   }
 
-  // Returns the slot to circulation. Must be called for every readReserve()
-  // that returned non-null, whether or not the message was acted upon.
-  void commitRead(T* pmsg)
-  {
-    ETL_ASSERT(tagOf(pmsg) == m_readReservation, ETL_ERROR(etl::array_out_of_range));
-    m_free.push(m_readReservation);
-    m_readReservation = NoTag;
-  }
-
-  // Published slots not yet reserved by the consumer. Accurate from the
-  // consumer thread; a hint only from the producer thread.
-  [[nodiscard]] size_t pending() const { return m_ready.size(); }
+  [[nodiscard]] size_t pending() const { return m_ring.pending(); }
 
 private:
-  Tag tagOf(const T* pmsg) const
-  {
-    ETL_ASSERT(pmsg >= m_slots.data() && pmsg < m_slots.data() + N,
-               ETL_ERROR(etl::array_out_of_range));
-    return static_cast<Tag>(pmsg - m_slots.data());
-  }
-
-  etl::array<T, N>                   m_slots;
-  etl::queue_spsc_atomic<Tag, N>     m_free;               // consumer pushes, producer pops
-  etl::queue_spsc_atomic<Tag, N>     m_ready;              // producer pushes, consumer pops
-  Tag                                m_writeReservation;   // producer thread only
-  Tag                                m_readReservation;    // consumer thread only
+  MessageRingBufferT<T, N> m_ring;
+  NotifierT          m_notifier;
 };

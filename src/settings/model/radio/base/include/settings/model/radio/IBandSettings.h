@@ -2,7 +2,6 @@
 #include <ResultCode.h>
 
 #include <settings/model/update/FieldUpdate.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 #include "BandRfSettings.h"
 #include "IfSettings.h"
 #include "PipelineId.h"
@@ -45,6 +44,4 @@ public:
 
   virtual ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) = 0;
 
-  // virtual ResultCode autoComplete(const RadioLookup& lookup) = 0;
-  // virtual ResultCode autoComplete(FieldDescriptor& setting, uint32_t startIndex, const RadioLookup& lookup) = 0;
 };

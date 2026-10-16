@@ -4,3 +4,4 @@ project(radios)
 
 add_subdirectory(base)
 add_subdirectory(iq)
+add_subdirectory(settings)

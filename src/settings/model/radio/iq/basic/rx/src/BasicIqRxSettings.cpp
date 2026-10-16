@@ -7,6 +7,19 @@
 BasicIqRxSettings::BasicIqRxSettings()
   : BasicIqRxSettingsBaseType()
 {
+  m_payload.body.capabilities.rx = true;
+  m_payload.body.capabilities.has_tx = false;
+  m_payload.body.capabilities.has_iq = true;
+  m_payload.body.capabilities.iq.dual_pipeline = false;
+}
+
+BasicIqRxSettings&
+BasicIqRxSettings::operator=(const BasicIqRxSettings& other)
+{
+  if (this != &other) {
+    replace(other.body(), true);
+  }
+  return *this;
 }
 
 #ifdef USE_DOTTED_STRING_PATHS

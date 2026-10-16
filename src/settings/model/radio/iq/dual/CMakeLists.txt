@@ -4,5 +4,4 @@ project(settings-model-radio-iq-dual)
 
 add_subdirectory(common)
 add_subdirectory(rx)
-add_subdirectory(rxtx)
-add_subdirectory(split)
+

@@ -2,7 +2,6 @@
 #include <settings/model/radio/BandSettingsCacheT.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 #include <settings/model/radio/RadioSettingsBaseT.h>
 #include <settings/model/radio/basic/BasicActiveBandSettings.h>
 #include <settings/model/radio/basic/BasicBandSettingsCache.h>
@@ -25,6 +24,7 @@ public:
   BasicRxSettings(const BasicRxSettings& other) = default;
   BasicRxSettings(BasicRxSettings&& other) noexcept = default;
   ~BasicRxSettings() override = default;
+  BasicRxSettings& operator=(const BasicRxSettings& other);
 
 #ifdef USE_DOTTED_STRING_PATHS
   ResolveDottedStringFunc resolveDottedStringFunc() override;

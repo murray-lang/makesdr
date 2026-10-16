@@ -13,13 +13,14 @@
 /* Enum definitions */
 typedef enum _makesdr_RadioPayloadType {
     makesdr_RadioPayloadType_PAYLOAD_NONE = 0,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX = 1,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX = 2,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RX = 3,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 4,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RX = 5,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 6,
-    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 7,
+    makesdr_RadioPayloadType_PAYLOAD_CAPABILITIES = 1,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RX = 2,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_RXTX = 3,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RX = 4,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 5,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RX = 6,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 7,
+    makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 8,
     makesdr_RadioPayloadType_PAYLOAD_FIELD_UPDATE = 10,
     makesdr_RadioPayloadType_PAYLOAD_MODES = 20,
     makesdr_RadioPayloadType_PAYLOAD_BANDS = 21,
@@ -56,6 +57,13 @@ typedef struct _makesdr_RadioPayloadBasePb {
     bool has_header;
     makesdr_RadioPayloadHeaderPb header;
 } makesdr_RadioPayloadBasePb;
+
+typedef struct _makesdr_CapabilitiesPayloadPb {
+    bool has_header;
+    makesdr_RadioPayloadHeaderPb header;
+    bool has_body;
+    makesdr_CapabilitiesPb body;
+} makesdr_CapabilitiesPayloadPb;
 
 typedef struct _makesdr_BasicRxSettingsPayloadPb {
     bool has_header;
@@ -225,9 +233,11 @@ extern "C" {
 
 
 
+
 /* Initializer values for message structs */
 #define makesdr_RadioPayloadHeaderPb_init_default {_makesdr_RadioPayloadType_MIN, _makesdr_RadioPayloadSource_MIN, _makesdr_RadioPayloadPurpose_MIN}
 #define makesdr_RadioPayloadBasePb_init_default  {false, makesdr_RadioPayloadHeaderPb_init_default}
+#define makesdr_CapabilitiesPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_CapabilitiesPb_init_default}
 #define makesdr_BasicRxSettingsPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_BasicRxSettingsPb_init_default}
 #define makesdr_BasicIqRxSettingsPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_BasicIqRxSettingsPb_init_default}
 #define makesdr_DualIqRxSettingsPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_DualIqRxSettingsPb_init_default}
@@ -248,6 +258,7 @@ extern "C" {
 #define makesdr_RxMeteringPayloadPb_init_default {false, makesdr_RadioPayloadHeaderPb_init_default, false, makesdr_RxMeteringPb_init_default}
 #define makesdr_RadioPayloadHeaderPb_init_zero   {_makesdr_RadioPayloadType_MIN, _makesdr_RadioPayloadSource_MIN, _makesdr_RadioPayloadPurpose_MIN}
 #define makesdr_RadioPayloadBasePb_init_zero     {false, makesdr_RadioPayloadHeaderPb_init_zero}
+#define makesdr_CapabilitiesPayloadPb_init_zero  {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_CapabilitiesPb_init_zero}
 #define makesdr_BasicRxSettingsPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_BasicRxSettingsPb_init_zero}
 #define makesdr_BasicIqRxSettingsPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_BasicIqRxSettingsPb_init_zero}
 #define makesdr_DualIqRxSettingsPayloadPb_init_zero {false, makesdr_RadioPayloadHeaderPb_init_zero, false, makesdr_DualIqRxSettingsPb_init_zero}
@@ -272,6 +283,8 @@ extern "C" {
 #define makesdr_RadioPayloadHeaderPb_source_tag  2
 #define makesdr_RadioPayloadHeaderPb_purpose_tag 3
 #define makesdr_RadioPayloadBasePb_header_tag    1
+#define makesdr_CapabilitiesPayloadPb_header_tag 1
+#define makesdr_CapabilitiesPayloadPb_body_tag   2
 #define makesdr_BasicRxSettingsPayloadPb_header_tag 1
 #define makesdr_BasicRxSettingsPayloadPb_body_tag 2
 #define makesdr_BasicIqRxSettingsPayloadPb_header_tag 1
@@ -322,6 +335,14 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  header,            1)
 #define makesdr_RadioPayloadBasePb_CALLBACK NULL
 #define makesdr_RadioPayloadBasePb_DEFAULT NULL
 #define makesdr_RadioPayloadBasePb_header_MSGTYPE makesdr_RadioPayloadHeaderPb
+
+#define makesdr_CapabilitiesPayloadPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  header,            1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  body,              2)
+#define makesdr_CapabilitiesPayloadPb_CALLBACK NULL
+#define makesdr_CapabilitiesPayloadPb_DEFAULT NULL
+#define makesdr_CapabilitiesPayloadPb_header_MSGTYPE makesdr_RadioPayloadHeaderPb
+#define makesdr_CapabilitiesPayloadPb_body_MSGTYPE makesdr_CapabilitiesPb
 
 #define makesdr_BasicRxSettingsPayloadPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  header,            1) \
@@ -469,6 +490,7 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  body,              2)
 
 extern const pb_msgdesc_t makesdr_RadioPayloadHeaderPb_msg;
 extern const pb_msgdesc_t makesdr_RadioPayloadBasePb_msg;
+extern const pb_msgdesc_t makesdr_CapabilitiesPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_BasicRxSettingsPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_BasicIqRxSettingsPayloadPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqRxSettingsPayloadPb_msg;
@@ -491,6 +513,7 @@ extern const pb_msgdesc_t makesdr_RxMeteringPayloadPb_msg;
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
 #define makesdr_RadioPayloadHeaderPb_fields &makesdr_RadioPayloadHeaderPb_msg
 #define makesdr_RadioPayloadBasePb_fields &makesdr_RadioPayloadBasePb_msg
+#define makesdr_CapabilitiesPayloadPb_fields &makesdr_CapabilitiesPayloadPb_msg
 #define makesdr_BasicRxSettingsPayloadPb_fields &makesdr_BasicRxSettingsPayloadPb_msg
 #define makesdr_BasicIqRxSettingsPayloadPb_fields &makesdr_BasicIqRxSettingsPayloadPb_msg
 #define makesdr_DualIqRxSettingsPayloadPb_fields &makesdr_DualIqRxSettingsPayloadPb_msg
@@ -517,6 +540,7 @@ extern const pb_msgdesc_t makesdr_RxMeteringPayloadPb_msg;
 #define makesdr_BasicIqRxTxSettingsPayloadPb_size 410
 #define makesdr_BasicRxSettingsPayloadPb_size    274
 #define makesdr_BasicRxTxSettingsPayloadPb_size  298
+#define makesdr_CapabilitiesPayloadPb_size       74
 #define makesdr_DualIqRxSettingsPayloadPb_size   568
 #define makesdr_DualIqRxTxSettingsPayloadPb_size 767
 #define makesdr_FftPayloadPb_size                1056

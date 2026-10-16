@@ -25,13 +25,13 @@ int main(int argc, char* argv[])
 {
   // Configuration for all radio types
   RadioConfig configs[] = {
-    {"Basic Rx", basic_rx_radio_fields, "BasicRxResolved", "radios/basic/rx"},
-    {"Basic Rx/Tx", basic_rxtx_radio_fields, "BasicRxTxResolved", "radios/basic/rxtx"},
-    {"Basic IQ Rx", basic_iq_rx_radio_fields, "BasicIqRxResolved", "radios/iq/basic/rx"},
-    {"Basic IQ Rx/Tx", basic_iq_rxtx_radio_fields, "BasicIqRxTxResolved", "radios/iq/basic/rxtx"},
-    {"Dual IQ Rx", dual_iq_rx_radio_fields, "DualIqRxResolved", "radios/iq/dual/rx"},
-    {"Dual IQ Rx/Tx", dual_iq_rxtx_radio_fields, "DualIqRxTxResolved", "radios/iq/dual/rxtx"},
-    {"Split-band Dual IQ", split_band_dual_iq_radio_fields, "SplitBandDualIqResolved", "radios/iq/dual/split" },
+    {"Basic Rx", basic_rx_radio_fields, "BasicRxResolved", "radio/basic/rx"},
+    {"Basic Rx/Tx", basic_rxtx_radio_fields, "BasicRxTxResolved", "radio/basic/rxtx"},
+    {"Basic IQ Rx", basic_iq_rx_radio_fields, "BasicIqRxResolved", "radio/iq/basic/rx"},
+    {"Basic IQ Rx/Tx", basic_iq_rxtx_radio_fields, "BasicIqRxTxResolved", "radio/iq/basic/rxtx"},
+    {"Dual IQ Rx", dual_iq_rx_radio_fields, "DualIqRxResolved", "radio/iq/dual/rx"},
+    {"Dual IQ Rx/Tx", dual_iq_rxtx_radio_fields, "DualIqRxTxResolved", "radio/iq/dual/rxtx"},
+    {"Split-band Dual IQ", split_band_dual_iq_radio_fields, "SplitBandDualIqResolved", "radio/iq/dual/split" },
   };
 
   // Get the source root

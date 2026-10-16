@@ -2,7 +2,6 @@
 #include <settings/model/radio/BandSettingsCacheT.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/proto/RadioPayloads.pb.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 #include <settings/model/radio/RadioSettingsBaseT.h>
 #include <settings/model/radio/iq/BasicIqActiveBandSettings.h>
 #include <settings/model/radio/iq/BasicIqBandSettingsCache.h>
@@ -21,6 +20,8 @@ class BasicIqRxSettings : public BasicIqRxSettingsBaseType
 {
 public:
   BasicIqRxSettings();
+  BasicIqRxSettings(const BasicIqRxSettings& other) = default;
+  BasicIqRxSettings& operator=(const BasicIqRxSettings& other);
 
 #ifdef USE_DOTTED_STRING_PATHS
   ResolveDottedStringFunc resolveDottedStringFunc() override;

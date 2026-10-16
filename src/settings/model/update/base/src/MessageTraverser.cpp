@@ -806,7 +806,8 @@ ResultCode
 MessageTraverser::setAllFieldsPresence(
   void* pMessage,
   const pb_msgdesc_t *pDescriptor,
-  bool present)
+  bool present,
+  bool ignoreFirst)
 {
   if (pMessage == nullptr || pDescriptor == nullptr) {
     return ResultCode::ERR_SETTING_POINTER_FIELD_NULL;
@@ -815,6 +816,10 @@ MessageTraverser::setAllFieldsPresence(
   pb_field_iter_t iter;
   if (!pb_field_iter_begin(&iter, pDescriptor, pMessage)) {
     return ResultCode::OK; // Empty message is OK
+  }
+
+  if (ignoreFirst) {
+    pb_field_iter_next(&iter);
   }
 
   do {

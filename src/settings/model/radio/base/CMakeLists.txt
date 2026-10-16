@@ -10,6 +10,8 @@ set(RADIOS_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/Band.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/BandRfSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/BandSettingsCacheT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/Capabilities.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/CapabilitiesMessage.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IActiveBandSettingsT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IfSettings.h
@@ -32,6 +34,8 @@ set(RADIOS_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/SplitBandId.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/StringRef.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/TransmitterSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/WithBandT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/WithModeT.h
 )
 
 add_library(settings-model-radio-base INTERFACE ${RADIOS_BASE_FILES})

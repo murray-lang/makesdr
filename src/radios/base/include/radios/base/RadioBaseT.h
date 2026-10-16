@@ -17,5 +17,4 @@ public:
   virtual void stop() = 0;
 
   [[nodiscard]] virtual const IRadioSettings* getSettings() const = 0;
-  // [[nodiscard]] virtual const RadioLookup* getLookup() const = 0;
 };

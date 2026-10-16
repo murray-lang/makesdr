@@ -25,14 +25,23 @@ target_include_directories(ui-qt-radio-client PUBLIC
 
 target_link_libraries(ui-qt-radio-client PUBLIC
         Qt6::Core
-        linux-test-utils
+#        linux-test-utils
         radios-base
+        radios-settings
         core-common-samples
         settings-model-meta-radio
-        settings-model-radio-selected
-        core-common-transport-radio
-        core-linux-transport-qt-event-base
-        core-linux-transport-qt-globals
+#        settings-model-radio-selected
+#        core-common-transport-radio
+#        core-linux-transport-qt-event-base
+#        core-linux-transport-qt-globals
+        core-common-transport-settings
+        core-common-transport-basic
+        core-common-transport-iq
+        radios-iq-dual-split-transport-qt-globals
+        core-linux-transport-qt-globals-basic
+        core-linux-transport-qt-globals-iq
+        radios-iq-dual-split-settings-model
+
 #        core-linux-event-data
 #        core-linux-globals
 #        settings-control-qt-globals

@@ -7,7 +7,20 @@
 
 BasicRxSettings::BasicRxSettings()
   : BasicRxSettingsBaseType()
-{}
+{
+  m_payload.body.capabilities.rx = true;
+  m_payload.body.capabilities.has_tx = false;
+  m_payload.body.capabilities.has_iq = false;
+}
+
+BasicRxSettings&
+BasicRxSettings::operator=(const BasicRxSettings& other)
+{
+  if (this != &other) {
+    replace(other.body(), true);
+  }
+  return *this;
+}
 
 #ifdef USE_DOTTED_STRING_PATHS
 ResolveDottedStringFunc

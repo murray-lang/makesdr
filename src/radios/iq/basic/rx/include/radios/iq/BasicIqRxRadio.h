@@ -5,7 +5,6 @@
 #include <config/struct/RadioConfig.h>
 #include <settings/control/radio/RadioControlT.h>
 #include <settings/model/radio/iq/BasicIqRxSettings.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 
 #include <radios/base/RadioBaseT.h>
 

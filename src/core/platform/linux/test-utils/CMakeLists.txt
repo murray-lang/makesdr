@@ -1,3 +1,7 @@
+find_package(PkgConfig)
+
+find_package(Qt6 REQUIRED COMPONENTS Core)
+
 add_library(linux-test-utils STATIC
         ${CMAKE_CURRENT_LIST_DIR}/include/linux/test-utils/QtTransportTestRadio.h
 
@@ -16,9 +20,10 @@ target_link_libraries(linux-test-utils
         test-utils
         core-linux-transport-qt-event-radio
         config-struct
-        settings-model-radio-iq-dual-split
+        radios-iq-dual-split-settings-model
         settings-model-meta-band
         settings-model-meta-mode
         radios-base
+        Qt6::Core
         #        settings-model-meta-radio
 )

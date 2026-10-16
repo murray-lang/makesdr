@@ -1,5 +1,5 @@
 #pragma once
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <radios/base/RadioBaseT.h>

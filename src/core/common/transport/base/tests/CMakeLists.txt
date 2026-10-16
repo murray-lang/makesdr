@@ -1,6 +1,6 @@
 add_executable(core-common-transport-base-tests
-        MessageChannelTest.cpp
-        MessageChannelAdaptersTest.cpp
+        MessageRingsTest.cpp
+        MessageRingsAdaptersTest.cpp
 )
 
 target_link_libraries(core-common-transport-base-tests

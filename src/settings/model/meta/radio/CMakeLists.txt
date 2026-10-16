@@ -4,7 +4,6 @@ project(settings-model-meta-radio)
 
 set(SETTINGS_MODEL_LOOKUP_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/meta/radio/generalCoverageRadioLookup.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/meta/radio/RadioLookup.h
         ${CMAKE_CURRENT_LIST_DIR}/src/generalCoverageRadioLookup.cpp
 )
 

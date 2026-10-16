@@ -5,6 +5,8 @@ makesdr.ModePb.label max_size: 15
 makesdr.BandPb.name max_size: 8
 makesdr.BandPb.label max_size: 10
 
+makesdr.CapabilitiesPb.frequency_ranges max_count: 2
+
 makesdr.BasicBandSettingsPb.band_request max_size: 8
 makesdr.BasicIqBandSettingsPb.band_request max_size: 8
 makesdr.DualIqBandSettingsPb.band_request max_size: 8

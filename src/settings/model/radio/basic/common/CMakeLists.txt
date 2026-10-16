@@ -6,8 +6,7 @@ set(MODEL_BASIC_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/basic/BasicActiveBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/basic/BasicBandSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/basic/BasicBandSettingsCache.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/basic/WithBandT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/basic/WithModeT.h
+
 
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicActiveBandSettings.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/BasicBandSettings.cpp

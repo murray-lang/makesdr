@@ -2,20 +2,17 @@ cmake_minimum_required(VERSION 4.1)
 
 project(core-common-transport-base)
 
-set(COMMON_TRANSPORT_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/IMessageChannelConsumer.h
+set(BASE_TRANSPORT_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/IMessageRingConsumer.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/IMessagePublisherT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/IMessageSubscriberT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageChannelSinkT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageChannelSourceT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageChannelT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingSinkT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingSourceT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/TransportBase.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/TransportInBaseT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/TransportOutBaseT.h
-)
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingBufferT.h
+ )
 
-add_library(core-common-transport-base INTERFACE ${COMMON_TRANSPORT_FILES})
+add_library(core-common-transport-base INTERFACE ${BASE_TRANSPORT_FILES})
 
 target_include_directories(core-common-transport-base INTERFACE
         ${INCLUDE_DIR}

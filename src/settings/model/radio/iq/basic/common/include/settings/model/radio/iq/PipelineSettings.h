@@ -1,7 +1,7 @@
 #pragma once
 #include <settings/model/proto/RadioSettings.pb.h>
 
-#include <settings/model/radio/basic/WithModeT.h>
+#include <settings/model/radio/WithModeT.h>
 
 #include "PipelineRfSettings.h"
 #include "IqCorrectionSettings.h"

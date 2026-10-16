@@ -9,12 +9,14 @@ public:
   enum Requests
   {
     REQUEST_NONE,
+    REQUEST_CAPABILITIES,
     REQUEST_SETTINGS,
     REQUEST_MODES,
     REQUEST_BANDS
   };
 
   virtual ~IRadioSettingsRequester() = default;
+  virtual ResultCode requestCapabilities() = 0;
   virtual ResultCode requestSettings() = 0;
   virtual ResultCode requestModes() = 0;
   virtual ResultCode requestBands() = 0;

@@ -7,6 +7,10 @@
 DualIqRxSettings::DualIqRxSettings()
   : DualIqRxSettingsBaseType()
 {
+  m_payload.body.capabilities.rx = true;
+  m_payload.body.capabilities.has_tx = false;
+  m_payload.body.capabilities.has_iq = true;
+  m_payload.body.capabilities.iq.dual_pipeline = true;
 }
 
 #ifdef USE_DOTTED_STRING_PATHS

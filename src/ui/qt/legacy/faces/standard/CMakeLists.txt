@@ -31,7 +31,7 @@ target_link_libraries(ui-qt-faces-standard-obj PUBLIC
         Qt6::Widgets
         ui-qt-faces-base
         ui-qt-faces-factory
-        settings-model-radio-iq-dual-split
+        radios-iq-dual-split-settings-model
         ui-qt-widgets-frequency-panel
         ui-qt-widgets-charts-panadapter
         ui-qt-widgets-charts-waterfall

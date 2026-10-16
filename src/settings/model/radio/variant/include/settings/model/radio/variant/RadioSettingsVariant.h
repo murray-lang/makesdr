@@ -9,7 +9,7 @@
 #include <settings/model/radio/iq/BasicIqRxTxSettings.h>
 #include <settings/model/radio/iq/DualIqRxSettings.h>
 #include <settings/model/radio/iq/DualIqRxTxSettings.h>
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
 
 using RadioSettingsVariant = variant<
   // BasicRxSettings,

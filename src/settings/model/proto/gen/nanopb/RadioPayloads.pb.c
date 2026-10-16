@@ -12,6 +12,9 @@ PB_BIND(makesdr_RadioPayloadHeaderPb, makesdr_RadioPayloadHeaderPb, AUTO)
 PB_BIND(makesdr_RadioPayloadBasePb, makesdr_RadioPayloadBasePb, AUTO)
 
 
+PB_BIND(makesdr_CapabilitiesPayloadPb, makesdr_CapabilitiesPayloadPb, AUTO)
+
+
 PB_BIND(makesdr_BasicRxSettingsPayloadPb, makesdr_BasicRxSettingsPayloadPb, 2)
 
 

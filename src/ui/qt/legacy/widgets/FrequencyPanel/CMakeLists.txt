@@ -29,7 +29,7 @@ target_link_libraries(ui-qt-widgets-frequency-panel PUBLIC
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
-        settings-model-radio-iq-dual-split
+        radios-iq-dual-split-settings-model
         ui-qt-vfo-readout
         ui-qt-widgets-property-setter
 )

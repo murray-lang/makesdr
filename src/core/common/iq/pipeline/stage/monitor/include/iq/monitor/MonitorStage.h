@@ -6,8 +6,8 @@
 
 #include <utility>
 
-#include <transport/radio/IqPublisher.h>
-#include <transport/radio/FftPublisher.h>
+#include <transport/IqPublisher.h>
+#include <transport/FftPublisher.h>
 
 #include <settings/model/radio/PipelineId.h>
 #include <dsp/transforms/power-spectrum/PowerSpectrumT.h>

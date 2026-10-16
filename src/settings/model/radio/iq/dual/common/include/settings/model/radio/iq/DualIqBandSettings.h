@@ -1,7 +1,7 @@
 #pragma once
 
 #include <settings/model/radio/PipelineId.h>
-#include <settings/model/radio/basic/WithBandT.h>
+#include <settings/model/radio/WithBandT.h>
 #include <settings/model/radio/BandRfSettings.h>
 #include <settings/model/radio/IfSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>

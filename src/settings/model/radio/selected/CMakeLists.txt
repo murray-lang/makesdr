@@ -15,5 +15,5 @@ target_include_directories(settings-model-radio-selected INTERFACE
 
 # Must match the settings type chosen in RadioSettings.h
 target_link_libraries(settings-model-radio-selected INTERFACE
-        settings-model-radio-iq-dual-split
+        radios-iq-dual-split-settings-model
 )

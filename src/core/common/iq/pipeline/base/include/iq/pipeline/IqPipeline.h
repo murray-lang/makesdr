@@ -7,7 +7,6 @@
 #include <iq/oscillator/OscillatorMixer.h>
 #include <settings/model/radio/iq/PipelineSettings.h>
 #include <settings/model/radio/BandRfSettings.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 
 #include "event/EventTarget.h"
 #include "settings/model/radio/PipelineId.h"

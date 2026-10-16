@@ -89,8 +89,7 @@ add_definitions(
 
         -DMAX_CONTROL_SINKS=4
         -DMAX_CONTROL_SOURCES=4
-
-
+        -DMAX_FREQUENCY_RANGES=2
 )
 
 if(USE_ETL)

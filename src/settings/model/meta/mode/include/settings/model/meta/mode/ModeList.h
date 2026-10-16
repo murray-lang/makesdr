@@ -10,7 +10,6 @@
 #ifdef USE_ETL
 #include <etl/span.h>
 
-
 using ModeSpan = etl::span<const makesdr_ModePb, MAX_MODES>;
 #else
 #include <span>

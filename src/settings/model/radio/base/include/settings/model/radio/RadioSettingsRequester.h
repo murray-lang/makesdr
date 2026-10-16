@@ -12,6 +12,12 @@ public:
   ~RadioSettingsRequester() override = default;
 
 
+  ResultCode requestCapabilities() override
+  {
+    FieldDescriptor descriptor({ 0, Requests::REQUEST_CAPABILITIES});
+    return notifyFieldUpdate(FieldUpdate(descriptor, true, FieldUpdateMeaning::VALUE));
+  }
+
   ResultCode requestSettings() override
   {
     FieldDescriptor descriptor({ 0, Requests::REQUEST_SETTINGS});

@@ -57,7 +57,8 @@ public:
   static ResultCode setAllFieldsPresence(
     void* pMessage,
     const pb_msgdesc_t *pDescriptor,
-    bool present
+    bool present,
+    bool ignoreFirst = false // This was added to shield `capabilities` from interference
   );
 
   ResultCode updateField(const FieldUpdate &settingUpdate)
@@ -91,9 +92,9 @@ public:
     return setFieldPresence(m_pMessage, m_pDescriptor, path, present);
   }
 
-  ResultCode setAllFieldsPresence(bool present)
+  ResultCode setAllFieldsPresence(bool present, bool ignoreFirst = false)
   {
-    return setAllFieldsPresence(m_pMessage, m_pDescriptor, present);
+    return setAllFieldsPresence(m_pMessage, m_pDescriptor, present, ignoreFirst);
   }
 
   ResultCode mergePresentFields(const void* pRhsMessage);

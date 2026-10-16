@@ -16,7 +16,7 @@ target_include_directories(core-common-iq-pipeline-stage-monitor PUBLIC
 
 set(IQ_MONITOR_LIBS
         core-common-iq-pipeline-stage-base
-        core-common-transport-radio
+        core-common-transport-iq
         core-common-dsp-transforms-power-spectrum
 )
 

@@ -2,15 +2,14 @@
 
 #include <ResultCode.h>
 #include <settings/model/update/FieldDescriptor.h>
-#include <settings/model/radio/basic/WithBandT.h>
-#include <settings/model/radio/basic/WithModeT.h>
+#include <settings/model/radio/WithBandT.h>
+#include <settings/model/radio/WithModeT.h>
 #include <settings/model/radio/BandRfSettings.h>
 #include <settings/model/radio/IfSettings.h>
 #include <settings/model/radio/AgcSpeed.h>
 #include <settings/model/radio/Mode.h>
 #include <settings/model/radio/IBandSettings.h>
 
-#include <settings/model/meta/radio/RadioLookup.h>
 
 #include "BasicBandSettingsCache.h"
 

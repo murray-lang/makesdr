@@ -6,6 +6,18 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
+PB_BIND(makesdr_TxCapabilitiesPb, makesdr_TxCapabilitiesPb, AUTO)
+
+
+PB_BIND(makesdr_IqCapabilitiesPb, makesdr_IqCapabilitiesPb, AUTO)
+
+
+PB_BIND(makesdr_FrequencyRangePb, makesdr_FrequencyRangePb, AUTO)
+
+
+PB_BIND(makesdr_CapabilitiesPb, makesdr_CapabilitiesPb, AUTO)
+
+
 PB_BIND(makesdr_ModePb, makesdr_ModePb, AUTO)
 
 

@@ -54,6 +54,31 @@ typedef enum _makesdr_FieldUpdateMeaning {
 } makesdr_FieldUpdateMeaning;
 
 /* Struct definitions */
+typedef struct _makesdr_TxCapabilitiesPb {
+    bool split_band;
+} makesdr_TxCapabilitiesPb;
+
+typedef struct _makesdr_IqCapabilitiesPb {
+    bool dual_pipeline;
+    bool has_sample_rate;
+    uint32_t sample_rate;
+} makesdr_IqCapabilitiesPb;
+
+typedef struct _makesdr_FrequencyRangePb {
+    int64_t min;
+    int64_t max;
+} makesdr_FrequencyRangePb;
+
+typedef struct _makesdr_CapabilitiesPb {
+    bool rx;
+    bool has_tx;
+    makesdr_TxCapabilitiesPb tx;
+    bool has_iq;
+    makesdr_IqCapabilitiesPb iq;
+    pb_size_t frequency_ranges_count;
+    makesdr_FrequencyRangePb frequency_ranges[2];
+} makesdr_CapabilitiesPb;
+
 typedef struct _makesdr_ModePb {
     makesdr_ModeType type;
     char name[8];
@@ -499,6 +524,10 @@ extern "C" {
 #define _makesdr_FieldUpdateMeaning_MAX makesdr_FieldUpdateMeaning_MEANING_DELTA
 #define _makesdr_FieldUpdateMeaning_ARRAYSIZE ((makesdr_FieldUpdateMeaning)(makesdr_FieldUpdateMeaning_MEANING_DELTA+1))
 
+
+
+
+
 #define makesdr_ModePb_type_ENUMTYPE makesdr_ModeType
 
 
@@ -567,6 +596,10 @@ extern "C" {
 
 
 /* Initializer values for message structs */
+#define makesdr_TxCapabilitiesPb_init_default    {0}
+#define makesdr_IqCapabilitiesPb_init_default    {0, false, 0}
+#define makesdr_FrequencyRangePb_init_default    {0, 0}
+#define makesdr_CapabilitiesPb_init_default      {0, false, makesdr_TxCapabilitiesPb_init_default, false, makesdr_IqCapabilitiesPb_init_default, 0, {makesdr_FrequencyRangePb_init_default, makesdr_FrequencyRangePb_init_default}}
 #define makesdr_ModePb_init_default              {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
 #define makesdr_ModeListPb_init_default          {0, {makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default, makesdr_ModePb_init_default}}
 #define makesdr_BandPb_init_default              {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
@@ -614,6 +647,10 @@ extern "C" {
 #define makesdr_IqPb_init_default                {_makesdr_PipelineId_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0}
 #define makesdr_FftPb_init_default               {_makesdr_PipelineId_MIN, {0, {0}}, 0, 0, 0}
 #define makesdr_RxMeteringPb_init_default        {_makesdr_PipelineId_MIN, 0, 0}
+#define makesdr_TxCapabilitiesPb_init_zero       {0}
+#define makesdr_IqCapabilitiesPb_init_zero       {0, false, 0}
+#define makesdr_FrequencyRangePb_init_zero       {0, 0}
+#define makesdr_CapabilitiesPb_init_zero         {0, false, makesdr_TxCapabilitiesPb_init_zero, false, makesdr_IqCapabilitiesPb_init_zero, 0, {makesdr_FrequencyRangePb_init_zero, makesdr_FrequencyRangePb_init_zero}}
 #define makesdr_ModePb_init_zero                 {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
 #define makesdr_ModeListPb_init_zero             {0, {makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero}}
 #define makesdr_BandPb_init_zero                 {"", "", 0, 0, 0, 0, 0, _makesdr_ModeType_MIN}
@@ -663,6 +700,15 @@ extern "C" {
 #define makesdr_RxMeteringPb_init_zero           {_makesdr_PipelineId_MIN, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
+#define makesdr_TxCapabilitiesPb_split_band_tag  1
+#define makesdr_IqCapabilitiesPb_dual_pipeline_tag 1
+#define makesdr_IqCapabilitiesPb_sample_rate_tag 2
+#define makesdr_FrequencyRangePb_min_tag         1
+#define makesdr_FrequencyRangePb_max_tag         2
+#define makesdr_CapabilitiesPb_rx_tag            1
+#define makesdr_CapabilitiesPb_tx_tag            2
+#define makesdr_CapabilitiesPb_iq_tag            3
+#define makesdr_CapabilitiesPb_frequency_ranges_tag 4
 #define makesdr_ModePb_type_tag                  1
 #define makesdr_ModePb_name_tag                  2
 #define makesdr_ModePb_label_tag                 3
@@ -768,31 +814,31 @@ extern "C" {
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_RxTxDualIqBandSettingsCachePb_band_settings_tag 1
-#define makesdr_BasicRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicRxSettingsPb_receiver_tag   2
-#define makesdr_BasicRxSettingsPb_ptt_tag        4
-#define makesdr_BasicIqRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicIqRxSettingsPb_receiver_tag 2
-#define makesdr_BasicIqRxSettingsPb_ptt_tag      4
-#define makesdr_DualIqRxSettingsPb_active_bands_tag 1
-#define makesdr_DualIqRxSettingsPb_receiver_tag  2
-#define makesdr_DualIqRxSettingsPb_ptt_tag       4
-#define makesdr_BasicRxTxSettingsPb_active_bands_tag 1
-#define makesdr_BasicRxTxSettingsPb_receiver_tag 2
-#define makesdr_BasicRxTxSettingsPb_transmitter_tag 3
-#define makesdr_BasicRxTxSettingsPb_ptt_tag      4
-#define makesdr_BasicIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_BasicIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_BasicIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_BasicIqRxTxSettingsPb_ptt_tag    4
-#define makesdr_DualIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_DualIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_DualIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_DualIqRxTxSettingsPb_ptt_tag     4
-#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 4
+#define makesdr_BasicRxSettingsPb_active_bands_tag 2
+#define makesdr_BasicRxSettingsPb_receiver_tag   3
+#define makesdr_BasicRxSettingsPb_ptt_tag        10
+#define makesdr_BasicIqRxSettingsPb_active_bands_tag 2
+#define makesdr_BasicIqRxSettingsPb_receiver_tag 3
+#define makesdr_BasicIqRxSettingsPb_ptt_tag      10
+#define makesdr_DualIqRxSettingsPb_active_bands_tag 2
+#define makesdr_DualIqRxSettingsPb_receiver_tag  3
+#define makesdr_DualIqRxSettingsPb_ptt_tag       10
+#define makesdr_BasicRxTxSettingsPb_active_bands_tag 2
+#define makesdr_BasicRxTxSettingsPb_receiver_tag 3
+#define makesdr_BasicRxTxSettingsPb_transmitter_tag 4
+#define makesdr_BasicRxTxSettingsPb_ptt_tag      10
+#define makesdr_BasicIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_BasicIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_BasicIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_BasicIqRxTxSettingsPb_ptt_tag    10
+#define makesdr_DualIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_DualIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_DualIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_DualIqRxTxSettingsPb_ptt_tag     10
+#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 10
 #define makesdr_FieldUpdatePb_path_tag           1
 #define makesdr_FieldUpdatePb_string_value_tag   2
 #define makesdr_FieldUpdatePb_int32_value_tag    3
@@ -817,6 +863,34 @@ extern "C" {
 #define makesdr_RxMeteringPb_agcGainDb_tag       3
 
 /* Struct field encoding specification for nanopb */
+#define makesdr_TxCapabilitiesPb_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     split_band,        1)
+#define makesdr_TxCapabilitiesPb_CALLBACK NULL
+#define makesdr_TxCapabilitiesPb_DEFAULT NULL
+
+#define makesdr_IqCapabilitiesPb_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     dual_pipeline,     1) \
+X(a, STATIC,   OPTIONAL, UINT32,   sample_rate,       2)
+#define makesdr_IqCapabilitiesPb_CALLBACK NULL
+#define makesdr_IqCapabilitiesPb_DEFAULT NULL
+
+#define makesdr_FrequencyRangePb_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, INT64,    min,               1) \
+X(a, STATIC,   SINGULAR, INT64,    max,               2)
+#define makesdr_FrequencyRangePb_CALLBACK NULL
+#define makesdr_FrequencyRangePb_DEFAULT NULL
+
+#define makesdr_CapabilitiesPb_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     rx,                1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  tx,                2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  iq,                3) \
+X(a, STATIC,   REPEATED, MESSAGE,  frequency_ranges,   4)
+#define makesdr_CapabilitiesPb_CALLBACK NULL
+#define makesdr_CapabilitiesPb_DEFAULT NULL
+#define makesdr_CapabilitiesPb_tx_MSGTYPE makesdr_TxCapabilitiesPb
+#define makesdr_CapabilitiesPb_iq_MSGTYPE makesdr_IqCapabilitiesPb
+#define makesdr_CapabilitiesPb_frequency_ranges_MSGTYPE makesdr_FrequencyRangePb
+
 #define makesdr_ModePb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    type,              1) \
 X(a, STATIC,   SINGULAR, STRING,   name,              2) \
@@ -1120,37 +1194,37 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_RxTxDualIqBandSettingsPb
 
 #define makesdr_BasicRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicRxSettingsPb_CALLBACK NULL
 #define makesdr_BasicRxSettingsPb_DEFAULT NULL
 #define makesdr_BasicRxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
 #define makesdr_BasicRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_BasicIqRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicIqRxSettingsPb_CALLBACK NULL
 #define makesdr_BasicIqRxSettingsPb_DEFAULT NULL
 #define makesdr_BasicIqRxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
 #define makesdr_BasicIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_DualIqRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_DualIqRxSettingsPb_CALLBACK NULL
 #define makesdr_DualIqRxSettingsPb_DEFAULT NULL
 #define makesdr_DualIqRxSettingsPb_active_bands_MSGTYPE makesdr_DualIqActiveBandSettingsPb
 #define makesdr_DualIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_BasicRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicRxTxSettingsPb_CALLBACK NULL
 #define makesdr_BasicRxTxSettingsPb_DEFAULT NULL
 #define makesdr_BasicRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
@@ -1158,10 +1232,10 @@ X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
 #define makesdr_BasicRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 #define makesdr_BasicIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicIqRxTxSettingsPb_CALLBACK NULL
 #define makesdr_BasicIqRxTxSettingsPb_DEFAULT NULL
 #define makesdr_BasicIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
@@ -1169,10 +1243,10 @@ X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
 #define makesdr_BasicIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 #define makesdr_DualIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_DualIqRxTxSettingsPb_CALLBACK NULL
 #define makesdr_DualIqRxTxSettingsPb_DEFAULT NULL
 #define makesdr_DualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_RxTxDualIqActiveBandSettingsPb
@@ -1180,10 +1254,10 @@ X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
 #define makesdr_DualIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 #define makesdr_SplitBandDualIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_SplitBandDualIqRxTxSettingsPb_CALLBACK NULL
 #define makesdr_SplitBandDualIqRxTxSettingsPb_DEFAULT NULL
 #define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_SplitBandDualIqActiveBandSettingsPb
@@ -1228,6 +1302,10 @@ X(a, STATIC,   SINGULAR, FLOAT,    agcGainDb,         3)
 #define makesdr_RxMeteringPb_CALLBACK NULL
 #define makesdr_RxMeteringPb_DEFAULT NULL
 
+extern const pb_msgdesc_t makesdr_TxCapabilitiesPb_msg;
+extern const pb_msgdesc_t makesdr_IqCapabilitiesPb_msg;
+extern const pb_msgdesc_t makesdr_FrequencyRangePb_msg;
+extern const pb_msgdesc_t makesdr_CapabilitiesPb_msg;
 extern const pb_msgdesc_t makesdr_ModePb_msg;
 extern const pb_msgdesc_t makesdr_ModeListPb_msg;
 extern const pb_msgdesc_t makesdr_BandPb_msg;
@@ -1277,6 +1355,10 @@ extern const pb_msgdesc_t makesdr_FftPb_msg;
 extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
+#define makesdr_TxCapabilitiesPb_fields &makesdr_TxCapabilitiesPb_msg
+#define makesdr_IqCapabilitiesPb_fields &makesdr_IqCapabilitiesPb_msg
+#define makesdr_FrequencyRangePb_fields &makesdr_FrequencyRangePb_msg
+#define makesdr_CapabilitiesPb_fields &makesdr_CapabilitiesPb_msg
 #define makesdr_ModePb_fields &makesdr_ModePb_msg
 #define makesdr_ModeListPb_fields &makesdr_ModeListPb_msg
 #define makesdr_BandPb_fields &makesdr_BandPb_msg
@@ -1345,6 +1427,7 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_BasicIqRxTxSettingsPb_size       399
 #define makesdr_BasicRxSettingsPb_size           263
 #define makesdr_BasicRxTxSettingsPb_size         287
+#define makesdr_CapabilitiesPb_size              64
 #define makesdr_DualIqActiveBandSettingsPb_size  528
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_size 537
 #define makesdr_DualIqBandSettingsCachePb_size   5400
@@ -1353,7 +1436,9 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_DualIqRxTxSettingsPb_size        756
 #define makesdr_FftPb_size                       1045
 #define makesdr_FieldUpdatePb_size               67
+#define makesdr_FrequencyRangePb_size            22
 #define makesdr_IfSettingsPb_size                26
+#define makesdr_IqCapabilitiesPb_size            8
 #define makesdr_IqCorrectionSettingsPb_size      40
 #define makesdr_IqPb_size                        20488
 #define makesdr_ModeListPb_size                  620
@@ -1373,6 +1458,7 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_SteppableFloatSettingPb_size     17
 #define makesdr_SteppableInt64SettingPb_size     35
 #define makesdr_TransmitterSettingsPb_size       22
+#define makesdr_TxCapabilitiesPb_size            2
 #define makesdr_TxPipelineSettingsPb_size        169
 
 #ifdef __cplusplus

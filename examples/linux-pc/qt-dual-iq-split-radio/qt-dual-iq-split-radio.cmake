@@ -19,7 +19,10 @@ target_include_directories(example-qt-dual-iq-split-radio PUBLIC
 target_link_libraries(example-qt-dual-iq-split-radio PUBLIC
         config-json
         radios-iq-dual-split
-        linux-test-utils
+        #        radios-iq-dual-rxtx-settings-model          # For working on this radio type
+#        radios-iq-dual-rx-settings-model          # For working on this radio type
+
+        test-utils
         core-linux-audio
         etl::etl
         ui-qt-main-window
@@ -29,5 +32,7 @@ target_link_libraries(example-qt-dual-iq-split-radio PUBLIC
         ui-qt-util
 
 #        settings-model-update-util-resolve-many
-#        settings-model-update-radios-dual-iq-split-lookup
+#        radios-iq-dual-split-settings-update-lookup
+#        radios-iq-dual-rxtx-settings-update-lookup  # For working on this radio type
+#        radios-iq-dual-rx-settings-update-lookup
 )

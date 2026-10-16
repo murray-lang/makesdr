@@ -45,6 +45,27 @@ enum AgcSpeed {
   AGC_FAST = 3;
 }
 
+message TxCapabilitiesPb {
+  bool split_band = 1;
+}
+
+message IqCapabilitiesPb {
+  bool dual_pipeline = 1;
+  optional uint32 sample_rate = 2;
+}
+
+message FrequencyRangePb {
+  int64 min = 1;
+  int64 max = 2;
+}
+
+message CapabilitiesPb {
+  bool rx = 1;
+  TxCapabilitiesPb tx = 2;
+  IqCapabilitiesPb iq = 3;
+  repeated FrequencyRangePb frequency_ranges = 4;
+}
+
 message ModePb {
   ModeType type = 1;
   string name = 2;
@@ -267,54 +288,54 @@ message RxTxDualIqBandSettingsCachePb {
 
 // No IQ, just control of a conventional receiver
 message BasicRxSettingsPb {
-  BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4; // Receivers have ptt so that they can respond by muting.
+  BasicActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10; // Receivers have ptt so that they can respond by muting.
 }
 
 // No-frills IQ receiver
 message BasicIqRxSettingsPb {
-  BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4;
+  BasicIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10;
 }
 
 message DualIqRxSettingsPb {
-  DualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4;
+  DualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10;
 }
 
 
 // No IQ, just control of a conventional transceiver
 message BasicRxTxSettingsPb {
-  BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  BasicActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 // No-frills IQ transceiver
 message BasicIqRxTxSettingsPb {
-  BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  BasicIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 message DualIqRxTxSettingsPb {
-  RxTxDualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  RxTxDualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 // Splittable TX and Rx, dual pipelines
 message SplitBandDualIqRxTxSettingsPb {
-  SplitBandDualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  SplitBandDualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 enum FieldUpdateMeaning {

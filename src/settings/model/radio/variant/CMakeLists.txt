@@ -22,5 +22,5 @@ target_link_libraries(settings-model-radio-variant PUBLIC
         settings-model-radio-iq-basic-rxtx
         settings-model-radio-iq-dual-rx
         settings-model-radio-iq-dual-rxtx
-        settings-model-radio-iq-dual-split
+        radios-iq-dual-split-settings-model
 )
