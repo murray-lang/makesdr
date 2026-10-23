@@ -20,6 +20,6 @@ target_include_directories(ui-qt-widgets-charts-panadapter PUBLIC
 
 target_link_libraries(ui-qt-widgets-charts-panadapter PUBLIC
         ui-qt-widgets-charts-base
-        settings-model-radio-iq-basic-common
+        settings-model-radio-iq-common
         core-common-dsp-transforms-power-spectrum
 )

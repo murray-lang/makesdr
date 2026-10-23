@@ -3,12 +3,12 @@ cmake_minimum_required(VERSION 4.1)
 project(core-common-transport-radio)
 
 set(RADIO_TRANSPORT_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/radio/ClientTransportT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/radio/RadioMessageExchangeT.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/radio/RadioTransportT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/IRadioPublishers.h
 )
 
-add_library(core-common-transport-radio INTERFACE ${RADIO_TRANSPORT_FILES})
+add_library(core-common-transport-radio INTERFACE
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/IRadioPublishers.h
+)
 
 target_include_directories(core-common-transport-radio INTERFACE
         ${INCLUDE_DIR}
@@ -16,9 +16,11 @@ target_include_directories(core-common-transport-radio INTERFACE
 )
 
 target_link_libraries(core-common-transport-radio INTERFACE
-        core-common-transport-base
-        settings-model-message
-        settings-model-radio-iq-basic-common
-        settings-model-meta-band
-        settings-model-meta-mode
+        core-common-transport-iq
+        core-common-transport-metering
+        core-common-transport-spectrum
 )
+
+#if(BUILD_TESTING)
+#    add_subdirectory(tests)
+#endif()

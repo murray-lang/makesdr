@@ -11,6 +11,7 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/IqIoConfig.h
         include/config/struct/ConfigBase.h
         include/config/struct/BandSelectorConfig.h
+        include/config/struct/CapabilitiesConfig.h
         include/config/struct/DigitalInputsConfig.h
         include/config/struct/FunCubeConfig.h
         include/config/struct/BandSelectorBandsConfig.h
@@ -19,6 +20,7 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/ControlConfig.h
         include/config/struct/DigitalOutputConfig.h
         include/config/struct/GpioLinesConfig.h
+        include/config/struct/IqCapabilitiesConfig.h
         include/config/struct/GpioInputLinesConfig.h
         include/config/struct/RadioConfig.h
         include/config/struct/IqReceiverConfig.h
@@ -28,7 +30,9 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/SdrConfig.h
         include/config/struct/IqTransmitterConfig.h
         include/config/struct/FieldDescriptorConfig.h
+        include/config/struct/FrequencyRangeConfig.h
         include/config/struct/SoftRockConfig.h
+        include/config/struct/TxCapabilitiesConfig.h
         include/config/struct/UiConfig.h
         include/config/struct/UsbControlSinksConfig.h
 )

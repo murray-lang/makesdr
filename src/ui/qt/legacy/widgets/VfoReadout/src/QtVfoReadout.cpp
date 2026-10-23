@@ -34,7 +34,7 @@ void QtVfoReadout::setBandId(SplitBandId bandId)
 }
 
 void
-QtVfoReadout::applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand)
+QtVfoReadout::applyBandSettings(const IBandSettingsView* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand)
 {
   if (isLoneVfo) {
     setMultiVfoAction(MultiVfoAction::Multi);

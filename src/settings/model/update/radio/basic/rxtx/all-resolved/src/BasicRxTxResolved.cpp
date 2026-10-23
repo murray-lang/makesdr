@@ -2,423 +2,427 @@
 
 // Pre-resolved field descriptors (no string processing at runtime)
 // Uncomment the ones you need, likewise in BasicRxTxResolved.h
+
+namespace BasicRxTxResolved{
 /*
 const FieldDescriptor active_bands = FieldDescriptor(
-    FieldPath{1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band = FieldDescriptor(
-    FieldPath{1, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_request = FieldDescriptor(
-    FieldPath{1, 1, 1},
-    true,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band = FieldDescriptor(
-    FieldPath{1, 1, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_name = FieldDescriptor(
-    FieldPath{1, 1, 2, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_label = FieldDescriptor(
-    FieldPath{1, 1, 2, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_lowest_frequency = FieldDescriptor(
-    FieldPath{1, 1, 2, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_highest_frequency = FieldDescriptor(
-    FieldPath{1, 1, 2, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_landing_frequency = FieldDescriptor(
-    FieldPath{1, 1, 2, 5},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_fine_step = FieldDescriptor(
-    FieldPath{1, 1, 2, 6},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_coarse_step = FieldDescriptor(
-    FieldPath{1, 1, 2, 7},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode = FieldDescriptor(
-    FieldPath{1, 1, 2, 8},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_type = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_name = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_label = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_lo_cut = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_hi_cut = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 5},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_band_default_mode_offset = FieldDescriptor(
-    FieldPath{1, 1, 2, 8, 6},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_request = FieldDescriptor(
-    FieldPath{1, 1, 3},
-    true,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode = FieldDescriptor(
-    FieldPath{1, 1, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_type = FieldDescriptor(
-    FieldPath{1, 1, 4, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_name = FieldDescriptor(
-    FieldPath{1, 1, 4, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_label = FieldDescriptor(
-    FieldPath{1, 1, 4, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_lo_cut = FieldDescriptor(
-    FieldPath{1, 1, 4, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_hi_cut = FieldDescriptor(
-    FieldPath{1, 1, 4, 5},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_mode_offset = FieldDescriptor(
-    FieldPath{1, 1, 4, 6},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf = FieldDescriptor(
-    FieldPath{1, 1, 5},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_frequency = FieldDescriptor(
-    FieldPath{1, 1, 5, 1001},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_frequency_value = FieldDescriptor(
-    FieldPath{1, 1, 5, 1001, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_frequency_coarse_delta = FieldDescriptor(
-    FieldPath{1, 1, 5, 1001, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_frequency_fine_delta = FieldDescriptor(
-    FieldPath{1, 1, 5, 1001, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_frequency_use_fine = FieldDescriptor(
-    FieldPath{1, 1, 5, 1001, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_gain = FieldDescriptor(
-    FieldPath{1, 1, 5, 1002},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_gain_value = FieldDescriptor(
-    FieldPath{1, 1, 5, 1002, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_gain_coarse_delta = FieldDescriptor(
-    FieldPath{1, 1, 5, 1002, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_gain_fine_delta = FieldDescriptor(
-    FieldPath{1, 1, 5, 1002, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_rf_gain_use_fine = FieldDescriptor(
-    FieldPath{1, 1, 5, 1002, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if = FieldDescriptor(
-    FieldPath{1, 1, 6},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_gain = FieldDescriptor(
-    FieldPath{1, 1, 6, 1001},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_gain_value = FieldDescriptor(
-    FieldPath{1, 1, 6, 1001, 1},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_gain_coarse_delta = FieldDescriptor(
-    FieldPath{1, 1, 6, 1001, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_gain_fine_delta = FieldDescriptor(
-    FieldPath{1, 1, 6, 1001, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_gain_use_fine = FieldDescriptor(
-    FieldPath{1, 1, 6, 1001, 4},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_if_bandwidth = FieldDescriptor(
-    FieldPath{1, 1, 6, 2},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor active_bands_focus_band_agc_speed = FieldDescriptor(
-    FieldPath{1, 1, 3},
-    false,
-    false
-);
-*/
-/*
-const FieldDescriptor receiver = FieldDescriptor(
     FieldPath{2},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume = FieldDescriptor(
-    FieldPath{2, 2},
+const FieldDescriptor active_bands_focus_band = FieldDescriptor(
+    FieldPath{2, 1},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume_gain = FieldDescriptor(
-    FieldPath{2, 2, 1001},
+const FieldDescriptor active_bands_focus_band_band_request = FieldDescriptor(
+    FieldPath{2, 1, 1},
+    true,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band = FieldDescriptor(
+    FieldPath{2, 1, 2},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume_gain_value = FieldDescriptor(
-    FieldPath{2, 2, 1001, 1},
+const FieldDescriptor active_bands_focus_band_band_name = FieldDescriptor(
+    FieldPath{2, 1, 2, 1},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume_gain_coarse_delta = FieldDescriptor(
-    FieldPath{2, 2, 1001, 2},
+const FieldDescriptor active_bands_focus_band_band_label = FieldDescriptor(
+    FieldPath{2, 1, 2, 2},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume_gain_fine_delta = FieldDescriptor(
-    FieldPath{2, 2, 1001, 3},
+const FieldDescriptor active_bands_focus_band_band_lowest_frequency = FieldDescriptor(
+    FieldPath{2, 1, 2, 3},
     false,
     false
 );
 */
 /*
-const FieldDescriptor receiver_volume_gain_use_fine = FieldDescriptor(
-    FieldPath{2, 2, 1001, 4},
+const FieldDescriptor active_bands_focus_band_band_highest_frequency = FieldDescriptor(
+    FieldPath{2, 1, 2, 4},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter = FieldDescriptor(
+const FieldDescriptor active_bands_focus_band_band_landing_frequency = FieldDescriptor(
+    FieldPath{2, 1, 2, 5},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_fine_step = FieldDescriptor(
+    FieldPath{2, 1, 2, 6},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_coarse_step = FieldDescriptor(
+    FieldPath{2, 1, 2, 7},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode = FieldDescriptor(
+    FieldPath{2, 1, 2, 8},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_type = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_name = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_label = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_lo_cut = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_hi_cut = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 5},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_band_default_mode_offset = FieldDescriptor(
+    FieldPath{2, 1, 2, 8, 6},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_request = FieldDescriptor(
+    FieldPath{2, 1, 3},
+    true,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode = FieldDescriptor(
+    FieldPath{2, 1, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_type = FieldDescriptor(
+    FieldPath{2, 1, 4, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_name = FieldDescriptor(
+    FieldPath{2, 1, 4, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_label = FieldDescriptor(
+    FieldPath{2, 1, 4, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_lo_cut = FieldDescriptor(
+    FieldPath{2, 1, 4, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_hi_cut = FieldDescriptor(
+    FieldPath{2, 1, 4, 5},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_mode_offset = FieldDescriptor(
+    FieldPath{2, 1, 4, 6},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf = FieldDescriptor(
+    FieldPath{2, 1, 5},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_frequency = FieldDescriptor(
+    FieldPath{2, 1, 5, 1001},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_frequency_value = FieldDescriptor(
+    FieldPath{2, 1, 5, 1001, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_frequency_coarse_delta = FieldDescriptor(
+    FieldPath{2, 1, 5, 1001, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_frequency_fine_delta = FieldDescriptor(
+    FieldPath{2, 1, 5, 1001, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_frequency_use_fine = FieldDescriptor(
+    FieldPath{2, 1, 5, 1001, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_gain = FieldDescriptor(
+    FieldPath{2, 1, 5, 1002},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_gain_value = FieldDescriptor(
+    FieldPath{2, 1, 5, 1002, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_gain_coarse_delta = FieldDescriptor(
+    FieldPath{2, 1, 5, 1002, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_gain_fine_delta = FieldDescriptor(
+    FieldPath{2, 1, 5, 1002, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_rf_gain_use_fine = FieldDescriptor(
+    FieldPath{2, 1, 5, 1002, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if = FieldDescriptor(
+    FieldPath{2, 1, 6},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_gain = FieldDescriptor(
+    FieldPath{2, 1, 6, 1001},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_gain_value = FieldDescriptor(
+    FieldPath{2, 1, 6, 1001, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_gain_coarse_delta = FieldDescriptor(
+    FieldPath{2, 1, 6, 1001, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_gain_fine_delta = FieldDescriptor(
+    FieldPath{2, 1, 6, 1001, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_gain_use_fine = FieldDescriptor(
+    FieldPath{2, 1, 6, 1001, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_if_bandwidth = FieldDescriptor(
+    FieldPath{2, 1, 6, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor active_bands_focus_band_agc_speed = FieldDescriptor(
+    FieldPath{2, 1, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor receiver = FieldDescriptor(
     FieldPath{3},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic = FieldDescriptor(
+const FieldDescriptor receiver_volume = FieldDescriptor(
     FieldPath{3, 2},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic_gain = FieldDescriptor(
+const FieldDescriptor receiver_volume_gain = FieldDescriptor(
     FieldPath{3, 2, 1001},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic_gain_value = FieldDescriptor(
+const FieldDescriptor receiver_volume_gain_value = FieldDescriptor(
     FieldPath{3, 2, 1001, 1},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic_gain_coarse_delta = FieldDescriptor(
+const FieldDescriptor receiver_volume_gain_coarse_delta = FieldDescriptor(
     FieldPath{3, 2, 1001, 2},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic_gain_fine_delta = FieldDescriptor(
+const FieldDescriptor receiver_volume_gain_fine_delta = FieldDescriptor(
     FieldPath{3, 2, 1001, 3},
     false,
     false
 );
 */
 /*
-const FieldDescriptor transmitter_mic_gain_use_fine = FieldDescriptor(
+const FieldDescriptor receiver_volume_gain_use_fine = FieldDescriptor(
     FieldPath{3, 2, 1001, 4},
     false,
     false
 );
 */
 /*
-const FieldDescriptor ptt = FieldDescriptor(
+const FieldDescriptor transmitter = FieldDescriptor(
     FieldPath{4},
     false,
     false
 );
 */
+/*
+const FieldDescriptor transmitter_mic = FieldDescriptor(
+    FieldPath{4, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor transmitter_mic_gain = FieldDescriptor(
+    FieldPath{4, 2, 1001},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor transmitter_mic_gain_value = FieldDescriptor(
+    FieldPath{4, 2, 1001, 1},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor transmitter_mic_gain_coarse_delta = FieldDescriptor(
+    FieldPath{4, 2, 1001, 2},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor transmitter_mic_gain_fine_delta = FieldDescriptor(
+    FieldPath{4, 2, 1001, 3},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor transmitter_mic_gain_use_fine = FieldDescriptor(
+    FieldPath{4, 2, 1001, 4},
+    false,
+    false
+);
+*/
+/*
+const FieldDescriptor ptt = FieldDescriptor(
+    FieldPath{10},
+    false,
+    false
+);
+*/
+
+}

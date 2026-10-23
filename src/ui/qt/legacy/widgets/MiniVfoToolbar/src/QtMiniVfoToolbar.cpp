@@ -62,7 +62,7 @@ QtMiniVfoToolbar::setFixedProperties()
 }
 
 void
-QtMiniVfoToolbar::applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isFocusBand, bool isTxBand)
+QtMiniVfoToolbar::applyBandSettings(const IBandSettingsView* bandSettings, bool isFocusBand, bool isTxBand)
 {
   m_bandSettings = bandSettings;
   refreshFromSettings(isFocusBand, isTxBand);
@@ -140,10 +140,10 @@ void QtMiniVfoToolbar::refreshFromSettings(bool isFocusBand, bool isTxBand)
 }
 
 bool
-QtMiniVfoToolbar::getIsMuted(const RxTxDualIqBandSettings* bandSettings) const noexcept
+QtMiniVfoToolbar::getIsMuted(const IBandSettingsView* bandSettings) const noexcept
 {
   const RxPipelineSettings* pipeline = bandSettings->pipeline(m_vfoId);
-  return pipeline->mute();
+  return pipeline != nullptr && pipeline->mute();
 }
 
 void QtMiniVfoToolbar::onAbPressed()

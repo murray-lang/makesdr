@@ -3,7 +3,6 @@
 #include <QMainWindow>
 #include <ui/qt/QtRadioClient.h>
 #include <ui/qt/faces/FaceBase.h>
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 #include <ui/qt/widgets/QtBandDialog.h>
 #include <ui/qt/widgets/QtStepper.h>
 
@@ -20,10 +19,6 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  using RadioSettings = SplitBandDualIqRxTxSettings;
-  using ActiveBandSettings = RadioSettings::ActiveBandSettings;
-  using BandSettings = ActiveBandSettings::BandSettings;
-
   explicit MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent = nullptr);
   ~MainWindow() override;
 
@@ -39,20 +34,15 @@ public slots:
   void on_actionKeypad_triggered();
   // void on_actionMode_triggered();
   // void on_actionLevels_triggered();
-  void handleRadioSettings(const RadioSettings* settings/*, uint64_t sequence*/);
-  void handleReceiverIq(const IqMessage* iq) ;
+  void handleRadioSettings(const IRadioSettingsView* settings);
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate);
   void handleRxMetering(const RxMeteringMessage* metering);
-  void handleMonitorFft(const FftMessage* fft);
+  void handleSpectrum(const SpectrumMessage* spectrum);
   // void handleTransmitterIq( const ComplexSamplesMax* data, uint32_t length, uint32_t sampleRate );
   // void handleTransmitterAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate);
 
 protected:
-
-
   void closeActiveToolbarPopups();
-
-  void handleRefreshedSettings(const RadioSettings* settings);
 
 private:
   void initializeWindow();

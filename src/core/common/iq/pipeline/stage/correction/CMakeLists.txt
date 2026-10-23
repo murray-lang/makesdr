@@ -18,6 +18,7 @@ target_include_directories(core-common-iq-pipeline-stage-correction PUBLIC
 )
 
 target_link_libraries(core-common-iq-pipeline-stage-correction PUBLIC
+
         core-common-iq-pipeline-stage-base
-        settings-model-radio-iq-basic-common
+        settings-model-radio-iq-common
 )

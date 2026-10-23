@@ -1,4 +1,4 @@
-#include "settings/model/radio/iq/SplitBandDualIqRxTxUpdater.h"
+#include <settings/model/radio/iq/SplitBandDualIqRxTxUpdater.h>
 #include <settings/model/update/SplitBandDualIqResolved.h>
 #include <settings/model/update/FieldUpdate.h>
 
@@ -6,6 +6,8 @@
 #include <settings/model/radio/SplitBandId.h>
 
 #include <settings/model/meta/band/BandTypes.h>
+
+using namespace SplitBandDualIqResolved;
 
 ResultCode
 SplitBandDualIqRxTxUpdater::selectBand(const char * bandName, bool final)
@@ -147,7 +149,6 @@ SplitBandDualIqRxTxUpdater::setFocusMode(Mode::Type modeType, bool final)
 ResultCode
 SplitBandDualIqRxTxUpdater::setFocusAgc(AgcSpeed agcSpeed, bool final)
 {
-  //active_bands_focus_band_focus_pipeline_agc_speed
   return notifyFieldUpdate(
     FieldUpdate(active_bands_focus_band_focus_pipeline_agc_speed, agcSpeed, FieldUpdateMeaning::VALUE, final)
   );

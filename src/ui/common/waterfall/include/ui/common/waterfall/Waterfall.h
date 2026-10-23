@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/iq/SpectrumMessage.h>
 #include <dsp/transforms/power-spectrum/PowerSpectrumT.h>
 
 
@@ -106,24 +106,24 @@ public:
   //   bool shuffled = true;
   // };
 
-  void addSpectrum(const FftMessage* fftMsg, int64_t centreFrequency)
+  void addSpectrum(const SpectrumMessage* spectrumMessage, int64_t centreFrequency)
   {
-    float floor = fftMsg->floor();
-    float ceiling = fftMsg->ceiling();
+    float floor = spectrumMessage->floor();
+    float ceiling = spectrumMessage->ceiling();
 
     if (m_minDb != floor || m_maxDb != ceiling) {
       setDbRange(floor, ceiling);
     }
-    uint32_t numBins = fftMsg->bins().size;
+    uint32_t numBins = spectrumMessage->bins().size;
     PowerSpectrumT<uint8_t, MONITOR_FFT_SIZE > powerSpectrum(floor, ceiling);
     RealMonitorFft scaled;
-    powerSpectrum.rescale(fftMsg->bins().bytes, numBins, scaled.data());
+    powerSpectrum.rescale(spectrumMessage->bins().bytes, numBins, scaled.data());
 
     SpectrumFrame<float> frame {
       .bins = scaled.data(),
       .binCount = numBins,
       .centreFrequency = centreFrequency,
-      .span = fftMsg->sampleRate(),
+      .span = spectrumMessage->sampleRate(),
       .shuffled = false
     };
     addSpectrum<float>(frame);

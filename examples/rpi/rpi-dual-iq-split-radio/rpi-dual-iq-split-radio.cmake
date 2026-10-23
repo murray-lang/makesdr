@@ -30,5 +30,5 @@ target_link_libraries(example-rpi-dual-iq-split-radio PUBLIC
         settings-control-hal-digital
 
 #        settings-model-update-util-resolve-many
-#        settings-model-update-radios-dual-iq-split-lookup
+#        settings-model-update-radios-dual-split-lookup
 )

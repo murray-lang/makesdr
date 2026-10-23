@@ -8,7 +8,7 @@
 #include <samples/SampleTypes.h>
 #include <settings/model/radio/PipelineId.h>
 #include <settings/model/radio/SplitBandId.h>
-#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/IBandSettingsView.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
 
 class QtMiniVfoToolbar;
@@ -22,7 +22,7 @@ public:
 
   // Band context so the embedded toolbar can generate correct FieldUpdates.
   void setBandId(SplitBandId bandId);
-  void applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand);
+  void applyBandSettings(const IBandSettingsView* bandSettings, bool isLoneVfo, bool isFocusBand, bool isTxBand);
   void setModeText(const QString& text);
 
   // Forwarded API (public surface = “a VFO cell”, not “a number label”)

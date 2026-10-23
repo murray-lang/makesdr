@@ -1,9 +1,10 @@
 #include <radios/iq/SplitBandDualIqRadio.h>
 #include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+
 #include <settings/model/meta/band/mostBandCategories.h>
 #include <settings/model/meta/mode/basicModes.h>
 #include <config/json/RadioConfig.json.h>
-#include <linux/test-utils/QtTransportTestRadio.h>
+// #include <linux/test-utils/QtTransportTestRadio.h>
 #include <radios/iq/SplitBandDualIqRadio.h>
 #include <fstream>
 
@@ -15,8 +16,14 @@
 #include <ui/qt/MainWindow.h>
 #include <test-utils/testRadioSettings.h>
 
+
+
 // #include <settings/model/update/generateResolvedPathSourceFiles.h>
-// #include <settings/model/update/SplitBandDualIqTagLookup.h>
+//  #include <settings/model/update/SplitBandDualIqTagLookup.h>
+
+// #include <radios/settings/model/DualIqRxTxSettings.h>
+// #include <settings/model/update/DualIqRxTxTagLookup.h>
+// #include <settings/model/update/DualIqRxTagLookup.h>
 
 BandCategoryList bandsByCategory(mostBandCategories);
 ModeList modeList(basicModes);
@@ -25,6 +32,10 @@ SplitBandDualIqRxTxSettings::Cache bandSettingsCache;
 int main(int argc, char *argv[])
 {
   // generateResolvedPathSourceFiles(split_band_dual_iq_radio_fields, "SplitBandDualIqResolved");
+  // return 0;
+  // generateResolvedPathSourceFiles(dual_iq_rxtx_radio_fields, "DualIqRxTxResolved");
+  // return 0;
+  // generateResolvedPathSourceFiles(dual_iq_rx_radio_fields, "DualIqRxResolved");
   // return 0;
   // QtTransportTestRadio radio;
   // SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
@@ -40,9 +51,10 @@ int main(int argc, char *argv[])
   Config::Radio::Fields radioConfig;
   ResultCode rc = loadRadioConfig(configPath, radioConfig);
   if (rc != ResultCode::OK) {
+    qDebug() << "Error loading config: " << static_cast<uint32_t>(rc);
     return -1;
   }
-  SplitBandDualIqRadio radio(bandsByCategory, modeList, bandSettingsCache);
+  SplitBandDualIqRxTxRadio radio(bandsByCategory, modeList, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
     qDebug() << "Error configuring radio: " << static_cast<uint32_t>(rc);

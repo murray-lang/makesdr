@@ -2,11 +2,11 @@
 
 #include <ResultCode.h>
 #include <settings/model/update/FieldDescriptor.h>
-#include <settings/model/radio/IActiveBandSettingsT.h>
+#include <settings/model/radio/ActiveBandSettingsDefaultsT.h>
 #include "BasicBandSettings.h"
 #include "BasicBandSettingsCache.h"
 
-class BasicActiveBandSettings : public IActiveBandSettingsT<BasicBandSettings>
+class BasicActiveBandSettings : public ActiveBandSettingsDefaultsT<BasicActiveBandSettings, BasicBandSettings>
 {
 public:
   using Proto = makesdr_BasicActiveBandSettingsPb;
@@ -14,14 +14,14 @@ public:
 
   BasicActiveBandSettings(Proto& raw);
 
-  [[nodiscard]] bool hasFocusBand() const override { return m_rawSettings.has_focus_band; }
-  BandSettings* focusBandSettings() override;
-  [[nodiscard]] const BandSettings* focusBandSettings() const override;
+  [[nodiscard]] bool hasFocusBand() const { return m_rawSettings.has_focus_band; }
+  BandSettings* focusBandSettings();
+  [[nodiscard]] const BandSettings* focusBandSettings() const;
 
-  [[nodiscard]] const Band * getFocusBand() const override { return m_bandSettings.getBand(); }
-  [[nodiscard]] const Mode * getFocusMode() const override { return m_bandSettings.getFocusMode(); }
+  [[nodiscard]] const Band * getFocusBand() const { return m_bandSettings.getBand(); }
+  [[nodiscard]] const Mode * getFocusMode() const { return m_bandSettings.getFocusMode(); }
 
-  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) override
+  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex)
   {
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID; // No indirect fields in "Basic" classes
   }

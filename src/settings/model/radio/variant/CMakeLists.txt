@@ -18,8 +18,8 @@ target_include_directories(settings-model-radio-variant PUBLIC
 target_link_libraries(settings-model-radio-variant PUBLIC
         settings-model-radio-basic-rx
         settings-model-radio-basic-rxtx
-        settings-model-radio-iq-basic-rx
-        settings-model-radio-iq-basic-rxtx
+        settings-model-radio-iq-single-rx
+        settings-model-radio-iq-single-rxtx
         settings-model-radio-iq-dual-rx
         settings-model-radio-iq-dual-rxtx
         settings-model-radio-iq-dual-split

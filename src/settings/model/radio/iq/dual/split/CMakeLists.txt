@@ -21,14 +21,15 @@ set(SPLIT_DUAL_IQ_RXTX_LIBS
         settings-model-radio-base
         settings-model-radio-iq-dual-common
         settings-model-meta-radio
-        settings-model-update-radios-dual-iq-split-resolved
+        settings-model-update-radios-dual-split-resolved
 )
 
 if (USE_DOTTED_STRING_PATHS)
     set(SPLIT_DUAL_IQ_RXTX_LIBS
             ${SPLIT_DUAL_IQ_RXTX_LIBS}
-            settings-model-update-radios-dual-iq-split-lookup
+            settings-model-update-radios-dual-split-lookup
             settings-model-update-util-resolve-one
+            settings-model-update-base
     )
 endif()
 target_link_libraries(settings-model-radio-iq-dual-split PUBLIC

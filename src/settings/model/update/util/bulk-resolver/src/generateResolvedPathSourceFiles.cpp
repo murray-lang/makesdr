@@ -72,8 +72,8 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
     hFile << "#pragma once\n";
     hFile << "#include <settings/model/update/FieldDescriptor.h>\n\n";
     hFile << "// Auto-generated pre-resolved field descriptors\n";
-    hFile << "// Uncomment the ones you need, likewise in " << sourceFile << "\n";
-    // hFile << "namespace FieldPaths {\n\n";
+    hFile << "// Uncomment the ones you need, likewise in " << sourceFile << "\n\n";
+    hFile << "namespace " << baseName << "{\n";
 
     for (const auto& path : allPaths) {
         // Convert dotted path to valid C++ identifier
@@ -85,15 +85,15 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
         hFile << "// extern const FieldDescriptor " << identifier << ";\n";
     }
 
-    // hFile << "\n} // namespace FieldPaths\n";
+    hFile << "\n}\n";
     hFile.close();
 
     // Generate source file
     std::ofstream cppFile(sourceFile);
     cppFile << "#include \"" << headerFile << "\"\n\n";
     cppFile << "// Pre-resolved field descriptors (no string processing at runtime)\n";
-    cppFile << "// Uncomment the ones you need, likewise in " << headerFile << "\n";
-    // cppFile << "namespace FieldPaths {\n\n";
+    cppFile << "// Uncomment the ones you need, likewise in " << headerFile << "\n\n";
+    cppFile << "namespace " << baseName << "{\n";
 
     for (const auto& path : allPaths) {
         // Convert dotted path to valid C++ identifier
@@ -117,7 +117,7 @@ void generateResolvedPathSourceFiles(const FieldEntry* fieldEntries, const char*
         cppFile << "*/\n";
     }
 
-    // cppFile << "\n} // namespace FieldPaths\n";
+    cppFile << "\n}\n";
     cppFile.close();
 
     std::cout << "Generated " << allPaths.size() << " pre-resolved field descriptors:\n";

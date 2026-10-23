@@ -7,7 +7,12 @@
 BasicRxTxSettings::BasicRxTxSettings()
   : BasicRxTxSettingsBaseType()
   , m_transmitterSettings(m_payload.body.transmitter)
-{}
+{
+  m_payload.body.capabilities.rx = true;
+  m_payload.body.capabilities.has_tx = true;
+  m_payload.body.capabilities.tx.split_band = false;
+  m_payload.body.capabilities.has_iq = false;
+}
 
 #ifdef USE_DOTTED_STRING_PATHS
 ResolveDottedStringFunc

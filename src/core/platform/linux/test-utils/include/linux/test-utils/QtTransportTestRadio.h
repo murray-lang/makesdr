@@ -1,5 +1,5 @@
 #pragma once
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
 #include <settings/model/meta/mode/ModeList.h>
 #include <settings/model/meta/band/BandCategoryList.h>
 #include <radios/base/RadioBaseT.h>
@@ -23,7 +23,7 @@ public:
   ResultCode start() override;
   void stop() override;
 
-  [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const SplitBandDualIqRxTxSettings* getSettings() const  override { return &m_settings; }
 
   ResultCode applyMessage(SplitBandDualIqRxTxSettings* message) final;
   ResultCode applyMessage(FieldUpdateMessage* update) final;

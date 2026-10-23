@@ -15,6 +15,7 @@ target_include_directories(core-common-iq-pipeline-stage-s-meter PUBLIC
 target_link_libraries(core-common-iq-pipeline-stage-s-meter PUBLIC
         core-common-samples
         core-common-dsp-constants
-        core-common-transport-radio
         core-common-iq-pipeline-stage-base
+        core-common-transport-iq
+        core-common-transport-metering
 )

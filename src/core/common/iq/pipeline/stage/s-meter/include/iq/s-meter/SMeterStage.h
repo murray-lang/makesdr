@@ -3,7 +3,7 @@
 #include <iq/pipeline/stage/IqPipelineStage.h>
 #include <iq/pipeline/stage/SampleRateProvider.h>
 #include <iq/pipeline/stage/AgcGainDbProvider.h>
-#include <transport/radio/RxMeteringPublisher.h>
+#include <transport/RxMeteringPublisher.h>
 
 #include <cmath>
 #include <chrono>

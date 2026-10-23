@@ -171,7 +171,7 @@ message BasicBandSettingsPb {
   optional AgcSpeed agc_speed = 7;
 }
 
-message BasicIqBandSettingsPb {
+message SingleIqBandSettingsPb {
   oneof band_or_request {
     string band_request = 1;
     BandPb band = 2;
@@ -222,8 +222,8 @@ message BasicActiveBandSettingsPb {
 
 }
 
-message BasicIqActiveBandSettingsPb {
-  BasicIqBandSettingsPb focus_band = 1;
+message SingleIqActiveBandSettingsPb {
+  SingleIqBandSettingsPb focus_band = 1;
 
 }
 
@@ -245,16 +245,14 @@ message SplitBandDualIqActiveBandSettingsPb {
   optional SplitBandId tx_band_id = 5;
   optional SplitBandId rx_band_id = 6;
   optional bool is_split = 7;
-
-
 }
 
 message BasicBandSettingsCachePb {
   map<string, BasicBandSettingsPb> band_settings = 1;
 }
 
-message BasicIqBandSettingsCachePb {
-  map<string, BasicIqBandSettingsPb> band_settings = 1;
+message SingleIqBandSettingsCachePb {
+  map<string, SingleIqBandSettingsPb> band_settings = 1;
 }
 
 message DualIqBandSettingsCachePb {
@@ -267,54 +265,54 @@ message RxTxDualIqBandSettingsCachePb {
 
 // No IQ, just control of a conventional receiver
 message BasicRxSettingsPb {
-  BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4; // Receivers have ptt so that they can respond by muting.
+  BasicActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10; // Receivers have ptt so that they can respond by muting.
 }
 
 // No-frills IQ receiver
-message BasicIqRxSettingsPb {
-  BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4;
+message SingleIqRxSettingsPb {
+  SingleIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10;
 }
 
 message DualIqRxSettingsPb {
-  DualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional bool ptt = 4;
+  DualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional bool ptt = 10;
 }
 
 
 // No IQ, just control of a conventional transceiver
 message BasicRxTxSettingsPb {
-  BasicActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  BasicActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 // No-frills IQ transceiver
-message BasicIqRxTxSettingsPb {
-  BasicIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+message SingleIqRxTxSettingsPb {
+  SingleIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 message DualIqRxTxSettingsPb {
-  RxTxDualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  RxTxDualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 // Splittable TX and Rx, dual pipelines
 message SplitBandDualIqRxTxSettingsPb {
-  SplitBandDualIqActiveBandSettingsPb active_bands = 1;
-  optional ReceiverSettingsPb receiver = 2;
-  optional TransmitterSettingsPb transmitter = 3;
-  optional bool ptt = 4;
+  SplitBandDualIqActiveBandSettingsPb active_bands = 2;
+  optional ReceiverSettingsPb receiver = 3;
+  optional TransmitterSettingsPb transmitter = 4;
+  optional bool ptt = 10;
 }
 
 enum FieldUpdateMeaning {
@@ -345,7 +343,7 @@ message IqPb {
   uint32 sample_rate = 3;
 }
 
-message FftPb {
+message SpectrumPb {
   PipelineId pipeline_id = 1;
   bytes bins = 2;
   uint32 sample_rate = 3;

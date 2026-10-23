@@ -1,11 +1,11 @@
 #pragma once
-#include <settings/model/base/FieldDescriptor.h>
+#include <settings/model/update/FieldDescriptor.h>
 
 // Auto-generated pre-resolved field descriptors
 // Uncomment the ones you need, likewise in DualIqRxTxResolved.cpp
 // extern const FieldDescriptor active_bands;
 // extern const FieldDescriptor active_bands_focus_band;
-// extern const FieldDescriptor active_bands_focus_band_band_request;
+extern const FieldDescriptor active_bands_focus_band_band_request;
 // extern const FieldDescriptor active_bands_focus_band_band;
 // extern const FieldDescriptor active_bands_focus_band_band_name;
 // extern const FieldDescriptor active_bands_focus_band_band_label;
@@ -22,7 +22,7 @@
 // extern const FieldDescriptor active_bands_focus_band_band_default_mode_hi_cut;
 // extern const FieldDescriptor active_bands_focus_band_band_default_mode_offset;
 // extern const FieldDescriptor active_bands_focus_band_rf;
-// extern const FieldDescriptor active_bands_focus_band_rf_frequency;
+extern const FieldDescriptor active_bands_focus_band_rf_frequency;
 // extern const FieldDescriptor active_bands_focus_band_rf_frequency_value;
 // extern const FieldDescriptor active_bands_focus_band_rf_frequency_coarse_delta;
 // extern const FieldDescriptor active_bands_focus_band_rf_frequency_fine_delta;
@@ -41,7 +41,7 @@
 // extern const FieldDescriptor active_bands_focus_band_if_bandwidth;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_request;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_request;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_type;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_name;
@@ -50,8 +50,8 @@
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_hi_cut;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_mode_offset;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_value;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_value;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_coarse_delta;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_fine_delta;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_rf_frequency_use_fine;
@@ -68,8 +68,8 @@
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_iq_corrections_phase_coarse_delta;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_iq_corrections_phase_fine_delta;
 // extern const FieldDescriptor active_bands_focus_band_focus_pipeline_base_iq_corrections_phase_use_fine;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_mute;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_agc_speed;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_mute;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_agc_speed;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a_base;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_a_base_mode_request;
@@ -132,8 +132,8 @@
 // extern const FieldDescriptor active_bands_focus_band_pipeline_b_base_iq_corrections_phase_use_fine;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_b_mute;
 // extern const FieldDescriptor active_bands_focus_band_pipeline_b_agc_speed;
-// extern const FieldDescriptor active_bands_focus_band_is_multi_pipeline;
-// extern const FieldDescriptor active_bands_focus_band_focus_pipeline_id;
+extern const FieldDescriptor active_bands_focus_band_is_multi_pipeline;
+extern const FieldDescriptor active_bands_focus_band_focus_pipeline_id;
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline;
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline_base;
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline_base_mode_request;
@@ -163,7 +163,7 @@
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline_base_iq_corrections_phase_coarse_delta;
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline_base_iq_corrections_phase_fine_delta;
 // extern const FieldDescriptor active_bands_focus_band_tx_pipeline_base_iq_corrections_phase_use_fine;
-// extern const FieldDescriptor active_bands_focus_band_tx_pipeline_id;
+extern const FieldDescriptor active_bands_focus_band_tx_pipeline_id;
 // extern const FieldDescriptor receiver;
 // extern const FieldDescriptor receiver_volume;
 // extern const FieldDescriptor receiver_volume_gain;
@@ -178,4 +178,4 @@
 // extern const FieldDescriptor transmitter_mic_gain_coarse_delta;
 // extern const FieldDescriptor transmitter_mic_gain_fine_delta;
 // extern const FieldDescriptor transmitter_mic_gain_use_fine;
-// extern const FieldDescriptor ptt;
+extern const FieldDescriptor ptt;

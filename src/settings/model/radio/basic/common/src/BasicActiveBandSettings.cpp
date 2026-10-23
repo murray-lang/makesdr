@@ -1,4 +1,3 @@
-#include <settings/model/radio/IBandSettings.h>
 #include <settings/model/update/FieldDescriptor.h>
 #include <settings/model/radio/basic/BasicActiveBandSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>

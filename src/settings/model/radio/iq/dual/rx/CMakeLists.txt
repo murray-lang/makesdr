@@ -4,7 +4,9 @@ project(settings-model-radio-iq-dual-rx)
 
 set(DUAL_IQ_RX_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/DualIqRxSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/DualIqRxUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/src/DualIqRxSettings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/DualIqRxUpdater.cpp
 )
 
 add_library(settings-model-radio-iq-dual-rx STATIC ${DUAL_IQ_RX_FILES})
@@ -18,6 +20,7 @@ set(DUAL_IQ_RX_LIBS
         settings-model-radio-base
         settings-model-radio-iq-dual-common
         settings-model-meta-radio
+        settings-model-update-radios-dual-rx-resolved
 )
 
 if (USE_DOTTED_STRING_PATHS)

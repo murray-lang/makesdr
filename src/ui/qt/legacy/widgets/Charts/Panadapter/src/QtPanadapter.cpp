@@ -326,22 +326,22 @@ QtPanadapter::plot(
 }
 
 void
-QtPanadapter::plot(const FftMessage* fftMsg, int64_t centreFrequency)
+QtPanadapter::plot(const SpectrumMessage* spectrumMessage, int64_t centreFrequency)
 {
-  float floor = fftMsg->floor();
-  float ceiling = fftMsg->ceiling();
+  float floor = spectrumMessage->floor();
+  float ceiling = spectrumMessage->ceiling();
 
   if (m_floor != floor || m_ceiling != ceiling) {
     m_pChart->axes(Qt::Vertical).first()->setRange(floor, ceiling);
     m_floor = floor;
     m_ceiling = ceiling;
   }
-  uint32_t numBins = fftMsg->bins().size;
+  uint32_t numBins = spectrumMessage->bins().size;
   PowerSpectrumT<uint8_t, MONITOR_FFT_SIZE > powerSpectrum(floor, ceiling);
   RealMonitorFft scaled;
-  powerSpectrum.rescale(fftMsg->bins().bytes, numBins, scaled.data());
+  powerSpectrum.rescale(spectrumMessage->bins().bytes, numBins, scaled.data());
 
-  plot(scaled.data(), numBins, fftMsg->sampleRate(), centreFrequency, false);
+  plot(scaled.data(), numBins, spectrumMessage->sampleRate(), centreFrequency, false);
 }
 
 void

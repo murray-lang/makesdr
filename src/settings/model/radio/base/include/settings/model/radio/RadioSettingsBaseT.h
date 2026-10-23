@@ -1,14 +1,19 @@
 #pragma once
 #include <settings/model/proto/RadioPayloads.pb.h>
 #include <settings/model/proto/ProtobufIo.h>
-#include <settings/model/meta/radio/RadioLookup.h>
 #include <settings/model/update/FieldUpdateSink.h>
 #include <EventId.h>
-#include "IRadioSettingsWithUpdater.h"
+#include <settings/model/update/ResolveDottedStringFunc.h>
+#include "ReceiverSettings.h"
+#include "TransmitterSettings.h"
+#include "BandRfSettings.h"
+#include "SplitBandId.h"
+#include "RadioSettingsTraits.h"
+#include "RadioSettingsUpdater.h"
 #include <settings/model/message/MessageT.h>
 #include <settings/model/update/MessageTraverser.h>
 
-#define COMMON_ACTIVE_BANDS_TAG 1
+#define COMMON_ACTIVE_BANDS_TAG 2
 
 template<
   typename SettingsPbType,
@@ -21,7 +26,6 @@ template<
 >
 class RadioSettingsBaseT :
     public MessageT<SettingsPbType, descriptor, PayloadPbType, payloadTypeEnum, payloadSize>,
-    public IRadioSettingsWithUpdater,
     public FieldUpdateSink
 {
 public:
@@ -38,6 +42,7 @@ public:
   : MessageBase()
   , m_deemComplete(false)
   , m_traverser(&MessageBase::body(), descriptor)
+  // , m_capabilities(this->m_payload.body.capabilities)
   , m_activeBandSettings(this->m_payload.body.active_bands)
   , m_receiver(this->m_payload.body.receiver)
   , m_bands(nullptr)
@@ -50,6 +55,7 @@ public:
     : MessageBase(other)
     , m_deemComplete(other.m_deemComplete)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(other.m_bands)
@@ -62,6 +68,7 @@ public:
     : MessageBase(other)
     , m_deemComplete(other.m_deemComplete)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(other.m_bands)
@@ -74,6 +81,7 @@ public:
     : MessageBase(payload, complete)
     , m_deemComplete(false)
     , m_traverser(&MessageBase::body(), descriptor)
+    // , m_capabilities(this->m_payload.body.capabilities)
     , m_activeBandSettings(this->m_payload.body.active_bands)
     , m_receiver(this->m_payload.body.receiver)
     , m_bands(nullptr)
@@ -113,7 +121,7 @@ public:
 
   ResultCode setAllFieldsPresence(bool present)
   {
-    return m_traverser.setAllFieldsPresence(present);
+    return m_traverser.setAllFieldsPresence(present, true); // true to ignore first (capabilities)
   }
 
   ResultCode updateField(const FieldPath &path, const FieldUpdateVariant &value)
@@ -206,23 +214,38 @@ public:
     return ResultCode::ERR_SETTING_INDIRECT_PATH_INVALID;
   }
 
+  // [[nodiscard]] const Capabilities& capabilities() const { return m_capabilities; }
+  // Capabilities& capabilities() { return m_capabilities; }
+
   void setBands(const BandCategoryList* bands) { m_bands = bands; }
   void setModes(const ModeList* modes) { m_modes = modes; }
   void setCache(CacheClass* cache) { m_cache = cache; }
 
-  [[nodiscard]] const Band * getFocusBand() const override { return m_activeBandSettings.getFocusBand(); }
-  [[nodiscard]] const Mode * getFocusMode() const override { return m_activeBandSettings.getFocusMode(); }
+  [[nodiscard]] const Band * getFocusBand() const { return m_activeBandSettings.getFocusBand(); }
+  [[nodiscard]] const Mode * getFocusMode() const { return m_activeBandSettings.getFocusMode(); }
 
-  [[nodiscard]] bool hasActiveBands() const override { return this->m_payload.body.has_active_bands; }
+  [[nodiscard]] bool hasActiveBands() const { return this->m_payload.body.has_active_bands; }
   ActiveBandSettings* activeBands() { return &m_activeBandSettings; }
   [[nodiscard]] const ActiveBandSettings* activeBands() const { return &m_activeBandSettings; }
 
-  [[nodiscard]] bool hasReceiver() const override { return this->m_payload.body.has_receiver; }
-  ReceiverSettings* receiver() override { return &m_receiver; }
-  [[nodiscard]] const ReceiverSettings* receiver() const override { return &m_receiver; }
+  [[nodiscard]] bool hasReceiver() const { return this->m_payload.body.has_receiver; }
+  ReceiverSettings* receiver() { return &m_receiver; }
+  [[nodiscard]] const ReceiverSettings* receiver() const { return &m_receiver; }
 
-  [[nodiscard]] bool hasPtt() const override { return this->m_payload.body.has_ptt; }
-  [[nodiscard]] bool ptt() const override { return this->m_payload.body.ptt; }
+  [[nodiscard]] bool hasPtt() const { return this->m_payload.body.has_ptt; }
+  [[nodiscard]] bool ptt() const { return this->m_payload.body.ptt; }
+
+  // Derived settings that support indirect updates hide this with their own updater().
+  RadioSettingsUpdater* updater() { return nullptr; }
+
+#ifndef USE_DOTTED_STRING_PATHS
+  ResolveDottedStringFunc resolveDottedStringFunc()
+  {
+    return [](const char* dottedPath, FieldDescriptor& descriptor) -> ResultCode {
+      return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
+    };
+  }
+#endif
 
   [[nodiscard]] int64_t getCentreFrequency() const
   {
@@ -255,7 +278,7 @@ public:
 protected:
   bool m_deemComplete;
   MessageTraverser m_traverser;
-
+  // Capabilities m_capabilities;
   ActiveBandSettingsClass m_activeBandSettings;
   ReceiverSettings m_receiver;
 

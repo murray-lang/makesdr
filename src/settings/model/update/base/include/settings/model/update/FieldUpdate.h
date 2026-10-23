@@ -16,8 +16,6 @@ class FieldUpdateMessage;
 class FieldUpdate
 {
 public:
-
-
   FieldUpdate(const FieldUpdateMessage& message);
 
   FieldUpdate(const FieldUpdate& rhs) noexcept = default;

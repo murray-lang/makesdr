@@ -1,6 +1,7 @@
 #pragma once
+#include <settings/model/radio/BandRfSettings.h>
+#include <settings/model/update/ResolveDottedStringFunc.h>
 #include "DigitalOutputT.h"
-#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/BandSelectorConfig.h>
 
 template <typename RadioSettingsT>

@@ -6,8 +6,8 @@
 
 #include <utility>
 
-#include <transport/radio/IqPublisher.h>
-#include <transport/radio/FftPublisher.h>
+#include <transport/IqPublisher.h>
+#include <transport/SpectrumPublisher.h>
 
 #include <settings/model/radio/PipelineId.h>
 #include <dsp/transforms/power-spectrum/PowerSpectrumT.h>
@@ -16,10 +16,10 @@ class MonitorStage
   : public IqPipelineStage
 {
 public:
-  MonitorStage(PipelineId pipelineId, IqPublisher* iqPublisher, FftPublisher* fftPublisher)
+  MonitorStage(PipelineId pipelineId, IqPublisher* iqPublisher, SpectrumPublisher* fftPublisher)
     : m_pipelineId(pipelineId)
     , m_iqPublisher(iqPublisher)
-    , m_fftPublisher(fftPublisher)
+    , m_spectrumPublisher(fftPublisher)
     , m_sampleRateProvider([]() { return 0; })
     , m_enabled(false)
     , m_powerSpectrum()
@@ -46,7 +46,7 @@ public:
 protected:
   PipelineId m_pipelineId;
   IqPublisher* m_iqPublisher;
-  FftPublisher* m_fftPublisher;
+  SpectrumPublisher* m_spectrumPublisher;
   SampleRateProvider m_sampleRateProvider;
   bool m_enabled;
   uint32_t m_averageBuffers = 1;

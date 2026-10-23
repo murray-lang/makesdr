@@ -12,6 +12,9 @@ extern ResultCode emplaceVariant(PayloadType payloadType, RadioSettingsVariant& 
   // case PayloadType::PAYLOAD_TYPE_SETTINGS_DUAL_IQ_RXTX:
   case PayloadType::PAYLOAD_TYPE_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX:
     var.emplace<SplitBandDualIqRxTxSettings>();
+    return ResultCode::OK;
+  default:
+    break;
   }
   return ResultCode::ERR_PAYLOAD_NOT_SETTING_RELATED;
 }

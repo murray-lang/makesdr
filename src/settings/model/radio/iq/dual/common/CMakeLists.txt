@@ -25,5 +25,5 @@ target_include_directories(settings-model-radio-iq-dual-common PUBLIC
 )
 
 target_link_libraries(settings-model-radio-iq-dual-common PUBLIC
-        settings-model-radio-iq-basic-common
+        settings-model-radio-iq-common
 )

@@ -207,9 +207,9 @@ typedef struct _makesdr_BasicBandSettingsPb {
     makesdr_AgcSpeed agc_speed;
 } makesdr_BasicBandSettingsPb;
 
-typedef struct _makesdr_BasicIqBandSettingsPb {
+typedef struct _makesdr_SingleIqBandSettingsPb {
     pb_size_t which_band_or_request;
-    union _makesdr_BasicIqBandSettingsPb_band_or_request {
+    union _makesdr_SingleIqBandSettingsPb_band_or_request {
         char band_request[8];
         makesdr_BandPb band;
     } band_or_request;
@@ -219,7 +219,7 @@ typedef struct _makesdr_BasicIqBandSettingsPb {
     makesdr_IfSettingsPb if_;
     bool has_focus_pipeline;
     makesdr_RxPipelineSettingsPb focus_pipeline;
-} makesdr_BasicIqBandSettingsPb;
+} makesdr_SingleIqBandSettingsPb;
 
 typedef struct _makesdr_DualIqBandSettingsPb {
     pb_size_t which_band_or_request;
@@ -276,10 +276,10 @@ typedef struct _makesdr_BasicActiveBandSettingsPb {
     makesdr_BasicBandSettingsPb focus_band;
 } makesdr_BasicActiveBandSettingsPb;
 
-typedef struct _makesdr_BasicIqActiveBandSettingsPb {
+typedef struct _makesdr_SingleIqActiveBandSettingsPb {
     bool has_focus_band;
-    makesdr_BasicIqBandSettingsPb focus_band;
-} makesdr_BasicIqActiveBandSettingsPb;
+    makesdr_SingleIqBandSettingsPb focus_band;
+} makesdr_SingleIqActiveBandSettingsPb;
 
 typedef struct _makesdr_DualIqActiveBandSettingsPb {
     bool has_focus_band;
@@ -320,16 +320,16 @@ typedef struct _makesdr_BasicBandSettingsCachePb {
     makesdr_BasicBandSettingsCachePb_BandSettingsEntry band_settings[10];
 } makesdr_BasicBandSettingsCachePb;
 
-typedef struct _makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry {
+typedef struct _makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry {
     char key[8];
     bool has_value;
-    makesdr_BasicIqBandSettingsPb value;
-} makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry;
+    makesdr_SingleIqBandSettingsPb value;
+} makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry;
 
-typedef struct _makesdr_BasicIqBandSettingsCachePb {
+typedef struct _makesdr_SingleIqBandSettingsCachePb {
     pb_size_t band_settings_count;
-    makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry band_settings[10];
-} makesdr_BasicIqBandSettingsCachePb;
+    makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry band_settings[10];
+} makesdr_SingleIqBandSettingsCachePb;
 
 typedef struct _makesdr_DualIqBandSettingsCachePb_BandSettingsEntry {
     char key[8];
@@ -364,14 +364,14 @@ typedef struct _makesdr_BasicRxSettingsPb {
 } makesdr_BasicRxSettingsPb;
 
 /* No-frills IQ receiver */
-typedef struct _makesdr_BasicIqRxSettingsPb {
+typedef struct _makesdr_SingleIqRxSettingsPb {
     bool has_active_bands;
-    makesdr_BasicIqActiveBandSettingsPb active_bands;
+    makesdr_SingleIqActiveBandSettingsPb active_bands;
     bool has_receiver;
     makesdr_ReceiverSettingsPb receiver;
     bool has_ptt;
     bool ptt;
-} makesdr_BasicIqRxSettingsPb;
+} makesdr_SingleIqRxSettingsPb;
 
 typedef struct _makesdr_DualIqRxSettingsPb {
     bool has_active_bands;
@@ -395,16 +395,16 @@ typedef struct _makesdr_BasicRxTxSettingsPb {
 } makesdr_BasicRxTxSettingsPb;
 
 /* No-frills IQ transceiver */
-typedef struct _makesdr_BasicIqRxTxSettingsPb {
+typedef struct _makesdr_SingleIqRxTxSettingsPb {
     bool has_active_bands;
-    makesdr_BasicIqActiveBandSettingsPb active_bands;
+    makesdr_SingleIqActiveBandSettingsPb active_bands;
     bool has_receiver;
     makesdr_ReceiverSettingsPb receiver;
     bool has_transmitter;
     makesdr_TransmitterSettingsPb transmitter;
     bool has_ptt;
     bool ptt;
-} makesdr_BasicIqRxTxSettingsPb;
+} makesdr_SingleIqRxTxSettingsPb;
 
 typedef struct _makesdr_DualIqRxTxSettingsPb {
     bool has_active_bands;
@@ -454,14 +454,14 @@ typedef struct _makesdr_IqPb {
     uint32_t sample_rate;
 } makesdr_IqPb;
 
-typedef PB_BYTES_ARRAY_T(1024) makesdr_FftPb_bins_t;
-typedef struct _makesdr_FftPb {
+typedef PB_BYTES_ARRAY_T(1024) makesdr_SpectrumPb_bins_t;
+typedef struct _makesdr_SpectrumPb {
     makesdr_PipelineId pipeline_id;
-    makesdr_FftPb_bins_t bins;
+    makesdr_SpectrumPb_bins_t bins;
     uint32_t sample_rate;
     float floor;
     float ceiling;
-} makesdr_FftPb;
+} makesdr_SpectrumPb;
 
 typedef struct _makesdr_RxMeteringPb {
     makesdr_PipelineId pipeline_id;
@@ -561,7 +561,7 @@ extern "C" {
 
 #define makesdr_IqPb_pipeline_id_ENUMTYPE makesdr_PipelineId
 
-#define makesdr_FftPb_pipeline_id_ENUMTYPE makesdr_PipelineId
+#define makesdr_SpectrumPb_pipeline_id_ENUMTYPE makesdr_PipelineId
 
 #define makesdr_RxMeteringPb_pipeline_id_ENUMTYPE makesdr_PipelineId
 
@@ -587,32 +587,32 @@ extern "C" {
 #define makesdr_RxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_default {false, makesdr_PipelineSettingsPb_init_default}
 #define makesdr_BasicBandSettingsPb_init_default {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, _makesdr_AgcSpeed_MIN}
-#define makesdr_BasicIqBandSettingsPb_init_default {0, {""}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default}
+#define makesdr_SingleIqBandSettingsPb_init_default {0, {""}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default}
 #define makesdr_DualIqBandSettingsPb_init_default {0, {""}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, _makesdr_PipelineId_MIN, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default, false, 0, false, _makesdr_PipelineId_MIN}
 #define makesdr_RxTxDualIqBandSettingsPb_init_default {0, {""}, false, makesdr_BandRfSettingsPb_init_default, false, makesdr_IfSettingsPb_init_default, _makesdr_PipelineId_MIN, false, makesdr_RxPipelineSettingsPb_init_default, false, makesdr_RxPipelineSettingsPb_init_default, false, 0, false, _makesdr_PipelineId_MIN, false, makesdr_TxPipelineSettingsPb_init_default, false, _makesdr_PipelineId_MIN}
 #define makesdr_BasicActiveBandSettingsPb_init_default {false, makesdr_BasicBandSettingsPb_init_default}
-#define makesdr_BasicIqActiveBandSettingsPb_init_default {false, makesdr_BasicIqBandSettingsPb_init_default}
+#define makesdr_SingleIqActiveBandSettingsPb_init_default {false, makesdr_SingleIqBandSettingsPb_init_default}
 #define makesdr_DualIqActiveBandSettingsPb_init_default {false, makesdr_DualIqBandSettingsPb_init_default}
 #define makesdr_RxTxDualIqActiveBandSettingsPb_init_default {false, makesdr_RxTxDualIqBandSettingsPb_init_default}
 #define makesdr_SplitBandDualIqActiveBandSettingsPb_init_default {_makesdr_SplitBandId_MIN, false, makesdr_RxTxDualIqBandSettingsPb_init_default, false, makesdr_RxTxDualIqBandSettingsPb_init_default, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0}
 #define makesdr_BasicBandSettingsCachePb_init_default {0, {makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default}}
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_BasicBandSettingsPb_init_default}
-#define makesdr_BasicIqBandSettingsCachePb_init_default {0, {makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default}}
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_BasicIqBandSettingsPb_init_default}
+#define makesdr_SingleIqBandSettingsCachePb_init_default {0, {makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default}}
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_SingleIqBandSettingsPb_init_default}
 #define makesdr_DualIqBandSettingsCachePb_init_default {0, {makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default}}
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_DualIqBandSettingsPb_init_default}
 #define makesdr_RxTxDualIqBandSettingsCachePb_init_default {0, {makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default}}
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_default {"", false, makesdr_RxTxDualIqBandSettingsPb_init_default}
 #define makesdr_BasicRxSettingsPb_init_default   {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, 0}
-#define makesdr_BasicIqRxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, 0}
+#define makesdr_SingleIqRxSettingsPb_init_default {false, makesdr_SingleIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, 0}
 #define makesdr_DualIqRxSettingsPb_init_default  {false, makesdr_DualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, 0}
 #define makesdr_BasicRxTxSettingsPb_init_default {false, makesdr_BasicActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
-#define makesdr_BasicIqRxTxSettingsPb_init_default {false, makesdr_BasicIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
+#define makesdr_SingleIqRxTxSettingsPb_init_default {false, makesdr_SingleIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_DualIqRxTxSettingsPb_init_default {false, makesdr_RxTxDualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_SplitBandDualIqRxTxSettingsPb_init_default {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_default, false, makesdr_ReceiverSettingsPb_init_default, false, makesdr_TransmitterSettingsPb_init_default, false, 0}
 #define makesdr_FieldUpdatePb_init_default       {0, {0, 0, 0, 0, 0, 0, 0, 0}, 0, {""}, _makesdr_FieldUpdateMeaning_MIN, 0, 0, 0}
 #define makesdr_IqPb_init_default                {_makesdr_PipelineId_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0}
-#define makesdr_FftPb_init_default               {_makesdr_PipelineId_MIN, {0, {0}}, 0, 0, 0}
+#define makesdr_SpectrumPb_init_default          {_makesdr_PipelineId_MIN, {0, {0}}, 0, 0, 0}
 #define makesdr_RxMeteringPb_init_default        {_makesdr_PipelineId_MIN, 0, 0}
 #define makesdr_ModePb_init_zero                 {_makesdr_ModeType_MIN, "", "", 0, 0, 0}
 #define makesdr_ModeListPb_init_zero             {0, {makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero, makesdr_ModePb_init_zero}}
@@ -634,32 +634,32 @@ extern "C" {
 #define makesdr_RxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero, false, 0, false, _makesdr_AgcSpeed_MIN}
 #define makesdr_TxPipelineSettingsPb_init_zero   {false, makesdr_PipelineSettingsPb_init_zero}
 #define makesdr_BasicBandSettingsPb_init_zero    {0, {""}, 0, {_makesdr_ModeType_MIN}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, _makesdr_AgcSpeed_MIN}
-#define makesdr_BasicIqBandSettingsPb_init_zero  {0, {""}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero}
+#define makesdr_SingleIqBandSettingsPb_init_zero {0, {""}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero}
 #define makesdr_DualIqBandSettingsPb_init_zero   {0, {""}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, _makesdr_PipelineId_MIN, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero, false, 0, false, _makesdr_PipelineId_MIN}
 #define makesdr_RxTxDualIqBandSettingsPb_init_zero {0, {""}, false, makesdr_BandRfSettingsPb_init_zero, false, makesdr_IfSettingsPb_init_zero, _makesdr_PipelineId_MIN, false, makesdr_RxPipelineSettingsPb_init_zero, false, makesdr_RxPipelineSettingsPb_init_zero, false, 0, false, _makesdr_PipelineId_MIN, false, makesdr_TxPipelineSettingsPb_init_zero, false, _makesdr_PipelineId_MIN}
 #define makesdr_BasicActiveBandSettingsPb_init_zero {false, makesdr_BasicBandSettingsPb_init_zero}
-#define makesdr_BasicIqActiveBandSettingsPb_init_zero {false, makesdr_BasicIqBandSettingsPb_init_zero}
+#define makesdr_SingleIqActiveBandSettingsPb_init_zero {false, makesdr_SingleIqBandSettingsPb_init_zero}
 #define makesdr_DualIqActiveBandSettingsPb_init_zero {false, makesdr_DualIqBandSettingsPb_init_zero}
 #define makesdr_RxTxDualIqActiveBandSettingsPb_init_zero {false, makesdr_RxTxDualIqBandSettingsPb_init_zero}
 #define makesdr_SplitBandDualIqActiveBandSettingsPb_init_zero {_makesdr_SplitBandId_MIN, false, makesdr_RxTxDualIqBandSettingsPb_init_zero, false, makesdr_RxTxDualIqBandSettingsPb_init_zero, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, _makesdr_SplitBandId_MIN, false, 0}
 #define makesdr_BasicBandSettingsCachePb_init_zero {0, {makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero}}
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_BasicBandSettingsPb_init_zero}
-#define makesdr_BasicIqBandSettingsCachePb_init_zero {0, {makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero}}
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_BasicIqBandSettingsPb_init_zero}
+#define makesdr_SingleIqBandSettingsCachePb_init_zero {0, {makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero}}
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_SingleIqBandSettingsPb_init_zero}
 #define makesdr_DualIqBandSettingsCachePb_init_zero {0, {makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero}}
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_DualIqBandSettingsPb_init_zero}
 #define makesdr_RxTxDualIqBandSettingsCachePb_init_zero {0, {makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero, makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero}}
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_init_zero {"", false, makesdr_RxTxDualIqBandSettingsPb_init_zero}
 #define makesdr_BasicRxSettingsPb_init_zero      {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, 0}
-#define makesdr_BasicIqRxSettingsPb_init_zero    {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, 0}
+#define makesdr_SingleIqRxSettingsPb_init_zero   {false, makesdr_SingleIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, 0}
 #define makesdr_DualIqRxSettingsPb_init_zero     {false, makesdr_DualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, 0}
 #define makesdr_BasicRxTxSettingsPb_init_zero    {false, makesdr_BasicActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
-#define makesdr_BasicIqRxTxSettingsPb_init_zero  {false, makesdr_BasicIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
+#define makesdr_SingleIqRxTxSettingsPb_init_zero {false, makesdr_SingleIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 #define makesdr_DualIqRxTxSettingsPb_init_zero   {false, makesdr_RxTxDualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 #define makesdr_SplitBandDualIqRxTxSettingsPb_init_zero {false, makesdr_SplitBandDualIqActiveBandSettingsPb_init_zero, false, makesdr_ReceiverSettingsPb_init_zero, false, makesdr_TransmitterSettingsPb_init_zero, false, 0}
 #define makesdr_FieldUpdatePb_init_zero          {0, {0, 0, 0, 0, 0, 0, 0, 0}, 0, {""}, _makesdr_FieldUpdateMeaning_MIN, 0, 0, 0}
 #define makesdr_IqPb_init_zero                   {_makesdr_PipelineId_MIN, 0, {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 0}
-#define makesdr_FftPb_init_zero                  {_makesdr_PipelineId_MIN, {0, {0}}, 0, 0, 0}
+#define makesdr_SpectrumPb_init_zero             {_makesdr_PipelineId_MIN, {0, {0}}, 0, 0, 0}
 #define makesdr_RxMeteringPb_init_zero           {_makesdr_PipelineId_MIN, 0, 0}
 
 /* Field tags (for use in manual encoding/decoding) */
@@ -720,11 +720,11 @@ extern "C" {
 #define makesdr_BasicBandSettingsPb_rf_tag       5
 #define makesdr_BasicBandSettingsPb_if_tag       6
 #define makesdr_BasicBandSettingsPb_agc_speed_tag 7
-#define makesdr_BasicIqBandSettingsPb_band_request_tag 1
-#define makesdr_BasicIqBandSettingsPb_band_tag   2
-#define makesdr_BasicIqBandSettingsPb_rf_tag     5
-#define makesdr_BasicIqBandSettingsPb_if_tag     6
-#define makesdr_BasicIqBandSettingsPb_focus_pipeline_tag 10
+#define makesdr_SingleIqBandSettingsPb_band_request_tag 1
+#define makesdr_SingleIqBandSettingsPb_band_tag  2
+#define makesdr_SingleIqBandSettingsPb_rf_tag    5
+#define makesdr_SingleIqBandSettingsPb_if_tag    6
+#define makesdr_SingleIqBandSettingsPb_focus_pipeline_tag 10
 #define makesdr_DualIqBandSettingsPb_band_request_tag 1
 #define makesdr_DualIqBandSettingsPb_band_tag    2
 #define makesdr_DualIqBandSettingsPb_rf_tag      5
@@ -746,7 +746,7 @@ extern "C" {
 #define makesdr_RxTxDualIqBandSettingsPb_tx_pipeline_tag 15
 #define makesdr_RxTxDualIqBandSettingsPb_tx_pipeline_id_tag 16
 #define makesdr_BasicActiveBandSettingsPb_focus_band_tag 1
-#define makesdr_BasicIqActiveBandSettingsPb_focus_band_tag 1
+#define makesdr_SingleIqActiveBandSettingsPb_focus_band_tag 1
 #define makesdr_DualIqActiveBandSettingsPb_focus_band_tag 1
 #define makesdr_RxTxDualIqActiveBandSettingsPb_focus_band_tag 1
 #define makesdr_SplitBandDualIqActiveBandSettingsPb_focus_band_tag 1
@@ -759,40 +759,40 @@ extern "C" {
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_BasicBandSettingsCachePb_band_settings_tag 1
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
-#define makesdr_BasicIqBandSettingsCachePb_band_settings_tag 1
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
+#define makesdr_SingleIqBandSettingsCachePb_band_settings_tag 1
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_DualIqBandSettingsCachePb_band_settings_tag 1
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_key_tag 1
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_value_tag 2
 #define makesdr_RxTxDualIqBandSettingsCachePb_band_settings_tag 1
-#define makesdr_BasicRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicRxSettingsPb_receiver_tag   2
-#define makesdr_BasicRxSettingsPb_ptt_tag        4
-#define makesdr_BasicIqRxSettingsPb_active_bands_tag 1
-#define makesdr_BasicIqRxSettingsPb_receiver_tag 2
-#define makesdr_BasicIqRxSettingsPb_ptt_tag      4
-#define makesdr_DualIqRxSettingsPb_active_bands_tag 1
-#define makesdr_DualIqRxSettingsPb_receiver_tag  2
-#define makesdr_DualIqRxSettingsPb_ptt_tag       4
-#define makesdr_BasicRxTxSettingsPb_active_bands_tag 1
-#define makesdr_BasicRxTxSettingsPb_receiver_tag 2
-#define makesdr_BasicRxTxSettingsPb_transmitter_tag 3
-#define makesdr_BasicRxTxSettingsPb_ptt_tag      4
-#define makesdr_BasicIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_BasicIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_BasicIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_BasicIqRxTxSettingsPb_ptt_tag    4
-#define makesdr_DualIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_DualIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_DualIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_DualIqRxTxSettingsPb_ptt_tag     4
-#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_tag 1
-#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 2
-#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 3
-#define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 4
+#define makesdr_BasicRxSettingsPb_active_bands_tag 2
+#define makesdr_BasicRxSettingsPb_receiver_tag   3
+#define makesdr_BasicRxSettingsPb_ptt_tag        10
+#define makesdr_SingleIqRxSettingsPb_active_bands_tag 2
+#define makesdr_SingleIqRxSettingsPb_receiver_tag 3
+#define makesdr_SingleIqRxSettingsPb_ptt_tag     10
+#define makesdr_DualIqRxSettingsPb_active_bands_tag 2
+#define makesdr_DualIqRxSettingsPb_receiver_tag  3
+#define makesdr_DualIqRxSettingsPb_ptt_tag       10
+#define makesdr_BasicRxTxSettingsPb_active_bands_tag 2
+#define makesdr_BasicRxTxSettingsPb_receiver_tag 3
+#define makesdr_BasicRxTxSettingsPb_transmitter_tag 4
+#define makesdr_BasicRxTxSettingsPb_ptt_tag      10
+#define makesdr_SingleIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_SingleIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_SingleIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_SingleIqRxTxSettingsPb_ptt_tag   10
+#define makesdr_DualIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_DualIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_DualIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_DualIqRxTxSettingsPb_ptt_tag     10
+#define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_tag 2
+#define makesdr_SplitBandDualIqRxTxSettingsPb_receiver_tag 3
+#define makesdr_SplitBandDualIqRxTxSettingsPb_transmitter_tag 4
+#define makesdr_SplitBandDualIqRxTxSettingsPb_ptt_tag 10
 #define makesdr_FieldUpdatePb_path_tag           1
 #define makesdr_FieldUpdatePb_string_value_tag   2
 #define makesdr_FieldUpdatePb_int32_value_tag    3
@@ -807,11 +807,11 @@ extern "C" {
 #define makesdr_IqPb_pipeline_id_tag             1
 #define makesdr_IqPb_interleaved_tag             2
 #define makesdr_IqPb_sample_rate_tag             3
-#define makesdr_FftPb_pipeline_id_tag            1
-#define makesdr_FftPb_bins_tag                   2
-#define makesdr_FftPb_sample_rate_tag            3
-#define makesdr_FftPb_floor_tag                  4
-#define makesdr_FftPb_ceiling_tag                5
+#define makesdr_SpectrumPb_pipeline_id_tag       1
+#define makesdr_SpectrumPb_bins_tag              2
+#define makesdr_SpectrumPb_sample_rate_tag       3
+#define makesdr_SpectrumPb_floor_tag             4
+#define makesdr_SpectrumPb_ceiling_tag           5
 #define makesdr_RxMeteringPb_pipeline_id_tag     1
 #define makesdr_RxMeteringPb_rssiDbFs_tag        2
 #define makesdr_RxMeteringPb_agcGainDb_tag       3
@@ -978,18 +978,18 @@ X(a, STATIC,   OPTIONAL, UENUM,    agc_speed,         7)
 #define makesdr_BasicBandSettingsPb_rf_MSGTYPE makesdr_BandRfSettingsPb
 #define makesdr_BasicBandSettingsPb_if__MSGTYPE makesdr_IfSettingsPb
 
-#define makesdr_BasicIqBandSettingsPb_FIELDLIST(X, a) \
+#define makesdr_SingleIqBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    STRING,   (band_or_request,band_request,band_or_request.band_request),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (band_or_request,band,band_or_request.band),   2) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  rf,                5) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  if_,               6) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  focus_pipeline,   10)
-#define makesdr_BasicIqBandSettingsPb_CALLBACK NULL
-#define makesdr_BasicIqBandSettingsPb_DEFAULT NULL
-#define makesdr_BasicIqBandSettingsPb_band_or_request_band_MSGTYPE makesdr_BandPb
-#define makesdr_BasicIqBandSettingsPb_rf_MSGTYPE makesdr_BandRfSettingsPb
-#define makesdr_BasicIqBandSettingsPb_if__MSGTYPE makesdr_IfSettingsPb
-#define makesdr_BasicIqBandSettingsPb_focus_pipeline_MSGTYPE makesdr_RxPipelineSettingsPb
+#define makesdr_SingleIqBandSettingsPb_CALLBACK NULL
+#define makesdr_SingleIqBandSettingsPb_DEFAULT NULL
+#define makesdr_SingleIqBandSettingsPb_band_or_request_band_MSGTYPE makesdr_BandPb
+#define makesdr_SingleIqBandSettingsPb_rf_MSGTYPE makesdr_BandRfSettingsPb
+#define makesdr_SingleIqBandSettingsPb_if__MSGTYPE makesdr_IfSettingsPb
+#define makesdr_SingleIqBandSettingsPb_focus_pipeline_MSGTYPE makesdr_RxPipelineSettingsPb
 
 #define makesdr_DualIqBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    STRING,   (band_or_request,band_request,band_or_request.band_request),   1) \
@@ -1036,11 +1036,11 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  focus_band,        1)
 #define makesdr_BasicActiveBandSettingsPb_DEFAULT NULL
 #define makesdr_BasicActiveBandSettingsPb_focus_band_MSGTYPE makesdr_BasicBandSettingsPb
 
-#define makesdr_BasicIqActiveBandSettingsPb_FIELDLIST(X, a) \
+#define makesdr_SingleIqActiveBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  focus_band,        1)
-#define makesdr_BasicIqActiveBandSettingsPb_CALLBACK NULL
-#define makesdr_BasicIqActiveBandSettingsPb_DEFAULT NULL
-#define makesdr_BasicIqActiveBandSettingsPb_focus_band_MSGTYPE makesdr_BasicIqBandSettingsPb
+#define makesdr_SingleIqActiveBandSettingsPb_CALLBACK NULL
+#define makesdr_SingleIqActiveBandSettingsPb_DEFAULT NULL
+#define makesdr_SingleIqActiveBandSettingsPb_focus_band_MSGTYPE makesdr_SingleIqBandSettingsPb
 
 #define makesdr_DualIqActiveBandSettingsPb_FIELDLIST(X, a) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  focus_band,        1)
@@ -1080,18 +1080,18 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_BasicBandSettingsPb
 
-#define makesdr_BasicIqBandSettingsCachePb_FIELDLIST(X, a) \
+#define makesdr_SingleIqBandSettingsCachePb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  band_settings,     1)
-#define makesdr_BasicIqBandSettingsCachePb_CALLBACK NULL
-#define makesdr_BasicIqBandSettingsCachePb_DEFAULT NULL
-#define makesdr_BasicIqBandSettingsCachePb_band_settings_MSGTYPE makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry
+#define makesdr_SingleIqBandSettingsCachePb_CALLBACK NULL
+#define makesdr_SingleIqBandSettingsCachePb_DEFAULT NULL
+#define makesdr_SingleIqBandSettingsCachePb_band_settings_MSGTYPE makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry
 
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   key,               1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_CALLBACK NULL
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_BasicIqBandSettingsPb
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_CALLBACK NULL
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_DEFAULT NULL
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_SingleIqBandSettingsPb
 
 #define makesdr_DualIqBandSettingsCachePb_FIELDLIST(X, a) \
 X(a, STATIC,   REPEATED, MESSAGE,  band_settings,     1)
@@ -1120,59 +1120,59 @@ X(a, STATIC,   OPTIONAL, MESSAGE,  value,             2)
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_value_MSGTYPE makesdr_RxTxDualIqBandSettingsPb
 
 #define makesdr_BasicRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicRxSettingsPb_CALLBACK NULL
 #define makesdr_BasicRxSettingsPb_DEFAULT NULL
 #define makesdr_BasicRxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
 #define makesdr_BasicRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
-#define makesdr_BasicIqRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define makesdr_BasicIqRxSettingsPb_CALLBACK NULL
-#define makesdr_BasicIqRxSettingsPb_DEFAULT NULL
-#define makesdr_BasicIqRxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
-#define makesdr_BasicIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_SingleIqRxSettingsPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
+#define makesdr_SingleIqRxSettingsPb_CALLBACK NULL
+#define makesdr_SingleIqRxSettingsPb_DEFAULT NULL
+#define makesdr_SingleIqRxSettingsPb_active_bands_MSGTYPE makesdr_SingleIqActiveBandSettingsPb
+#define makesdr_SingleIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_DualIqRxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_DualIqRxSettingsPb_CALLBACK NULL
 #define makesdr_DualIqRxSettingsPb_DEFAULT NULL
 #define makesdr_DualIqRxSettingsPb_active_bands_MSGTYPE makesdr_DualIqActiveBandSettingsPb
 #define makesdr_DualIqRxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 
 #define makesdr_BasicRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_BasicRxTxSettingsPb_CALLBACK NULL
 #define makesdr_BasicRxTxSettingsPb_DEFAULT NULL
 #define makesdr_BasicRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicActiveBandSettingsPb
 #define makesdr_BasicRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
 #define makesdr_BasicRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
-#define makesdr_BasicIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
-#define makesdr_BasicIqRxTxSettingsPb_CALLBACK NULL
-#define makesdr_BasicIqRxTxSettingsPb_DEFAULT NULL
-#define makesdr_BasicIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_BasicIqActiveBandSettingsPb
-#define makesdr_BasicIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
-#define makesdr_BasicIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
+#define makesdr_SingleIqRxTxSettingsPb_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
+#define makesdr_SingleIqRxTxSettingsPb_CALLBACK NULL
+#define makesdr_SingleIqRxTxSettingsPb_DEFAULT NULL
+#define makesdr_SingleIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_SingleIqActiveBandSettingsPb
+#define makesdr_SingleIqRxTxSettingsPb_receiver_MSGTYPE makesdr_ReceiverSettingsPb
+#define makesdr_SingleIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 #define makesdr_DualIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_DualIqRxTxSettingsPb_CALLBACK NULL
 #define makesdr_DualIqRxTxSettingsPb_DEFAULT NULL
 #define makesdr_DualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_RxTxDualIqActiveBandSettingsPb
@@ -1180,10 +1180,10 @@ X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
 #define makesdr_DualIqRxTxSettingsPb_transmitter_MSGTYPE makesdr_TransmitterSettingsPb
 
 #define makesdr_SplitBandDualIqRxTxSettingsPb_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          2) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       3) \
-X(a, STATIC,   OPTIONAL, BOOL,     ptt,               4)
+X(a, STATIC,   OPTIONAL, MESSAGE,  active_bands,      2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  receiver,          3) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  transmitter,       4) \
+X(a, STATIC,   OPTIONAL, BOOL,     ptt,              10)
 #define makesdr_SplitBandDualIqRxTxSettingsPb_CALLBACK NULL
 #define makesdr_SplitBandDualIqRxTxSettingsPb_DEFAULT NULL
 #define makesdr_SplitBandDualIqRxTxSettingsPb_active_bands_MSGTYPE makesdr_SplitBandDualIqActiveBandSettingsPb
@@ -1212,14 +1212,14 @@ X(a, STATIC,   SINGULAR, UINT32,   sample_rate,       3)
 #define makesdr_IqPb_CALLBACK NULL
 #define makesdr_IqPb_DEFAULT NULL
 
-#define makesdr_FftPb_FIELDLIST(X, a) \
+#define makesdr_SpectrumPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    pipeline_id,       1) \
 X(a, STATIC,   SINGULAR, BYTES,    bins,              2) \
 X(a, STATIC,   SINGULAR, UINT32,   sample_rate,       3) \
 X(a, STATIC,   SINGULAR, FLOAT,    floor,             4) \
 X(a, STATIC,   SINGULAR, FLOAT,    ceiling,           5)
-#define makesdr_FftPb_CALLBACK NULL
-#define makesdr_FftPb_DEFAULT NULL
+#define makesdr_SpectrumPb_CALLBACK NULL
+#define makesdr_SpectrumPb_DEFAULT NULL
 
 #define makesdr_RxMeteringPb_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, UENUM,    pipeline_id,       1) \
@@ -1248,32 +1248,32 @@ extern const pb_msgdesc_t makesdr_PipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_RxPipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_TxPipelineSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqBandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SingleIqBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_RxTxDualIqBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicActiveBandSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqActiveBandSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SingleIqActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_RxTxDualIqActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_SplitBandDualIqActiveBandSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsCachePb_msg;
 extern const pb_msgdesc_t makesdr_BasicBandSettingsCachePb_BandSettingsEntry_msg;
-extern const pb_msgdesc_t makesdr_BasicIqBandSettingsCachePb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_msg;
+extern const pb_msgdesc_t makesdr_SingleIqBandSettingsCachePb_msg;
+extern const pb_msgdesc_t makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_msg;
 extern const pb_msgdesc_t makesdr_DualIqBandSettingsCachePb_msg;
 extern const pb_msgdesc_t makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_msg;
 extern const pb_msgdesc_t makesdr_RxTxDualIqBandSettingsCachePb_msg;
 extern const pb_msgdesc_t makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_msg;
 extern const pb_msgdesc_t makesdr_BasicRxSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqRxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SingleIqRxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqRxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_BasicRxTxSettingsPb_msg;
-extern const pb_msgdesc_t makesdr_BasicIqRxTxSettingsPb_msg;
+extern const pb_msgdesc_t makesdr_SingleIqRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_DualIqRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_SplitBandDualIqRxTxSettingsPb_msg;
 extern const pb_msgdesc_t makesdr_FieldUpdatePb_msg;
 extern const pb_msgdesc_t makesdr_IqPb_msg;
-extern const pb_msgdesc_t makesdr_FftPb_msg;
+extern const pb_msgdesc_t makesdr_SpectrumPb_msg;
 extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
@@ -1297,32 +1297,32 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_RxPipelineSettingsPb_fields &makesdr_RxPipelineSettingsPb_msg
 #define makesdr_TxPipelineSettingsPb_fields &makesdr_TxPipelineSettingsPb_msg
 #define makesdr_BasicBandSettingsPb_fields &makesdr_BasicBandSettingsPb_msg
-#define makesdr_BasicIqBandSettingsPb_fields &makesdr_BasicIqBandSettingsPb_msg
+#define makesdr_SingleIqBandSettingsPb_fields &makesdr_SingleIqBandSettingsPb_msg
 #define makesdr_DualIqBandSettingsPb_fields &makesdr_DualIqBandSettingsPb_msg
 #define makesdr_RxTxDualIqBandSettingsPb_fields &makesdr_RxTxDualIqBandSettingsPb_msg
 #define makesdr_BasicActiveBandSettingsPb_fields &makesdr_BasicActiveBandSettingsPb_msg
-#define makesdr_BasicIqActiveBandSettingsPb_fields &makesdr_BasicIqActiveBandSettingsPb_msg
+#define makesdr_SingleIqActiveBandSettingsPb_fields &makesdr_SingleIqActiveBandSettingsPb_msg
 #define makesdr_DualIqActiveBandSettingsPb_fields &makesdr_DualIqActiveBandSettingsPb_msg
 #define makesdr_RxTxDualIqActiveBandSettingsPb_fields &makesdr_RxTxDualIqActiveBandSettingsPb_msg
 #define makesdr_SplitBandDualIqActiveBandSettingsPb_fields &makesdr_SplitBandDualIqActiveBandSettingsPb_msg
 #define makesdr_BasicBandSettingsCachePb_fields &makesdr_BasicBandSettingsCachePb_msg
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_fields &makesdr_BasicBandSettingsCachePb_BandSettingsEntry_msg
-#define makesdr_BasicIqBandSettingsCachePb_fields &makesdr_BasicIqBandSettingsCachePb_msg
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_msg
+#define makesdr_SingleIqBandSettingsCachePb_fields &makesdr_SingleIqBandSettingsCachePb_msg
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_msg
 #define makesdr_DualIqBandSettingsCachePb_fields &makesdr_DualIqBandSettingsCachePb_msg
 #define makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_DualIqBandSettingsCachePb_BandSettingsEntry_msg
 #define makesdr_RxTxDualIqBandSettingsCachePb_fields &makesdr_RxTxDualIqBandSettingsCachePb_msg
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_fields &makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_msg
 #define makesdr_BasicRxSettingsPb_fields &makesdr_BasicRxSettingsPb_msg
-#define makesdr_BasicIqRxSettingsPb_fields &makesdr_BasicIqRxSettingsPb_msg
+#define makesdr_SingleIqRxSettingsPb_fields &makesdr_SingleIqRxSettingsPb_msg
 #define makesdr_DualIqRxSettingsPb_fields &makesdr_DualIqRxSettingsPb_msg
 #define makesdr_BasicRxTxSettingsPb_fields &makesdr_BasicRxTxSettingsPb_msg
-#define makesdr_BasicIqRxTxSettingsPb_fields &makesdr_BasicIqRxTxSettingsPb_msg
+#define makesdr_SingleIqRxTxSettingsPb_fields &makesdr_SingleIqRxTxSettingsPb_msg
 #define makesdr_DualIqRxTxSettingsPb_fields &makesdr_DualIqRxTxSettingsPb_msg
 #define makesdr_SplitBandDualIqRxTxSettingsPb_fields &makesdr_SplitBandDualIqRxTxSettingsPb_msg
 #define makesdr_FieldUpdatePb_fields &makesdr_FieldUpdatePb_msg
 #define makesdr_IqPb_fields &makesdr_IqPb_msg
-#define makesdr_FftPb_fields &makesdr_FftPb_msg
+#define makesdr_SpectrumPb_fields &makesdr_SpectrumPb_msg
 #define makesdr_RxMeteringPb_fields &makesdr_RxMeteringPb_msg
 
 /* Maximum encoded size of messages (where known) */
@@ -1337,12 +1337,6 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_BasicBandSettingsCachePb_BandSettingsEntry_size 243
 #define makesdr_BasicBandSettingsCachePb_size    2460
 #define makesdr_BasicBandSettingsPb_size         231
-#define makesdr_BasicIqActiveBandSettingsPb_size 346
-#define makesdr_BasicIqBandSettingsCachePb_BandSettingsEntry_size 355
-#define makesdr_BasicIqBandSettingsCachePb_size  3580
-#define makesdr_BasicIqBandSettingsPb_size       343
-#define makesdr_BasicIqRxSettingsPb_size         375
-#define makesdr_BasicIqRxTxSettingsPb_size       399
 #define makesdr_BasicRxSettingsPb_size           263
 #define makesdr_BasicRxTxSettingsPb_size         287
 #define makesdr_DualIqActiveBandSettingsPb_size  528
@@ -1351,7 +1345,6 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_DualIqBandSettingsPb_size        525
 #define makesdr_DualIqRxSettingsPb_size          557
 #define makesdr_DualIqRxTxSettingsPb_size        756
-#define makesdr_FftPb_size                       1045
 #define makesdr_FieldUpdatePb_size               67
 #define makesdr_IfSettingsPb_size                26
 #define makesdr_IqCorrectionSettingsPb_size      40
@@ -1368,6 +1361,13 @@ extern const pb_msgdesc_t makesdr_RxMeteringPb_msg;
 #define makesdr_RxTxDualIqBandSettingsCachePb_BandSettingsEntry_size 712
 #define makesdr_RxTxDualIqBandSettingsCachePb_size 7150
 #define makesdr_RxTxDualIqBandSettingsPb_size    700
+#define makesdr_SingleIqActiveBandSettingsPb_size 346
+#define makesdr_SingleIqBandSettingsCachePb_BandSettingsEntry_size 355
+#define makesdr_SingleIqBandSettingsCachePb_size 3580
+#define makesdr_SingleIqBandSettingsPb_size      343
+#define makesdr_SingleIqRxSettingsPb_size        375
+#define makesdr_SingleIqRxTxSettingsPb_size      399
+#define makesdr_SpectrumPb_size                  1045
 #define makesdr_SplitBandDualIqActiveBandSettingsPb_size 1416
 #define makesdr_SplitBandDualIqRxTxSettingsPb_size 1469
 #define makesdr_SteppableFloatSettingPb_size     17

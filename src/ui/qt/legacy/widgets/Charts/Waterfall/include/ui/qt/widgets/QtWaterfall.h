@@ -6,7 +6,7 @@
 #include <samples/SampleTypes.h>
 #include <ui/common/waterfall/Waterfall.h>
 
-#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/iq/SpectrumMessage.h>
 
 // Qt host for the platform-neutral Waterfall. All the spectrum-to-pixel work
 // happens in Waterfall<Argb8888>; this class only owns the QImage it writes
@@ -31,7 +31,7 @@ public:
     bool shuffle = true
   );
 
-  void addSpectrum(const FftMessage* fftMsg, int64_t centreFrequency);
+  void addSpectrum(const SpectrumMessage* spectrumMessage, int64_t centreFrequency);
 
   void addSpectrum(
     const uint8_t* bins,

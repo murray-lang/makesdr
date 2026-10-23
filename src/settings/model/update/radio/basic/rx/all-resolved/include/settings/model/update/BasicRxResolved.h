@@ -1,8 +1,10 @@
 #pragma once
-#include <settings/model/base/FieldDescriptor.h>
+#include <settings/model/update/FieldDescriptor.h>
 
 // Auto-generated pre-resolved field descriptors
 // Uncomment the ones you need, likewise in BasicRxResolved.cpp
+
+namespace BasicRxResolved{
 // extern const FieldDescriptor active_bands;
 // extern const FieldDescriptor active_bands_focus_band;
 // extern const FieldDescriptor active_bands_focus_band_band_request;
@@ -56,3 +58,5 @@
 // extern const FieldDescriptor receiver_volume_gain_fine_delta;
 // extern const FieldDescriptor receiver_volume_gain_use_fine;
 // extern const FieldDescriptor ptt;
+
+}

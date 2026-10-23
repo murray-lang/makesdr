@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 4.1)
-
 project(settings-model-update-radios-dual-iq-rxtx-lookup)
 
 set(DUAL_IQ_RXTX_TAG_LOOKUP_FILES

@@ -1,4 +1,4 @@
-#include "settings/model/radio/iq/SplitBandDualIqRxTxSettings.h"
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 #ifdef USE_DOTTED_STRING_PATHS
 #include <settings/model/update/SplitBandDualIqTagLookup.h>
 #include <settings/model/update/resolveDottedString.h>

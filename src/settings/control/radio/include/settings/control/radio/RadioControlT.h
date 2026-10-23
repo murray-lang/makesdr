@@ -191,7 +191,7 @@ public:
   // PttSink Method
   ResultCode ptt(bool on) override
   {
-    FieldPath path{/*makesdr_RadioSettingsPb_ptt_tag*/4}; // TODO: Red Alert! Need to deal with tags!
+    FieldPath path{/*makesdr_RadioSettingsPb_ptt_tag*/10}; // TODO: Red Alert! Need to deal with tags!
     FieldUpdate setting(path, on, FieldUpdateMeaning::VALUE, true);
     return applyFieldUpdate(setting);
   }

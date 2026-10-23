@@ -9,8 +9,9 @@
 
 #include "QtBandReadout.h"
 #include <ui/qt/widgets/QtVfoReadout.h>
-// #include <settings/model/radio/iq/SplitBandDualIqActiveBandSettings.h>
-#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/IRadioSettingsView.h>
+
+#include <settings/model/radio/RadioSettingsTraits.h>
 
 namespace Ui { class QtFrequencyPanel; }
 
@@ -18,14 +19,11 @@ class QtFrequencyPanel : public QWidget //, public FieldUpdateSource
 {
   Q_OBJECT
 public:
-  using RadioSettings = SplitBandDualIqRxTxSettings;
-  using ActiveBandSettings = RadioSettings::ActiveBandSettings;
-
-  explicit QtFrequencyPanel(IRadioSettingsUpdater* updater, QWidget* parent = nullptr);
+  explicit QtFrequencyPanel(const RadioSettingsTraits& traits, IRadioSettingsUpdater* updater, QWidget* parent = nullptr);
   ~QtFrequencyPanel() override;
 
-  void initialise(const RadioSettings* pRadioSettings);
-  void applyRadioSettings(const RadioSettings* pRadioSettings, bool onlyIfChanged = true);
+  void initialise(const IRadioSettingsView* pRadioSettings);
+  void applyRadioSettings(const IRadioSettingsView* pRadioSettings, bool onlyIfChanged = true);
 
 // private slots:
 //   void onSplitRequested(SplitBandId whichBand);
@@ -42,11 +40,11 @@ public:
 
 private:
   void initialiseLayout();
-  void applyFrequencyChanges(const ActiveBandSettings* bandSelector, bool onlyIfChanged = true);
-  void applyFrequencyAndPipelineChanges(const ActiveBandSettings* bandSelector, bool onlyIfChanged = true);
-  void applyBandSelectorChange(const ActiveBandSettings* bandSelector);
+  void applyFrequencyChanges(const IActiveBandSettingsView* bandSelector, bool onlyIfChanged = true);
+  void applyFrequencyAndPipelineChanges(const IActiveBandSettingsView* bandSelector, bool onlyIfChanged = true);
+  void applyBandSelectorChange(const IActiveBandSettingsView* state);
 
-  bool hasChangesOtherThanVfo(const ActiveBandSettings* bandSelector) const;
+  bool hasChangesOtherThanVfo(const IActiveBandSettingsView* bandSelector) const;
 
   void setPttProperty(bool ptt, bool repolish = true);
   void setIsSplitProperty(bool isSplit, bool repolish = true);
@@ -55,6 +53,7 @@ private:
 
 private:
   std::unique_ptr<Ui::QtFrequencyPanel> ui;
+  RadioSettingsTraits m_traits;
   IRadioSettingsUpdater* m_radioUpdater;
   QtBandReadout* m_band1Readout;
   QtBandReadout* m_band2Readout;

@@ -1,13 +1,14 @@
 #pragma once
 
 #include <settings/model/radio/PipelineId.h>
-#include <settings/model/radio/basic/WithBandT.h>
+#include <settings/model/radio/WithBandT.h>
 #include <settings/model/radio/BandRfSettings.h>
 #include <settings/model/radio/IfSettings.h>
 #include <settings/model/proto/RadioSettings.pb.h>
 #include <settings/model/radio/iq/RxPipelineSettings.h>
 
-#include <settings/model/radio/IBandSettings.h>
+#include <settings/model/radio/IApplyBandDefaults.h>
+#include <settings/model/radio/BandSettingsDefaults.h>
 
 #include "DualIqBandSettingsCache.h"
 
@@ -20,7 +21,8 @@ class DualIqBandSettings
     makesdr_DualIqBandSettingsPb_band_tag,
     DualIqBandSettingsCache
   >
-  , public IBandSettings
+  , public IApplyBandDefaults
+  , public BandSettingsDefaults
 {
 public:
 
@@ -28,43 +30,43 @@ public:
 
   DualIqBandSettings(Proto& rawSettings);
 
-  [[nodiscard]] const Band * getBand() const override { return &m_band; }
-  [[nodiscard]] const Mode* getFocusMode() const override;
-  [[nodiscard]] bool hasRfSettings() const override { return m_rawSettings.has_rf; }
-  BandRfSettings* rfSettings() override { return &m_rfSettings; }
-  [[nodiscard]] const BandRfSettings* rfSettings() const override { return &m_rfSettings; }
+  [[nodiscard]] const Band * getBand() const { return &m_band; }
+  [[nodiscard]] const Mode* getFocusMode() const;
+  [[nodiscard]] bool hasRfSettings() const { return m_rawSettings.has_rf; }
+  BandRfSettings* rfSettings() { return &m_rfSettings; }
+  [[nodiscard]] const BandRfSettings* rfSettings() const { return &m_rfSettings; }
 
-  [[nodiscard]] bool hasIfSettings() const override { return m_rawSettings.has_if_; }
-  [[nodiscard]] IfSettings* ifSettings() override { return &m_ifSettings; }
-  [[nodiscard]] const IfSettings* ifSettings() const override { return &m_ifSettings; }
+  [[nodiscard]] bool hasIfSettings() const { return m_rawSettings.has_if_; }
+  [[nodiscard]] IfSettings* ifSettings() { return &m_ifSettings; }
+  [[nodiscard]] const IfSettings* ifSettings() const { return &m_ifSettings; }
 
-  [[nodiscard]] bool hasFocusPipelineId() const override { return m_rawSettings.has_focus_pipeline_id; }
-  [[nodiscard]] PipelineId focusPipelineId() const override
+  [[nodiscard]] bool hasFocusPipelineId() const { return m_rawSettings.has_focus_pipeline_id; }
+  [[nodiscard]] PipelineId focusPipelineId() const
   {
     return static_cast<PipelineId>(m_rawSettings.focus_pipeline_id);
   }
-  [[nodiscard]] bool hasFocusPipeline() const override;
+  [[nodiscard]] bool hasFocusPipeline() const;
 
-  RxPipelineSettings* focusPipeline() override;
-  [[nodiscard]] const RxPipelineSettings* focusPipeline() const override
+  RxPipelineSettings* focusPipeline();
+  [[nodiscard]] const RxPipelineSettings* focusPipeline() const
   {
     return const_cast<DualIqBandSettings*>(this)->focusPipeline();
   }
 
-  [[nodiscard]] bool hasPipeline(PipelineId pipelineId) const override;
-  RxPipelineSettings* pipeline(PipelineId pipelineId) override;
-  [[nodiscard]] const RxPipelineSettings* pipeline(PipelineId pipelineId) const override
+  [[nodiscard]] bool hasPipeline(PipelineId pipelineId) const;
+  RxPipelineSettings* pipeline(PipelineId pipelineId);
+  [[nodiscard]] const RxPipelineSettings* pipeline(PipelineId pipelineId) const
   {
     return const_cast<DualIqBandSettings*>(this)->pipeline(pipelineId);
   }
 
-  [[nodiscard]] bool hasIsMultiPipeline() const override { return m_rawSettings.has_is_multi_pipeline; }
-  [[nodiscard]] bool isMultiPipeline() const override
+  [[nodiscard]] bool hasIsMultiPipeline() const { return m_rawSettings.has_is_multi_pipeline; }
+  [[nodiscard]] bool isMultiPipeline() const
   {
     return m_rawSettings.has_is_multi_pipeline ? m_rawSettings.is_multi_pipeline : false;
   }
 
-  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex) override;
+  ResultCode updateIndirectField(const FieldUpdate &settingUpdate, uint32_t startingAtIndex);
 
   ResultCode autoComplete(const BandCategoryList* bands, const ModeList* modes, DualIqBandSettingsCache* cache);
   ResultCode autoComplete(

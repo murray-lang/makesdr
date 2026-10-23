@@ -5,16 +5,18 @@ makesdr.ModePb.label max_size: 15
 makesdr.BandPb.name max_size: 8
 makesdr.BandPb.label max_size: 10
 
+
+
 makesdr.BasicBandSettingsPb.band_request max_size: 8
-makesdr.BasicIqBandSettingsPb.band_request max_size: 8
+makesdr.SingleIqBandSettingsPb.band_request max_size: 8
 makesdr.DualIqBandSettingsPb.band_request max_size: 8
 makesdr.RxTxDualIqBandSettingsPb.band_request max_size: 8
 
 makesdr.BasicBandSettingsCachePb.band_settings max_count: 10
 makesdr.BasicBandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
-makesdr.BasicIqBandSettingsCachePb.band_settings max_count: 10
-makesdr.BasicIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
+makesdr.SingleIqBandSettingsCachePb.band_settings max_count: 10
+makesdr.SingleIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
 
 makesdr.DualIqBandSettingsCachePb.band_settings max_count: 10
 makesdr.DualIqBandSettingsCachePb.BandSettingsEntry.key max_size: 8
@@ -38,4 +40,4 @@ makesdr.FieldUpdatePb.string_value max_size: 8
 
 makesdr.IqPb.interleaved max_count: 4096
 
-makesdr.FftPb.bins max_size: 1024
+makesdr.SpectrumPb.bins max_size: 1024
