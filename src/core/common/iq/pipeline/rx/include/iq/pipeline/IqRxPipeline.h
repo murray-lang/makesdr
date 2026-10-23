@@ -19,8 +19,6 @@
 // #include <event/EventDispatcher.h>
 // #include <event/sample/RxIqEvent.h>
 #include <settings/model/radio/iq/RxPipelineSettings.h>
-#include <transport/IqPublisher.h>
-#include <transport/RxMeteringPublisher.h>
 
 #include <transport/IRadioPublishers.h>
 
@@ -57,7 +55,7 @@ private:
   // DcShift m_dcShift;
 
   IqPublisher* m_iqPublisher;
-  FftPublisher* m_fftPublisher;
+  SpectrumPublisher* m_spectrumPublisher;
   IqCorrection m_iqCorrection;
   Resampler m_resampler;
   FilterStage m_ifFilter;

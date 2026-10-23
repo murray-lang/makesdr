@@ -4,7 +4,7 @@
 #include <ui/qt/widgets/QtChartBase.h>
 #include <dsp/transforms/fft/Fft.h>
 
-#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/iq/SpectrumMessage.h>
 
 
 class QtPanadapter : public QtChartBase
@@ -44,7 +44,7 @@ public:
     bool shuffle = true
   );
 
-  void plot(const FftMessage* fftMsg, int64_t centreFrequency);
+  void plot(const SpectrumMessage* spectrumMessage, int64_t centreFrequency);
 
   void updateCursorPositionA(int64_t frequency, int32_t loCut, int32_t hiCut);
   void updateCursorPositionB(int64_t frequency, int32_t loCut, int32_t hiCut);

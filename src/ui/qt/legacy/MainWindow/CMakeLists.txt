@@ -29,7 +29,7 @@ target_link_libraries(ui-qt-main-window PUBLIC
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
-        radios-iq-dual-split-settings-model
+        settings-model-radio-iq-dual-split
         ui-qt-widgets-band-dialog
         ui-qt-widgets-numeric-keypad
         ui-qt-widgets-stepper

@@ -56,9 +56,8 @@ MainWindow::MainWindow(Config::Radio::Fields& radioConfig, QWidget *parent)
   connect(&m_radioClient, &QtRadioClient::radioSettingsReceived, this, &MainWindow::handleRadioSettings);
   // connect(&m_radioClient, &QtRadioClient::settingUpdateReceived, this, &MainWindow::handleFieldUpdate);
   // connect(&m_radioClient, &QtRadioClient::receiverAudioReceived, this, &MainWindow::handleReceiverAudio);
-  connect(&m_radioClient, &QtRadioClient::receiverIqReceived, this, &MainWindow::handleReceiverIq);
   connect(&m_radioClient, &QtRadioClient::rxMeteringReceived, this, &MainWindow::handleRxMetering);
-  connect(&m_radioClient, &QtRadioClient::fftReceived, this, &MainWindow::handleMonitorFft);
+  connect(&m_radioClient, &QtRadioClient::spectrumReceived, this, &MainWindow::handleSpectrum);
   // connect(&m_radioClient, &QtRadioClient::transmitterAudioReceived, this, &MainWindow::handleTransmitterAudio);
   // connect(&m_radioClient, &QtRadioClient::transmitterIqReceived, this, &MainWindow::handleTransmitterIq);
 
@@ -90,7 +89,7 @@ MainWindow::connectRadio()
   const ModeList* modes = m_radioClient.getModes();
   if (modes != nullptr) {
     addModeMenuToButton(modes);
-    const RadioSettings* settings = m_radioClient.getSettings();
+    const IRadioSettingsView* settings = m_radioClient.getSettings();
     if (settings != nullptr) {
       const Mode* focusMode = settings->getFocusMode();
       if (focusMode != nullptr) {
@@ -101,18 +100,6 @@ MainWindow::connectRadio()
   return ResultCode::OK;
 }
 
-void
-MainWindow::handleReceiverIq(const IqMessage* iq)
-{
-  if (m_pFace != nullptr && iq != nullptr) {
-    const RadioSettings* settings = m_radioClient.getSettings();
-    const auto* complex_ptr = reinterpret_cast<const std::complex<float>*>(iq->data());
-    uint32_t complexLength = iq->length()/2;
-    ComplexSamplesBuffer buffer(complex_ptr, complex_ptr + complexLength);
-    buffer.resize(complexLength);
-    m_pFace->handleReceiverIq(settings, &buffer, complexLength, iq->sampleRate());
-  }
-}
 //
 // void
 // MainWindow::handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate)
@@ -131,11 +118,13 @@ MainWindow::handleRxMetering(const RxMeteringMessage* metering)
 }
 
 void
-MainWindow::handleMonitorFft(const FftMessage* fftMsg)
+MainWindow::handleSpectrum(const SpectrumMessage* spectrumMessage)
 {
-  if (m_pFace != nullptr && fftMsg != nullptr) {
-    const RadioSettings* settings = m_radioClient.getSettings();
-    m_pFace->handleMonitorFft(settings, fftMsg);
+  if (m_pFace != nullptr && spectrumMessage != nullptr) {
+    const IRadioSettingsView* settings = m_radioClient.getSettings();
+    if (settings != nullptr) {
+      m_pFace->handleSpectrum(settings, spectrumMessage);
+    }
   }
 }
 //
@@ -159,8 +148,7 @@ MainWindow::handleMonitorFft(const FftMessage* fftMsg)
 //   }
 // }
 
-void
-MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t sequence*/)
+void MainWindow::handleRadioSettings(const IRadioSettingsView* radioSettings /*, uint64_t sequence*/)
 {
   if (radioSettings == nullptr) {
     return;
@@ -177,31 +165,14 @@ MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t 
 
     }
   }
-  if (radioSettings->hasActiveBands()) {
-    const ActiveBandSettings* activeBandSettings = radioSettings->activeBands();
-    if (activeBandSettings->hasFocusBand()) {
-      const BandSettings* bandSettings = activeBandSettings->focusBandSettings();
-      if (bandSettings != nullptr) {
-        updateBandButton(bandSettings->getBand());
-        if (bandSettings->hasFocusPipeline()) {
-        const RxPipelineSettings* rxPipelineSettings = bandSettings->focusPipeline();
-          if (rxPipelineSettings != nullptr) {
-            const Mode* mode = &rxPipelineSettings->base().mode();
-            updateModeButton(mode);
-            updateAgcButton(rxPipelineSettings->agcSpeed());
-          }
-        }
-      }
+  if (radioSettings->focusBandSettings() != nullptr) {
+    updateBandButton(radioSettings->getFocusBand());
+    const RxPipelineSettings* rxPipelineSettings = radioSettings->focusPipeline();
+    if (rxPipelineSettings != nullptr) {
+      const Mode* mode = &rxPipelineSettings->base().mode();
+      updateModeButton(mode);
+      updateAgcButton(rxPipelineSettings->agcSpeed());
     }
-    const BandSettings* bandSettings = activeBandSettings->focusBandSettings();
-    if (bandSettings == nullptr) {
-      return;
-    }
-    const RxPipelineSettings* rxPipelineSettings = bandSettings->focusPipeline();
-    if (rxPipelineSettings == nullptr) {
-      return;
-    }
-    const Mode& mode = rxPipelineSettings->base().mode();
   }
   if (m_pFace) {
     m_pFace->handleRadioSettingsChanged(radioSettings);
@@ -211,13 +182,6 @@ MainWindow::handleRadioSettings(const RadioSettings* radioSettings /*, uint64_t 
   //   bandSettings->clearChanged();
   //   // m_radioSettingsCopy.getBandSelector().clearChanged();
   // }
-}
-
-void
-MainWindow::handleRefreshedSettings(const RadioSettings* settings)
-{
-  // const Mode* focusMode = settings->getFocusMode();
-  // addModeMenuToButton(focusMode);
 }
 
 void
@@ -234,7 +198,7 @@ MainWindow::on_actionBand_triggered()
     if (bands == nullptr) {
       return;
     }
-    const RadioSettings* settings = m_radioClient.getSettings();
+    const IRadioSettingsView* settings = m_radioClient.getSettings();
     if (settings == nullptr) {
       return;
     }
@@ -269,7 +233,8 @@ MainWindow::on_actionKeypad_triggered()
   keypad.setAutoFillBackground(true);
   keypad.setProperty("class", "keypad");
 
-  int64_t centreFrequency = m_radioClient.getSettings()->getCentreFrequency();
+  const IRadioSettingsView* settings = m_radioClient.getSettings();
+  int64_t centreFrequency = settings != nullptr ? settings->getCentreFrequency() : 0;
 
   // Optional: Pass the existing value from your main window target field
   keypad.setInitialValue(centreFrequency);

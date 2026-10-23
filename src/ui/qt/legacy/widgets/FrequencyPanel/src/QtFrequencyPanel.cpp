@@ -8,9 +8,10 @@
 
 
 
-QtFrequencyPanel::QtFrequencyPanel(IRadioSettingsUpdater* updater, QWidget* parent)
+QtFrequencyPanel::QtFrequencyPanel(const RadioSettingsTraits& traits, IRadioSettingsUpdater* updater, QWidget* parent)
   : QWidget(parent)
   , ui(std::make_unique<Ui::QtFrequencyPanel>())
+  , m_traits(traits)
   , m_radioUpdater(updater)
   , m_band1Readout(nullptr)
   , m_band2Readout(nullptr)
@@ -35,31 +36,35 @@ QtFrequencyPanel::initialiseLayout()
   m_band1Readout = new QtBandReadout(m_radioUpdater, SplitBandId::One, this);
   // m_band1Readout->setObjectName("band1Row");
   ui->gridLayout->addWidget(m_band1Readout, 0, 0, 1, 2, Qt::AlignLeft);
-
-  m_band2Readout = new QtBandReadout(m_radioUpdater, SplitBandId::Two, this);
-  // m_band2Readout->setObjectName("band2Row");
-  ui->gridLayout->addWidget(m_band2Readout, 1, 0, 1, 2, Qt::AlignLeft);
-
   m_band1Readout->setWidgetProperties(false);
-  m_band2Readout->setWidgetProperties(false);
+
+  if (m_traits.isSplitBand) {
+    m_band2Readout = new QtBandReadout(m_radioUpdater, SplitBandId::Two, this);
+    // m_band2Readout->setObjectName("band2Row");
+    ui->gridLayout->addWidget(m_band2Readout, 1, 0, 1, 2, Qt::AlignLeft);
+    m_band2Readout->setWidgetProperties(false);
+  }
+
+
   QWidgetPropertySetter::setWidgetProperty(this, "role", "frequencyReadout", true);
 }
 
 void
-QtFrequencyPanel::initialise(const SplitBandDualIqRxTxSettings* pRadioSettings)
+QtFrequencyPanel::initialise(const IRadioSettingsView* pRadioSettings)
 {
   applyRadioSettings(pRadioSettings, false);
 }
 
 void
-QtFrequencyPanel::applyRadioSettings(const SplitBandDualIqRxTxSettings* pRadioSettings, bool onlyIfChanged)
+QtFrequencyPanel::applyRadioSettings(const IRadioSettingsView* pRadioSettings, bool onlyIfChanged)
 {
   if (pRadioSettings == nullptr) return;
 
   if (pRadioSettings->hasActiveBands()) {
-    const ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
+    const IActiveBandSettingsView* activeBandSettings = pRadioSettings->activeBands();
     if (hasChangesOtherThanVfo(activeBandSettings)) {
-      applyBandSelectorChange(activeBandSettings);
+      const IActiveBandSettingsView* stateBandSettings = pRadioSettings->state()->activeBands();
+      applyBandSelectorChange(stateBandSettings);
       applyFrequencyAndPipelineChanges(activeBandSettings, onlyIfChanged);
     } else {
       applyFrequencyChanges(activeBandSettings, onlyIfChanged);
@@ -78,7 +83,7 @@ QtFrequencyPanel::applyRadioSettings(const SplitBandDualIqRxTxSettings* pRadioSe
 }
 
 bool
-QtFrequencyPanel::hasChangesOtherThanVfo(const ActiveBandSettings* activeBandSettings) const
+QtFrequencyPanel::hasChangesOtherThanVfo(const IActiveBandSettingsView* activeBandSettings) const
 {
   if (   activeBandSettings->hasFocusBandId()
       || activeBandSettings->hasTxBandId()
@@ -88,13 +93,13 @@ QtFrequencyPanel::hasChangesOtherThanVfo(const ActiveBandSettings* activeBandSet
     return true;
   }
   if (activeBandSettings->hasBand(SplitBandId::One)) {
-    const ActiveBandSettings::BandSettings* band1 = activeBandSettings->band(SplitBandId::One);
+    const IBandSettingsView* band1 = activeBandSettings->band(SplitBandId::One);
     if (band1->hasFocusPipeline() || band1->hasIsMultiPipeline() || band1->hasTxPipeline()) {
       return true;
     }
   }
   if (activeBandSettings->hasBand(SplitBandId::Two)) {
-    const ActiveBandSettings::BandSettings* band2 = activeBandSettings->band(SplitBandId::Two);
+    const IBandSettingsView* band2 = activeBandSettings->band(SplitBandId::Two);
     if (band2->hasFocusPipeline() || band2->hasIsMultiPipeline() || band2->hasTxPipeline()) {
       return true;
     }
@@ -103,19 +108,19 @@ QtFrequencyPanel::hasChangesOtherThanVfo(const ActiveBandSettings* activeBandSet
 }
 
 void
-QtFrequencyPanel::applyFrequencyChanges(const ActiveBandSettings* activeBandSettings, bool onlyIfChanged)
+QtFrequencyPanel::applyFrequencyChanges(const IActiveBandSettingsView* activeBandSettings, bool onlyIfChanged)
 {
   // Band 1
   if (activeBandSettings->hasBand(SplitBandId::One)) {
-    const ActiveBandSettings::BandSettings* band1 = activeBandSettings->band(SplitBandId::One);
+    const IBandSettingsView* band1 = activeBandSettings->band(SplitBandId::One);
     if (band1 != nullptr) {
       m_band1Readout->applyFrequencyChanges(band1, onlyIfChanged);
     }
   }
 
   // Band 2 (may be absent when not split)
-  if (activeBandSettings->hasBand(SplitBandId::Two)) {
-    const ActiveBandSettings::BandSettings* band2 = activeBandSettings->band(SplitBandId::Two);
+  if (m_band2Readout != nullptr && activeBandSettings->hasBand(SplitBandId::Two)) {
+    const IBandSettingsView* band2 = activeBandSettings->band(SplitBandId::Two);
     if (band2 != nullptr) {
       m_band2Readout->applyFrequencyChanges(band2, onlyIfChanged);
     }
@@ -123,11 +128,11 @@ QtFrequencyPanel::applyFrequencyChanges(const ActiveBandSettings* activeBandSett
 }
 
 void
-QtFrequencyPanel::applyFrequencyAndPipelineChanges(const ActiveBandSettings* activeBandSettings, bool onlyIfChanged)
+QtFrequencyPanel::applyFrequencyAndPipelineChanges(const IActiveBandSettingsView* activeBandSettings, bool onlyIfChanged)
 {
   // Band 1
   if (activeBandSettings->hasBand(SplitBandId::One)) {
-    const ActiveBandSettings::BandSettings* band1 = activeBandSettings->band(SplitBandId::One);
+    const IBandSettingsView* band1 = activeBandSettings->band(SplitBandId::One);
     if (band1 != nullptr) {
       m_band1Readout->applyFrequencyChanges(band1, onlyIfChanged);
       m_band1Readout->applyPipelineChanges(band1, onlyIfChanged);
@@ -135,8 +140,8 @@ QtFrequencyPanel::applyFrequencyAndPipelineChanges(const ActiveBandSettings* act
   }
 
   // Band 2 (may be absent when not split)
-  if (activeBandSettings->hasBand(SplitBandId::Two)) {
-    const ActiveBandSettings::BandSettings* band2 = activeBandSettings->band(SplitBandId::Two);
+  if (m_band2Readout != nullptr && activeBandSettings->hasBand(SplitBandId::Two)) {
+    const IBandSettingsView* band2 = activeBandSettings->band(SplitBandId::Two);
     if (band2 != nullptr) {
       m_band2Readout->applyFrequencyChanges(band2, onlyIfChanged);
       m_band2Readout->applyPipelineChanges(band2, onlyIfChanged);
@@ -145,29 +150,30 @@ QtFrequencyPanel::applyFrequencyAndPipelineChanges(const ActiveBandSettings* act
 }
 
 void
-QtFrequencyPanel::applyBandSelectorChange(const ActiveBandSettings* activeBandSettings)
+QtFrequencyPanel::applyBandSelectorChange(const IActiveBandSettingsView* state)
 {
-  
-  const SplitBandId txBandId = activeBandSettings->txBandId();
-  const SplitBandId rxBandId = activeBandSettings->rxBandId();
-  const SplitBandId focusBandId = activeBandSettings->focusBandId();
+  // Structural change (button presses, not encoder rate): the change set only carries whichever
+  // of these changed, so lay out and re-apply the rows from the merged state.
+  const SplitBandId txBandId = state->txBandId();
+  const SplitBandId rxBandId = state->rxBandId();
+  const SplitBandId focusBandId = state->focusBandId();
 
-  const bool isSplit = activeBandSettings->isSplit();
-  bool showBand1 = (activeBandSettings->hasBand(SplitBandId::One) && focusBandId == SplitBandId::One) || isSplit;
-  bool showBand2 = (activeBandSettings->hasBand(SplitBandId::Two) && focusBandId == SplitBandId::Two) || isSplit;
+  const bool isSplit = state->isSplit();
+  bool showBand1 = (state->hasBand(SplitBandId::One) && focusBandId == SplitBandId::One) || isSplit;
+  bool showBand2 = (state->hasBand(SplitBandId::Two) && focusBandId == SplitBandId::Two) || isSplit;
 
   // Visibility (Band 2 row disappears when not split)
   m_band1Readout->setRowVisible(showBand1);
-  m_band2Readout->setRowVisible(showBand2);
+  if (m_band2Readout != nullptr) m_band2Readout->setRowVisible(showBand2);
 
   if (showBand1) {
-    const ActiveBandSettings::BandSettings* band1 = activeBandSettings->band(SplitBandId::One);
+    const IBandSettingsView* band1 = state->band(SplitBandId::One);
     m_band1Readout->applyBandSettings(band1, SplitBandId::One, txBandId, rxBandId, focusBandId);
     // m_band1Readout->setTxButtonVisible(isSplit);
   }
 
-  if (showBand2) {
-    const ActiveBandSettings::BandSettings* band2 = activeBandSettings->band(SplitBandId::Two);
+  if (showBand2 && m_band2Readout != nullptr) {
+    const IBandSettingsView* band2 = state->band(SplitBandId::Two);
     m_band2Readout->applyBandSettings(band2, SplitBandId::Two, txBandId, rxBandId, focusBandId);
     // m_band2Readout->setTxButtonVisible(isSplit);
   }
@@ -318,7 +324,7 @@ void
 QtFrequencyPanel::setPttProperty(bool ptt, bool repolish)
 {
   m_band1Readout->setPttProperty(ptt, false);
-  m_band2Readout->setPttProperty(ptt, false);
+  if (m_band2Readout != nullptr) m_band2Readout->setPttProperty(ptt, false);
   QWidgetPropertySetter::setWidgetProperty(this, "ptt", ptt, repolish);
 }
 

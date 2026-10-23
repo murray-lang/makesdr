@@ -5,16 +5,19 @@
 #include <settings/model/message/PayloadSource.h>
 #include <transport/MessageRingSinkT.h>
 #include <transport/MessageRingSourceT.h>
+#include <settings/model/update/FieldUpdate.h>
+#include <settings/model/update/FieldUpdateMessage.h>
+#include <settings/model/update/FieldUpdateSink.h>
 
 template<typename RingsT>
 class SettingsClientSideRingsT
 {
 public:
+  using Rings = RingsT;
   using Settings = typename RingsT::RadioSettings;
 
   explicit SettingsClientSideRingsT(RingsT& rings)
-    : m_pipes(rings)
-    , m_settingsOut(rings.settingsToRadio())
+    : m_settingsOut(rings.settingsToRadio())
     , m_settingsIn(rings.settingsToClient())
   {
   }
@@ -33,7 +36,7 @@ public:
   // payload type identifies; unknown types are ignored.
   void dispatch(PayloadType payloadType)
   {
-    if (static_cast<int>(payloadType) == Settings::payloadType) {
+    if (payloadType == Settings::payloadType) {
       m_settingsIn.consumePending();
     }
   }
@@ -41,12 +44,10 @@ public:
   //--- for the platform glue -------------------------------------------------
 
   template<typename TargetT>
-  void attach(TargetT target) { m_pipes.attachClient(target); }
-  void detach()               { m_pipes.detachClient(); }
+  void attachRecipient(TargetT target) { m_settingsIn.attachRecipient(target); }
+  void detachRecipient()               { m_settingsIn.detachRecipient(); }
 
 private:
-  RingsT& m_pipes;
-
   MessageRingSinkT<typename RingsT::SettingsRing> m_settingsOut;
   MessageRingSourceT<typename RingsT::SettingsRing> m_settingsIn;
 };

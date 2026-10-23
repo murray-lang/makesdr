@@ -1,5 +1,5 @@
 
 #include <settings/control/radio/RadioControlT.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 template class RadioControlT<SplitBandDualIqRxTxSettings>;

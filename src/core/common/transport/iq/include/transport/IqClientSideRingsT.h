@@ -3,12 +3,12 @@
 #include <ResultCode.h>
 #include <settings/model/message/PayloadType.h>
 #include <settings/model/radio/iq/IqMessage.h>
-#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/iq/SpectrumMessage.h>
 #include <transport/MessageRingSourceT.h>
 
 #include <settings/model/message/MessageSinkT.h>
 
-#include <transport/BasicClientSideRingsT.h>
+#include <transport/MetaClientSideRingsT.h>
 
 //*****************************************************************************
 // The client's end of an IqMessageRingsT, independent of platform: the mirror
@@ -23,44 +23,38 @@ template<typename RingsT>
 class IqClientSideRingsT
 {
 public:
+  using Rings = RingsT;
 
   explicit IqClientSideRingsT(RingsT& rings)
-    : m_pipes(rings)
-    , m_iqIn(rings.iqToClient())
-    , m_fftIn(rings.fftToClient())
+    : m_iqIn(rings.iqToClient())
   {
   }
 
   //--- incoming (radio -> client) --------------------------------------------
 
   void connectIqSink(MessageSinkT<IqMessage>* sink)               { m_iqIn.connectMessageSink(sink); }
-  void connectFftSink(MessageSinkT<FftMessage>* sink)             { m_fftIn.connectMessageSink(sink); }
 
   template<typename TargetT>
-  void attach(TargetT target) { m_pipes.attachClient(target); }
-  void detach()               { m_pipes.detachClient(); }
+  void attachRecipient(TargetT target)
+  {
+    m_iqIn.attachRecipient(target);
+  }
+
+  void detachRecipient()
+  {
+    m_iqIn.detachRecipient();
+  }
 
   // Client thread only. Delivers whatever is pending on the pipe the payload
   // type identifies, handing anything not IQ-specific to the base; unknown
   // types are ignored.
   void dispatch(PayloadType payloadType)
   {
-    switch (static_cast<int>(payloadType)) {
-    case PAYLOAD_TYPE_IQ:
+    if (payloadType == PAYLOAD_TYPE_IQ) {
       m_iqIn.consumePending();
-      break;
-    case PAYLOAD_TYPE_FFT:
-      m_fftIn.consumePending();
-      break;
-    default:
-      break;
     }
   }
 
 private:
-
-  RingsT& m_pipes;
-
   MessageRingSourceT<typename RingsT::IqRing>  m_iqIn;
-  MessageRingSourceT<typename RingsT::FftRing> m_fftIn;
 };

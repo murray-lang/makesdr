@@ -2,13 +2,10 @@
 
 #include <EventId.h>
 #include <settings/model/message/PayloadEventBaseT.h>
-#include "IRadioSettings.h"
-#include "IRadioSettingsEvent.h"
 
 template<typename RadioSettingsT, typename EventBaseT, typename EventIdT, EventId eventId>
 class RadioSettingsEventT :
-  public PayloadEventBaseT<EventBaseT, EventIdT, eventId>,
-  public IRadioSettingsEvent
+  public PayloadEventBaseT<EventBaseT, EventIdT, eventId>
 {
 public:
   using Base = PayloadEventBaseT<EventBaseT, EventIdT, eventId>;
@@ -23,8 +20,8 @@ public:
     , m_sequence(sequence)
   {
   }
-  [[nodiscard]] const IRadioSettings& getRadioSettings() const override { return m_radioSettings; }
-  [[nodiscard]] int32_t getSequence() const override { return m_sequence; }
+  [[nodiscard]] const RadioSettingsT& getRadioSettings() const { return m_radioSettings; }
+  [[nodiscard]] int32_t getSequence() const { return m_sequence; }
 
 protected:
   RadioSettingsT m_radioSettings;

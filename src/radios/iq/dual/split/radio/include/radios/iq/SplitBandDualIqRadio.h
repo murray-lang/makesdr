@@ -3,28 +3,31 @@
 #include <ResultCode.h>
 #include <radios/iq/DualIqRxTxT.h>
 #include <config/struct/RadioConfig.h>
-// #include <settings/model/radio/BandSettingsCache.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
-#include <radios/base/RadioBaseT.h>
+#include <radios/base/RadioBase.h>
 #include <settings/control/radio/RadioControlT.h>
 
 #include <thread/Mutex.h>
 
-#include <settings/model/radio/RadioSettingsRequester.h>
+#include <settings/model/radio/RadioRequester.h>
 
 #ifdef IS_QT
-#include <radios/iq/SplitBandDualIqTransport.h>
+#include <transport/qt/QtIqCapableRadioTransportT.h>
+#include <transport/qt/globalQtDualIqSplitRings.h>
+
+using SplitBandDualIqTransport = QtIqCapableRadioTransportT<QtSplitBandDualIqSettingsRings>;
 #endif
 
-class DualIqRxTxRadio :
-  public RadioBaseT<SplitBandDualIqRxTxSettings>,
+class SplitBandDualIqRxTxRadio :
+  public RadioBase,
+  public RadioSettingsSinkT<SplitBandDualIqRxTxSettings>,
   public MessageSinkT<SplitBandDualIqRxTxSettings>,
   public MessageSinkT<FieldUpdateMessage>
 {
 
 public:
-  DualIqRxTxRadio(
+  SplitBandDualIqRxTxRadio(
     BandCategoryList& bands,
     ModeList& modes,
     SplitBandDualIqRxTxSettings::Cache& bandSettingsCache
@@ -45,7 +48,7 @@ public:
   ResultCode applyMessage(SplitBandDualIqRxTxSettings* message) final;
   ResultCode applyMessage(FieldUpdateMessage* update) final;
 
-  [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const SplitBandDualIqRxTxSettings* getSettings() const { return &m_settings; }
 
   ResultCode applySettings(SplitBandDualIqRxTxSettings& settings) override;
   ResultCode applyFieldUpdate(const FieldUpdate& update) override;
@@ -55,16 +58,15 @@ public:
 protected:
   // ResultCode applyFieldUpdate(const FieldUpdate& update, PayloadSource source);
   ResultCode processCurrentSettings();
-  ResultCode handleRequest(RadioSettingsRequester::Requests cmd);
+  ResultCode handleRequest(RadioRequester::Requests cmd);
   ResultCode sendCapabilities();
   ResultCode sendSettings();
   ResultCode sendModes();
   ResultCode sendBands();
 
 protected:
-#ifdef IS_QT
+  CapabilitiesMessage m_capabilitiesMsg;
   SplitBandDualIqTransport m_transport;
-#endif
 
   BandCategoryList& m_bands;
   ModeList& m_modes;

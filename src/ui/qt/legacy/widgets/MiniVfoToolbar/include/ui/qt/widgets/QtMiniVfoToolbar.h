@@ -6,7 +6,8 @@
 #include <settings/model/radio/PipelineId.h>
 #include <settings/model/radio/SplitBandId.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
-#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/IBandSettingsView.h>
+#include <settings/model/radio/iq/RxPipelineSettings.h>
 
 namespace Ui { class QtMiniVfoToolbar; }
 
@@ -18,7 +19,7 @@ public:
   ~QtMiniVfoToolbar() override;
 
   void setContext(SplitBandId bandId, VfoId vfoId);
-  void applyBandSettings(const RxTxDualIqBandSettings* bandSettings, bool isFocusBand, bool isTxBand);
+  void applyBandSettings(const IBandSettingsView* bandSettings, bool isFocusBand, bool isTxBand);
 
   void setMuted(bool muted);
   [[nodiscard]] bool isMuted() const noexcept { return m_muted; }
@@ -35,7 +36,7 @@ public:
 
 private:
 
-  [[nodiscard]] bool getIsMuted(const RxTxDualIqBandSettings* bandSettings) const noexcept;
+  [[nodiscard]] bool getIsMuted(const IBandSettingsView* bandSettings) const noexcept;
   void setFixedProperties();
   void updateMutePresentation();
   void updateAbPresentation();
@@ -51,7 +52,7 @@ private:
 
   std::unique_ptr<Ui::QtMiniVfoToolbar> ui;
   IRadioSettingsUpdater* m_radioControl;
-  const RxTxDualIqBandSettings* m_bandSettings = nullptr;
+  const IBandSettingsView* m_bandSettings = nullptr;
   SplitBandId m_bandId = SplitBandId::None;
   VfoId m_vfoId = VfoId::A;
 

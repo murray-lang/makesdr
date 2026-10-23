@@ -17,7 +17,7 @@ target_include_directories(ui-common-waterfall INTERFACE
 )
 
 target_link_libraries(ui-common-waterfall INTERFACE
-        settings-model-radio-iq-basic-common
+        settings-model-radio-iq-common
         core-common-dsp-transforms-power-spectrum
 )
 

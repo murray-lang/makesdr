@@ -4,21 +4,24 @@
 #include <radios/iq/DualIqRxTxT.h>
 #include <config/struct/RadioConfig.h>
 // #include <settings/model/radio/BandSettingsCache.h>
-#include <radios/settings/model/DualIqRxTxSettings.h>
+#include <settings/model/radio/iq/DualIqRxTxSettings.h>
 
-#include <radios/base/RadioBaseT.h>
+#include <radios/base/RadioBase.h>
 #include <settings/control/radio/RadioControlT.h>
 
 #include <thread/Mutex.h>
 
-#include <settings/model/radio/RadioSettingsRequester.h>
+#include <settings/model/radio/RadioRequester.h>
 
 #ifdef IS_QT
-#include <radios/iq/DualIqRxTxTransport.h>
+#include <transport/qt/QtIqCapableRadioTransportT.h>
+#include <transport/qt/globalQtDualIqRxTxRings.h>
+
+using DualIqRxTxTransport = QtIqCapableRadioTransportT<QtDualIqRxTxSettingsRings>;
 #endif
 
 class DualIqRxTxRadio :
-  public RadioBaseT<DualIqRxTxSettings>,
+  public RadioBase<DualIqRxTxSettings>,
   public MessageSinkT<DualIqRxTxSettings>,
   public MessageSinkT<FieldUpdateMessage>
 {
@@ -48,7 +51,7 @@ public:
   ResultCode applyMessage(Settings* message) final;
   ResultCode applyMessage(FieldUpdateMessage* update) final;
 
-  [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const Settings* getSettings() const  override { return &m_settings; }
 
   ResultCode applySettings(Settings& settings) override;
   ResultCode applyFieldUpdate(const FieldUpdate& update) override;
@@ -58,15 +61,13 @@ public:
 protected:
   // ResultCode applyFieldUpdate(const FieldUpdate& update, PayloadSource source);
   ResultCode processCurrentSettings();
-  ResultCode handleRequest(RadioSettingsRequester::Requests cmd);
+  ResultCode handleRequest(RadioRequester::Requests cmd);
   ResultCode sendSettings();
   ResultCode sendModes();
   ResultCode sendBands();
 
 protected:
-#ifdef IS_QT
   DualIqRxTxTransport m_transport;
-#endif
 
   BandCategoryList& m_bands;
   ModeList& m_modes;

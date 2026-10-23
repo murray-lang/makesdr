@@ -1,9 +1,9 @@
 #include "transport/qt/globalQtDualIqRxRings.h"
 
-QtDualIqRxMessageRings&
+QtDualIqRxSettingsRings&
 globalQtDualIqRxRings()
 {
   // Constructed on first use, so it is ready whichever side reaches it first.
-  static QtDualIqRxMessageRings rings;
+  static QtDualIqRxSettingsRings rings;
   return rings;
 }

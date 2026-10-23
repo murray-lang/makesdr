@@ -9,8 +9,8 @@ enum RadioPayloadType {
   PAYLOAD_CAPABILITIES = 1;
   PAYLOAD_SETTINGS_BASIC_RX = 2;
   PAYLOAD_SETTINGS_BASIC_RXTX = 3;
-  PAYLOAD_SETTINGS_BASIC_IQ_RX = 4;
-  PAYLOAD_SETTINGS_BASIC_IQ_RXTX = 5;
+  PAYLOAD_SETTINGS_SINGLE_IQ_RX = 4;
+  PAYLOAD_SETTINGS_SINGLE_IQ_RXTX = 5;
   PAYLOAD_SETTINGS_DUAL_IQ_RX = 6;
   PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 7;
   PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 8;
@@ -19,12 +19,12 @@ enum RadioPayloadType {
   PAYLOAD_BANDS = 21;
   PAYLOAD_LOOKUP = 22;
   PAYLOAD_CACHE_BASIC = 30;
-  PAYLOAD_CACHE_BASIC_IQ = 31;
+  PAYLOAD_CACHE_SINGLE_IQ = 31;
   PAYLOAD_CACHE_DUAL_IQ = 32;
   PAYLOAD_CACHE_DUAL_IQ_RXTX = 33;
   PAYLOAD_IQ = 40;
   PAYLOAD_RX_METERING = 41;
-  PAYLOAD_FFT = 42;
+  PAYLOAD_SPECTRUM = 42;
 }
 
 enum RadioPayloadPurpose {
@@ -49,6 +49,29 @@ message RadioPayloadBasePb {
     RadioPayloadHeaderPb header = 1;
 }
 
+//message TxCapabilitiesPb {
+//  bool split_band = 1;
+//}
+//
+//message IqCapabilitiesPb {
+//  bool dual_pipeline = 1;
+//  optional uint32 sample_rate = 2;
+//}
+
+message FrequencyRangePb {
+  int64 min = 1;
+  int64 max = 2;
+}
+
+message CapabilitiesPb {
+  RadioPayloadType settings_type = 1;
+//  bool rx = 1;
+//  TxCapabilitiesPb tx = 2;
+//  IqCapabilitiesPb iq = 3;
+  optional uint32 sample_rate = 2;
+  repeated FrequencyRangePb frequency_ranges = 4;
+}
+
 message CapabilitiesPayloadPb {
   RadioPayloadHeaderPb header = 1;
   CapabilitiesPb body = 2;
@@ -60,9 +83,9 @@ message BasicRxSettingsPayloadPb {
   BasicRxSettingsPb body = 2;
 }
 
-message BasicIqRxSettingsPayloadPb {
+message SingleIqRxSettingsPayloadPb {
   RadioPayloadHeaderPb header = 1;
-  BasicIqRxSettingsPb body = 2;
+  SingleIqRxSettingsPb body = 2;
 }
 
 message DualIqRxSettingsPayloadPb {
@@ -75,9 +98,9 @@ message BasicRxTxSettingsPayloadPb {
   BasicRxTxSettingsPb body = 2;
 }
 
-message BasicIqRxTxSettingsPayloadPb {
+message SingleIqRxTxSettingsPayloadPb {
   RadioPayloadHeaderPb header = 1;
-  BasicIqRxTxSettingsPb body = 2;
+  SingleIqRxTxSettingsPb body = 2;
 }
 
 message DualIqRxTxSettingsPayloadPb {
@@ -110,9 +133,9 @@ message RadioCacheBasicPayloadPb {
   BasicBandSettingsCachePb body = 2;
 }
 
-message RadioCacheBasicIqPayloadPb {
+message RadioCacheSingleIqPayloadPb {
   RadioPayloadHeaderPb header = 1;
-  BasicIqBandSettingsCachePb body = 2;
+  SingleIqBandSettingsCachePb body = 2;
 }
 
 message RadioCacheDualIqPayloadPb {
@@ -135,9 +158,9 @@ message IqPayloadPb {
   IqPb body = 2;
 }
 
-message FftPayloadPb {
+message SpectrumPayloadPb {
   RadioPayloadHeaderPb header = 1;
-  FftPb body = 2;
+  SpectrumPb body = 2;
 }
 
 message RxMeteringPayloadPb {

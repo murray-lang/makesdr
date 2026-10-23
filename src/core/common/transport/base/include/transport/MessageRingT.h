@@ -43,30 +43,31 @@ public:
   MessageRingT(const MessageRingT&) = delete;
   MessageRingT& operator=(const MessageRingT&) = delete;
 
-  // For attaching and detaching the consumer, where the notifier supports it.
   NotifierT& notifier() { return m_notifier; }
 
-  // Call after attaching a consumer. Messages committed while nothing was
-  // attached had their notifications dropped, and if they filled the ring the
-  // producer can commit nothing more to trigger another: without this wake the
-  // channel would stay stuck. A commit racing the attach may cause a second
-  // wake, which consumers already tolerate.
-  void wakeIfPending()
+  //--- attaching the recipient (only where NotifierT supports it) ------------
+
+  // The target is woken by each subsequent commit. Messages committed while
+  // nothing was attached had their notifications dropped, so it is also woken
+  // now if any are waiting.
+  template<typename TargetT>
+  void attachRecipient(TargetT target)
   {
-    if (pending() > 0) {
-      m_notifier(static_cast<PayloadType>(T::payloadType));
-    }
+    m_notifier.attach(target);
+    wakeIfPending();
   }
+
+  void detachRecipient() { m_notifier.detach(); }
 
   //--- producer thread only --------------------------------------------------
 
-  [[nodiscard]] T* reserveWrite() { return m_ring.reserveWrite(); }
+  [[nodiscard]] T* reserveWrite() { return m_ringBuffer.reserveWrite(); }
 
   void commitWrite(T* pmsg)
   {
     // Read before committing: once committed, the slot belongs to the consumer.
     const PayloadType payloadType = pmsg->getPayloadType();
-    m_ring.commitWrite(pmsg);
+    m_ringBuffer.commitWrite(pmsg);
     m_notifier(payloadType);
   }
 
@@ -77,15 +78,26 @@ public:
   template<typename HandlerT>
   void consumePending(HandlerT&& handler)
   {
-    while (T* pmsg = m_ring.reserveRead()) {
+    while (T* pmsg = m_ringBuffer.reserveRead()) {
       handler(*pmsg);
-      m_ring.commitRead(pmsg);
+      m_ringBuffer.commitRead(pmsg);
     }
   }
 
-  [[nodiscard]] size_t pending() const { return m_ring.pending(); }
+  [[nodiscard]] size_t pending() const { return m_ringBuffer.pending(); }
 
 private:
-  MessageRingBufferT<T, N> m_ring;
+  // If messages filled the ring while nothing was attached, the producer can
+  // commit nothing more to trigger a notification: without this wake the
+  // channel would stay stuck. A commit racing the attach may cause a second
+  // wake, which consumers already tolerate.
+  void wakeIfPending()
+  {
+    if (pending() > 0) {
+      m_notifier(static_cast<PayloadType>(T::payloadType));
+    }
+  }
+
+  MessageRingBufferT<T, N> m_ringBuffer;
   NotifierT          m_notifier;
 };

@@ -1,5 +1,5 @@
 #include <radios/iq/SplitBandDualIqRadio.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 #include <settings/model/meta/band/mostBandCategories.h>
 #include <settings/model/meta/mode/basicModes.h>
@@ -22,8 +22,8 @@
 //  #include <settings/model/update/SplitBandDualIqTagLookup.h>
 
 // #include <radios/settings/model/DualIqRxTxSettings.h>
-// #include <radios/settings/update/DualIqRxTxTagLookup.h>
-// #include <radios/settings/update/DualIqRxTagLookup.h>
+// #include <settings/model/update/DualIqRxTxTagLookup.h>
+// #include <settings/model/update/DualIqRxTagLookup.h>
 
 BandCategoryList bandsByCategory(mostBandCategories);
 ModeList modeList(basicModes);
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     qDebug() << "Error loading config: " << static_cast<uint32_t>(rc);
     return -1;
   }
-  DualIqRxTxRadio radio(bandsByCategory, modeList, bandSettingsCache);
+  SplitBandDualIqRxTxRadio radio(bandsByCategory, modeList, bandSettingsCache);
   rc = radio.configure(radioConfig);
   if (rc != ResultCode::OK) {
     qDebug() << "Error configuring radio: " << static_cast<uint32_t>(rc);

@@ -6,12 +6,12 @@ find_package(PkgConfig)
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
-set(QT_TRANSPORT_GLOBALS_IQ_DUAL_SPLIT_FILES
+set(QT_TRANSPORT_GLOBALS_IQ_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/globalQtIqRings.h
         ${CMAKE_CURRENT_LIST_DIR}/src/globalQtIqRings.cpp
 )
 
-add_library(core-linux-transport-qt-globals-iq STATIC ${QT_TRANSPORT_GLOBALS_IQ_DUAL_SPLIT_FILES})
+add_library(core-linux-transport-qt-globals-iq STATIC ${QT_TRANSPORT_GLOBALS_IQ_FILES})
 
 target_include_directories(core-linux-transport-qt-globals-iq PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include

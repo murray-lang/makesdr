@@ -31,7 +31,6 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/IqTransmitterConfig.h
         include/config/struct/FieldDescriptorConfig.h
         include/config/struct/FrequencyRangeConfig.h
-        include/config/struct/FrequencyRangesConfig.h
         include/config/struct/SoftRockConfig.h
         include/config/struct/TxCapabilitiesConfig.h
         include/config/struct/UiConfig.h

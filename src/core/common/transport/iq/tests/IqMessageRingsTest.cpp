@@ -8,9 +8,9 @@ TEST(IqMessageRingsTest, AttachedClientIsWokenForIqAndFftRings)
   rings.attachClient(&client);
 
   ASSERT_TRUE(publish(rings.iqToClient()));
-  ASSERT_TRUE(publish(rings.fftToClient()));
+  ASSERT_TRUE(publish(rings.spectrumToClient()));
 
-  const std::vector<PayloadType> expected{PAYLOAD_TYPE_IQ, PAYLOAD_TYPE_FFT};
+  const std::vector<PayloadType> expected{PAYLOAD_TYPE_IQ, PAYLOAD_TYPE_SPECTRUM};
   EXPECT_EQ(client.wakes, expected);
 }
 
@@ -34,14 +34,14 @@ TEST(IqMessageRingsTest, AttachingClientWakesForRingsFilledEarlier)
   // A pipeline that starts before the client fills its rings, then can commit
   // nothing more, so no further notification will ever come from it.
   while (publish(rings.iqToClient())) {}
-  while (publish(rings.fftToClient())) {}
+  while (publish(rings.spectrumToClient())) {}
   ASSERT_TRUE(publish(rings.modesToClient()));
 
   WakeRecorder client;
   rings.attachClient(&client);
 
   // The base rings are woken first, then the IQ ones.
-  const std::vector<PayloadType> expected{PAYLOAD_TYPE_MODES, PAYLOAD_TYPE_IQ, PAYLOAD_TYPE_FFT};
+  const std::vector<PayloadType> expected{PAYLOAD_TYPE_MODES, PAYLOAD_TYPE_IQ, PAYLOAD_TYPE_SPECTRUM};
   EXPECT_EQ(client.wakes, expected);
 }
 
@@ -53,7 +53,7 @@ TEST(IqMessageRingsTest, DetachedClientIsNoLongerWokenByAnyPipe)
   rings.detachClient();
 
   ASSERT_TRUE(publish(rings.iqToClient()));
-  ASSERT_TRUE(publish(rings.fftToClient()));
+  ASSERT_TRUE(publish(rings.spectrumToClient()));
   ASSERT_TRUE(publish(rings.bandsToClient()));
 
   EXPECT_TRUE(client.wakes.empty());
@@ -67,7 +67,7 @@ TEST(IqMessageRingsTest, RadioIsNeverWokenByIqOrFft)
   rings.attachRadio(&radio);
 
   ASSERT_TRUE(publish(rings.iqToClient()));
-  ASSERT_TRUE(publish(rings.fftToClient()));
+  ASSERT_TRUE(publish(rings.spectrumToClient()));
   ASSERT_TRUE(publish(rings.updateToRadio()));
 
   EXPECT_EQ(radio.wakes, (std::vector<PayloadType>{PAYLOAD_TYPE_FIELD_UPDATE}));

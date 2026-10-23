@@ -2,23 +2,22 @@
 #include "QtRadioClientT.h"
 // #include <settings/model/radio/RadioSettings.h>
 #include <radios/settings/RadioSettingsVariant.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
-using QtRadioClientBase = QtRadioClientT<SplitBandDualIqRxTxSettings>;
+// using QtRadioClientBase = QtRadioClientT<SplitBandDualIqRxTxSettings>;
 
-class QtRadioClient : public QObject, public QtRadioClientBase
+class QtRadioClient : public QObject, public QtRadioClientT
 {
   Q_OBJECT
 public:
-  using RadioSettings = SplitBandDualIqRxTxSettings;
-  QtRadioClient(QObject* parent) : QtRadioClientBase(parent) {};
+  QtRadioClient(QObject* parent) : QtRadioClientT(parent) {};
   ~QtRadioClient() override = default;
   signals:
     void capabilitiesReceived(const Capabilities* settings);
-    void radioSettingsReceived(const RadioSettings* settings);
-    void receiverIqReceived(const IqMessage* iq);
+    // Views only what changed (see has_*), valid only during emission: connect directly, not queued.
+    void radioSettingsReceived(const IRadioSettingsView* changes);
     void rxMeteringReceived(const RxMeteringMessage* rxMetering);
-    void fftReceived(const FftMessage* fft);
+    void spectrumReceived(const SpectrumMessage* fft);
 
 protected:
   void emitCapabilitiesReceived(const Capabilities* caps) override
@@ -26,14 +25,9 @@ protected:
     emit capabilitiesReceived(caps);
   }
 
-  void emitRadioSettingsReceived(const RadioSettings* settings) override
+  void emitRadioSettingsReceived(const IRadioSettingsView* settings) override
   {
     emit radioSettingsReceived(settings);
-  }
-
-  void emitReceiverIqReceived(const IqMessage* iq) override
-  {
-    emit receiverIqReceived(iq);
   }
 
   void emitRxMeteringReceived(const RxMeteringMessage* rxMetering) override
@@ -41,11 +35,10 @@ protected:
     emit rxMeteringReceived(rxMetering);
   }
 
-  void emitFftReceived(const FftMessage* fft) override
+  void emitSpectrumReceived(const SpectrumMessage* spectrum) override
   {
-    emit fftReceived(fft);
+    emit spectrumReceived(spectrum);
   }
 
 protected:
-  RadioSettingsVariant m_settingsVariant;
 };

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1)
 
-project(core-linux-transport-qt-globals-basic-rxtx)
+project(core-linux-transport-qt-globals-meta-rxtx)
 
 find_package(PkgConfig)
 
@@ -11,13 +11,13 @@ set(QT_TRANSPORT_GLOBALS_BASIC_RXTX_FILES
         ${CMAKE_CURRENT_LIST_DIR}/src/globalQtBasicRxTxRings.cpp
 )
 
-add_library(core-linux-transport-qt-globals-basic-rxtx STATIC ${QT_TRANSPORT_GLOBALS_BASIC_RXTX_FILES})
+add_library(core-linux-transport-qt-globals-meta-rxtx STATIC ${QT_TRANSPORT_GLOBALS_BASIC_RXTX_FILES})
 
-target_include_directories(core-linux-transport-qt-globals-basic-rxtx PUBLIC
+target_include_directories(core-linux-transport-qt-globals-meta-rxtx PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
-target_link_libraries(core-linux-transport-qt-globals-basic-rxtx PUBLIC
-        core-common-transport-basic
+target_link_libraries(core-linux-transport-qt-globals-meta-rxtx PUBLIC
+        core-common-transport-meta
         core-linux-transport-qt-base
         settings-model-radio-basic-rxtx
         Qt6::Core

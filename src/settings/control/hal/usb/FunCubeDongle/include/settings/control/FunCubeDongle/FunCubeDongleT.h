@@ -1,9 +1,11 @@
 #pragma once
 
+#include <settings/model/radio/BandRfSettings.h>
+#include <settings/model/radio/IfSettings.h>
+#include <settings/model/update/FieldUpdateSink.h>
 #include <CrossPlatformTypes.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHidHost.h>
-#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/FunCubeConfig.h>
 #include "FCDHidCmd.h"
 #include <cmath>

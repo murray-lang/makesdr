@@ -10,11 +10,11 @@ target_link_libraries(settings-model-update-all-resolved-generator PRIVATE
     settings-model-update-util-resolve-many
     settings-model-update-radios-basic-rx-lookup
     settings-model-update-radios-basic-rxtx-lookup
-    settings-model-update-radios-basic-iq-rx-lookup
+    settings-model-update-radios-single-iq-rx-lookup
     settings-model-update-radios-basic-iq-rxtx-lookup
     settings-model-update-radios-dual-iq-rx-lookup
     settings-model-update-radios-dual-iq-rxtx-lookup
-    radios-iq-dual-split-settings-update-lookup
+    settings-model-update-radios-dual-split-lookup
 )
 
 target_include_directories(settings-model-update-all-resolved-generator PRIVATE

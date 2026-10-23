@@ -39,6 +39,12 @@ public:
     m_channel.consumePending([this](MessageType& message) { notifyMessage(&message); });
   }
 
+  // Where the channel's notifier supports it, target is woken when messages
+  // are waiting; it should then call consumePending().
+  template<typename TargetT>
+  void attachRecipient(TargetT target) { m_channel.attachRecipient(target); }
+  void detachRecipient()               { m_channel.detachRecipient(); }
+
 protected:
   ResultCode notifyMessage(MessageType* message) override
   {

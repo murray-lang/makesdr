@@ -14,7 +14,7 @@ target_include_directories(radios-settings INTERFACE
 )
 
 target_link_libraries(radios-settings INTERFACE
-        radios-iq-dual-rx-settings-model
-        radios-iq-dual-rxtx-settings-model
-        radios-iq-dual-split-settings-model
+        settings-model-radio-iq-dual-rx
+        settings-model-radio-iq-dual-rxtx
+        settings-model-radio-iq-dual-split
 )

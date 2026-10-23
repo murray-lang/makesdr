@@ -3,8 +3,8 @@
 #include <ui/qt/faces/FaceBase.h>
 #include <memory>
 
-#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
+#include <settings/model/radio/IRadioSettingsView.h>
 
 class QtFrequencyPanel;
 class QtPanadapter;
@@ -18,32 +18,27 @@ class StandardFace : public FaceBase {
   Q_OBJECT
 public:
 
-  using RadioSettings = SplitBandDualIqRxTxSettings;
-  using ActiveBandSettings = RadioSettings::ActiveBandSettings;
-  using BandSettings = ActiveBandSettings::BandSettings;
-
   explicit StandardFace(QWidget* parent = nullptr);
   ~StandardFace() override;
 
 
-
-  void initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater) override;
+  void initialise(const IRadioSettingsView* pRadioSettings, IRadioSettingsUpdater* updater) override;
 
   // void connect(FieldUpdateSink* pSink) override { m_pExternalSettingsSink = pSink; }
   // void applyFieldUpdate(FieldUpdate& settingDelta) override;
 
   // void setRadio(Radio* radio) override;
-  void handleRadioSettingsChanged(const RadioSettings* pRadioSettings) override;
+  void handleRadioSettingsChanged(const IRadioSettingsView* pRadioSettings) override;
 
-  void handleReceiverIq(
-    const RadioSettings* pRadioSettings,
-    const ComplexSamplesBuffer* data,
-    uint32_t length,
-    uint32_t sampleRate) override;
+  // void handleReceiverIq(
+  //   const RadioSettings* pRadioSettings,
+  //   const ComplexSamplesBuffer* data,
+  //   uint32_t length,
+  //   uint32_t sampleRate) override;
   // void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) override;
   void handleRxMetering(const RxMeteringMessage* metering) override;
 
-  void handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg) override;
+  void handleSpectrum(const IRadioSettingsView* pRadioSettings, const SpectrumMessage* spectrumMessage) override;
 
   // void handleTransmitterIq(
   //   RadioSettings* pRadioSettings,
@@ -58,7 +53,8 @@ public slots:
 
 protected:
 
-  void updatePanadapter(const BandSettings* bandSettings);
+  void createFrequencyPanel(const RadioSettingsTraits& traits);
+  void updatePanadapter(const IBandSettingsView* bandSettings);
   void updateCursor(VfoId vfoId, const RxPipelineSettings* rxPipelineSettings);
   // void updateCursorA(RxPipelineSettings* rxPipelineSettings);
   // void updateCursorB(RxPipelineSettings* rxPipelineSettings);

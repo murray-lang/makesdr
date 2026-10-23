@@ -5,17 +5,17 @@
 #include <ResultCode.h>
 #include <settings/model/radio/basic/BasicRxSettings.h>
 #include <settings/model/radio/basic/BasicRxTxSettings.h>
-#include <settings/model/radio/iq/BasicIqRxSettings.h>
-#include <settings/model/radio/iq/BasicIqRxTxSettings.h>
+#include <settings/model/radio/iq/SingleIqRxSettings.h>
+#include <settings/model/radio/iq/SingleIqRxTxSettings.h>
 #include <settings/model/radio/iq/DualIqRxSettings.h>
 #include <settings/model/radio/iq/DualIqRxTxSettings.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/iq/SplitBandDualIqRxTxSettings.h>
 
 using RadioSettingsVariant = variant<
   // BasicRxSettings,
   // BasicRxTxSettings,
-  // BasicIqRxSettings,
-  // BasicIqRxTxSettings,
+  // SingleIqRxSettings,
+  // SingleIqRxTxSettings,
   // DualIqRxSettings,
   // DualIqRxTxSettings,
   SplitBandDualIqRxTxSettings

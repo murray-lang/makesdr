@@ -1,7 +1,7 @@
 #pragma once
 
 #include <settings/model/message/PayloadType.h>
-#include <settings/model/radio/iq/BasicIqRxSettings.h>
+#include <settings/model/radio/iq/SingleIqRxSettings.h>
 #include <transport/IqMessageRingsT.h>
 
 #include <vector>
@@ -33,11 +33,11 @@ private:
   WakeRecorder* m_target = nullptr;
 };
 
-using TestRings = IqMessageRingsT<BasicIqRxSettings, RecordingNotifier>;
+using TestRings = IqMessageRingsT<SingleIqRxSettings, RecordingNotifier>;
 
 inline PayloadType settingsPayloadType()
 {
-  return static_cast<PayloadType>(BasicIqRxSettings::payloadType);
+  return static_cast<PayloadType>(SingleIqRxSettings::payloadType);
 }
 
 // Commits an empty message straight into a pipe, bypassing either interface.

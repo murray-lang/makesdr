@@ -23,6 +23,6 @@ target_include_directories(core-linux-transport-qt-iq PUBLIC
 )
 
 target_link_libraries(core-linux-transport-qt-iq PUBLIC
-        core-linux-transport-qt-basic
+        core-linux-transport-qt-meta
 )
 

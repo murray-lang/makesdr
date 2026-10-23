@@ -1,24 +1,26 @@
 #pragma once
 
 #include <ResultCode.h>
-#include <radios/iq/DualIqReceiverT.h>
+#include <radios/iq/DualIqRxT.h>
 #include <config/struct/RadioConfig.h>
 // #include <settings/model/radio/BandSettingsCache.h>
-#include <radios/settings/model/DualIqRxSettings.h>
+#include <settings/model/radio/iq/DualIqRxSettings.h>
 
-#include <radios/base/RadioBaseT.h>
+#include <radios/base/RadioBase.h>
 #include <settings/control/radio/RadioControlT.h>
-
 #include <thread/Mutex.h>
-
-#include <settings/model/radio/RadioSettingsRequester.h>
+#include <settings/model/radio/RadioRequester.h>
+#include <settings/model/message/MessageSinkT.h>
 
 #ifdef IS_QT
-#include <radios/iq/DualIqRxTransport.h>
+#include <transport/qt/QtIqCapableRadioTransportT.h>
+#include <transport/qt/globalQtDualIqRxRings.h>
+
+using DualIqRxTransport = QtIqCapableRadioTransportT<QtDualIqRxSettingsRings>;
 #endif
 
 class DualIqRxRadio :
-  public RadioBaseT<DualIqRxSettings>,
+  public RadioBase<DualIqRxSettings>,
   public MessageSinkT<DualIqRxSettings>,
   public MessageSinkT<FieldUpdateMessage>
 {
@@ -35,7 +37,7 @@ public:
 
   ResultCode configure(const Config::Radio::Fields& config) override;
 
-  void setSettings(DualIqRxSettings& settings)
+  void setSettings(Settings& settings)
   {
     m_settings.replace(settings, false);
     m_settings.autoComplete();
@@ -48,7 +50,7 @@ public:
   ResultCode applyMessage(Settings* message) final;
   ResultCode applyMessage(FieldUpdateMessage* update) final;
 
-  [[nodiscard]] const IRadioSettings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const Settings* getSettings() const  override { return &m_settings; }
 
   ResultCode applySettings(Settings& settings) override;
   ResultCode applyFieldUpdate(const FieldUpdate& update) override;
@@ -56,21 +58,18 @@ public:
   ResultCode ptt(bool on) override;
 
 protected:
-  // ResultCode applyFieldUpdate(const FieldUpdate& update, PayloadSource source);
   ResultCode processCurrentSettings();
-  ResultCode handleRequest(RadioSettingsRequester::Requests cmd);
+  ResultCode handleRequest(RadioRequester::Requests cmd);
   ResultCode sendSettings();
   ResultCode sendModes();
   ResultCode sendBands();
 
 protected:
-#ifdef IS_QT
   DualIqRxTransport m_transport;
-#endif
   ComplexPingPongBuffers m_pingPongBuffers;
   BandCategoryList& m_bands;
   ModeList& m_modes;
-  DualIqReceiverT<Settings> m_receiver;
+  DualIqRxT<Settings> m_receiver;
   RadioControlT<Settings> m_control;
   Mutex m_settingsMutex;
   Settings m_settings;

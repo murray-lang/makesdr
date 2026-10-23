@@ -1,5 +1,8 @@
 #include "radios/iq/DualIqRxRadio.h"
-#include <transport/qt/globalQtDualIqRxRings.h>
+#ifdef IS_QT
+#include <transport/qt/globalQtIqRings.h>
+#include <transport/qt/globalQtMetaRings.h>
+#endif
 
 DualIqRxRadio::DualIqRxRadio(
   BandCategoryList& bands,
@@ -7,7 +10,7 @@ DualIqRxRadio::DualIqRxRadio(
   Settings::Cache& bandSettingsCache
   )
 #ifdef IS_QT
-  : m_transport(globalQtDualIqRxRings())
+  : m_transport(globalQtDualIqRxRings(), globalQtMetaRings(), globalQtIqRings())
   , m_bands(bands)
 #else
   : m_bands(bands)
@@ -89,7 +92,7 @@ DualIqRxRadio::applyMessage(FieldUpdateMessage* updateMessage)
   if (updateMessage != nullptr) {
     FieldUpdate update(*updateMessage);
     if (update.isRequest()) {
-      return handleRequest(static_cast<RadioSettingsRequester::Requests>(update.path().at(1)));
+      return handleRequest(static_cast<RadioRequester::Requests>(update.path().at(1)));
     } else {
       return applyFieldUpdate(update);
     }
@@ -171,16 +174,16 @@ DualIqRxRadio::ptt(bool on)
 }
 
 ResultCode
-DualIqRxRadio::handleRequest(RadioSettingsRequester::Requests request)
+DualIqRxRadio::handleRequest(RadioRequester::Requests request)
 {
   switch (request) {
-  case RadioSettingsRequester::Requests::REQUEST_SETTINGS:
+  case RadioRequester::Requests::REQUEST_SETTINGS:
     return sendSettings();
-  case RadioSettingsRequester::Requests::REQUEST_MODES:
+  case RadioRequester::Requests::REQUEST_MODES:
     return sendModes();
-  case RadioSettingsRequester::Requests::REQUEST_BANDS:
+  case RadioRequester::Requests::REQUEST_BANDS:
     return sendBands();
-  case RadioSettingsRequester::Requests::REQUEST_NONE:
+  case RadioRequester::Requests::REQUEST_NONE:
     return ResultCode::OK;
   default:
     return ResultCode::ERR_RADIO_REQUEST_NOT_IMPLEMENTED;

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(radios-iq-dual-rx-iq)
 
 set(DUAL_IQ_RX_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/radios/iq/DualIqReceiverT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/radios/iq/DualIqRxT.h
 )
 
 add_library(radios-iq-dual-rx-iq INTERFACE ${DUAL_IQ_RX_FILES})

@@ -17,4 +17,5 @@ target_link_libraries(core-common-iq-pipeline-stage-s-meter PUBLIC
         core-common-dsp-constants
         core-common-iq-pipeline-stage-base
         core-common-transport-iq
+        core-common-transport-metering
 )

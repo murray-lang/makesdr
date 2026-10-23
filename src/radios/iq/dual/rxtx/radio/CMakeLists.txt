@@ -19,14 +19,17 @@ set(DUAL_SPLIT_RADIO_LIBS
         radios-base
         radios-iq-dual-rxtx-iq
         settings-control-radio
-        radios-iq-dual-rxtx-settings-model
+        settings-model-radio-iq-dual-rxtx
         radios-iq-dual-rxtx-iq
 )
 
 if(IS_QT)
     list(APPEND DUAL_SPLIT_RADIO_LIBS
-            radios-iq-dual-rxtx-transport-qt-radio
             radios-iq-dual-rxtx-transport-qt-globals
+            core-linux-transport-qt-radio-iq
+            core-linux-transport-qt-settings
+            core-linux-transport-qt-globals-iq
+            core-linux-transport-qt-globals-meta
     )
 endif()
 

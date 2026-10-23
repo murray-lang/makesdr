@@ -19,14 +19,17 @@ set(DUAL_RX_RADIO_LIBS
         radios-base
         radios-iq-dual-rx-iq
         settings-control-radio
-        radios-iq-dual-rx-settings-model
+        settings-model-radio-iq-dual-rx
         radios-iq-dual-rx-iq
 )
 
 if(IS_QT)
     list(APPEND DUAL_RX_RADIO_LIBS
-            radios-iq-dual-rx-transport-qt-radio
             radios-iq-dual-rx-transport-qt-globals
+            core-linux-transport-qt-radio-iq
+            core-linux-transport-qt-settings
+            core-linux-transport-qt-globals-iq
+            core-linux-transport-qt-globals-meta
     )
 endif()
 

@@ -35,12 +35,25 @@ target_link_libraries(ui-qt-radio-client PUBLIC
 #        core-linux-transport-qt-event-base
 #        core-linux-transport-qt-globals
         core-common-transport-settings
-        core-common-transport-basic
+        core-common-transport-updates
+        core-common-transport-meta
         core-common-transport-iq
         radios-iq-dual-split-transport-qt-globals
-        core-linux-transport-qt-globals-basic
+        radios-iq-dual-rxtx-transport-qt-globals
+        radios-iq-dual-rx-transport-qt-globals
+#        radios-iq-single-rxtx-transport-qt-globals
+        radios-iq-single-rx-transport-qt-globals
+        core-linux-transport-qt-globals-meta
         core-linux-transport-qt-globals-iq
-        radios-iq-dual-split-settings-model
+        core-linux-transport-qt-globals-metering
+        core-linux-transport-qt-globals-spectrum
+        core-linux-transport-qt-globals-updates
+        settings-model-radio-iq-dual-split
+        settings-model-radio-iq-dual-rxtx
+        settings-model-radio-iq-dual-rx
+        settings-model-radio-iq-single-rxtx
+        settings-model-radio-iq-single-rx
+
 
 #        core-linux-event-data
 #        core-linux-globals

@@ -3,6 +3,8 @@
 
 // Auto-generated pre-resolved field descriptors
 // Uncomment the ones you need, likewise in BasicRxTxResolved.cpp
+
+namespace BasicRxTxResolved{
 // extern const FieldDescriptor active_bands;
 // extern const FieldDescriptor active_bands_focus_band;
 // extern const FieldDescriptor active_bands_focus_band_band_request;
@@ -63,3 +65,5 @@
 // extern const FieldDescriptor transmitter_mic_gain_fine_delta;
 // extern const FieldDescriptor transmitter_mic_gain_use_fine;
 // extern const FieldDescriptor ptt;
+
+}

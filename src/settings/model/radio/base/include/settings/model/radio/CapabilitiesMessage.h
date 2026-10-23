@@ -40,6 +40,10 @@ public:
     }
     return *this;
   }
+
+  [[nodiscard]] const Capabilities& capabilities() const { return m_capabilities; }
+  Capabilities& capabilities() { return m_capabilities; }
+
 protected:
   Capabilities m_capabilities;
 };

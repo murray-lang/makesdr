@@ -19,18 +19,28 @@ using BasicRxTxSettingsBaseType = RadioSettingsBaseT<
 class BasicRxTxSettings : public BasicRxTxSettingsBaseType
 {
 public:
+  struct Traits
+  {
+    static constexpr bool hasRx = true;
+    static constexpr bool hasTx = true;
+    static constexpr bool isDualIq = false;
+    static constexpr bool isSplitBand = false;
+  };
+
   BasicRxTxSettings();
 
-  [[nodiscard]] bool hasActiveBands() const override { return m_payload.body.has_active_bands;}
-  IActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
-  [[nodiscard]] const IActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
+  [[nodiscard]] RadioSettingsTraits traits() const { return toRuntimeTraits<Traits>(); }
 
-  [[nodiscard]] bool hasTransmitter() const override { return m_payload.body.has_transmitter; }
-  TransmitterSettings* transmitter() override { return &m_transmitterSettings; }
-  [[nodiscard]] const TransmitterSettings* transmitter() const override { return &m_transmitterSettings; }
+  [[nodiscard]] bool hasActiveBands() const { return m_payload.body.has_active_bands;}
+  ActiveBandSettings& activeBandSettings() { return m_activeBandSettings; }
+  [[nodiscard]] const ActiveBandSettings& activeBandSettings() const { return m_activeBandSettings; }
+
+  [[nodiscard]] bool hasTransmitter() const { return m_payload.body.has_transmitter; }
+  TransmitterSettings* transmitter() { return &m_transmitterSettings; }
+  [[nodiscard]] const TransmitterSettings* transmitter() const { return &m_transmitterSettings; }
 
 #ifdef USE_DOTTED_STRING_PATHS
-  ResolveDottedStringFunc resolveDottedStringFunc() override;
+  ResolveDottedStringFunc resolveDottedStringFunc();
 #endif
 
 protected:

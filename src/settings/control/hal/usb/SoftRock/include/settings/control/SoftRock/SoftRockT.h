@@ -1,8 +1,9 @@
 #pragma once
 
+#include <settings/model/radio/BandRfSettings.h>
+#include <settings/model/update/FieldUpdateSink.h>
 #include <settings/control/sink/SettingsControlSinkT.h>
 #include <usb/host/UsbHost.h>
-#include <settings/model/radio/IRadioSettings.h>
 #include <config/struct/SoftRockConfig.h>
 #include <cmath>
 

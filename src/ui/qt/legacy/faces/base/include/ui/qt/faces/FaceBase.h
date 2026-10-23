@@ -2,14 +2,13 @@
 #include <QWidget>
 
 #include <samples/SampleTypes.h>
-#include <radios/settings/model/SplitBandDualIqRxTxSettings.h>
+#include <settings/model/radio/IRadioSettingsView.h>
 #include <settings/model/radio/RxMeteringMessage.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
 
-#include <settings/model/radio/iq/FftMessage.h>
+#include <settings/model/radio/iq/SpectrumMessage.h>
 
 
-using RadioSettings = SplitBandDualIqRxTxSettings;
 
 class Radio;
 
@@ -24,14 +23,17 @@ public:
   {}
   ~FaceBase() override = default;
 
-  virtual void initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater)
+  // pRadioSettings is nullptr until the radio has reported its capabilities and settings.
+  virtual void initialise(const IRadioSettingsView* pRadioSettings, IRadioSettingsUpdater* updater)
   {
-    // m_pRadioSettings = pRadioSettings;
     m_radioUpdater = updater;
   }
 
-  virtual void handleRadioSettingsChanged(const RadioSettings* pRadioSettings) {}
-
+  // pChanges views only what changed: has_* presence says which fields to act on, so that
+  // e.g. a rotary encoder frequency step only touches the frequency readouts.
+  // A full replace arrives with everything present. Don't retain the pointer: it is only valid
+  // for the duration of the call. Use the radio client's getSettings() for accumulated state.
+  virtual void handleRadioSettingsChanged(const IRadioSettingsView* pChanges) {}
 
   void setNames(const std::string& name, const std::string& label) { m_name = name; m_label = label; }
   [[nodiscard]] const std::string& getName() const { return m_name; }
@@ -39,16 +41,10 @@ public:
   // virtual void setRadio(Radio* pRadio) { m_pRadio = pRadio; }
   // [[nodiscard]] Radio* getRadio() const { return m_pRadio; }
 
-  virtual void handleReceiverIq(
-    const RadioSettings* pRadioSettings,
-    const ComplexSamplesBuffer* data,
-    uint32_t length,
-    uint32_t sampleRate) = 0;
-
   // virtual void handleReceiverAudio(const RealSamplesMax* data, uint32_t length, uint32_t sampleRate) = 0;
   virtual void handleRxMetering(const RxMeteringMessage* metering) = 0;
 
-  virtual void handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg) = 0;
+  virtual void handleSpectrum(const IRadioSettingsView* pRadioSettings, const SpectrumMessage* spectrumMessage) = 0;
 
   // virtual void handleTransmitterIq(
   //   RadioSettings* pRadioSettings,

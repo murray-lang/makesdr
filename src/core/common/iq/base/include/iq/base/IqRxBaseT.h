@@ -5,7 +5,6 @@
 #include <settings/control/sink/PttSink.h>
 #include <config/struct/IqReceiverConfig.h>
 
-#include <settings/model/radio/IRadioSettings.h>
 
 #include <event/EventTarget.h>
 // #include <settings/model/radio/BandSettings.h>

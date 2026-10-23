@@ -12,13 +12,19 @@ PB_BIND(makesdr_RadioPayloadHeaderPb, makesdr_RadioPayloadHeaderPb, AUTO)
 PB_BIND(makesdr_RadioPayloadBasePb, makesdr_RadioPayloadBasePb, AUTO)
 
 
+PB_BIND(makesdr_FrequencyRangePb, makesdr_FrequencyRangePb, AUTO)
+
+
+PB_BIND(makesdr_CapabilitiesPb, makesdr_CapabilitiesPb, AUTO)
+
+
 PB_BIND(makesdr_CapabilitiesPayloadPb, makesdr_CapabilitiesPayloadPb, AUTO)
 
 
 PB_BIND(makesdr_BasicRxSettingsPayloadPb, makesdr_BasicRxSettingsPayloadPb, 2)
 
 
-PB_BIND(makesdr_BasicIqRxSettingsPayloadPb, makesdr_BasicIqRxSettingsPayloadPb, 2)
+PB_BIND(makesdr_SingleIqRxSettingsPayloadPb, makesdr_SingleIqRxSettingsPayloadPb, 2)
 
 
 PB_BIND(makesdr_DualIqRxSettingsPayloadPb, makesdr_DualIqRxSettingsPayloadPb, 2)
@@ -27,7 +33,7 @@ PB_BIND(makesdr_DualIqRxSettingsPayloadPb, makesdr_DualIqRxSettingsPayloadPb, 2)
 PB_BIND(makesdr_BasicRxTxSettingsPayloadPb, makesdr_BasicRxTxSettingsPayloadPb, 2)
 
 
-PB_BIND(makesdr_BasicIqRxTxSettingsPayloadPb, makesdr_BasicIqRxTxSettingsPayloadPb, 2)
+PB_BIND(makesdr_SingleIqRxTxSettingsPayloadPb, makesdr_SingleIqRxTxSettingsPayloadPb, 2)
 
 
 PB_BIND(makesdr_DualIqRxTxSettingsPayloadPb, makesdr_DualIqRxTxSettingsPayloadPb, 2)
@@ -48,7 +54,7 @@ PB_BIND(makesdr_RadioLookupPayloadPb, makesdr_RadioLookupPayloadPb, 4)
 PB_BIND(makesdr_RadioCacheBasicPayloadPb, makesdr_RadioCacheBasicPayloadPb, 2)
 
 
-PB_BIND(makesdr_RadioCacheBasicIqPayloadPb, makesdr_RadioCacheBasicIqPayloadPb, 2)
+PB_BIND(makesdr_RadioCacheSingleIqPayloadPb, makesdr_RadioCacheSingleIqPayloadPb, 2)
 
 
 PB_BIND(makesdr_RadioCacheDualIqPayloadPb, makesdr_RadioCacheDualIqPayloadPb, 4)
@@ -63,7 +69,7 @@ PB_BIND(makesdr_FieldUpdatePayloadPb, makesdr_FieldUpdatePayloadPb, AUTO)
 PB_BIND(makesdr_IqPayloadPb, makesdr_IqPayloadPb, 4)
 
 
-PB_BIND(makesdr_FftPayloadPb, makesdr_FftPayloadPb, 2)
+PB_BIND(makesdr_SpectrumPayloadPb, makesdr_SpectrumPayloadPb, 2)
 
 
 PB_BIND(makesdr_RxMeteringPayloadPb, makesdr_RxMeteringPayloadPb, AUTO)

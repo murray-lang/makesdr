@@ -1,8 +1,14 @@
 #pragma once
 
-#include "FrequencyRangesConfig.h"
 #include "TxCapabilitiesConfig.h"
 #include "IqCapabilitiesConfig.h"
+#include "FrequencyRangeConfig.h"
+
+#ifdef USE_ETL
+  using FrequencyRangeConfigVector  = etl::vector<Config::FrequencyRange::Fields, MAX_FREQUENCY_RANGES>;
+#else
+using FrequencyRangeConfigVector  = std::vector<Config::FrequencyRange::Fields>;
+#endif
 
 namespace Config::Capabilities
 {
@@ -12,6 +18,6 @@ namespace Config::Capabilities
     bool rx{true};
     optional<TxCapabilities::Fields> tx;
     optional<IqCapabilities::Fields> iq;
-    FrequencyRanges::Fields frequencyRanges;
+    FrequencyRangeConfigVector frequencyRanges;
   };
 };

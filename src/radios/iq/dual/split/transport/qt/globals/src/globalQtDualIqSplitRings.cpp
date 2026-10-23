@@ -1,9 +1,9 @@
 #include "transport/qt/globalQtDualIqSplitRings.h"
 
-QtSplitBandDualIqMessageRings&
+QtSplitBandDualIqSettingsRings&
 globalQtDualIqSplitRings()
 {
   // Constructed on first use, so it is ready whichever side reaches it first.
-  static QtSplitBandDualIqMessageRings rings;
+  static QtSplitBandDualIqSettingsRings rings;
   return rings;
 }

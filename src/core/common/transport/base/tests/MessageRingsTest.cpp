@@ -163,3 +163,65 @@ TEST(MessagePipeTest, ProducerAndConsumerThreads)
   EXPECT_EQ(notifications, Count);
   EXPECT_EQ(channel.pending(), 0u);
 }
+
+//--- attaching the recipient -------------------------------------------------
+
+// Waking on attach needs the ring's payload type without a message to ask.
+struct ModesMessage : FakeMessage
+{
+  static constexpr int payloadType = PAYLOAD_TYPE_MODES;
+};
+
+// Records the payload types it is called with, but only while attached.
+struct AttachableNotifier
+{
+  std::vector<PayloadType>* target = nullptr;
+
+  void attach(std::vector<PayloadType>* t) { target = t; }
+  void detach()                            { target = nullptr; }
+  void operator()(PayloadType payloadType) const
+  {
+    if (target) target->push_back(payloadType);
+  }
+};
+
+using AttachableRing = MessageRingT<ModesMessage, 2, AttachableNotifier>;
+
+TEST(MessagePipeTest, NothingAttachedMessagesWaitInRing)
+{
+  AttachableRing ring;
+  ModesMessage* pmsg = ring.reserveWrite();
+  ring.commitWrite(pmsg);
+  EXPECT_EQ(ring.pending(), 1u);
+}
+
+TEST(MessagePipeTest, AttachingRecipientWakesForMessagesCommittedEarlier)
+{
+  AttachableRing ring;
+  // Fill the ring, so the producer could commit nothing more to wake anyone.
+  ring.commitWrite(ring.reserveWrite());
+  ring.commitWrite(ring.reserveWrite());
+  ASSERT_EQ(ring.reserveWrite(), nullptr);
+
+  std::vector<PayloadType> calls;
+  ring.attachRecipient(&calls);
+  EXPECT_EQ(calls, std::vector<PayloadType>{PAYLOAD_TYPE_MODES});
+}
+
+TEST(MessagePipeTest, AttachingRecipientToEmptyRingDoesNotWake)
+{
+  AttachableRing ring;
+  std::vector<PayloadType> calls;
+  ring.attachRecipient(&calls);
+  EXPECT_TRUE(calls.empty());
+}
+
+TEST(MessagePipeTest, DetachedRecipientIsNoLongerWoken)
+{
+  AttachableRing ring;
+  std::vector<PayloadType> calls;
+  ring.attachRecipient(&calls);
+  ring.detachRecipient();
+  ring.commitWrite(ring.reserveWrite());
+  EXPECT_TRUE(calls.empty());
+}

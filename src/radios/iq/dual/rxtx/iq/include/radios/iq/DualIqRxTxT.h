@@ -5,7 +5,7 @@
 #include <iq/pipeline/IqTxPipeline.h>
 #include <iq/common/IqTransmitter.h>
 
-#include <radios/iq/DualIqReceiverT.h>
+#include <radios/iq/DualIqRxT.h>
 #include <transport/IRadioPublishers.h>
 
 template<typename RadioSettingsT>
@@ -90,6 +90,6 @@ public:
 
 protected:
   ComplexPingPongBuffers m_pingPongBuffers;
-  DualIqReceiverT<RadioSettings> m_rx;
+  DualIqRxT<RadioSettings> m_rx;
   IqTransmitter m_tx;
 };

@@ -6,7 +6,8 @@
 #include <settings/model/radio/PipelineId.h>
 #include <settings/model/radio/SplitBandId.h>
 #include <settings/model/radio/IRadioSettingsUpdater.h>
-#include <settings/model/radio/iq/RxTxDualIqBandSettings.h>
+#include <settings/model/radio/IBandSettingsView.h>
+#include <settings/model/radio/iq/RxPipelineSettings.h>
 #include <ui/qt/widgets/QtVfoReadout.h>
 #include <settings/model/update/FieldUpdateSink.h>
 
@@ -44,15 +45,15 @@ public:
   void setVfoBVisible(bool visible);
 
   void applyBandSettings(
-    const RxTxDualIqBandSettings* bandSettings,
+    const IBandSettingsView* bandSettings,
     SplitBandId thisBandId,
     SplitBandId txBandId,
     SplitBandId rxBandId,
     SplitBandId focusBandId
     );
 
-  void applyFrequencyChanges(const RxTxDualIqBandSettings* bandSettings, bool onlyIfChanged = true);
-  void applyPipelineChanges(const RxTxDualIqBandSettings* bandSettings, bool onlyIfChanged = true);
+  void applyFrequencyChanges(const IBandSettingsView* bandSettings, bool onlyIfChanged = true);
+  void applyPipelineChanges(const IBandSettingsView* bandSettings, bool onlyIfChanged = true);
 
   void setWidgetProperties(bool repolish = true);
 

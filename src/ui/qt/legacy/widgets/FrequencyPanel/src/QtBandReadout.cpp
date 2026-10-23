@@ -215,7 +215,7 @@ void QtBandReadout::setVfoBVisible(bool visible)
   update();
 }
 
-void QtBandReadout::applyFrequencyChanges(const RxTxDualIqBandSettings* bandSettings, bool onlyIfChanged)
+void QtBandReadout::applyFrequencyChanges(const IBandSettingsView* bandSettings, bool onlyIfChanged)
 {
   if (!bandSettings) return;
 
@@ -224,7 +224,7 @@ void QtBandReadout::applyFrequencyChanges(const RxTxDualIqBandSettings* bandSett
 }
 
 void QtBandReadout::applyBandSettings(
-  const RxTxDualIqBandSettings* bandSettings,
+  const IBandSettingsView* bandSettings,
   SplitBandId thisBandId,
   SplitBandId txBandId,
   SplitBandId rxBandId,
@@ -267,7 +267,7 @@ void QtBandReadout::applyFrequencyChanges(QtVfoReadout* readout,
   }
 }
 
-void QtBandReadout::applyPipelineChanges(const RxTxDualIqBandSettings* bandSettings, bool onlyIfChanged)
+void QtBandReadout::applyPipelineChanges(const IBandSettingsView* bandSettings, bool onlyIfChanged)
 {
   if (!bandSettings) return;
 

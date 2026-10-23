@@ -6,6 +6,13 @@
 #include <settings/model/radio/iq/DualIqActiveBandSettings.h>
 #include <settings/model/radio/iq/DualIqBandSettingsCache.h>
 
+#ifdef USE_DOTTED_STRING_PATHS
+#include <settings/model/update/ResolveDottedStringFunc.h>
+#endif
+
+#include "DualIqRxUpdater.h"
+
+
 using DualIqRxSettingsBaseType = RadioSettingsBaseT<
     makesdr_DualIqRxSettingsPb,
     &makesdr_DualIqRxSettingsPb_msg,
@@ -23,10 +30,32 @@ public:
   using Payload = makesdr_DualIqRxSettingsPayloadPb;
   using Cache = DualIqBandSettingsCache;
 
+  using ActiveBandSettings = DualIqActiveBandSettings;
+
+  struct Traits
+  {
+    static constexpr bool hasRx = true;
+    static constexpr bool hasTx = false;
+    static constexpr bool isDualIq = true;
+    static constexpr bool isSplitBand = false;
+  };
+
   DualIqRxSettings();
+  DualIqRxSettings(const Payload& payload, bool complete = true);
+  DualIqRxSettings(const DualIqRxSettings& other);
+  DualIqRxSettings(DualIqRxSettings&& other) noexcept;
+  DualIqRxSettings& operator=(const DualIqRxSettings& other);
+
+  [[nodiscard]] RadioSettingsTraits traits() const { return toRuntimeTraits<Traits>(); }
+
+  void InitBandAndPipelineIdsWithDefaults();
+
+  // RadioSettingsUpdater* updater() { return &m_updater; }
 
 #ifdef USE_DOTTED_STRING_PATHS
-  ResolveDottedStringFunc resolveDottedStringFunc() override;
+  ResolveDottedStringFunc resolveDottedStringFunc();
 #endif
+protected:
+  DualIqRxUpdater m_updater;
 
 };

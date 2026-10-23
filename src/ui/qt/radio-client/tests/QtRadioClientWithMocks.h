@@ -8,7 +8,7 @@ public:
   QtRadioClientWithMocks(QObject* parent) : QtRadioClient(parent) {};
   ~QtRadioClientWithMocks() override = default;
 
-  MOCK_METHOD(ResultCode, applySettings, (IRadioSettings& settings), (override));
+  MOCK_METHOD(ResultCode, applySettings, (SplitBandDualIqRxTxSettings& settings), (override));
   MOCK_METHOD(void, setBands, (BandCategoryList*), (override));
   MOCK_METHOD(void, setModes, (ModeList*), (override));
 

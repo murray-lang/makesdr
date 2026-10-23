@@ -29,7 +29,6 @@ set(CONFIG_SOURCES
         include/config/json/IqTransmitterConfig.json.h
         include/config/json/FieldDescriptorConfig.json.h
         include/config/json/FrequencyRangeConfig.json.h
-        include/config/json/FrequencyRangesConfig.json.h
         include/config/json/SoftRockConfig.json.h
         include/config/json/TxCapabilitiesConfig.json.h
         include/config/json/TypedJson.h
@@ -48,7 +47,6 @@ set(CONFIG_SOURCES
         src/capabilities/IqCapabilitiesConfig.json.cpp
         src/capabilities/TxCapabilitiesConfig.json.cpp
         src/capabilities/FrequencyRangeConfig.json.cpp
-        src/capabilities/FrequencyRangesConfig.json.cpp
 
         src/control/BandSelectorBandsConfig.json.cpp
         src/control/DigitalInputConfig.json.cpp

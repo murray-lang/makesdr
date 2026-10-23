@@ -10,7 +10,7 @@ set(TRANSPORT_QT_BASE_HEADERS
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/MessageEvent.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/QtNotifier.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/QtTransportBase.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/QtWakeT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/qt/QtRecipientT.h
 )
 
 set(TRANSPORT_QT_BASE_SOURCES

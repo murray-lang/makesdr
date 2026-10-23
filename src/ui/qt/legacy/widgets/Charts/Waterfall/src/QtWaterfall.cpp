@@ -35,9 +35,9 @@ QtWaterfall::addSpectrum(
 }
 
 void
-QtWaterfall::addSpectrum(const FftMessage* fftMsg, int64_t centreFrequency)
+QtWaterfall::addSpectrum(const SpectrumMessage* spectrumMessage, int64_t centreFrequency)
 {
-  m_waterfall.addSpectrum(fftMsg, centreFrequency);
+  m_waterfall.addSpectrum(spectrumMessage, centreFrequency);
   update(imageRect());
 }
 

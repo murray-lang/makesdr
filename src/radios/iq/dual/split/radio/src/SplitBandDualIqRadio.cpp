@@ -1,15 +1,28 @@
 #include "radios/iq/SplitBandDualIqRadio.h"
-#include <transport/qt/globalQtDualIqSplitRings.h>
-#include <transport/qt/globalQtIqRings.h>
-#include <transport/qt/globalQtBasicRings.h>
 
-DualIqRxTxRadio::DualIqRxTxRadio(
+#ifdef IS_QT
+#include <transport/qt/globalQtUpdateRings.h>
+
+#include <transport/qt/globalQtIqRings.h>
+#include <transport/qt/globalQtMetaRings.h>
+#include <transport/qt/globalQtRxMeteringRings.h>
+#include <transport/qt/globalQtSpectrumRings.h>
+#endif
+
+SplitBandDualIqRxTxRadio::SplitBandDualIqRxTxRadio(
   BandCategoryList& bands,
   ModeList& modes,
   SplitBandDualIqRxTxSettings::Cache& bandSettingsCache
   )
 #ifdef IS_QT
-  : m_transport(globalQtDualIqSplitRings(), globalQtBasicRings(), globalQtIqRings())
+  : m_transport(
+    globalQtDualIqSplitRings(),
+    globalQtUpdateRings(),
+    globalQtMetaRings(),
+    globalQtRxMeteringRings(),
+    globalQtIqRings(),
+    globalQtSpectrumRings()
+    )
   , m_bands(bands)
 #else
   : m_bands(bands)
@@ -19,6 +32,7 @@ DualIqRxTxRadio::DualIqRxTxRadio(
   , m_settings()
   , m_pUpdater(m_settings.updater())
 {
+  m_capabilitiesMsg.capabilities().setSettingsType(m_settings.getPayloadType());
   m_settings.setBands(&bands);
   m_settings.setModes(&modes);
   m_settings.setCache(&bandSettingsCache);
@@ -26,11 +40,13 @@ DualIqRxTxRadio::DualIqRxTxRadio(
 }
 
 ResultCode
-DualIqRxTxRadio::configure(const Config::Radio::Fields& config)
+SplitBandDualIqRxTxRadio::configure(const Config::Radio::Fields& config)
 {
   if (!config.sdr) return ResultCode::ERR_CONFIG_NO_RXTX;
 
   const Config::Sdr::Fields& sdr = *config.sdr;
+
+  m_capabilitiesMsg.capabilities().setFrequencyRanges(config.capabilities.frequencyRanges);
 
   ResultCode rc = m_transceiver.configure(sdr);
   if (rc != ResultCode::OK) return rc;
@@ -42,7 +58,7 @@ DualIqRxTxRadio::configure(const Config::Radio::Fields& config)
 }
 
 ResultCode
-DualIqRxTxRadio::start()
+SplitBandDualIqRxTxRadio::start()
 {
   ResultCode rc = m_transceiver.start();
   if (rc != ResultCode::OK) return rc;
@@ -60,7 +76,7 @@ DualIqRxTxRadio::start()
 }
 
 void
-DualIqRxTxRadio::stop()
+SplitBandDualIqRxTxRadio::stop()
 {
   m_transport.stop();
   m_transport.connectRadioSettingsSink(nullptr);
@@ -72,7 +88,7 @@ DualIqRxTxRadio::stop()
 }
 
 ResultCode
-DualIqRxTxRadio::applyMessage(SplitBandDualIqRxTxSettings* settingsMessage)
+SplitBandDualIqRxTxRadio::applyMessage(SplitBandDualIqRxTxSettings* settingsMessage)
 {
   if (settingsMessage != nullptr) {
     return applySettings(*settingsMessage);
@@ -81,12 +97,12 @@ DualIqRxTxRadio::applyMessage(SplitBandDualIqRxTxSettings* settingsMessage)
 }
 
 ResultCode
-DualIqRxTxRadio::applyMessage(FieldUpdateMessage* updateMessage)
+SplitBandDualIqRxTxRadio::applyMessage(FieldUpdateMessage* updateMessage)
 {
   if (updateMessage != nullptr) {
     FieldUpdate update(*updateMessage);
     if (update.isRequest()) {
-      return handleRequest(static_cast<RadioSettingsRequester::Requests>(update.path().at(1)));
+      return handleRequest(static_cast<RadioRequester::Requests>(update.path().at(1)));
     } else {
       return applyFieldUpdate(update);
     }
@@ -95,7 +111,7 @@ DualIqRxTxRadio::applyMessage(FieldUpdateMessage* updateMessage)
 }
 
 ResultCode
-DualIqRxTxRadio::applySettings(SplitBandDualIqRxTxSettings& settings)
+SplitBandDualIqRxTxRadio::applySettings(SplitBandDualIqRxTxSettings& settings)
 {
   ResultCode rc = ResultCode::OK;
   m_settingsMutex.lock();
@@ -113,7 +129,7 @@ DualIqRxTxRadio::applySettings(SplitBandDualIqRxTxSettings& settings)
 }
 
 ResultCode
-DualIqRxTxRadio::applyFieldUpdate(const FieldUpdate& update)
+SplitBandDualIqRxTxRadio::applyFieldUpdate(const FieldUpdate& update)
 {
   m_settingsMutex.lock();
   ResultCode rc = m_settings.applyFieldUpdate(update);
@@ -137,7 +153,7 @@ DualIqRxTxRadio::applyFieldUpdate(const FieldUpdate& update)
 // }
 
 ResultCode
-DualIqRxTxRadio::processCurrentSettings()
+SplitBandDualIqRxTxRadio::processCurrentSettings()
 {
   // if (m_settings.hasPtt()) {
   //   ptt(m_settings.ptt());
@@ -155,7 +171,7 @@ DualIqRxTxRadio::processCurrentSettings()
 }
 
 ResultCode
-DualIqRxTxRadio::ptt(bool on)
+SplitBandDualIqRxTxRadio::ptt(bool on)
 {
   if (on) {
     m_control.ptt(true);
@@ -168,18 +184,18 @@ DualIqRxTxRadio::ptt(bool on)
 }
 
 ResultCode
-DualIqRxTxRadio::handleRequest(RadioSettingsRequester::Requests request)
+SplitBandDualIqRxTxRadio::handleRequest(RadioRequester::Requests request)
 {
   switch (request) {
-  case RadioSettingsRequester::Requests::REQUEST_CAPABILITIES:
+  case RadioRequester::Requests::REQUEST_CAPABILITIES:
     return sendCapabilities();
-  case RadioSettingsRequester::Requests::REQUEST_SETTINGS:
+  case RadioRequester::Requests::REQUEST_SETTINGS:
     return sendSettings();
-  case RadioSettingsRequester::Requests::REQUEST_MODES:
+  case RadioRequester::Requests::REQUEST_MODES:
     return sendModes();
-  case RadioSettingsRequester::Requests::REQUEST_BANDS:
+  case RadioRequester::Requests::REQUEST_BANDS:
     return sendBands();
-  case RadioSettingsRequester::Requests::REQUEST_NONE:
+  case RadioRequester::Requests::REQUEST_NONE:
     return ResultCode::OK;
   default:
     return ResultCode::ERR_RADIO_REQUEST_NOT_IMPLEMENTED;
@@ -187,28 +203,26 @@ DualIqRxTxRadio::handleRequest(RadioSettingsRequester::Requests request)
 }
 
 ResultCode
-DualIqRxTxRadio::sendCapabilities()
+SplitBandDualIqRxTxRadio::sendCapabilities()
 {
-  CapabilitiesMessage capsMsg;
-  capsMsg.setPurpose(PayloadPurpose::PURPOSE_REPLACE);
-  return m_transport.send(&capsMsg);
+  return m_transport.send(&m_capabilitiesMsg);
 }
 
 ResultCode
-DualIqRxTxRadio::sendSettings()
+SplitBandDualIqRxTxRadio::sendSettings()
 {
   m_settings.setPurpose(PayloadPurpose::PURPOSE_REPLACE);
   return m_transport.send(&m_settings);
 }
 
 ResultCode
-DualIqRxTxRadio::sendModes()
+SplitBandDualIqRxTxRadio::sendModes()
 {
   return m_transport.send(&m_modes);
 }
 
 ResultCode
-DualIqRxTxRadio::sendBands()
+SplitBandDualIqRxTxRadio::sendBands()
 {
   return m_transport.send(&m_bands);
 }

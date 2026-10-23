@@ -1,5 +1,6 @@
 #pragma once
 #include <transport/MessageRingT.h>
+#include <settings/model/update/FieldUpdateMessage.h>
 
 #define SETTINGS_RING_SIZE 1
 
@@ -21,37 +22,12 @@ class SettingsMessageRingsT
 public:
   using RadioSettings     = RadioSettingsT;
   using SettingsRing = MessageRingT<RadioSettingsT, SETTINGS_RING_SIZE, NotifierT>;
+
   //--- client -> radio -------------------------------------------------------
   SettingsRing& settingsToRadio() { return m_settingsToRadio; }
 
   //--- radio -> client -------------------------------------------------------
   SettingsRing& settingsToClient() { return m_settingsToClient; }
-
-  //--- attaching consumers (only where NotifierT supports it) ----------------
-
-  template<typename TargetT>
-  void attachRadio(TargetT target)
-  {
-    m_settingsToRadio.notifier().attach(target);
-    m_settingsToRadio.wakeIfPending();
-  }
-
-  void detachRadio()
-  {
-    m_settingsToRadio.notifier().detach();
-  }
-
-  template<typename TargetT>
-  void attachClient(TargetT target)
-  {
-    m_settingsToClient.notifier().attach(target);
-    m_settingsToClient.wakeIfPending();
-  }
-
-  void detachClient()
-  {
-    m_settingsToClient.notifier().detach();
-  }
 
 protected:
   SettingsRing m_settingsToRadio;

@@ -4,8 +4,8 @@
 #include <settings/model/update/SplitBandDualIqTagLookup.h>
 #include <settings/model/update/BasicRxTagLookup.h>
 #include <settings/model/update/BasicRxTxTagLookup.h>
-#include <settings/model/update/BasicIqRxTagLookup.h>
-#include <settings/model/update/BasicIqRxTxTagLookup.h>
+#include <settings/model/update/SingleIqRxTagLookup.h>
+#include <settings/model/update/SingleIqRxTxTagLookup.h>
 #include <settings/model/update/DualIqRxTagLookup.h>
 #include <settings/model/update/DualIqRxTxTagLookup.h>
 
@@ -27,11 +27,11 @@ int main(int argc, char* argv[])
   RadioConfig configs[] = {
     {"Basic Rx", basic_rx_radio_fields, "BasicRxResolved", "radio/basic/rx"},
     {"Basic Rx/Tx", basic_rxtx_radio_fields, "BasicRxTxResolved", "radio/basic/rxtx"},
-    {"Basic IQ Rx", basic_iq_rx_radio_fields, "BasicIqRxResolved", "radio/iq/basic/rx"},
-    {"Basic IQ Rx/Tx", basic_iq_rxtx_radio_fields, "BasicIqRxTxResolved", "radio/iq/basic/rxtx"},
+    {"Basic IQ Rx", basic_iq_rx_radio_fields, "SingleIqRxResolved", "radio/iq/basic/rx"},
+    {"Basic IQ Rx/Tx", basic_iq_rxtx_radio_fields, "SingleIqRxTxResolved", "radio/iq/basic/rxtx"},
     {"Dual IQ Rx", dual_iq_rx_radio_fields, "DualIqRxResolved", "radio/iq/dual/rx"},
-    {"Dual IQ Rx/Tx", dual_iq_rxtx_radio_fields, "DualIqRxTxResolved", "radio/iq/dual/rxtx"},
-    {"Split-band Dual IQ", split_band_dual_iq_radio_fields, "SplitBandDualIqResolved", "radio/iq/dual/split" },
+    // {"Dual IQ Rx/Tx", dual_iq_rxtx_radio_fields, "DualIqRxTxResolved", "radio/iq/dual/rxtx"},
+    // {"Split-band Dual IQ", split_band_dual_iq_radio_fields, "SplitBandDualIqResolved", "radio/iq/dual/split" },
   };
 
   // Get the source root
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 #else
     std::cerr << "Error: No source path provided and SOURCE_PATH not defined.\n";
     std::cerr << "Usage: " << argv[0] << " <source-path>\n";
-    std::cerr << "Example: " << argv[0] << " /path/to/src/settings/model/path\n";
+    std::cerr << "Example: " << argv[0] << " /path/to/src/settings/model/update\n";
     return 1;
 #endif
   }
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
     // Build output directory path
     std::filesystem::path outputDir = sourceRoot / config.relativePath / "all-resolved";
     std::filesystem::path srcDir = outputDir / "src";
-    std::filesystem::path incDir = outputDir / "include/settings/model/path";
+    std::filesystem::path incDir = outputDir / "include/settings/model/update";
 
     // Create directories if they don't exist
     std::filesystem::create_directories(srcDir);

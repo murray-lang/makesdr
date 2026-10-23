@@ -13,26 +13,26 @@
 //
 // Producer thread only.
 //*****************************************************************************
-template<typename ChannelT>
+template<typename RingT>
 class MessageRingSinkT :
-  public IMessagePublisherT<typename ChannelT::MessageType>,
-  public MessageSinkT<typename ChannelT::MessageType>
+  public IMessagePublisherT<typename RingT::MessageType>,
+  public MessageSinkT<typename RingT::MessageType>
 {
 public:
-  using MessageType = typename ChannelT::MessageType;
+  using MessageType = typename RingT::MessageType;
 
 
-  explicit MessageRingSinkT(ChannelT& channel)
-    : m_channel(channel)
+  explicit MessageRingSinkT(RingT& channel)
+    : m_ring(channel)
   {
   }
 
-  MessageType* reserve() override { return m_channel.reserveWrite(); }
-  void commit(MessageType* message) override { m_channel.commitWrite(message); }
+  MessageType* reserve() override { return m_ring.reserveWrite(); }
+  void commit(MessageType* message) override { m_ring.commitWrite(message); }
 
   ResultCode applyMessage(MessageType* message) override
   {
-    MessageType* pmsg = m_channel.reserveWrite();
+    MessageType* pmsg = m_ring.reserveWrite();
     if (pmsg == nullptr) {
       return ResultCode::ERR_CHANNEL_FULL;
     }
@@ -42,10 +42,10 @@ public:
       // but the header's source and purpose must travel with the message.
       pmsg->payload().header = message->payload().header;
     }
-    m_channel.commitWrite(pmsg);
+    m_ring.commitWrite(pmsg);
     return ResultCode::OK;
   }
 
 private:
-  ChannelT& m_channel;
+  RingT& m_ring;
 };

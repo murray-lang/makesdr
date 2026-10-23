@@ -8,7 +8,7 @@ AudioMixer::AudioMixer(AudioSink& output)
   , m_output(output)
   , m_havePendingA(false)
   , m_havePendingB(false)
-  , m_gain(1.0f)
+  , m_gain(0.5f) // TODO: Feed configuration through to this. Turned down from 1.0 to prevent clipping.
 {
 }
 

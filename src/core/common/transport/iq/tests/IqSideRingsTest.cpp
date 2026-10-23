@@ -93,10 +93,10 @@ TEST_F(IqSideRingsTest, IqSentByRadioArrivesIntactStampedBackEnd)
 
 TEST_F(IqSideRingsTest, FftSentByRadioArrivesIntactStampedBackEnd)
 {
-  RecordingSink<FftMessage> sink;
-  client.connectFftSink(&sink);
+  RecordingSink<SpectrumMessage> sink;
+  client.connectSpectrumSink(&sink);
 
-  FftMessage fft;
+  SpectrumMessage fft;
   fft.initialise(PipelineId::A, 96000, -120.0f, -20.0f);
   fft.bins().size = 2;
   fft.bins().bytes[0] = 7;
@@ -120,10 +120,10 @@ TEST_F(IqSideRingsTest, PublishersWriteInPlaceForPipelineStages)
   // slot, with no copy.
   IRadioPublishers& publishers = radio;
   RecordingSink<IqMessage> iqSink;
-  RecordingSink<FftMessage> fftSink;
+  RecordingSink<SpectrumMessage> fftSink;
   RecordingSink<RxMeteringMessage> meteringSink;
   client.connectIqSink(&iqSink);
-  client.connectFftSink(&fftSink);
+  client.connectSpectrumSink(&fftSink);
   client.connectRxMeteringSink(&meteringSink);
 
   IqMessage* iq = publishers.getIqPublisher()->reserve();
@@ -131,10 +131,10 @@ TEST_F(IqSideRingsTest, PublishersWriteInPlaceForPipelineStages)
   iq->initialise(PipelineId::A, threeSamples(), 2, 24000);
   publishers.getIqPublisher()->commit(iq);
 
-  FftMessage* fft = publishers.getFftPublisher()->reserve();
+  SpectrumMessage* fft = publishers.getSpectrumPublisher()->reserve();
   ASSERT_NE(fft, nullptr);
   fft->initialise(PipelineId::B, 24000, -100.0f, 0.0f);
-  publishers.getFftPublisher()->commit(fft);
+  publishers.getSpectrumPublisher()->commit(fft);
 
   RxMeteringMessage* metering = publishers.getRxMeteringPublisher()->reserve();
   ASSERT_NE(metering, nullptr);
@@ -174,7 +174,7 @@ TEST_F(IqSideRingsTest, FullIqPipeRefusesUntilDrained)
 TEST_F(IqSideRingsTest, ClientStillDispatchesBasicRings)
 {
   // dispatch() hides the base version, so must hand it everything else.
-  RecordingSink<BasicIqRxSettings> settingsSink;
+  RecordingSink<SingleIqRxSettings> settingsSink;
   RecordingSink<ModeList> modesSink;
   RecordingSink<BandCategoryList> bandsSink;
   RecordingSink<RxMeteringMessage> meteringSink;
@@ -184,7 +184,7 @@ TEST_F(IqSideRingsTest, ClientStillDispatchesBasicRings)
   client.connectRxMeteringSink(&meteringSink);
 
   // The radio's IQ send() overloads must not hide the base's.
-  BasicIqRxSettings settings;
+  SingleIqRxSettings settings;
   ModeList modes;
   BandCategoryList bands;
   RxMeteringMessage metering;
@@ -203,12 +203,12 @@ TEST_F(IqSideRingsTest, ClientStillDispatchesBasicRings)
 
 TEST_F(IqSideRingsTest, ClientToRadioIsUnchanged)
 {
-  RecordingSink<BasicIqRxSettings> settingsSink;
+  RecordingSink<SingleIqRxSettings> settingsSink;
   RecordingSink<FieldUpdateMessage> updateSink;
   radio.connectRadioSettingsSink(&settingsSink);
   radio.connectFieldUpdateSink(&updateSink);
 
-  BasicIqRxSettings settings;
+  SingleIqRxSettings settings;
   FieldUpdateMessage update;
   ASSERT_EQ(client.send(&settings), ResultCode::OK);
   ASSERT_EQ(client.send(&update), ResultCode::OK);
@@ -230,7 +230,7 @@ TEST_F(IqSideRingsTest, RadioIgnoresIqAndFftPayloadTypes)
 
   // The IQ pipe is client-bound; the radio's dispatch must leave it alone.
   radio.dispatch(PAYLOAD_TYPE_IQ);
-  radio.dispatch(PAYLOAD_TYPE_FFT);
+  radio.dispatch(PAYLOAD_TYPE_SPECTRUM);
 
   EXPECT_TRUE(sink.sources.empty());
   EXPECT_EQ(rings.iqToClient().pending(), 1u);

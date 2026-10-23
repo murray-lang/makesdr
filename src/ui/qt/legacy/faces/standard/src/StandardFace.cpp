@@ -37,12 +37,11 @@ StandardFace::~StandardFace()
   delete m_pPanadapter;
 }
 
-void
-StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpdater* updater)
+void StandardFace::initialise(const IRadioSettingsView* pRadioSettings, IRadioSettingsUpdater* updater)
 {
   m_pRadioSettingsUpdater = updater;
 
-  FaceBase::initialise( pRadioSettings, updater);
+  FaceBase::initialise(pRadioSettings, updater);
   auto* chartTheme = new QtChartTheme(this);
   chartTheme->setObjectName("chartTheme");
   chartTheme->setFixedSize(0, 0); // User can't see it, but Style Engine will style it
@@ -90,15 +89,25 @@ StandardFace::initialise(const RadioSettings* pRadioSettings, IRadioSettingsUpda
   // ui->volumeSlider->setRange(0, 100);
   // ui->volumeSlider->setValue(100);
 
+  // The frequency panel's layout depends on the radio's traits, which aren't known
+  // until it has reported its settings.
+  if (pRadioSettings != nullptr) {
+    createFrequencyPanel(pRadioSettings->traits());
+    if (m_pFrequencyPanel != nullptr) {
+      m_pFrequencyPanel->initialise(pRadioSettings->state());
+    }
+  }
+}
+
+void StandardFace::createFrequencyPanel(const RadioSettingsTraits& traits)
+{
   // Centered frequency readout in grid row 2
-  if (ui->frequencyReadoutSlot != nullptr) {
+  if (ui->frequencyReadoutSlot != nullptr && m_pFrequencyPanel == nullptr) {
     auto* slotLayout = new QHBoxLayout(ui->frequencyReadoutSlot);
     slotLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_pFrequencyPanel = new QtFrequencyPanel(m_radioUpdater, ui->frequencyReadoutSlot);
+    m_pFrequencyPanel = new QtFrequencyPanel(traits, m_radioUpdater, ui->frequencyReadoutSlot);
     slotLayout->addWidget(m_pFrequencyPanel);
-
-    m_pFrequencyPanel->initialise(pRadioSettings);
   }
 }
 
@@ -117,28 +126,32 @@ StandardFace::frequencySelected(uint64_t frequency)
   }
 }
 
-void StandardFace::handleRadioSettingsChanged(const RadioSettings* pRadioSettings)
+void StandardFace::handleRadioSettingsChanged(const IRadioSettingsView* pRadioSettings)
 {
-  if (pRadioSettings->hasActiveBands()) {
-    const ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
-    if (activeBandSettings->hasFocusBand()) {
-      const BandSettings* bandSettings = activeBandSettings->focusBandSettings();
-      const BandRfSettings* rfSettings = bandSettings->rfSettings();
+  if (pRadioSettings == nullptr) return;
 
+  if (const IBandSettingsView* focusBand = pRadioSettings->focusBandSettings()) {
+    const BandRfSettings* rfSettings = pRadioSettings->focusBandRf();
+    if (rfSettings != nullptr && m_reportedIqSampleRate > 0) {
       auto centreFrequency = static_cast<int64_t>(rfSettings->frequency());
-      if (m_reportedIqSampleRate > 0) {
-        int64_t xMin = centreFrequency - (m_reportedIqSampleRate / 2);
-        int64_t xMax = centreFrequency + (m_reportedIqSampleRate / 2);
-        m_pPanadapter->setSeriesXMinMax(xMin, xMax);
-      }
-      updatePanadapter(bandSettings);
+      int64_t xMin = centreFrequency - (m_reportedIqSampleRate / 2);
+      int64_t xMax = centreFrequency + (m_reportedIqSampleRate / 2);
+      m_pPanadapter->setSeriesXMinMax(xMin, xMax);
     }
+    updatePanadapter(focusBand);
+  }
+  if (m_pFrequencyPanel == nullptr) {
+    // First settings: lay the panel out for this radio from the full state.
+    createFrequencyPanel(pRadioSettings->traits());
+    if (m_pFrequencyPanel != nullptr) {
+      m_pFrequencyPanel->initialise(pRadioSettings->state());
+    }
+  } else {
     m_pFrequencyPanel->applyRadioSettings(pRadioSettings);
   }
 }
 
-void
-StandardFace::updatePanadapter(const BandSettings* bandSettings)
+void StandardFace::updatePanadapter(const IBandSettingsView* bandSettings)
 {
   const RxPipelineSettings* rxPipelineASettings = bandSettings->pipeline(PipelineId::A);
   updateCursor(VfoId::A, rxPipelineASettings);
@@ -168,53 +181,46 @@ StandardFace::updateCursor(VfoId vfoId, const RxPipelineSettings* rxPipelineSett
   }
 }
 
-void
-StandardFace::handleReceiverIq(
-  const RadioSettings* pRadioSettings,
-  const ComplexSamplesBuffer* data,
-  uint32_t length,
-  uint32_t sampleRate)
+// void
+// StandardFace::handleReceiverIq(
+//   const RadioSettings* pRadioSettings,
+//   const ComplexSamplesBuffer* data,
+//   uint32_t length,
+//   uint32_t sampleRate)
+// {
+//
+//   m_reportedIqSampleRate = sampleRate;
+//   const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
+//   if (!activeBandSettings->hasFocusBand()) {
+//     return;
+//   }
+//   const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
+//   if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
+//     const BandRfSettings* rfSettings = bandSettings->rfSettings();
+//     if (rfSettings->hasFrequency()) {
+//       int64_t centreFrequency = rfSettings->frequency();
+//       uint32_t xMin = centreFrequency - (sampleRate / 2);
+//       uint32_t xMax = centreFrequency + (sampleRate / 2);
+//       m_pPanadapter->setSeriesXMinMax(xMin, xMax);
+//
+//       // One FFT, streamed to every spectrum view
+//       RealSamplesBuffer spectrum(length);
+//       m_pPanadapter->powerSpectrum(*data, length, spectrum);
+//       m_pPanadapter->plot(spectrum.data(), length, sampleRate, centreFrequency, true);
+//       if (m_pWaterfall != nullptr) {
+//         m_pWaterfall->addSpectrum(&spectrum, sampleRate, centreFrequency, true);
+//       }
+//     }
+//   }
+// }
+
+void StandardFace::handleSpectrum(const IRadioSettingsView* pRadioSettings, const SpectrumMessage* spectrumMessage)
 {
+  if (pRadioSettings == nullptr || spectrumMessage == nullptr) return;
 
-  m_reportedIqSampleRate = sampleRate;
-  const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
-  if (!activeBandSettings->hasFocusBand()) {
-    return;
-  }
-  const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
-  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
-    const BandRfSettings* rfSettings = bandSettings->rfSettings();
-    if (rfSettings->hasFrequency()) {
-      int64_t centreFrequency = rfSettings->frequency();
-      uint32_t xMin = centreFrequency - (sampleRate / 2);
-      uint32_t xMax = centreFrequency + (sampleRate / 2);
-      m_pPanadapter->setSeriesXMinMax(xMin, xMax);
-
-      // One FFT, streamed to every spectrum view
-      RealSamplesBuffer spectrum(length);
-      m_pPanadapter->powerSpectrum(*data, length, spectrum);
-      m_pPanadapter->plot(spectrum.data(), length, sampleRate, centreFrequency, true);
-      if (m_pWaterfall != nullptr) {
-        m_pWaterfall->addSpectrum(&spectrum, sampleRate, centreFrequency, true);
-      }
-    }
-  }
-}
-
-void
-StandardFace::handleMonitorFft(const RadioSettings* pRadioSettings, const FftMessage* fftMsg)
-{
-  if (pRadioSettings == nullptr || fftMsg == nullptr) return;
-
-  const makesdr_FftPb_bins_t& bins = fftMsg->bins();
-  m_reportedIqSampleRate = fftMsg->sampleRate();
-  const typename RadioSettings::ActiveBandSettings* activeBandSettings = pRadioSettings->activeBands();
-  if (!activeBandSettings->hasFocusBand()) {
-    return;
-  }
-  const typename RadioSettings::BandSettings* bandSettings = activeBandSettings->focusBandSettings();
-  if (bandSettings != nullptr && bandSettings->hasRfSettings()) {
-    const BandRfSettings* rfSettings = bandSettings->rfSettings();
+  m_reportedIqSampleRate = spectrumMessage->sampleRate();
+  const BandRfSettings* rfSettings = pRadioSettings->focusBandRf();
+  if (rfSettings != nullptr) {
     if (rfSettings->hasFrequency()) {
       int64_t centreFrequency = rfSettings->frequency();
       uint32_t xMin = centreFrequency - (m_reportedIqSampleRate / 2);
@@ -222,9 +228,9 @@ StandardFace::handleMonitorFft(const RadioSettings* pRadioSettings, const FftMes
       m_pPanadapter->setSeriesXMinMax(xMin, xMax);
 
       // One FFT, streamed to every spectrum view
-      m_pPanadapter->plot(fftMsg, centreFrequency);
+      m_pPanadapter->plot(spectrumMessage, centreFrequency);
       if (m_pWaterfall != nullptr) {
-        m_pWaterfall->addSpectrum(fftMsg, centreFrequency);
+        m_pWaterfall->addSpectrum(spectrumMessage, centreFrequency);
         // m_pWaterfall->addSpectrum(bins.bytes, bins.size, m_reportedIqSampleRate, centreFrequency, true);
       }
     }

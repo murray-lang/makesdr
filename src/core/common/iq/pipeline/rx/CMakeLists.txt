@@ -23,6 +23,7 @@ set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-stage-monitor
         core-common-iq-pipeline-stage-agc
         core-common-iq-pipeline-stage-s-meter
+        core-common-transport-radio
 )
 
 #if(PLATFORM_FAMILY STREQUAL "linux")

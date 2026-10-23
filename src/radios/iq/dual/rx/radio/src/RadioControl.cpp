@@ -1,5 +1,5 @@
 
 #include <settings/control/radio/RadioControlT.h>
-#include <radios/settings/model/DualIqRxSettings.h>
+#include <settings/model/radio/iq/DualIqRxSettings.h>
 
 template class RadioControlT<DualIqRxSettings>;

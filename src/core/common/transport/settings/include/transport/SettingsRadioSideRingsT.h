@@ -20,8 +20,7 @@ public:
 
 
   explicit SettingsRadioSideRingsT(RingsT& rings)
-    : m_pipes(rings)
-    , m_settingsOut(rings.settingsToClient())
+    : m_settingsOut(rings.settingsToClient())
     , m_settingsIn(rings.settingsToRadio())
   {
   }
@@ -35,18 +34,26 @@ public:
   //--- incoming (client -> radio) --------------------------------------------
   void connectRadioSettingsSink(MessageSinkT<RadioSettings>* sink)  { m_settingsIn.connectMessageSink(sink); }
 
+
   // Radio thread only. Delivers whatever is pending on the channel the
   // payload type identifies; unknown types are ignored.
   void dispatch(PayloadType payloadType)
   {
-    if (static_cast<int>(payloadType) == RadioSettings::payloadType) {
+    if (payloadType == RadioSettings::payloadType) {
       m_settingsIn.consumePending();
     }
   }
 
   template<typename TargetT>
-  void attach(TargetT target) { m_pipes.attachRadio(target); }
-  void detach()               { m_pipes.detachRadio(); }
+  void attachRecipient(TargetT target)
+  {
+    m_settingsIn.attachRecipient(target);
+  }
+
+  void detachRecipient()
+  {
+    m_settingsIn.detachRecipient();
+  }
 
 protected:
   template<typename SinkT, typename MessageT>
@@ -55,8 +62,6 @@ protected:
     message->setSource(PayloadSource::SOURCE_BACK_END);
     return sink.applyMessage(message);
   }
-
-  RingsT& m_pipes;
 
   MessageRingSinkT<typename RingsT::SettingsRing> m_settingsOut;
   MessageRingSourceT<typename RingsT::SettingsRing> m_settingsIn;

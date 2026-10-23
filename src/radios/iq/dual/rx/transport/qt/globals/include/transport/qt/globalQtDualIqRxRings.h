@@ -1,6 +1,9 @@
 #pragma once
 
-#include <radios/iq/QtDualIqRxMessageRings.h>
+#include <transport/qt/QtSettingsMessageRingsT.h>
+#include <settings/model/radio/iq/DualIqRxSettings.h>
+
+using QtDualIqRxSettingsRings = QtSettingsMessageRingsT<DualIqRxSettings>;
 // The one set of channels shared by the radio and the client in this process.
 // Both sides reach it here, so neither needs to know about the other.
-extern QtDualIqRxMessageRings& globalQtDualIqRxRings();
+extern QtDualIqRxSettingsRings& globalQtDualIqRxRings();
