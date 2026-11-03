@@ -5,8 +5,6 @@
 #include "FunCubeConfig.h"
 #include "DigitalInputsConfig.h"
 #include "DigitalOutputsConfig.h"
-#include "QtTransportOutConfig.h"
-#include "QtTransportInConfig.h"
 #include "UsbControlSinksConfig.h"
 
 #ifdef USE_ETL
@@ -25,11 +23,10 @@ namespace Config::Control
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,
       UsbControlSinks::Fields,
-      GpioLines::Fields,
-      QtTransportOut::Fields
+      GpioLines::Fields
     >;
 
-    using SourceConfigVariant = variant<DigitalInputs::Fields, QtTransportIn::Fields>;
+    using SourceConfigVariant = variant<DigitalInputs::Fields>;
   #else
     using SinkConfigVariant = variant<
       DigitalOutputs::Fields,

@@ -1,13 +1,13 @@
-#include "audio/AudioFactoryBase.h"
+#include "audio/RtAudioFactoryBase.h"
 
 RtAudio::Api 
-AudioFactoryBase::apiFromConfig(const Config::Audio::Fields& config)
+RtAudioFactoryBase::apiFromConfig(const Config::Audio::Fields& config)
 {
   return apiFromConfig(config.soundApi);
 }
 
 RtAudio::Api 
-AudioFactoryBase::apiFromConfig(const Config::Audio::ShortString& configApi)
+RtAudioFactoryBase::apiFromConfig(const Config::Audio::ShortString& configApi)
 {
   if (configApi == "alsa") {
     return RtAudio::Api::LINUX_ALSA;
@@ -25,7 +25,7 @@ AudioFactoryBase::apiFromConfig(const Config::Audio::ShortString& configApi)
 }
 
 uint32_t
-AudioFactoryBase::getBytesPerChannel(AudioFormat rtFormat)
+RtAudioFactoryBase::getBytesPerChannel(AudioFormat rtFormat)
 {
   switch (rtFormat) {
   case AudioFormat::SINT8:
@@ -45,12 +45,12 @@ AudioFactoryBase::getBytesPerChannel(AudioFormat rtFormat)
 }
 
 bool
-AudioFactoryBase::isRtAudioFormatSupported(RtAudioFormat format, const RtAudio::DeviceInfo& deviceInfo)
+RtAudioFactoryBase::isRtAudioFormatSupported(RtAudioFormat format, const RtAudio::DeviceInfo& deviceInfo)
 {
   return (deviceInfo.nativeFormats & format) != 0;
 }
 
-RtAudioFormat AudioFactoryBase::getDefaultRtAudioFormat(const RtAudio::DeviceInfo& deviceInfo)
+RtAudioFormat RtAudioFactoryBase::getDefaultRtAudioFormat(const RtAudio::DeviceInfo& deviceInfo)
 {
   if (deviceInfo.nativeFormats & static_cast<RtAudioFormat>(AudioFormat::FLOAT32)) {
     return static_cast<RtAudioFormat>(AudioFormat::FLOAT32);
@@ -71,7 +71,7 @@ RtAudioFormat AudioFactoryBase::getDefaultRtAudioFormat(const RtAudio::DeviceInf
 }
 
 RtAudioFormat
-AudioFactoryBase::getRtAudioFormatFromConfigOrDefault(const Config::Audio::Fields& config,
+RtAudioFactoryBase::getRtAudioFormatFromConfigOrDefault(const Config::Audio::Fields& config,
                                                                       const RtAudio::DeviceInfo& deviceInfo)
 {
   RtAudioFormat format = getRtAudioFormatFromConfig(config);
@@ -89,13 +89,13 @@ AudioFactoryBase::getRtAudioFormatFromConfigOrDefault(const Config::Audio::Field
 }
 
 RtAudioFormat
-AudioFactoryBase::getRtAudioFormatFromConfig(const Config::Audio::Fields& config)
+RtAudioFactoryBase::getRtAudioFormatFromConfig(const Config::Audio::Fields& config)
 {
   return getRtAudioFormatFromConfig(config.format);
 }
 
 RtAudioFormat
-AudioFactoryBase::getRtAudioFormatFromConfig(const Config::Audio::ShortString& configFormat)
+RtAudioFactoryBase::getRtAudioFormatFromConfig(const Config::Audio::ShortString& configFormat)
 {
   if (configFormat == "float32") {
     return static_cast<RtAudioFormat>(AudioFormat::FLOAT32);

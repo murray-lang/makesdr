@@ -1,5 +1,4 @@
 #include "audio/AudioOutputFactory.h"
-#include "audio/RtAudioOutputT.h"
 
 ResultCode
 AudioOutputFactory::create(const Config::IqIo::AudioOutputConfigVariant& configVariant, AudioOutputVariant& output)

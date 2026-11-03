@@ -1,12 +1,12 @@
 #ifndef LINUX_AUDIO_OUTPUT_FACTORY_H
 #define LINUX_AUDIO_OUTPUT_FACTORY_H
 
-#include "AudioFactoryBase.h"
+#include "RtAudioFactoryBase.h"
 #include "AudioOutput.h"
 #include "AudioOutputVariant.h"
 #include <config/struct/IqIoConfig.h>
 
-class AudioOutputFactory : public AudioFactoryBase
+class AudioOutputFactory : public RtAudioFactoryBase
 {
 public:
   static ResultCode create(const Config::IqIo::AudioOutputConfigVariant& config, AudioOutputVariant& output);

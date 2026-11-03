@@ -51,6 +51,13 @@ target_include_directories(core-stm32h745i-drivers-cmsis INTERFACE
         include/stm32h745i/drivers/cmsis/device
 )
 
+# Suppress cmsis_gcc.h's default __cmsis_start() (unused: ST's assembly startup
+# initialises .data/.bss). Its extern objects of function-local types trigger a
+# -fpermissive warning in every C++ TU that includes the CMSIS headers.
+target_compile_definitions(core-stm32h745i-drivers-cmsis INTERFACE
+        __PROGRAM_START=__unused_cmsis_program_start
+)
+
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
 # CM7-specific variant

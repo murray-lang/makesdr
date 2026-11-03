@@ -8,7 +8,6 @@
 #include <settings/model/radio/iq/PipelineSettings.h>
 #include <settings/model/radio/BandRfSettings.h>
 
-#include "event/EventTarget.h"
 #include "settings/model/radio/PipelineId.h"
 
 // #include <qcoreevent.h>
@@ -57,7 +56,7 @@ public:
     rfSettings->clampToNyquistLimits(*bandRfSettings, maxNegative, maxPositive);
   }
 
-  virtual ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
+  ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
 protected:
   void appendStage(IqPipelineStage* pStage)

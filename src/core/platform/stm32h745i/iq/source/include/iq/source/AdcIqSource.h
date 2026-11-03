@@ -14,6 +14,7 @@
 
 #include <config/struct/AdcIqSourceConfig.h>
 
+
 class AdcIqSource : public IqSource, public Runnable
 {
 public:
@@ -60,7 +61,7 @@ private:
 
   // Circular buffer for converted complex samples
   etl::queue_spsc_atomic<sdrcomplex, ADC_BUFFER_SIZE> m_iqBuffer;
-  ComplexPingPongBuffers m_pingPongBuffers;
+  ComplexSamplesBuffer m_buffer;
 
   // Double buffering for DMA mode only
   // uint16_t m_adcBufferI[ADC_BUFFER_SIZE*2];

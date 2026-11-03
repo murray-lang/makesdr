@@ -22,7 +22,7 @@ MEMORY
   RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  512K
   FLASH  (rx)    : ORIGIN = 0x08000000, LENGTH = 1024K
   
-  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
+  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K /* Owned by the CM4 (its RAM via the 0x10000000 alias): place nothing here */
   SHARED_RAM (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K /* SRAM4 - shared between cores */
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
   QSPI (rx)      : ORIGIN = 0x90000000, LENGTH = 64M

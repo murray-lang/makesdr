@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
-#include "RadioSettingsTraits.h"
+#include <settings/model/radio/RadioSettingsTraits.h>
 #include "IActiveBandSettingsView.h"
-#include "BandRfSettings.h"
+#include "settings/model/radio/BandRfSettings.h"
 
 // Read-only, type-neutral view of whichever RadioSettings flavour the radio reported.
 // Intended for the front end only: the back end keeps using the concrete templated types,

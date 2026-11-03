@@ -16,11 +16,9 @@ set(RADIOS_BASE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/BandSettingsDefaults.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IfSettings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsTraits.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IRadioSettingsMirror.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/IRadioSettingsUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/Mode.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/PipelineId.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsEventT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsMirrorT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioRequester.h
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/RadioSettingsSinkT.h

@@ -9,9 +9,7 @@
 #include <settings/model/update/FieldDescriptor.h>
 #include <settings/model/update/FieldUpdateSource.h>
 
-// #ifdef USE_DOTTED_STRING_PATHS
 #include <settings/model//update/ResolveDottedStringFunc.h>
-// #endif
 
 
 #ifdef USE_ETL

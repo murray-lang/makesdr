@@ -72,23 +72,23 @@ protected:
   void multiplyByCoefficients(const ComplexSamplesFft& values, ComplexSamplesFft& result)
   {
     const ComplexSamplesFft& coefficients = m_kernel.getComplexCoefficients();
-    std::transform(
-        std::begin(values),
-        std::end(values),
-        std::begin(coefficients),
-        std::begin(result),
-        std::multiplies<>()
+    xtl::transform(
+        values.begin(),
+        values.end(),
+        coefficients.begin(),
+        result.begin(),
+        xtl::multiplies<sdrcomplex>()
     );
   }
 
   void multiplyByCoefficients(const RealSamplesFft& values, RealSamplesFft& result)
   {
-    std::transform(
-        std::begin(values),
-        std::end(values),
-        std::begin(m_kernel.getRealCoefficients()),
-        std::begin(result),
-        std::multiplies<>()
+    xtl::transform(
+      values.begin(),
+      values.end(),
+      m_kernel.getRealCoefficients().begin(),
+      result.begin(),
+      xtl::multiplies<sdrreal>()
     );
   }
 

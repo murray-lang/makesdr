@@ -60,6 +60,7 @@ if(PLATFORM_FAMILY STREQUAL "linux")
 else()
     set(USE_FREERTOS ON)
     add_definitions(-DUSE_FREERTOS)
+    set (USE_DOTTED_STRING_PATHS OFF)
 endif()
 
 if(USE_DOTTED_STRING_PATHS)

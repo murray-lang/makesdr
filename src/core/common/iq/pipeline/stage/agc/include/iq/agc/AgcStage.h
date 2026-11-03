@@ -1,5 +1,6 @@
 #pragma once
 
+#include <CrossPlatformTypes.h>
 #include <iq/pipeline/stage/IqPipelineStage.h>
 #include <liquid/liquid.h>
 
@@ -39,6 +40,6 @@ protected:
 
 private:
   agc_crcf m_agc;
-  std::atomic<float> m_lastGain;
+  atomic<float> m_lastGain;
   AgcSpeed m_speed;
 };

@@ -2,6 +2,9 @@
 #ifdef IS_QT
 #include <transport/qt/globalQtIqRings.h>
 #include <transport/qt/globalQtMetaRings.h>
+#include <transport/qt/globalQtUpdateRings.h>
+#include <transport/qt/globalQtRxMeteringRings.h>
+#include <transport/qt/globalQtSpectrumRings.h>
 #endif
 
 SingleIqRxRadio::SingleIqRxRadio(
@@ -9,7 +12,13 @@ SingleIqRxRadio::SingleIqRxRadio(
   ModeList& modes,
   SingleIqRxSettings::Cache& bandSettingsCache)
 #ifdef IS_QT
-: m_transport(globalQtSingleIqRxRings(), globalQtMetaRings(), globalQtIqRings())
+: m_transport(
+    globalQtSingleIqRxRings(),
+    globalQtUpdateRings(),
+    globalQtMetaRings(),
+    globalQtRxMeteringRings(),
+    globalQtIqRings(),
+    globalQtSpectrumRings())
 , m_bands(bands)
 #else
 : m_bands(bands)

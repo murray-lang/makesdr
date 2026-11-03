@@ -48,6 +48,7 @@ public:
   void enableMetering(bool enable) { m_sMeterStage.enable(enable); }
 
 protected:
+
   void setDemodulator(const Mode& mode);
 
 private:

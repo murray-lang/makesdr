@@ -2,8 +2,6 @@
 #include <settings/model/radio/RadioSettingsSinkT.h>
 #include <settings/control/sink/PttSink.h>
 
-#include <event/EventTarget.h>
-
 #include "config/struct/RadioConfig.h"
 #include "settings/model/update/FieldUpdateSink.h"
 

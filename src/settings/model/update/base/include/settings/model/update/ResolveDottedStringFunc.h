@@ -1,6 +1,12 @@
 #pragma once
 
-#include <CrossPlatformTypes.h>
+#include <ResultCode.h>
 #include "FieldDescriptor.h"
 
-using ResolveDottedStringFunc = function<ResultCode(const char *, FieldDescriptor& )>;
+#ifdef USE_ETL
+#include <etl/inplace_function.h>
+using ResolveDottedStringFunc = etl::inplace_function<ResultCode(const char*, FieldDescriptor&)>;
+#else
+#include <functional>
+using ResolveDottedStringFunc = std::function<ResultCode(const char*, FieldDescriptor&)>;
+#endif

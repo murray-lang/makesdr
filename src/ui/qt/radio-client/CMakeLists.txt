@@ -48,6 +48,7 @@ target_link_libraries(ui-qt-radio-client PUBLIC
         core-linux-transport-qt-globals-metering
         core-linux-transport-qt-globals-spectrum
         core-linux-transport-qt-globals-updates
+        settings-model-radio-polymorphic
         settings-model-radio-iq-dual-split
         settings-model-radio-iq-dual-rxtx
         settings-model-radio-iq-dual-rx

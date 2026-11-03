@@ -20,7 +20,8 @@ using SingleIqRxTransport = QtIqCapableRadioTransportT<QtSingleIqRxSettingsRings
 #endif
 
 class SingleIqRxRadio :
-  public RadioBase<SingleIqRxSettings>,
+  public RadioBase,
+  public RadioSettingsSinkT<SingleIqRxSettings>,
   public MessageSinkT<SingleIqRxSettings>,
   public MessageSinkT<FieldUpdateMessage>
 {
@@ -45,7 +46,7 @@ public:
   ResultCode applyMessage(Settings* message) final;
   ResultCode applyMessage(FieldUpdateMessage* update) final;
 
-  [[nodiscard]] const Settings* getSettings() const  override { return &m_settings; }
+  [[nodiscard]] const Settings* getSettings() const  { return &m_settings; }
 
   ResultCode start() override;
   void stop() override;

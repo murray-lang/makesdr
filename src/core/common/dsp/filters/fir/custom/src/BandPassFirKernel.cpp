@@ -12,7 +12,7 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
   sdrreal signal = (hiCutRate - loCutRate) / 2.0f;
   sdrreal localOsc = K_2PI * (hiCutRate + loCutRate) / 2.0;
   int32_t centreIndex = static_cast<int32_t>(FIR_SIZE-1)/2;
-  int32_t outStartIndex = (static_cast<int32_t>(FILTER_FFT_SIZE)/2) - centreIndex;
+  // int32_t outStartIndex = (static_cast<int32_t>(FILTER_FFT_SIZE)/2) - centreIndex;
 
 
   ComplexSamplesFft complexSincPulse(

@@ -25,6 +25,7 @@ class SingleIqRxSettings : public SingleIqRxSettingsBaseType
 public:
 
   using ActiveBandSettings = SingleIqActiveBandSettings;
+  using BandSettings = SingleIqBandSettings;
 
   struct Traits
   {

@@ -2,7 +2,6 @@
 #include <CrossPlatformTypes.h>
 #include <iq/pipeline/stage/IqPipelineStage.h>
 #include <iq/pipeline/stage/SampleRateProvider.h>
-// #include <event/EventTarget.h>
 
 #include <utility>
 
@@ -20,7 +19,7 @@ public:
     : m_pipelineId(pipelineId)
     , m_iqPublisher(iqPublisher)
     , m_spectrumPublisher(fftPublisher)
-    , m_sampleRateProvider([]() { return 0; })
+    , m_sampleRateProvider(nullptr)
     , m_enabled(false)
     , m_powerSpectrum()
     // , m_fft(WindowType::HANNING)
@@ -28,7 +27,7 @@ public:
   }
 
   void setSampleRateProvider(SampleRateProvider sampleRateProvider) {
-    m_sampleRateProvider = ::move(sampleRateProvider);
+    m_sampleRateProvider = sampleRateProvider;
   }
 
   void enable(bool enable) {

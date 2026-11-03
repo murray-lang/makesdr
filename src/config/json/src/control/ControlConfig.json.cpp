@@ -3,8 +3,6 @@
 #include "config/json/DigitalOutputsConfig.json.h"
 #include "config/json/DigitalInputsConfig.json.h"
 #include "config/json/UsbControlSinksConfig.json.h"
-#include "config/json/QtTransportOutConfig.json.h"
-#include "config/json/QtTransportInConfig.json.h"
 
 namespace Config::Control
 {
@@ -23,14 +21,7 @@ namespace Config::Control
     }
 #endif
 #ifdef IS_LINUX
-    if (json.type == QtTransportOut::type) {
-      QtTransportOut::Fields fields{};
-      result = QtTransportOut::fromJson(json.config, fields);
-      if (result == ResultCode::OK) {
-        sink = fields;
-      }
-      return result;
-    }
+
 #endif
     if (json.type == UsbControlSinks::type) {
       UsbControlSinks::Fields fields{};
@@ -57,14 +48,7 @@ namespace Config::Control
     }
 #endif
 #ifdef IS_LINUX
-    if (json.type == QtTransportIn::type) {
-      QtTransportIn::Fields fields{};
-      result = QtTransportIn::fromJson(json.config, fields);
-      if (result == ResultCode::OK) {
-        source = fields;
-      }
-      return result;
-    }
+
 #endif
     return ResultCode::ERR_CONFIG_UNKNOWN_TYPE;
   }

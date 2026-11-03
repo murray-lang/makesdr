@@ -16,7 +16,6 @@ target_include_directories(core-common-iq-base INTERFACE
 )
 target_link_libraries(core-common-iq-base INTERFACE
         core-common-samples
-        core-common-event
         config-struct
         settings-control-sink
         settings-model-radio-base

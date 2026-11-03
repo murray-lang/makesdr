@@ -46,9 +46,9 @@ void USB_Host_Init(void)
   // printf("[USB]:\tIRQ enabled: %d\r\n", NVIC_GetEnableIRQ(OTG_HS_IRQn));
   // printf("[USB]:\tIRQ pending: %d\r\n", NVIC_GetPendingIRQ(OTG_HS_IRQn));
   // printf("[USB]:\tIRQ active: %d\r\n", NVIC_GetActive(OTG_HS_IRQn));
-  printf("[USB]:\tIRQ enabled: %d\r\n", NVIC_GetEnableIRQ(OTG_FS_IRQn));
-  printf("[USB]:\tIRQ pending: %d\r\n", NVIC_GetPendingIRQ(OTG_FS_IRQn));
-  printf("[USB]:\tIRQ active: %d\r\n", NVIC_GetActive(OTG_FS_IRQn));
+  // printf("[USB]:\tIRQ enabled: %d\r\n", NVIC_GetEnableIRQ(OTG_FS_IRQn));
+  // printf("[USB]:\tIRQ pending: %d\r\n", NVIC_GetPendingIRQ(OTG_FS_IRQn));
+  // printf("[USB]:\tIRQ active: %d\r\n", NVIC_GetActive(OTG_FS_IRQn));
 
   /* Initialize TinyUSB - rhport 0 = USB_OTG_FS */
   tusb_rhport_init_t dev_init = {

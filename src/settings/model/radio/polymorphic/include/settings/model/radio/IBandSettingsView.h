@@ -1,5 +1,5 @@
 #pragma once
-#include "PipelineId.h"
+#include <settings/model/radio/PipelineId.h>
 
 class Band;
 class Mode;

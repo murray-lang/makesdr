@@ -4,7 +4,6 @@ project(core-common)
 
 add_subdirectory(audio)
 add_subdirectory(dsp)
-add_subdirectory(event)
 add_subdirectory(gpio)
 add_subdirectory(iq)
 add_subdirectory(samples)

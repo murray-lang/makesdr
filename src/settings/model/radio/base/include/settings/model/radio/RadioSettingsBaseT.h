@@ -3,7 +3,6 @@
 #include <settings/model/proto/ProtobufIo.h>
 #include <settings/model/update/FieldUpdateSink.h>
 #include <EventId.h>
-#include <settings/model/update/ResolveDottedStringFunc.h>
 #include "ReceiverSettings.h"
 #include "TransmitterSettings.h"
 #include "BandRfSettings.h"
@@ -12,6 +11,11 @@
 #include "RadioSettingsUpdater.h"
 #include <settings/model/message/MessageT.h>
 #include <settings/model/update/MessageTraverser.h>
+
+#ifdef USE_DOTTED_STRING_PATHS
+#include <settings/model/update/ResolveDottedStringFunc.h>
+#endif
+
 
 #define COMMON_ACTIVE_BANDS_TAG 2
 
@@ -238,10 +242,10 @@ public:
   // Derived settings that support indirect updates hide this with their own updater().
   RadioSettingsUpdater* updater() { return nullptr; }
 
-#ifndef USE_DOTTED_STRING_PATHS
+#ifdef USE_DOTTED_STRING_PATHS
   ResolveDottedStringFunc resolveDottedStringFunc()
   {
-    return [](const char* dottedPath, FieldDescriptor& descriptor) -> ResultCode {
+    return [](const char* dottedPath, FieldDescriptor& descr) -> ResultCode {
       return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
     };
   }

@@ -83,7 +83,7 @@ public:
   [[nodiscard]] int findCategoryIndex(const BandCategoryName& name) const
   {
     uint32_t max = count();
-    for (int i = 0; i < max; i++) {
+    for (uint32_t i = 0; i < max; i++) {
       if (name == m_categories[i].name) {
         return i;
       }
@@ -120,7 +120,7 @@ public:
   [[nodiscard]] int findCategoryIndexOfBand(const BandName& name) const
   {
     uint32_t max = count();
-    for (int i = 0; i < max; i++) {
+    for (uint32_t i = 0; i < max; i++) {
       BandList bands(m_categories[i].bands);
       const makesdr_BandPb* band = bands.findBand(name);
       if (band != nullptr) {

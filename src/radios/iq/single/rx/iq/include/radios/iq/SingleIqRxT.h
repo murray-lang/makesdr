@@ -74,7 +74,7 @@ public:
   {
     const BandRfSettings* bandRfSettings = bandSettings->rfSettings(); // Always get these for RF offset calcs.
     // if (dualPipelineChanged) {
-    if (bandSettings->hasfocusPipeline()) {
+    if (bandSettings->hasFocusPipeline()) {
       RxPipelineSettings* rxPipelineASettings = bandSettings->focusPipeline();
       m_rxPipelineA.apply(bandRfSettings, rxPipelineASettings);
     }

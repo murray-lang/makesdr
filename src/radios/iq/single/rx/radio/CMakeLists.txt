@@ -28,6 +28,9 @@ if(IS_QT)
             core-linux-transport-qt-settings
             core-linux-transport-qt-globals-iq
             core-linux-transport-qt-globals-meta
+            core-linux-transport-qt-globals-updates
+            core-linux-transport-qt-globals-metering
+            core-linux-transport-qt-globals-spectrum
     )
 endif()
 

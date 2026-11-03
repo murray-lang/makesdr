@@ -1,5 +1,5 @@
 #pragma once
-#include "SplitBandId.h"
+#include <settings/model/radio/SplitBandId.h>
 #include "IBandSettingsView.h"
 
 // Read-only, type-neutral view of the active bands, for the front end only.

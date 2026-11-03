@@ -33,14 +33,14 @@ public:
     , m_isFinal(isFinal)
   {}
 #ifdef USE_ETL
-  FieldUpdate(FieldDescriptor descriptor, const NameString& value, Meaning meaning, bool isFinal = true)
+  FieldUpdate(FieldDescriptor descriptor, const NameString& value, FieldUpdateMeaning meaning, bool isFinal = true)
     : m_descriptor(::move(descriptor))
     , m_value(in_place_type_t<NameString>{}, value)
     , m_meaning(meaning)
     , m_isFinal(isFinal)
   {}
 
-  FieldUpdate(FieldDescriptor descriptor, const LabelString& value, Meaning meaning, bool isFinal = true)
+  FieldUpdate(FieldDescriptor descriptor, const LabelString& value, FieldUpdateMeaning meaning, bool isFinal = true)
     : m_descriptor(::move(descriptor))
     , m_value(in_place_type_t<LabelString>{}, value)
     , m_meaning(meaning)

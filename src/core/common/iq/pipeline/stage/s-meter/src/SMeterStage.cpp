@@ -10,7 +10,7 @@ SMeterStage::SMeterStage(
   , m_pipelineId(pipelineId)
   , m_meteringPublisher(meteringPublisher)
   , m_sampleRateProvider([]() { return 0; })
-  , m_agcGainDbProvider([]() { return 0.0; })
+  , m_agcGainDbProvider([]() { return 0.0f; })
   , m_tau(std::max(0.01f, smoothingTauSeconds))
   , m_minUpdatePeriod(std::chrono::duration<double>(1.0 / std::max(1.0f, uiUpdateHz)))
   {

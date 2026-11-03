@@ -1,9 +1,9 @@
 #pragma once
-#include "IRadioSettingsMirror.h"
+#include <settings/model/radio/IRadioSettingsMirror.h>
 #include "RadioSettingsViewT.h"
 
 template<typename MirrorT>
-class RadioSettingsMirrorPolymorphicT : public IRadioSettingsMirror, public MirrorT
+class RadioSettingsMirrorViewT : public IRadioSettingsMirror, public MirrorT
 {
 public:
   using MirrorT::MirrorT;

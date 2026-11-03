@@ -16,7 +16,7 @@ using InfoString = etl::string<80>;
 using InfoString = std::string;
 #endif
 
-class AudioFactoryBase
+class RtAudioFactoryBase
 {
   public:
 

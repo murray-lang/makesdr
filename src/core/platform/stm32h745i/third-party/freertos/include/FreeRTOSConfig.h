@@ -45,9 +45,18 @@
 /* Ensure stdint is only used by the compiler, and not the assembler. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__ARMCC_VERSION) || defined(__GNUC__)
  #include <stdint.h>
+ /* FreeRTOS.h includes this file outside its extern "C" block, so C++
+  * translation units would otherwise give these C++ linkage and clash with
+  * the CMSIS declaration in system_stm32h7xx.h. */
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
  extern uint32_t SystemCoreClock;
 
 void vGenerateCore2Interrupt( void * xUpdatedMessageBuffer );
+ #ifdef __cplusplus
+ }
+ #endif
 #endif
 
 /*-------------------- specific defines -------------------*/

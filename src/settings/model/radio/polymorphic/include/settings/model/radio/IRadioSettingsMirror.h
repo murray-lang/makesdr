@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RadioSettingsUpdater.h"
+#include <settings/model/radio/RadioSettingsUpdater.h>
 #include "IRadioSettingsView.h"
 
 class IRadioSettingsMirror

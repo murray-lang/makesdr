@@ -5,11 +5,13 @@
 
 #ifdef USE_ETL
 #include "etl/unordered_map.h"
+#include <etl/inplace_function.h>
 
-using FaceCreator = etl::function<unique_ptr<FaceBase>(QWidget* parent)>;
+using FaceCreator = etl::inplace_function<unique_ptr<FaceBase>(QWidget* parent)>;
 using FaceMap = etl::unordered_map<Config::Ui::FaceString, FaceCreator, 3>;
 #else
-using FaceCreator = function<unique_ptr<FaceBase>(QWidget* parent)>;
+#include <functional>
+using FaceCreator = std::function<unique_ptr<FaceBase>(QWidget* parent)>;
 using FaceMap = std::unordered_map<Config::Ui::FaceString, FaceCreator>;
 #endif
 
