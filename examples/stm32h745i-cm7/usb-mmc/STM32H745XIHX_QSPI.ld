@@ -22,7 +22,7 @@ MEMORY
   RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  512K
   FLASH  (rx)    : ORIGIN = 0x08000000, LENGTH = 1024K
   
-  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
+  RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K /* Owned by the CM4 (its RAM via the 0x10000000 alias): place nothing here */
   SHARED_RAM (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K /* SRAM4 - shared between cores */
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
   QSPI (rx)      : ORIGIN = 0x90000000, LENGTH = 64M
@@ -151,6 +151,16 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
   } >RAM_D1
+
+  /* Rings shared between the cores (SharedRingsT). Must come first in
+     SHARED_RAM, so that it is at the same address in the CM7 and CM4 images. */
+  .shared_rings (NOLOAD) :
+  {
+    _sshared_rings = .;
+    . = . + 32K;
+    _eshared_rings = .;
+  } >SHARED_RAM
+  ASSERT(_sshared_rings == ORIGIN(SHARED_RAM), ".shared_rings must start SHARED_RAM")
 
   /* Shared memory section for dual-core access */
 .shared_data (NOLOAD) :

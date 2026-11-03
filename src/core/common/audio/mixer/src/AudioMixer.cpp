@@ -4,8 +4,8 @@
 AudioMixer::AudioMixer(AudioSink& output)
   : m_inputA(*this, AudioMixerInput::INPUT_A)
   , m_inputB(*this, AudioMixerInput::INPUT_B)
-  , m_inputBEnabled(false)
   , m_output(output)
+  , m_inputBEnabled(false)
   , m_havePendingA(false)
   , m_havePendingB(false)
   , m_gain(0.5f) // TODO: Feed configuration through to this. Turned down from 1.0 to prevent clipping.

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 //*****************************************************************************
 // One side of a set of rings, notified through a platform-specific RecipientT
 // whenever messages addressed to it are waiting.
@@ -14,6 +16,10 @@
 //
 // Detaching in the destructor, before the recipient is destroyed, makes
 // destruction safe wherever the notifier treats detach() as a barrier.
+//
+// Any arguments after the rings go to the recipient's constructor, after the
+// side itself; e.g. a FreeRTOS TaskRecipientT takes the TaskDispatcher of the
+// task that will consume. Qt's QtRecipientT takes none.
 //*****************************************************************************
 template<typename SideT, template<typename> class RecipientT>
 class RecipientSideT : public SideT
@@ -22,10 +28,10 @@ public:
 
   using Rings = typename SideT::Rings;
 
-  template<typename RingsT>
-  explicit RecipientSideT(RingsT& rings)
+  template<typename RingsT, typename... RecipientArgs>
+  explicit RecipientSideT(RingsT& rings, RecipientArgs&&... recipientArgs)
     : SideT(rings)
-    , m_recipient(*this)
+    , m_recipient(*this, std::forward<RecipientArgs>(recipientArgs)...)
   {
   }
 

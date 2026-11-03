@@ -9,6 +9,7 @@ set(IQ_IO_SOURCES
 
 set(IQ_IO_LIBS
         config-struct
+        core-common-audio-base
         core-common-iq-base
         core-common-samples
 )
@@ -22,6 +23,8 @@ if(PLATFORM_FAMILY STREQUAL "linux")
 elseif(PLATFORM_FAMILY STREQUAL "stm32h745i")
     set(IQ_IO_LIBS
             ${IQ_IO_LIBS}
+#            core-freertos-thread
+            core-stm32h745i-audio
             core-stm32h745i-iq-source
     )
 endif()

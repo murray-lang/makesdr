@@ -4,6 +4,7 @@ project(core-stm32h745i-dsp-transforms-fft)
 
 set(TRANSFORM_SOURCES
         ${CMAKE_CURRENT_LIST_DIR}/include/dsp/transforms/fft/Fft.h
+        ${CMAKE_CURRENT_LIST_DIR}/src/Fft.cpp
 )
 
 if (TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
@@ -16,6 +17,7 @@ if (TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
 
     target_link_libraries(core-stm32h745i-cm4-dsp-transforms-fft INTERFACE
             core-common-dsp-transforms-fft-base
+            core-common-dsp-window
             core-stm32h745i-cm4-math
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")

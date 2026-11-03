@@ -1,10 +1,10 @@
 #ifndef LINUX_AUDIO_INPUT_FACTORY_H
 #define LINUX_AUDIO_INPUT_FACTORY_H
 
-#include "AudioFactoryBase.h"
+#include "RtAudioFactoryBase.h"
 #include "AudioInput.h"
 
-class AudioInputFactory : public AudioFactoryBase
+class AudioInputFactory : public RtAudioFactoryBase
 {
 public:
 

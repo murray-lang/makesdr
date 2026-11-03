@@ -1,6 +1,8 @@
 add_executable(core-common-transport-base-tests
         MessageRingsTest.cpp
         MessageRingsAdaptersTest.cpp
+        MessageRingsMessageSemanticsTest.cpp
+        PayloadTypeBitsTest.cpp
 )
 
 target_link_libraries(core-common-transport-base-tests

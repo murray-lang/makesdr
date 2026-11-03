@@ -1,7 +1,7 @@
 #include "iq/modulation/AmDemodulator.h"
 
 #include <algorithm>
-#include <QDebug>
+// #include <QDebug>
 
 uint32_t
 AmDemodulator::processSamples(

@@ -4,7 +4,7 @@
 
 
 uint32_t
-MyIqSink::sinkIq(const ComplexPingPongBuffers& samples, uint32_t length)
+MyIqSink::sinkIq(ComplexSamplesBuffer& samples, uint32_t length)
 {
   static uint32_t counter = 0;
   counter++;

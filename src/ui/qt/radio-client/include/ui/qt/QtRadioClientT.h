@@ -36,7 +36,7 @@
 #include <transport/qt/globalQtSpectrumRings.h>
 
 #include <settings/model/radio/IRadioSettingsMirror.h>
-#include <settings/model/radio/RadioSettingsMirrorPolymorphicT.h>
+#include <settings/model/radio/RadioSettingsMirrorViewT.h>
 #include <settings/model/radio/RadioSettingsMirrorT.h>
 #include <settings/model/radio/iq/DualIqRxSettings.h>
 #include <settings/model/radio/iq/DualIqRxTxSettings.h>
@@ -218,7 +218,7 @@ public:
     )
   {
     using Mirror = RadioSettingsMirrorT<S, QtSettingsClientSideTransportT<S>, QtUpdateClientSideTransport, QtRadioClientT>;
-    using PolymorphicMirror = RadioSettingsMirrorPolymorphicT<Mirror>;
+    using PolymorphicMirror = RadioSettingsMirrorViewT<Mirror>;
 
     return std::make_unique<PolymorphicMirror>(
       settingsRings,

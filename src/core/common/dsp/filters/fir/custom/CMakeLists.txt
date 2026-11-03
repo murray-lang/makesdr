@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 4.1)
 
 project(core-common-dsp-filters-fir-custom)
 
-find_package(PkgConfig)
-
-find_package(Qt6 REQUIRED COMPONENTS Core) # Temporary for debugging with qDebug()
-
 set(FIR_CUSTOM_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/dsp/filters/fir/Fir.h
 
@@ -44,6 +40,5 @@ else()
             core-common-dsp-constants
             core-common-dsp-window
             core-common-dsp-transforms-fft-pocket
-            Qt6::Core
     )
 endif()

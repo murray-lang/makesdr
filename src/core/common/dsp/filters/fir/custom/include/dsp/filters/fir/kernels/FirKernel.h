@@ -40,7 +40,7 @@ protected:
 
   static const RealSamplesFft& complexToReal(const ComplexSamplesFft& complex, RealSamplesFft& real)
   {
-    for (int i = 0; i < complex.size(); i++) {
+    for (uint32_t i = 0; i < complex.size(); i++) {
       const sdrcomplex& cpx = complex.at(i);
       real.at(i) = std::hypot(cpx.real(), cpx.imag());
     }

@@ -45,7 +45,7 @@ public:
 
   void setFrequencyRanges(const FrequencyRangeConfigVector& frequencyRanges)
   {
-    for (int i = 0; i < frequencyRanges.size(); i++) {
+    for (size_t i = 0; i < frequencyRanges.size(); i++) {
       m_rawSettings.frequency_ranges[i].min = frequencyRanges[i].min;
       m_rawSettings.frequency_ranges[i].max = frequencyRanges[i].max;
     }

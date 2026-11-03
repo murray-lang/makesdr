@@ -1,5 +1,8 @@
 #pragma once
 
+#include <optional>
+#include <type_traits>
+
 #include <ResultCode.h>
 #include <settings/model/message/MessageSourceT.h>
 #include "IMessageRingConsumer.h"
@@ -8,13 +11,15 @@
 // The consumer end of a channel, presented as an ordinary MessageSourceT.
 //
 // Call consumePending() when woken by the channel's notifier. Each pending
-// message is passed to the connected sink, in order, directly from its slot:
-// the sink must not keep the pointer after applyMessage() returns.
+// payload is rebuilt into a local message with T's payload constructor, which
+// also rebuilds any views T keeps over its own payload (e.g. ModeList), and
+// passed to the connected sink, in order. The sink must not keep the pointer
+// after applyMessage() returns.
 //
 // With no sink connected, pending messages are discarded so that their slots
 // return to circulation.
 //
-// Consumer thread only.
+// Consumer only.
 //*****************************************************************************
 template<typename ChannelT>
 class MessageRingSourceT
@@ -23,6 +28,10 @@ class MessageRingSourceT
 {
 public:
   using MessageType = typename ChannelT::MessageType;
+  using SlotType = typename ChannelT::SlotType;
+
+  static_assert(std::is_constructible_v<MessageType, const SlotType&>,
+                "T must be constructible from const T::PayloadProto&");
 
   explicit MessageRingSourceT(ChannelT& channel)
     : m_channel(channel)
@@ -36,7 +45,12 @@ public:
 
   void consumePending() override
   {
-    m_channel.consumePending([this](MessageType& message) { notifyMessage(&message); });
+    m_channel.consumePending([this](const SlotType& payload) {
+      // Constructed rather than assigned: operator= may have semantics of its
+      // own (settings mark every field present) already applied by the sink.
+      m_local.emplace(payload);
+      notifyMessage(&*m_local);
+    });
   }
 
   // Where the channel's notifier supports it, target is woken when messages
@@ -58,4 +72,5 @@ protected:
 private:
   ChannelT&                  m_channel;
   MessageSinkT<MessageType>* m_pSink{nullptr};
+  std::optional<MessageType> m_local;
 };

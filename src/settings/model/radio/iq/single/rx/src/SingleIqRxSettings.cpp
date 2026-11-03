@@ -13,6 +13,11 @@ SingleIqRxSettings::SingleIqRxSettings()
   // m_payload.body.capabilities.iq.dual_pipeline = false;
 }
 
+SingleIqRxSettings::SingleIqRxSettings(const Payload& payload, bool complete)
+  : SingleIqRxSettingsBaseType(payload, complete)
+{
+}
+
 SingleIqRxSettings&
 SingleIqRxSettings::operator=(const SingleIqRxSettings& other)
 {

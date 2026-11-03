@@ -22,4 +22,5 @@ target_link_libraries(ui-qt-faces-base PUBLIC
         Qt6::Widgets
         core-common-samples
         settings-model-radio-iq-dual-split
+        settings-model-radio-polymorphic
 )

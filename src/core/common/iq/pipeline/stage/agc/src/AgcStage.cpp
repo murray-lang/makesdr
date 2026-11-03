@@ -36,14 +36,14 @@ AgcStage::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLength)
   }
   agc_crcf_execute_block(m_agc, buffers.input().data(), inputLength, buffers.output().data() );
 
-  m_lastGain.store(agc_crcf_get_gain(m_agc), std::memory_order_relaxed);
+  m_lastGain.store(agc_crcf_get_gain(m_agc), xtl::memory_order_relaxed);
   return inputLength;
 }
 
 float
 AgcStage::getGainDb() const
 {
-  const float g = std::max(m_lastGain.load(std::memory_order_relaxed), 1e-20f);
+  const float g = std::max(m_lastGain.load(xtl::memory_order_relaxed), 1e-20f);
   return 20.0f * std::log10(g);
 }
 

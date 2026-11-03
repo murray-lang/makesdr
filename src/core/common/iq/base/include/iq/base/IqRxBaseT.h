@@ -6,7 +6,6 @@
 #include <config/struct/IqReceiverConfig.h>
 
 
-#include <event/EventTarget.h>
 // #include <settings/model/radio/BandSettings.h>
 
 template<typename RadioSettingsT>

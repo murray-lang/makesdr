@@ -20,9 +20,6 @@ set(CONFIG_SOURCES
         include/config/json/GpioLinesConfig.json.h
         include/config/json/IqCapabilitiesConfig.json.h
         include/config/json/IqIoConfig.json.h
-        include/config/json/QtTransportConfig.json.h
-        include/config/json/QtTransportOutConfig.json.h
-        include/config/json/QtTransportInConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/IqReceiverConfig.json.h
         include/config/json/SdrConfig.json.h
@@ -51,9 +48,6 @@ set(CONFIG_SOURCES
         src/control/BandSelectorBandsConfig.json.cpp
         src/control/DigitalInputConfig.json.cpp
         src/control/DigitalOutputsConfig.json.cpp
-        src/control/QtTransportConfig.json.cpp
-        src/control/QtTransportInConfig.json.cpp
-        src/control/QtTransportOutConfig.json.cpp
         src/control/ControlConfig.json.cpp
         src/control/DigitalOutputConfig.json.cpp
         src/control/GpioLinesConfig.json.cpp

@@ -329,7 +329,7 @@ AdcIqSource::run()
       }
     }
     if (m_numCurrentSamples == m_maxPacketSamples) {
-      m_pSink->sinkIq(m_pingPongBuffers, m_numCurrentSamples);
+      m_pSink->sinkIq(m_buffer, m_numCurrentSamples);
       m_numCurrentSamples = 0;
     }
   }
@@ -338,9 +338,8 @@ AdcIqSource::run()
 void
 AdcIqSource::getSamplesFromBuffer(size_t numSamples)
 {
-  ComplexSamplesMax& input = m_pingPongBuffers.input();
   for (size_t i = 0; i < numSamples; i++) {
-    input.at(m_numCurrentSamples++) = m_iqBuffer.front();
+    m_buffer.at(m_numCurrentSamples++) = m_iqBuffer.front();
     m_iqBuffer.pop();
   }
 }

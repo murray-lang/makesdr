@@ -2,6 +2,11 @@
 #ifdef IS_QT
 #include <transport/qt/globalQtIqRings.h>
 #include <transport/qt/globalQtMetaRings.h>
+#include <transport/qt/globalQtUpdateRings.h>
+#include <transport/qt/globalQtRxMeteringRings.h>
+#include <transport/qt/globalQtSpectrumRings.h>
+#elif defined(IS_STM32)
+#include <transport/stm32h745i/globalStm32H745Rings.h>
 #endif
 
 SingleIqRxRadio::SingleIqRxRadio(
@@ -9,7 +14,21 @@ SingleIqRxRadio::SingleIqRxRadio(
   ModeList& modes,
   SingleIqRxSettings::Cache& bandSettingsCache)
 #ifdef IS_QT
-: m_transport(globalQtSingleIqRxRings(), globalQtMetaRings(), globalQtIqRings())
+: m_transport(
+    globalQtSingleIqRxRings(),
+    globalQtUpdateRings(),
+    globalQtMetaRings(),
+    globalQtRxMeteringRings(),
+    globalQtIqRings(),
+    globalQtSpectrumRings())
+, m_bands(bands)
+#elif defined(IS_STM32)
+: m_transport(
+    globalStm32H745SingleIqRxRings(),
+    globalStm32H745UpdateRings(),
+    globalStm32H745MetaRings(),
+    globalStm32H745RxMeteringRings(),
+    globalStm32H745SpectrumRings())
 , m_bands(bands)
 #else
 : m_bands(bands)

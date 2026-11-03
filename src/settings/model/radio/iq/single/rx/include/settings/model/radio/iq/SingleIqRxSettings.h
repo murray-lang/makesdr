@@ -25,6 +25,7 @@ class SingleIqRxSettings : public SingleIqRxSettingsBaseType
 public:
 
   using ActiveBandSettings = SingleIqActiveBandSettings;
+  using BandSettings = SingleIqBandSettings;
 
   struct Traits
   {
@@ -35,6 +36,7 @@ public:
   };
 
   SingleIqRxSettings();
+  SingleIqRxSettings(const Payload& payload, bool complete = true);
   SingleIqRxSettings(const SingleIqRxSettings& other) = default;
   SingleIqRxSettings& operator=(const SingleIqRxSettings& other);
 

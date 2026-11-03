@@ -2,6 +2,8 @@
 #include <ResultCode.h>
 #include <config/struct/IqIoConfig.h>
 #include <iq/source/IqSourceVariant.h>
+#include <audio/AudioOutputBase.h>
+#include <audio/AudioSink.h>
 #include <audio/AudioOutputVariant.h>
 
 class IqIo: public AudioSink

@@ -17,11 +17,11 @@ public:
   SMeterStage(PipelineId pipelineId, RxMeteringPublisher* meteringPublisher, float smoothingTauSeconds = 0.20f, float uiUpdateHz = 20.0f);
 
   void setSampleRateProvider(SampleRateProvider sampleRateProvider) {
-    m_sampleRateProvider = ::move(sampleRateProvider);
+    m_sampleRateProvider = sampleRateProvider;
   }
 
-  void setAgcGainProvider(const AgcGainDbProvider& agcGainDbProvider) {
-    m_agcGainDbProvider = ::move(m_agcGainDbProvider);
+  void setAgcGainProvider(AgcGainDbProvider agcGainDbProvider) {
+    m_agcGainDbProvider = agcGainDbProvider;
   }
 
   void enable(bool enable) {

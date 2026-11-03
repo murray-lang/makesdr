@@ -6,8 +6,6 @@
 #include <config/struct/SdrConfig.h>
 #include <settings/control/sink/PttSink.h>
 
-#include <event/EventTarget.h>
-
 template<typename RadioSettingsT>
 class IqRxTxBaseT : public PttSink  //: public IqSink, public AudioSink
 {

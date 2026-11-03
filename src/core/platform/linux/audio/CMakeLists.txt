@@ -56,14 +56,14 @@ else()
 endif()
 
 set(LINUX_AUDIO_DRIVER_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioFactoryBase.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/audio/RtAudioFactoryBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInputFactory.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutputFactory.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/RtAudioDriver.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioInput.h
         ${CMAKE_CURRENT_LIST_DIR}/include/audio/AudioOutput.h
 
-        ${CMAKE_CURRENT_LIST_DIR}/src/AudioFactoryBase.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/RtAudioFactoryBase.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/AudioInputFactory.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/AudioOutputFactory.cpp
         ${CMAKE_CURRENT_LIST_DIR}/src/AudioInput.cpp

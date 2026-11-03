@@ -25,7 +25,7 @@ public:
 
   uint32_t processSamples(ComplexPingPongBuffers& samples, uint32_t length) override;
 
-  ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings) override;
+  ResultCode apply(const BandRfSettings* bandRfSettings, PipelineSettings* settings);
 
   [[nodiscard]] uint32_t getMaxFramesPerInputPacket() const override;
   [[nodiscard]] uint32_t getMaxFramesPerOutputPacket() const override;

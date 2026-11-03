@@ -5,6 +5,7 @@ project(settings-model-radios)
 add_subdirectory(base)
 add_subdirectory(basic)
 add_subdirectory(iq)
+add_subdirectory(polymorphic)
 add_subdirectory(variant)
 add_subdirectory(selected)
 

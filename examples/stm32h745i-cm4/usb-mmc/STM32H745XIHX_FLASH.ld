@@ -44,8 +44,11 @@ _Min_Stack_Size = 0x800 ; /* required amount of stack */
 MEMORY
 {
 FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
-DMA_RAM (xrw)  : ORIGIN = 0x30000000, LENGTH = 4K       /* SRAM3 - accessible by SDMMC DMA */
-RAM (xrw)      : ORIGIN = 0x10000000, LENGTH = 288K     /* Main AHB SRAM */
+/* D2 SRAM (SRAM1+2+3, 288K) appears at both 0x30000000 and 0x10000000 (CM4
+   alias). DMA_RAM and RAM must not overlap in physical memory, so RAM starts
+   after DMA_RAM's 4K. _estack (0x10048000) is the top of SRAM3. */
+DMA_RAM (xrw)  : ORIGIN = 0x30000000, LENGTH = 4K       /* first 4K of SRAM1 - SDMMC DMA buffers */
+RAM (xrw)      : ORIGIN = 0x10001000, LENGTH = 284K     /* rest of D2 SRAM, via CM4 alias */
 SHARED_RAM (xrw): ORIGIN = 0x38000000, LENGTH = 64K     /* SRAM4 - shared between cores */
 }
 
@@ -161,6 +164,16 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
   } >RAM
+
+  /* Rings shared between the cores (SharedRingsT). Must come first in
+     SHARED_RAM, so that it is at the same address in the CM7 and CM4 images. */
+  .shared_rings (NOLOAD) :
+  {
+    _sshared_rings = .;
+    . = . + 32K;
+    _eshared_rings = .;
+  } >SHARED_RAM
+  ASSERT(_sshared_rings == ORIGIN(SHARED_RAM), ".shared_rings must start SHARED_RAM")
 
  /* Shared memory section for dual-core access */
 .shared_data (NOLOAD) :

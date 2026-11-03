@@ -10,6 +10,7 @@ set(BASE_TRANSPORT_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingSourceT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/MessageRingBufferT.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/transport/PayloadTypeBits.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/RecipientSideT.h
  )
 

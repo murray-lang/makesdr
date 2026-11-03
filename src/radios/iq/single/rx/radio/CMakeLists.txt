@@ -28,6 +28,16 @@ if(IS_QT)
             core-linux-transport-qt-settings
             core-linux-transport-qt-globals-iq
             core-linux-transport-qt-globals-meta
+            core-linux-transport-qt-globals-updates
+            core-linux-transport-qt-globals-metering
+            core-linux-transport-qt-globals-spectrum
+    )
+endif()
+
+if(PLATFORM_FAMILY STREQUAL "stm32h745i")
+    list(APPEND SINGLE_RX_RADIO_LIBS
+            radios-iq-single-rx-transport-stm32h745i-globals
+            core-stm32h745i-transport
     )
 endif()
 
