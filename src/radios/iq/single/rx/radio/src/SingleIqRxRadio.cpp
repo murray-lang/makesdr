@@ -5,6 +5,8 @@
 #include <transport/qt/globalQtUpdateRings.h>
 #include <transport/qt/globalQtRxMeteringRings.h>
 #include <transport/qt/globalQtSpectrumRings.h>
+#elif defined(IS_STM32)
+#include <transport/stm32h745i/globalStm32H745Rings.h>
 #endif
 
 SingleIqRxRadio::SingleIqRxRadio(
@@ -19,6 +21,14 @@ SingleIqRxRadio::SingleIqRxRadio(
     globalQtRxMeteringRings(),
     globalQtIqRings(),
     globalQtSpectrumRings())
+, m_bands(bands)
+#elif defined(IS_STM32)
+: m_transport(
+    globalStm32H745SingleIqRxRings(),
+    globalStm32H745UpdateRings(),
+    globalStm32H745MetaRings(),
+    globalStm32H745RxMeteringRings(),
+    globalStm32H745SpectrumRings())
 , m_bands(bands)
 #else
 : m_bands(bands)

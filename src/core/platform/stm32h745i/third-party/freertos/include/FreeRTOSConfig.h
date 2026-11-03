@@ -100,6 +100,9 @@ void vGenerateCore2Interrupt( void * xUpdatedMessageBuffer );
 #define configUSE_MALLOC_FAILED_HOOK            0
 #define configUSE_APPLICATION_TASK_TAG          0
 #define configUSE_COUNTING_SEMAPHORES           1
+/* Index 0 is used by LVGL's FreeRTOS layer; index 1 wakes transport consumers
+   (see transport/freertos/TaskNotify.h). */
+#define configTASK_NOTIFICATION_ARRAY_ENTRIES   2
 #define configGENERATE_RUN_TIME_STATS           0
 #define configUSE_STATS_FORMATTING_FUNCTIONS    1
 

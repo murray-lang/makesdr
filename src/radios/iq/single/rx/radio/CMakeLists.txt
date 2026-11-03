@@ -34,6 +34,13 @@ if(IS_QT)
     )
 endif()
 
+if(PLATFORM_FAMILY STREQUAL "stm32h745i")
+    list(APPEND SINGLE_RX_RADIO_LIBS
+            radios-iq-single-rx-transport-stm32h745i-globals
+            core-stm32h745i-transport
+    )
+endif()
+
 if(IS_LINUX)
     list(APPEND SINGLE_RX_RADIO_LIBS
             core-linux-thread

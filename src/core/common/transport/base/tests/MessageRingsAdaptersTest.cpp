@@ -7,10 +7,27 @@
 
 namespace
 {
-  struct Message
+  struct Payload
   {
     int sequence = 0;
-    PayloadType getPayloadType() const { return PAYLOAD_TYPE_MODES; }
+  };
+
+  // The minimum a message needs to travel through a ring: a payload struct,
+  // a fixed payload type, and construction from its payload.
+  struct Message
+  {
+    using PayloadProto = Payload;
+    static constexpr int payloadType = PAYLOAD_TYPE_MODES;
+
+    Message() = default;
+    explicit Message(int sequence) : m_payload{sequence} {}
+    explicit Message(const Payload& payload) : m_payload(payload) {}
+
+    Payload& payload() { return m_payload; }
+    [[nodiscard]] const Payload& payload() const { return m_payload; }
+    [[nodiscard]] int sequence() const { return m_payload.sequence; }
+
+    Payload m_payload;
   };
 
   struct CountingNotifier
@@ -27,7 +44,7 @@ namespace
     std::vector<int> sequences;
     ResultCode applyMessage(Message* message) override
     {
-      sequences.push_back(message->sequence);
+      sequences.push_back(message->sequence());
       return ResultCode::OK;
     }
   };
@@ -38,14 +55,14 @@ TEST(MessagePipeSinkTest, CopiesMessageIntoPipeAndNotifies)
   Ring channel;
   MessageRingSinkT<Ring> sink(channel);
 
-  Message message{.sequence = 7};
+  Message message(7);
   EXPECT_EQ(sink.applyMessage(&message), ResultCode::OK);
 
   // The caller's message is copied, so changing it afterwards has no effect.
-  message.sequence = 99;
+  message.payload().sequence = 99;
 
   std::vector<int> seen;
-  channel.consumePending([&](Message& m) { seen.push_back(m.sequence); });
+  channel.consumePending([&](const Payload& p) { seen.push_back(p.sequence); });
   EXPECT_EQ(seen, (std::vector<int>{7}));
   EXPECT_EQ(channel.notifier().count, 1);
 }
@@ -72,8 +89,8 @@ TEST(MessagePipeSourceTest, DeliversPendingMessagesToSinkInOrder)
   RecordingSink consumer;
   source.connectMessageSink(&consumer);
 
-  Message a{.sequence = 1};
-  Message b{.sequence = 2};
+  Message a(1);
+  Message b(2);
   producer.applyMessage(&a);
   producer.applyMessage(&b);
   source.consumePending();
@@ -105,7 +122,7 @@ TEST(MessagePipeSourceTest, UsableThroughConsumerInterface)
   RecordingSink consumer;
   source.connectMessageSink(&consumer);
 
-  Message message{.sequence = 3};
+  Message message(3);
   producer.applyMessage(&message);
 
   // What a wake-up receiver holds: it need not know the message type.

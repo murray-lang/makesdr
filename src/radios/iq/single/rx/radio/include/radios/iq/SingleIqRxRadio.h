@@ -17,6 +17,11 @@
 #include <transport/qt/globalQtSingleIqRxRings.h>
 
 using SingleIqRxTransport = QtIqCapableRadioTransportT<QtSingleIqRxSettingsRings>;
+#elif defined(IS_STM32)
+#include <transport/stm32h745i/Stm32H745IqCapableRadioTransportT.h>
+#include <transport/stm32h745i/globalStm32H745SingleIqRxRings.h>
+
+using SingleIqRxTransport = Stm32H745IqCapableRadioTransportT<Stm32H745SingleIqRxSettingsRings>;
 #endif
 
 class SingleIqRxRadio :

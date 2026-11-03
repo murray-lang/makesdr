@@ -13,13 +13,7 @@ template<uint32_t MAX_SIZE>
 class Fft
 {
 public:
-  explicit Fft(WindowType window = WindowType::NONE)
-  {
-    m_window =  window == WindowType::HAMMING ? window_hamming
-            : window == WindowType::HANNING ? window_hanning
-            : window == WindowType::BLACKMAN ? window_blackman
-            : window_none;
-  }
+  explicit Fft(WindowType window = WindowType::NONE);
 
   uint32_t transform(
     const sdrcomplex* input,
@@ -27,41 +21,10 @@ public:
     uint32_t inputLength,
     bool forward,
     bool normalise
-    )
-  {
-    // STM32 FFT is done in-place, so copy the input to the output now and perform
-    // the FFT on the output buffer.
-    if (forward ) {
-      for (uint32_t i = 0; i < inputLength; ++i) {
-        output[i] = input[i] * m_window(i, inputLength);
-      }
-    } else if (output != input){
-      memcpy(output, input, inputLength * sizeof(sdrcomplex) );
-    }
-
-    auto* interleavedBuffer = reinterpret_cast<sdrreal*>(output);
-
-    // Perform FFT (0 = forward, 1 = inverse)
-    uint32_t ifftFlag = forward ? 0 : 1;
-
-    const arm_cfft_instance_f32* fftInstance =
-      inputLength == 1024 ? &arm_cfft_sR_f32_len1024 :
-      inputLength == 2048 ? &arm_cfft_sR_f32_len2048 :
-      inputLength == 4096 ? &arm_cfft_sR_f32_len4096 :
-      nullptr;
-
-    arm_cfft_f32(fftInstance, interleavedBuffer, ifftFlag, 1);
-
-    if (normalise) {
-      for (uint32_t i = 0; i < inputLength; ++i) {
-        output[i] /= static_cast<sdrreal>(inputLength);
-      }
-    }
-
-    return inputLength;
-  }
+    );
 
 protected:
+  WindowType m_windowType;
   WindowFunction m_window;
 
 };

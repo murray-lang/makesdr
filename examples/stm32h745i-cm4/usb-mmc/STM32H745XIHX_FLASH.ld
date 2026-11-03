@@ -165,6 +165,16 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
+  /* Rings shared between the cores (SharedRingsT). Must come first in
+     SHARED_RAM, so that it is at the same address in the CM7 and CM4 images. */
+  .shared_rings (NOLOAD) :
+  {
+    _sshared_rings = .;
+    . = . + 32K;
+    _eshared_rings = .;
+  } >SHARED_RAM
+  ASSERT(_sshared_rings == ORIGIN(SHARED_RAM), ".shared_rings must start SHARED_RAM")
+
  /* Shared memory section for dual-core access */
 .shared_data (NOLOAD) :
 {

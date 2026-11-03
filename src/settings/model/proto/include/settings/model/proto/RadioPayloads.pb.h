@@ -22,16 +22,16 @@ typedef enum _makesdr_RadioPayloadType {
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_DUAL_IQ_RXTX = 7,
     makesdr_RadioPayloadType_PAYLOAD_SETTINGS_SPLIT_BAND_DUAL_IQ_RXTX = 8,
     makesdr_RadioPayloadType_PAYLOAD_FIELD_UPDATE = 10,
-    makesdr_RadioPayloadType_PAYLOAD_MODES = 20,
-    makesdr_RadioPayloadType_PAYLOAD_BANDS = 21,
-    makesdr_RadioPayloadType_PAYLOAD_LOOKUP = 22,
-    makesdr_RadioPayloadType_PAYLOAD_CACHE_BASIC = 30,
-    makesdr_RadioPayloadType_PAYLOAD_CACHE_SINGLE_IQ = 31,
-    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ = 32,
-    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX = 33,
-    makesdr_RadioPayloadType_PAYLOAD_IQ = 40,
-    makesdr_RadioPayloadType_PAYLOAD_RX_METERING = 41,
-    makesdr_RadioPayloadType_PAYLOAD_SPECTRUM = 42
+    makesdr_RadioPayloadType_PAYLOAD_MODES = 11,
+    makesdr_RadioPayloadType_PAYLOAD_BANDS = 12,
+    makesdr_RadioPayloadType_PAYLOAD_LOOKUP = 13,
+    makesdr_RadioPayloadType_PAYLOAD_CACHE_BASIC = 14,
+    makesdr_RadioPayloadType_PAYLOAD_CACHE_SINGLE_IQ = 15,
+    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ = 16,
+    makesdr_RadioPayloadType_PAYLOAD_CACHE_DUAL_IQ_RXTX = 17,
+    makesdr_RadioPayloadType_PAYLOAD_IQ = 18,
+    makesdr_RadioPayloadType_PAYLOAD_RX_METERING = 19,
+    makesdr_RadioPayloadType_PAYLOAD_SPECTRUM = 20
 } makesdr_RadioPayloadType;
 
 typedef enum _makesdr_RadioPayloadPurpose {

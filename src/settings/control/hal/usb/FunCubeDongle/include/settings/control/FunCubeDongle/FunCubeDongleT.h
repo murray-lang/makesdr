@@ -63,27 +63,27 @@ public:
       if (rfSettings->hasFrequency()) {
         int64_t centreFrequency = rfSettings->frequency();
         rc = setFrequency(centreFrequency);
-        // if (rc != ResultCode::OK) return rc;
+        if (rc != ResultCode::OK) return rc;
         rc = setRfFilter(centreFrequency);
-        // if (rc != ResultCode::OK) return rc;
+        if (rc != ResultCode::OK) return rc;
       }
       if (rfSettings->hasGain()) {
         float gain = rfSettings->gain();
-        // rc = setLnaGain(gain);
-        // if (rc != ResultCode::OK) return rc;
+        rc = setLnaGain(gain);
+        if (rc != ResultCode::OK) return rc;
         m_lastRfGain = gain;
       }
     }
     if (bandSettings != nullptr && bandSettings->hasIfSettings()) {
       const IfSettings* ifSettings = bandSettings->ifSettings();
       if (ifSettings->hasBandwidth()) {
-        // rc = setIfFilter(ifSettings->bandwidth());
-        // if (rc != ResultCode::OK) return rc;
+        rc = setIfFilter(ifSettings->bandwidth());
+        if (rc != ResultCode::OK) return rc;
       }
       if (ifSettings->hasGain()) {
         float gain = ifSettings->gain();
-        // rc = setIfGain(gain);
-        // if (rc != ResultCode::OK) return rc;
+        rc = setIfGain(gain);
+        if (rc != ResultCode::OK) return rc;
         m_lastIfGain = gain;
       }
     }

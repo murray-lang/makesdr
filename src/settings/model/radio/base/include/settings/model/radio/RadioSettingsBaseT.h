@@ -12,9 +12,7 @@
 #include <settings/model/message/MessageT.h>
 #include <settings/model/update/MessageTraverser.h>
 
-#ifdef USE_DOTTED_STRING_PATHS
 #include <settings/model/update/ResolveDottedStringFunc.h>
-#endif
 
 
 #define COMMON_ACTIVE_BANDS_TAG 2
@@ -242,14 +240,15 @@ public:
   // Derived settings that support indirect updates hide this with their own updater().
   RadioSettingsUpdater* updater() { return nullptr; }
 
-#ifdef USE_DOTTED_STRING_PATHS
+  // Where USE_DOTTED_STRING_PATHS is defined, derived settings hide this with
+  // a resolver for their own fields. Elsewhere (e.g. STM32) this fallback is
+  // what callers get, so they need no #ifdef of their own.
   ResolveDottedStringFunc resolveDottedStringFunc()
   {
-    return [](const char* dottedPath, FieldDescriptor& descr) -> ResultCode {
+    return [](const char*, FieldDescriptor&) -> ResultCode {
       return ResultCode::ERR_CONFIG_DOTTED_STRINGS_NOT_SUPPORTED;
     };
   }
-#endif
 
   [[nodiscard]] int64_t getCentreFrequency() const
   {

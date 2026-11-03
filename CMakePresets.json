@@ -112,6 +112,58 @@
       }
     },
     {
+      "name": "CM7-single-iq-rx-debug",
+      "displayName": "Single IQ Rx Debug (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-single-iq-rx-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "single-iq-rx",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "CM7-single-iq-rx-release",
+      "displayName": "Single IQ Rx Release (CM7)",
+      "binaryDir": "${sourceDir}/build-cm7-single-iq-rx-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "single-iq-rx",
+        "TARGET_PLATFORM": "stm32h745i-cm7",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "CM4-single-iq-rx-debug",
+      "displayName": "Single IQ Rx Debug (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-single-iq-rx-debug",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "TARGET_EXAMPLE": "single-iq-rx",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
+      "name": "CM4-single-iq-rx-release",
+      "displayName": "Single IQ Rx Release (CM4)",
+      "binaryDir": "${sourceDir}/build-cm4-single-iq-rx-release",
+      "toolchainFile": "${sourceDir}/arm-none-eabi-toolchain.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "TARGET_EXAMPLE": "single-iq-rx",
+        "TARGET_PLATFORM": "stm32h745i-cm4",
+        "USE_GPIO": "ON",
+        "USE_ETL": "ON"
+      }
+    },
+    {
       "name": "CM7-usb-mmc-debug",
       "displayName": "USB/MMC Debug (CM7)",
       "binaryDir": "${sourceDir}/build-cm7-usb-mmc-debug",

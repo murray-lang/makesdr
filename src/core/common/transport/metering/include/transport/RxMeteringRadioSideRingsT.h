@@ -10,6 +10,7 @@
 #include <transport/MessageRingSourceT.h>
 #include <settings/model/radio/RxMeteringMessage.h>
 #include <settings/model/radio/CapabilitiesMessage.h>
+#include "RxMeteringPublisher.h"
 
 
 //*****************************************************************************
