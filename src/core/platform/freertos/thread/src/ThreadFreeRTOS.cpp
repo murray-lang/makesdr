@@ -2,6 +2,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
+// #include <cstdio>
+
 Thread::Thread()
     : m_runnable(nullptr)
     , m_taskHandle(nullptr)
@@ -94,6 +96,7 @@ bool Thread::start(uint32_t stackSize, uint32_t priority, const char* name)
         m_isRunning = true;
         return true;
     }
+    // printf("Failed to create task: %ld\n", result);
     return false;
 }
 

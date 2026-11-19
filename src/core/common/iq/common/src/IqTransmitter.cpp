@@ -53,7 +53,7 @@ IqTransmitter::sinkIq(ComplexSamplesBuffer& samples, uint32_t length)
 }
 
 uint32_t
-IqTransmitter::sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels)
+IqTransmitter::sinkAudio(const RealSamplesRef& samples, uint32_t length, uint32_t numChannels)
 {
   return m_iqIo.sinkAudio(samples, length, numChannels);
 }

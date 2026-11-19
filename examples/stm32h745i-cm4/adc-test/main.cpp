@@ -80,7 +80,7 @@ extern "C" {
 }
 #endif
 
-static void prvAdcTask( void *pvParameters );
+static void prvRadioTask( void *pvParameters );
 
 extern "C" int main()
 {
@@ -123,7 +123,7 @@ extern "C" int main()
   MX_SAI2_Init();
   MX_I2C4_Init();
 
-  BaseType_t taskRc = xTaskCreate( prvAdcTask, "ADC", configMINIMAL_STACK_SIZE*4, nullptr, tskIDLE_PRIORITY, nullptr );
+  BaseType_t taskRc = xTaskCreate( prvRadioTask, "ADC", configMINIMAL_STACK_SIZE*4, nullptr, tskIDLE_PRIORITY, nullptr );
   if (taskRc == pdPASS) {
     SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
   } else {
@@ -137,7 +137,7 @@ extern "C" int main()
 
 }
 
-static void prvAdcTask( void *pvParameters )
+static void prvRadioTask( void *pvParameters )
 {
   ResultCode rc = g_iqSource.initialise();
   if (rc == ResultCode::OK) {

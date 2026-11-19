@@ -32,12 +32,12 @@
 
 #if (USE_AUDIO_CODEC_WM8994 == 1U)
    /* Include audio component Driver */
-#include "../Components/wm8994/wm8994.h"
+#include "wm8994.h"
 #endif
 
-#include "../Components/Common/audio.h"
+#include "audio.h"
 /* Include PDM to PCM lib header file */
-#include "pdm2pcm_glo.h"
+#include <pdm2pcm_glo.h>
 
 /** @addtogroup BSP
   * @{

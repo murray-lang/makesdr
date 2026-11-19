@@ -40,5 +40,5 @@ Config::DigitalInputs::Fields digitalInputsConfig = {
   Config::Alternative {
     .type = Config::DigitalInputs::type,
   },
-  {digitalInputConfig, rotaryEncoderConfig}
+  { digitalInputConfig, rotaryEncoderConfig}
 };

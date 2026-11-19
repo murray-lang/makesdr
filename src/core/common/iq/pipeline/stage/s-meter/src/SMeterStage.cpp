@@ -12,7 +12,8 @@ SMeterStage::SMeterStage(
   , m_sampleRateProvider([]() { return 0; })
   , m_agcGainDbProvider([]() { return 0.0f; })
   , m_tau(std::max(0.01f, smoothingTauSeconds))
-  , m_minUpdatePeriod(std::chrono::duration<double>(1.0 / std::max(1.0f, uiUpdateHz)))
+  , m_minUpdatePeriodSeconds(1.0 / std::max(1.0f, uiUpdateHz))
+  , m_secondsSinceLastPost(m_minUpdatePeriodSeconds) // post on the first block
   {
 }
 
@@ -57,16 +58,16 @@ SMeterStage::processSamples(ComplexPingPongBuffers& buffers, uint32_t inputLengt
     m_pAvg = (1.0 - a) * m_pAvg + a * pInst;
   }
 
-  // Rate-limit UI events
-  const auto now = std::chrono::steady_clock::now();
-  if ((now - m_lastPost) >= m_minUpdatePeriod) {
-    m_lastPost = now;
+  // Rate-limit UI events on elapsed *sample* time rather than a wall clock,
+  // so this stays portable (no std::chrono / gettimeofday on bare metal).
+  m_secondsSinceLastPost += dt;
+  if (m_secondsSinceLastPost >= m_minUpdatePeriodSeconds) {
+    m_secondsSinceLastPost = 0.0;
 
     constexpr double eps = 1e-20;
     const double p = std::max(m_pAvg, eps);
     auto rssiDbFs = static_cast<float>(10.0 * std::log10(p));
 
-    std::optional<float> agcGainDb;
     float agcGain = m_agcGainDbProvider();
 
     metering->initialise(m_pipelineId, rssiDbFs, agcGain);

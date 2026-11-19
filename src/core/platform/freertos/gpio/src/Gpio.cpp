@@ -16,7 +16,7 @@ Gpio::requestOutputs(const char * contextId, GpioOutputLinesRequest* requests)
 
 ResultCode Gpio::startInputs()
 {
-  return m_inputLinesSource.start(configMINIMAL_STACK_SIZE*5, tskIDLE_PRIORITY, "gpio");
+  return m_inputLinesSource.start(configMINIMAL_STACK_SIZE*8, tskIDLE_PRIORITY, "gpio");
 }
 
 void

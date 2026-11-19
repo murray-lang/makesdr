@@ -4,7 +4,7 @@
 #include <ResultCode.h>
 #include <CrossPlatformTypes.h>
 #include <iq/base/IqSource.h>
-#include <stm32h745i/setup/AdcConfig.h>
+#include <stm32h745i/AdcConfig.h>
 #include <samples/SampleTypes.h>
 #include <etl/queue_spsc_atomic.h>
 
@@ -33,45 +33,45 @@ public:
 
   uint32_t getSampleRate() const override { return m_pConfig->sampleRate; };
 
-  // Called by interrupt handlers (choose one mode)
-  void onAdcDualConversion(uint16_t valueI, uint16_t valueQ);  // Interrupt mode - dual simultaneous
-  // void onAdcConversionComplete();      // DMA mode - full buffer
-  // void onAdcConversionHalfComplete();  // DMA mode - half buffer
+  // Diagnostics: samples dropped because the queue was full, and ADC/DMA error callbacks seen.
+  [[nodiscard]] uint32_t droppedSamples() const { return m_droppedSamples; }
+  [[nodiscard]] uint32_t adcErrors() const { return m_adcErrors; }
 
   void run() override;
 
 private:
+  // HAL callbacks, registered on the ADC master handle in startDma() (requires
+  // USE_HAL_ADC_REGISTER_CALLBACKS). They run in DMA IRQ context and forward to s_active.
+  static void onDmaHalfComplete(ADC_HandleTypeDef* hadc);
+  static void onDmaComplete(ADC_HandleTypeDef* hadc);
+  static void onAdcError(ADC_HandleTypeDef* hadc);
+  void processDmaHalf(const uint32_t* half); // IRQ context
+
+  // There is one I/Q ADC pair, so at most one source can be running.
+  static AdcIqSource* s_active;
+
   ResultCode initialiseAdcs();
   ResultCode configureAdcs();
   ResultCode calibrateAdcs();
-  // ResultCode startDma();
-  // void stopDma();
-  ResultCode startInterrupts();
-  void stopInterrupts();
+  ResultCode startDma();
+  void stopDma();
   ResultCode configureTimer();
   uint32_t getTimerClockFreq();
   ResultCode startTimer();
-  // void processBuffer(uint32_t offset); // DMA mode
 
   void getSamplesFromBuffer(size_t numSamples);
 
   Thread m_thread;
   AdcConfig* m_pConfig;
-  IqSink* m_pSink;
+  // IqSink* m_pSink;
 
-  // Circular buffer for converted complex samples
+  // Converted complex samples: produced by the DMA IRQ, consumed by run().
   etl::queue_spsc_atomic<sdrcomplex, ADC_BUFFER_SIZE> m_iqBuffer;
   ComplexSamplesBuffer m_buffer;
 
-  // Double buffering for DMA mode only
-  // uint16_t m_adcBufferI[ADC_BUFFER_SIZE*2];
-  // uint16_t m_adcBufferQ[ADC_BUFFER_SIZE*2];
-
-  // // For interrupt mode
-  // volatile uint32_t m_writeIndex;  // Current write position in buffer
-  // volatile bool m_bufferHalfFull;  // Flag for half-buffer processing
-
   ::atomic<bool> m_isRunning;
+  ::atomic<uint32_t> m_droppedSamples;
+  ::atomic<uint32_t> m_adcErrors;
   // Mutex m_mutex;
   Semaphore m_dataAvailable;
   uint32_t m_maxPacketSamples;

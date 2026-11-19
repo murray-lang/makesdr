@@ -41,7 +41,7 @@ DigitalInput::configure(const Config::DigitalInput::Fields& config, ResolveDotte
 
   if (config.settingPath) {
     m_id = config.settingPath.value();
-    return resolver(m_id.c_str(), m_settingDescriptor);
+    return resolver(config.settingPath.value().c_str(), m_settingDescriptor);
   } else if (config.settingDescriptor) {
     return m_settingDescriptor.configure(config.settingDescriptor.value());
   } else {

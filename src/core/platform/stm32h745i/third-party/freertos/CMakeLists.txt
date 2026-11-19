@@ -12,7 +12,9 @@ endif()
 add_library(freertos_config INTERFACE)
 target_include_directories(freertos_config INTERFACE include)
 
-set(FREERTOS_HEAP "4" CACHE STRING "" FORCE)
+#set(FREERTOS_HEAP "4" CACHE STRING "" FORCE)
+# liquid-dsp probably needs heap_3.c because it might call realloc
+set(FREERTOS_HEAP "3" CACHE STRING "" FORCE)
 
 add_subdirectory(${FREERTOS_DIR} "${CMAKE_BINARY_DIR}/freertos-${TARGET_PLATFORM}")
 

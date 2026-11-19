@@ -1,6 +1,10 @@
 #include "iq/pipeline/IqTxPipeline.h"
 
+#ifdef IS_STM32
+#define DEFAULT_SAMPLE_RATE 32000
+#else
 #define DEFAULT_SAMPLE_RATE 48000
+#endif
 
 IqTxPipeline::IqTxPipeline(PipelineId pipelineId, const ModeList& modes)
   : IqPipeline(pipelineId, modes)
@@ -39,7 +43,7 @@ uint32_t
 IqTxPipeline::processSamples(ComplexPingPongBuffers& samples, uint32_t length)
 {
   uint32_t outputLength = 0;
-  lock_guard<mutex> lock(m_settingsMutex);
+  LockGuard lock(m_settingsMutex);
   if (m_pModulator) {
     // if (m_twoToneSignal.getEnabled()) {
     //   outputLength = m_twoToneSignal.processSamples(samples, m_buffers.input(), length);

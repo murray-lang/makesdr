@@ -1,86 +1,60 @@
 
-#include "stm32h745i/setup/config.h"
-#include "stm32h745i/setup/mpu_config.h"
+#include "stm32h745i/config.h"
+#include "stm32h745i/mpu_config.h"
 #include "stm32h745i/app/support/safe_printf.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
 
+#include <radios/iq/SingleIqRxRadio.h>
+#include <settings/model/radio/iq/SingleIqRxSettings.h>
+
+#include <settings/model/meta/band/mostBandCategories.h>
+#include <settings/model/meta/mode/basicModes.h>
+#include <test/settings/testRadioSettings.h>
+
 #include "IqSink/MyIqSink.h"
-#include <stm32h745i/setup/AdcConfig.h>
+// #include <stm32h745i/setup/AdcConfig.h>
 
-#include <iq/source/AdcIqSource.h>
+#include "config/radioConfig.h"
+#include "tinyusb/host/usb_host.h"
 
-MyIqSink g_iqSink;
+// #include "audio/audioLoopbackTask.h" // Out of the build: see single-iq-rx.cmake
 
-AdcIqSource g_iqSource(&g_iqSink);
+BandCategoryList bandsByCategory(mostBandCategories);
+ModeList modeList(basicModes);
+SingleIqRxSettings::Cache bandSettingsCache;
 
-// Choose ADC mode: uncomment one
-// #define USE_ADC_DMA_MODE
-#define USE_ADC_INTERRUPT_MODE
+//
+static Config::Radio::Fields radioConfig;
+//
+SingleIqRxSettings settings(testRadioSettingsPayloadPb, true);
+//
+Gpio& gpio = Gpio::getInstance();
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifdef USE_ADC_DMA_MODE
-  /**
-   * ADC conversion complete callback (DMA mode)
-   * Called when DMA has filled the second half of the buffer
-   */
-  void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-  {
-    if (hadc->Instance == ADC1)
-    {
-      g_iqSource.onAdcConversionComplete();
-    }
-  }
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  uint32_t ticks = HAL_GetTick();
+  // if (GPIO_Pin == Digital_Input_4_Pin) BSP_LED_Toggle(LED_GREEN);
+  // if (GPIO_Pin == Digital_Input_8_Pin) BSP_LED_Toggle(LED_RED);
+  gpio.handlePinTransition(GPIO_Pin, ticks);
+}
 
-  /**
-   * ADC conversion half complete callback (DMA mode)
-   * Called when DMA has filled the first half of the buffer
-   */
-  void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
-  {
-    if (hadc->Instance == ADC1)
-    {
-      g_iqSource.onAdcConversionHalfComplete();
-    }
-  }
-#endif
-
-#ifdef USE_ADC_INTERRUPT_MODE
-  /**
-   * ADC conversion complete callback (Interrupt mode)
-   * Called when an ADC conversion completes
-   * In dual mode, reads both ADC1 (I) and ADC2 (Q) values
-   */
-  void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
-  {
-    AdcConfig* adcConfig = getAdcConfig();
-    // In dual simultaneous mode, read both ADC values
-    uint16_t valueI = HAL_ADC_GetValue(&adcConfig->I.adc);
-    uint16_t valueQ = HAL_ADC_GetValue(&adcConfig->Q.adc);
-
-    g_iqSource.onAdcDualConversion(valueI, valueQ);
-    // static uint32_t counter = 0;
-    // counter++;
-    // if (counter > 10000) {
-    //   BSP_LED_Toggle(LED_RED);
-    //   counter = 0;
-    // }
-
-  }
-#endif
-
-  void HAL_ADC_ErrorCallback(ADC_HandleTypeDef* hadc)
-  {
-    // BSP_LED_On(LED_RED);
-  }
+// void OTG_FS_IRQHandler(void) {
+//   // BSP_LED_Toggle(LED_RED);
+//   tuh_int_handler(BOARD_TUH_RHPORT, true);  // or hcd_int_handler()
+// }
 
 #ifdef __cplusplus
 }
 #endif
 
-static void prvAdcTask( void *pvParameters );
+// ADC IQ arrives by DMA: AdcIqSource registers its own HAL ADC callbacks, so none are defined here.
+
+static void prvRadioTask( void *pvParameters );
 
 extern "C" int main()
 {
@@ -109,6 +83,10 @@ extern "C" int main()
   /* Clear HSEM flag */
   __HAL_HSEM_CLEAR_FLAG(__HAL_HSEM_SEMID_TO_MASK(HSEM_ID_0));
   SystemCoreClockUpdate();
+  // HAL_Init() set SysTick for the 64 MHz reset clock; the CM7 has since raised it
+  // to 200 MHz, so re-time the HAL tick or every pre-scheduler HAL_Delay() runs ~3x
+  // short. (FreeRTOS reprograms SysTick itself when the scheduler starts.)
+  HAL_InitTick(uwTickPrio);
 
   UART_Config();  /* USART3 on PB10/PB11 - no conflict with USB on PA11/PA12 */
   SAFE_PRINTF("[CM4]\t UART_Config() returned\r\n");
@@ -120,14 +98,18 @@ extern "C" int main()
   // HAL_GPIO_WritePin(USB_OTG_Power_GPIO_Port, USB_OTG_Power_Pin, GPIO_PIN_SET);
   MX_DMA_Init();
   MX_FMC_Init();
-  MX_SAI2_Init();
-  MX_I2C4_Init();
+  // MX_SAI1_Init();
+  // MX_I2C4_Init(); //BSP initialises this
+  USB_Host_Init();
 
-  BaseType_t taskRc = xTaskCreate( prvAdcTask, "ADC", configMINIMAL_STACK_SIZE*4, nullptr, tskIDLE_PRIORITY, nullptr );
+
+  SAFE_PRINTF("[CM4]\tCalling xTaskCreate()\r\n");
+  BaseType_t taskRc = xTaskCreate( prvRadioTask, "RX", 3072, nullptr, tskIDLE_PRIORITY, nullptr );
+  // BaseType_t taskRc = xTaskCreate( vAudioLoopbackTask, "RX", 3072, nullptr, configMAX_PRIORITIES - 2, nullptr );
   if (taskRc == pdPASS) {
     SAFE_PRINTF("[CM4]\txTaskCreate() succeeded\r\n");
   } else {
-    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld", taskRc);
+    SAFE_PRINTF("[CM4]\txTaskCreate() returned: %ld\r\n", taskRc);
   }
 
   vTaskStartScheduler();
@@ -137,20 +119,26 @@ extern "C" int main()
 
 }
 
-static void prvAdcTask( void *pvParameters )
+static void prvRadioTask( void *pvParameters )
 {
-  ResultCode rc = g_iqSource.initialise();
-  if (rc == ResultCode::OK) {
-    rc = g_iqSource.start(0);
-    if (rc == ResultCode::OK) {
-      BSP_LED_On(LED_GREEN);
-    } else {
-      BSP_LED_On(LED_RED);
-      SAFE_PRINTF("[CM4]\t g_iqSource.start() returned %d\r\n", static_cast<int>(rc));
-    }
+  static SingleIqRxRadio radio(bandsByCategory, modeList, bandSettingsCache);
+  SAFE_PRINTF("[CM4]\t In prvRadioTask()\r\n");
+  createRadioConfig(radioConfig);
+  ResultCode rc = radio.configure(radioConfig);
+  if (rc != ResultCode::OK) {
+    SAFE_PRINTF("[CM4]\t radio.configure() returned %d\r\n", static_cast<int>(rc));
   } else {
-    BSP_LED_On(LED_RED);
-    SAFE_PRINTF("[CM4]\t g_iqSource.initialise() returned %d\r\n", static_cast<int>(rc));
+    SAFE_PRINTF("[CM4]\t radio.configure() successful\r\n");
+  }
+
+  radio.setSettings(settings);
+
+  rc = radio.start();
+  if (rc != ResultCode::OK) {
+    radio.stop();
+    SAFE_PRINTF("[CM4]\t radio.start() returned %d\r\n", static_cast<int>(rc));
+  } else {
+    SAFE_PRINTF("[CM4]\t radio.start() successful\r\n");
   }
 
   TickType_t xLastWakeTime = xTaskGetTickCount();
@@ -170,5 +158,44 @@ static void prvAdcTask( void *pvParameters )
 
     // Wait for next cycle
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
+  }
+}
+
+// void vApplicationMallocFailedHook( void )
+// {
+//   /* Total heap exhaustion or memory fragmentation occurred */
+//
+//   /* 1. Disable interrupts to stabilize the system */
+//   __disable_irq();
+//
+//   /* 2. Force a breakpoint for debugging, or log the failure */
+//   // printf("Error: pvPortMalloc failed due to insufficient heap!\n");
+//   BSP_LED_On(LED_RED);
+//   /* 3. Enter a safe state / infinite loop or trigger a system reset */
+//   while( 1 )
+//   {
+//     // Blink an error LED or wait for a watchdog reset
+//
+//   }
+// }
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
+{
+  /* The task specified by xTask has exceeded its stack size */
+
+  /* 1. Prevent context switching and disable interrupts */
+  // __disable_irq();
+
+  /* 2. Extract the name of the culprit task (pcTaskName contains this string) */
+  (void) xTask;       /* Avoid compiler warning if unused */
+  // (void) pcTaskName;  /* Avoid compiler warning if unused */
+
+  // SAFE_PRINTF("Stack overflow detected: %s\r\n", pcTaskName);
+  BSP_LED_On(LED_RED);
+
+  /* 3. Enter a safe state, signal a fault condition, or force a reset */
+  while( 1 )
+  {
+    /* Turn on a red fault LED or wait for a watchdog reset */
   }
 }

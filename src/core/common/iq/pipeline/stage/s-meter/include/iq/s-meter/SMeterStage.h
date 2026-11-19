@@ -5,8 +5,8 @@
 #include <iq/pipeline/stage/AgcGainDbProvider.h>
 #include <transport/RxMeteringPublisher.h>
 
+#include <algorithm>
 #include <cmath>
-#include <chrono>
 #include <functional>
 
 // Pass-through stage that estimates RSSI from complex IQ and posts meter updates.
@@ -42,6 +42,6 @@ private:
   bool m_haveAvg{false};
   double m_pAvg{0.0};
 
-  std::chrono::steady_clock::time_point m_lastPost{};
-  std::chrono::duration<double> m_minUpdatePeriod;
+  double m_minUpdatePeriodSeconds;
+  double m_secondsSinceLastPost;
 };

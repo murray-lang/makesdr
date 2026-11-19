@@ -194,8 +194,15 @@ MessageTraverser::updateField(
   const pb_msgdesc_t* current_desc = pDescriptor;
 
   uint32_t pathLength = path.size();
-  // Array to store parent iterators for updating pSize later
-  pb_field_iter_t ancestor_iters[pathLength];
+  if (pathLength == 0) {
+    return ResultCode::ERR_SETTING_PATH_LENGTH_ZERO;
+  }
+  if (pathLength > MAX_FIELD_PATH_LENGTH) {
+    return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+  }
+  // Parents' has_<> flags, set once the update succeeds. Only the pSize pointers
+  // are kept (not whole iterators) to keep this frame small on small task stacks.
+  void* ancestor_presence[MAX_FIELD_PATH_LENGTH];
   size_t parent_count = 0;
 
   // For ordinary values, traverse through all but the last field ID.
@@ -217,8 +224,8 @@ MessageTraverser::updateField(
       return ResultCode::ERR_SETTING_PATH_TOO_LONG;
     }
 
-    // Store this iterator as a parent for potential pSize update
-    ancestor_iters[parent_count++] = iter;
+    // Remember this parent's presence flag for a later update
+    ancestor_presence[parent_count++] = iter.pSize;
 
     // Get pointer to the submessage
     if (PB_ATYPE(iter.type) == PB_ATYPE_POINTER) {
@@ -239,8 +246,8 @@ MessageTraverser::updateField(
       ResultCode rc = updateSteppable(&iter, value);
       if (rc == ResultCode::OK) {
         for (size_t i = 0; i < parent_count; i++) {
-          if (ancestor_iters[i].pSize) {
-            *static_cast<bool *>(ancestor_iters[i].pSize) = true;
+          if (ancestor_presence[i]) {
+            *static_cast<bool *>(ancestor_presence[i]) = true;
           }
         }
       }
@@ -266,8 +273,8 @@ MessageTraverser::updateField(
   // If the update was successful then mark all ancestors as changed
   if (result == ResultCode::OK) {
     for (size_t i = 0; i < parent_count; i++) {
-      if (ancestor_iters[i].pSize) {
-        *static_cast<bool *>(ancestor_iters[i].pSize) = true;
+      if (ancestor_presence[i]) {
+        *static_cast<bool *>(ancestor_presence[i]) = true;
       }
     }
   }
@@ -721,11 +728,15 @@ MessageTraverser::setFieldPresence(
   uint32_t pathLength = path.size();
 
   if (pathLength == 0) {
-    return ResultCode::ERR_SETTING_PATH_NOT_FOUND;
+    return ResultCode::ERR_SETTING_PATH_LENGTH_ZERO;
   }
 
-  // Array to store ancestor iterators
-  pb_field_iter_t ancestor_iters[pathLength];
+  if (pathLength > MAX_FIELD_PATH_LENGTH) {
+    return ResultCode::ERR_SETTING_PATH_TOO_LONG;
+  }
+
+  // Ancestors' has_<> flags (pSize pointers only, to keep the frame small)
+  void* ancestor_presence[MAX_FIELD_PATH_LENGTH];
   size_t ancestor_count = 0;
 
   // Traverse through all but the last field ID
@@ -746,8 +757,8 @@ MessageTraverser::setFieldPresence(
       return ResultCode::ERR_SETTING_PATH_TOO_LONG;
     }
 
-    // Store this iterator as an ancestor
-    ancestor_iters[ancestor_count++] = iter;
+    // Remember this ancestor's presence flag
+    ancestor_presence[ancestor_count++] = iter.pSize;
 
     // Get pointer to the submessage
     if (PB_ATYPE(iter.type) == PB_ATYPE_POINTER) {
@@ -781,8 +792,8 @@ MessageTraverser::setFieldPresence(
   if (present) {
     // Set has_<> to true for all ancestors
     for (size_t i = 0; i < ancestor_count; i++) {
-      if (ancestor_iters[i].pSize) {
-        *static_cast<bool *>(ancestor_iters[i].pSize) = true;
+      if (ancestor_presence[i]) {
+        *static_cast<bool *>(ancestor_presence[i]) = true;
       }
     }
     // Set has_<> to true for the leaf

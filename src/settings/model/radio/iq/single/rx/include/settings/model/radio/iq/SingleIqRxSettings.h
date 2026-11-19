@@ -6,6 +6,8 @@
 #include <settings/model/radio/iq/SingleIqActiveBandSettings.h>
 #include <settings/model/radio/iq/SingleIqBandSettingsCache.h>
 
+#include "SingleIqRxUpdater.h"
+
 #ifdef USE_DOTTED_STRING_PATHS
 #include "settings/model/update/ResolveDottedStringFunc.h"
 #endif
@@ -42,8 +44,13 @@ public:
 
   [[nodiscard]] RadioSettingsTraits traits() const { return toRuntimeTraits<Traits>(); }
 
+  RadioSettingsUpdater* updater() { return &m_updater; }
+
 #ifdef USE_DOTTED_STRING_PATHS
   ResolveDottedStringFunc resolveDottedStringFunc();
 #endif
+
+protected:
+  SingleIqRxUpdater m_updater;
 
 };

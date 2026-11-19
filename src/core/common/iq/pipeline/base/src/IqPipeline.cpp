@@ -17,7 +17,7 @@ ResultCode
 IqPipeline::apply(const BandRfSettings* bandRfSettings, PipelineSettings* pipelineSettings)
 {
   if (pipelineSettings != nullptr && bandRfSettings != nullptr) {
-    lock_guard<mutex> lock(m_settingsMutex);
+    LockGuard lock(m_settingsMutex);
     bool bandHasFrequency = bandRfSettings->hasFrequency();
     if (pipelineSettings->hasRfSettings() || bandHasFrequency) {
       PipelineRfSettings& rfSettings = pipelineSettings->rfSettings();

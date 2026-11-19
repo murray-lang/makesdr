@@ -6,6 +6,10 @@
 #include <tinyusb/host/tusb.h>
 #include <tinyusb/host/usbh.h>
 
+#ifndef USB_HOST_THREAD_PRIORITY
+#define USB_HOST_THREAD_PRIORITY tskIDLE_PRIORITY
+#endif
+
 // Static instance for callbacks
 UsbHost* UsbHost::s_instance = nullptr;
 UsbHostThread UsbHost::s_thread;
@@ -65,16 +69,18 @@ ResultCode UsbHost::open()
   s_instance = this; // Set instance for callbacks
 
   if (!s_thread.isRunning()) {
-    ResultCode rc = s_thread.start(configMINIMAL_STACK_SIZE*4, tskIDLE_PRIORITY, "USB Host");
+    ResultCode rc = s_thread.start(configMINIMAL_STACK_SIZE*4, USB_HOST_THREAD_PRIORITY, "USB Host");
     if (rc != ResultCode::OK) {
+      printf("Failed to start USB host thread\r\n");
       return rc;
     }
   }
 
   if (!m_mounted) {
+    printf("USB host is not mounted\r\n");
     return ResultCode::ERR_USB_NOT_MOUNTED;
   }
-
+  printf("USB host open() OK\r\n");
   // Device is already opened when mounted
   return ResultCode::OK;
 }
@@ -191,7 +197,7 @@ UsbHost::write(
   size_t* bytesWritten
 ) const
 {
-  BSP_LED_Toggle(LED_RED);
+  // BSP_LED_Toggle(LED_RED);
   if (!m_mounted) {
     return ResultCode::ERR_USB_NOT_MOUNTED;
   }
@@ -267,7 +273,7 @@ void UsbHost::onMount(uint8_t dev_addr)
     uint16_t pid = dev_desc.idProduct;
 
     if (s_instance && s_instance->matchesDevice(vid, pid)) {
-      BSP_LED_On(LED_GREEN);
+      // BSP_LED_On(LED_GREEN);
       s_instance->handleMount(dev_addr);
     }
   } else {
@@ -279,7 +285,7 @@ void UsbHost::onUmount(uint8_t dev_addr)
 {
   if (s_instance) {
     s_instance->handleUmount(dev_addr);
-    BSP_LED_Off(LED_GREEN);
+    // BSP_LED_Off(LED_GREEN);
   }
 }
 

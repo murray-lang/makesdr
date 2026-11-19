@@ -5,29 +5,41 @@
 #include <settings/model/message/PayloadPurpose.h>
 #include "RadioRequester.h"
 
-template<
-  typename RadioSettingsT,
-  typename SettingsTransportT,
-  typename UpdateTransportT,
-  typename ListenerT
->
-class RadioSettingsMirrorT : public MessageSinkT<RadioSettingsT>
+//*****************************************************************************
+// The client's copy of the radio's settings, kept current from the settings
+// the radio sends, and the route by which local changes go back to it.
+//
+// Uses the client transport rather than owning a settings side of its own, so
+// there is only ever one receiver on the settings rings. The transport must
+// outlive the mirror, and it decides when settings are received (e.g. by
+// attaching its recipients when its task starts), so the mirror has no
+// start()/stop().
+//
+// TransportT provides:
+//   RadioSettings, UpdateTransport
+//   connectRadioSettingsSink(MessageSinkT<RadioSettings>*)
+//   UpdateTransport& getUpdateTransport()
+//*****************************************************************************
+template<typename TransportT, typename ListenerT>
+class RadioSettingsMirrorT : public MessageSinkT<typename TransportT::RadioSettings>
 {
 public:
-  using RadioSettings = RadioSettingsT;
+  using RadioSettings = typename TransportT::RadioSettings;
+  using UpdateTransport = typename TransportT::UpdateTransport;
 
-  RadioSettingsMirrorT(
-    typename SettingsTransportT::Rings& settingsRings,
-    UpdateTransportT& updateTransport,
-    ListenerT* listener
-    )
-    : m_settingsTransport(settingsRings)
-    , m_updateTransport(updateTransport)
+  RadioSettingsMirrorT(TransportT& transport, ListenerT* listener)
+    : m_updateTransport(transport.getUpdateTransport())
     , m_listener(listener)
   {
-    m_settingsTransport.connectRadioSettingsSink(this);
-    m_settings.updater()->connectFieldUpdateSink(&m_updateTransport);
+    transport.connectRadioSettingsSink(this);
+    RadioSettingsUpdater* updater = m_settings.updater();
+    if (updater != nullptr) {
+      updater->connectFieldUpdateSink(&m_updateTransport);
+    }
   }
+
+  RadioSettingsMirrorT(const RadioSettingsMirrorT&) = delete;
+  RadioSettingsMirrorT& operator=(const RadioSettingsMirrorT&) = delete;
 
   ResultCode applyMessage(RadioSettings* delta) override
   {
@@ -46,22 +58,17 @@ public:
     return rc;
   }
 
-  ResultCode start() { m_settingsTransport.attachRecipient(); return ResultCode::OK; }
-  void stop() { m_settingsTransport.detachRecipient(); }
-
   ResultCode requestSettings()
   {
     FieldDescriptor descriptor({ 0, RadioRequester::Requests::REQUEST_SETTINGS});
     return m_updateTransport.applyFieldUpdate(FieldUpdate(descriptor, true, FieldUpdateMeaning::VALUE));
   }
 
-
   RadioSettingsUpdater* updater() { return m_settings.updater(); }
   [[nodiscard]] const RadioSettings& settings() const { return m_settings; }
 
 private:
   RadioSettings m_settings;
-  SettingsTransportT m_settingsTransport;
-  UpdateTransportT& m_updateTransport;
+  UpdateTransport& m_updateTransport;
   ListenerT* m_listener;
 };

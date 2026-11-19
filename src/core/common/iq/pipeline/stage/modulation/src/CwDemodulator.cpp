@@ -3,7 +3,7 @@
 uint32_t
 CwDemodulator::processSamples(
     const ComplexSamplesBuffer& in,
-    RealSamplesBuffer& out,
+    RealSamplesRef& out,
     uint32_t inputLength)
 {
   if (inputLength == 0) {

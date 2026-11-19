@@ -26,6 +26,7 @@ elseif(PLATFORM_FAMILY STREQUAL "stm32h745i")
 #            core-freertos-thread
             core-stm32h745i-audio
             core-stm32h745i-iq-source
+#            core-stm32h745i-drivers-bsp-disco-cm4 # for BSP_LED_*
     )
 endif()
 

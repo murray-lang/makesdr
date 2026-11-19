@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hw_semaphore.h"
+#include <stm32h745i/drivers/conf/hw_semaphore.h>
 #include <stdio.h>
 #include <stdint.h>
 

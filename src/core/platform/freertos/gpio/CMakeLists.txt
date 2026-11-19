@@ -22,7 +22,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
             core-common-time
             core-common-thread
             core-freertos-thread
-            core-stm32h745i-setup-setup1-cm4
+            core-stm32h745i-setup-setup3-cm4
             core-stm32h745i-drivers-hal-cm4
             etl::etl
     )
@@ -33,7 +33,7 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
             core-common-time
             core-common-thread
             core-freertos-thread
-            core-stm32h745i-app-setup-setup1-cm7
+            core-stm32h745i-app-setup-setup3-cm7
             core-stm32h745i-drivers-hal-cm7
             etl::etl
     )

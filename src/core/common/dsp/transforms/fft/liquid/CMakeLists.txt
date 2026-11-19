@@ -15,13 +15,11 @@ target_include_directories(core-common-dsp-transforms-fft-liquid INTERFACE
 
 if(USE_FREERTOS)
     target_link_libraries(core-common-dsp-transforms-fft-liquid INTERFACE
-#            core-common-dsp-transforms-fft-base
             core-common-samples
             core-freertos-liquid-dsp
     )
 else()
     target_link_libraries(core-common-dsp-transforms-fft-liquid INTERFACE
-#            core-common-dsp-transforms-fft-base
             core-common-samples
             core-common-dsp-window
             core-linux-liquid-dsp

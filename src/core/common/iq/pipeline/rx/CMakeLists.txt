@@ -24,6 +24,7 @@ set(PIPELINE_RX_LIBS
         core-common-iq-pipeline-stage-agc
         core-common-iq-pipeline-stage-s-meter
         core-common-transport-radio
+        core-stm32h745i-drivers-bsp-disco-cm4 # for BSP_LED_*
 )
 
 #if(PLATFORM_FAMILY STREQUAL "linux")

@@ -1,22 +1,39 @@
 #include "iq/source/AdcIqSource.h"
-#include "stm32h745i/setup/AdcConfig.h"
-#include "stm32h745i/setup/config.h"
+#include "stm32h745i/AdcConfig.h"
+#include "stm32h745i/config.h"
 
-#define USE_ADC_INTERRUPT_MODE
 // Conversion factor from 16-bit ADC to float [-1.0, 1.0]
 constexpr float ADC_TO_FLOAT = 1.0f / 32768.0f;
+
+#if USE_HAL_ADC_REGISTER_CALLBACKS != 1
+#error "AdcIqSource registers its own ADC callbacks: set USE_HAL_ADC_REGISTER_CALLBACKS to 1U in stm32h7xx_hal_conf.h"
+#endif
+
+static_assert(ADC_BUFFER_SIZE >= 2 * ADC_DMA_HALF_FRAMES,
+  "ADC_BUFFER_SIZE (sample queue) must hold at least one full DMA buffer (2 * ADC_DMA_HALF_FRAMES)");
+
+// Dual regular-simultaneous mode with DAMDF = 32_10_BITS: each 32-bit word read from ADC12_CDR
+// holds master (ADC1 = I) in bits [15:0] and slave (ADC2 = Q) in bits [31:16].
+// Circular: the first half is ready at the half-transfer callback, the second at transfer complete.
+// Must be in .dma_buffer (DMA_RAM, 0x30000000): DMA1 can't use the CM4's 0x1000xxxx alias of D2
+// SRAM, where .bss lives. The CM4 has no data cache, so no cache maintenance is needed.
+static uint32_t s_adcDmaBuffer[2 * ADC_DMA_HALF_FRAMES] __attribute__((section(".dma_buffer"), aligned(32)));
+
+AdcIqSource* AdcIqSource::s_active = nullptr;
 
 AdcIqSource::AdcIqSource(IqSink* pSink)
   : IqSource(pSink)
   , m_thread(*this)
   , m_pConfig(getAdcConfig())
-  , m_pSink(pSink)
+  // , m_pSink(pSink)
   , m_iqBuffer()
   // , m_adcBufferI{0}
   // , m_adcBufferQ{0}
   // , m_writeIndex(0)
   // , m_bufferHalfFull(false)
   , m_isRunning(false)
+  , m_droppedSamples(0)
+  , m_adcErrors(0)
   , m_maxPacketSamples(0)
   , m_numCurrentSamples(0)
 {
@@ -27,12 +44,14 @@ AdcIqSource::AdcIqSource(AdcIqSource&& other) noexcept
   : IqSource(std::move(other))
   , m_thread(*this)
   , m_pConfig(other.m_pConfig)
-  , m_pSink(other.m_pSink)
+  // , m_pSink(other.m_pSink)
   , m_isRunning(false)
+  , m_droppedSamples(0)
+  , m_adcErrors(0)
   , m_maxPacketSamples(other.m_maxPacketSamples)
   , m_numCurrentSamples(0)
 {
-  other.m_pSink = nullptr;
+  other.m_pIqSink = nullptr;
 }
 
 AdcIqSource::~AdcIqSource()
@@ -44,8 +63,8 @@ AdcIqSource&
 AdcIqSource::operator=(AdcIqSource&& other) noexcept
 {
   IqSource::operator=(std::move(other));
-  m_pSink = other.m_pSink;
-  other.m_pSink = nullptr;
+  m_pIqSink = other.m_pIqSink;
+  other.m_pIqSink = nullptr;
   m_pConfig = other.m_pConfig;
   m_maxPacketSamples = other.m_maxPacketSamples;
   m_numCurrentSamples = 0;
@@ -61,7 +80,7 @@ AdcIqSource::configure(const Config::AdcIqSource::Fields& config)
   } else {
     m_pConfig->sampleRate = SAMPLE_RATE;
   }
-  return ResultCode::OK;
+  return initialise();
 }
 
 ResultCode
@@ -76,29 +95,31 @@ AdcIqSource::initialise()
 ResultCode
 AdcIqSource::start(uint32_t maxPacketFrames)
 {
-  m_maxPacketSamples = maxPacketFrames;
   if (m_isRunning) {
     return ResultCode::ERR_AUDIO_INPUT_DRIVER_ALREADY_STARTED;
   }
-  m_isRunning = true;
-  m_thread.start(STACK_SIZE, THREAD_PRIORITY, "ADCIQ");
-
-  ResultCode rc;
-
-#ifdef USE_ADC_INTERRUPT_MODE
-  // Reset circular buffer for interrupt mode
+  // Reset the queue and packet state before anything can produce or consume.
   m_iqBuffer.clear();
-  rc = startInterrupts();
-#else
-  rc = startDma();
-#endif
+  m_maxPacketSamples = std::min<uint32_t>(maxPacketFrames, static_cast<uint32_t>(m_buffer.capacity()));
+  m_buffer.resize(m_maxPacketSamples);
+  m_numCurrentSamples = 0;
+  m_droppedSamples = 0;
+  m_adcErrors = 0;
 
-  if (rc != ResultCode::OK) return rc;
-
-  rc = startTimer();
-  if (rc != ResultCode::OK) return rc;
   m_isRunning = true;
-  return ResultCode::OK;
+  if (!m_thread.start(STACK_SIZE/sizeof(uint32_t), THREAD_PRIORITY, "ADCIQ")) {
+    m_isRunning = false;
+    return ResultCode::ERR_IQ_THREAD_START_FAILED;
+  }
+
+  ResultCode rc = startDma();
+  if (rc == ResultCode::OK) {
+    rc = startTimer();
+  }
+  if (rc != ResultCode::OK) {
+    stop(); // Stops whatever started and joins the thread.
+  }
+  return rc;
 }
 
 void AdcIqSource::stop()
@@ -107,12 +128,7 @@ void AdcIqSource::stop()
     return;
 
   HAL_TIM_Base_Stop(&m_pConfig->timer);
-
-#ifdef USE_ADC_INTERRUPT_MODE
-  stopInterrupts();
-#else
   stopDma();
-#endif
 
   m_isRunning = false;
   m_dataAvailable.post();
@@ -130,9 +146,9 @@ AdcIqSource::initialiseAdcs()
 ResultCode
 AdcIqSource::configureAdcs()
 {
-  ResultCode rc = MX_ADC1_Init(&m_pConfig->I, &m_pConfig->multimode);
+  ResultCode rc = ADC1_Init(&m_pConfig->I, &m_pConfig->multimode);
   if (rc != ResultCode::OK) return rc;
-  return MX_ADC2_Init(&m_pConfig->Q);
+  return ADC2_Init(&m_pConfig->Q);
 }
 
 ResultCode
@@ -150,37 +166,38 @@ AdcIqSource::calibrateAdcs()
   return ResultCode::OK;
 }
 
-// ResultCode AdcIqSource::startDma()
-// {
-//   // In dual mode, only start ADC1 (master)
-//   // Data from both ADCs comes through ADC1's DMA
-//   if (HAL_ADC_Start_DMA(&m_pConfig->I.adc, (uint32_t*)m_adcBufferI, ADC_BUFFER_SIZE * 2) != HAL_OK) {
-//     return ResultCode::ERR_DMA_START;
-//   }
-//   return ResultCode::OK;
-// }
-//
-// void
-// AdcIqSource::stopDma()
-// {
-//   HAL_ADC_Stop_DMA(&m_pConfig->I.adc);
-// }
-
 ResultCode
-AdcIqSource::startInterrupts()
+AdcIqSource::startDma()
 {
-  // In dual mode, only start ADC1 (master)
-  // ADC2 is triggered automatically in simultaneous mode
-  if (HAL_ADC_Start_IT(&m_pConfig->I.adc) != HAL_OK){
-    return ResultCode::ERR_ADC_START;
+  ADC_HandleTypeDef* master = &m_pConfig->I.adc;
+  if (master->DMA_Handle == nullptr) {
+    return ResultCode::ERR_DMA_START; // HAL_ADC_MspInit didn't link a DMA stream to the master.
+  }
+  if (HAL_ADC_RegisterCallback(master, HAL_ADC_CONVERSION_HALF_CB_ID, &AdcIqSource::onDmaHalfComplete) != HAL_OK
+   || HAL_ADC_RegisterCallback(master, HAL_ADC_CONVERSION_COMPLETE_CB_ID, &AdcIqSource::onDmaComplete) != HAL_OK
+   || HAL_ADC_RegisterCallback(master, HAL_ADC_ERROR_CB_ID, &AdcIqSource::onAdcError) != HAL_OK) {
+    return ResultCode::ERR_DMA_START;
+  }
+  s_active = this;
+
+  // Only the master is started: ADC2 converts simultaneously and both results come through
+  // ADC12_CDR on the master's DMA stream. Conversions begin on the first TIM6 TRGO.
+  if (HAL_ADCEx_MultiModeStart_DMA(master, s_adcDmaBuffer, 2 * ADC_DMA_HALF_FRAMES) != HAL_OK) {
+    s_active = nullptr;
+    return ResultCode::ERR_DMA_START;
   }
   return ResultCode::OK;
 }
 
 void
-AdcIqSource::stopInterrupts()
+AdcIqSource::stopDma()
 {
-  HAL_ADC_Stop_IT(&m_pConfig->I.adc);
+  ADC_HandleTypeDef* master = &m_pConfig->I.adc;
+  HAL_ADCEx_MultiModeStop_DMA(master);
+  s_active = nullptr;
+  HAL_ADC_UnRegisterCallback(master, HAL_ADC_CONVERSION_HALF_CB_ID);
+  HAL_ADC_UnRegisterCallback(master, HAL_ADC_CONVERSION_COMPLETE_CB_ID);
+  HAL_ADC_UnRegisterCallback(master, HAL_ADC_ERROR_CB_ID);
 }
 
 uint32_t
@@ -252,76 +269,85 @@ ResultCode AdcIqSource::startTimer()
   return ResultCode::OK;
 }
 
-// void AdcIqSource::processBuffer(uint32_t offset)
-// {
-//   // Convert ADC samples to float and interleave I/Q
-//   RealSamplesMax samples;
-//   // samples.resize(m_config.bufferSize * 2); // I and Q interleaved
-//
-//   for (uint32_t i = 0; i < ADC_BUFFER_SIZE; ++i) {
-//     // Convert from unsigned 16-bit to signed float [-1.0, 1.0]
-//     float iSample = (static_cast<float>(m_adcBufferI[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
-//     float qSample = (static_cast<float>(m_adcBufferQ[offset + i]) - 32768.0f) * ADC_TO_FLOAT;
-//
-//     samples[i * 2] = iSample;
-//     samples[i * 2 + 1] = qSample;
-//   }
-//
-//   // Send to sink
-//   if (m_pSink) {
-//     m_pSink->sinkIq(samples, ADC_BUFFER_SIZE * 2, 2);
-//   }
-// }
-
-// // DMA mode callbacks
-// void AdcIqSource::onAdcConversionComplete()
-// {
-//   // Process second half of buffer
-//   processBuffer(ADC_BUFFER_SIZE);
-// }
-//
-// void AdcIqSource::onAdcConversionHalfComplete()
-// {
-//   // Process first half of buffer
-//   processBuffer(0);
-// }
-
-// Interrupt mode callback - dual simultaneous mode
-void AdcIqSource::onAdcDualConversion(uint16_t valueI, uint16_t valueQ)
+void
+AdcIqSource::onDmaHalfComplete(ADC_HandleTypeDef* /*hadc*/)
 {
-  if (m_iqBuffer.full()) {
-    return;
+  if (s_active != nullptr) {
+    s_active->processDmaHalf(&s_adcDmaBuffer[0]);
   }
-  // Convert from unsigned 16-bit to signed float [-1.0, 1.0]
-  float iSample = (static_cast<float>(valueI) - 32768.0f) * ADC_TO_FLOAT;
-  float qSample = (static_cast<float>(valueQ) - 32768.0f) * ADC_TO_FLOAT;
+}
 
-  // Create complex sample and insert into circular buffer
-  sdrcomplex sample(iSample, qSample);
+void
+AdcIqSource::onDmaComplete(ADC_HandleTypeDef* /*hadc*/)
+{
+  if (s_active != nullptr) {
+    s_active->processDmaHalf(&s_adcDmaBuffer[ADC_DMA_HALF_FRAMES]);
+  }
+}
 
-  m_iqBuffer.push(sample);
-    // BSP_LED_On(LED_RED);
+void
+AdcIqSource::onAdcError(ADC_HandleTypeDef* /*hadc*/)
+{
+  if (s_active != nullptr) {
+    s_active->m_adcErrors++;
+  }
+}
 
-  if (m_iqBuffer.size() > m_maxPacketSamples/2) {
-    BaseType_t xHigherPriorityTaskWoken;
-    m_dataAvailable.postFromISR(&xHigherPriorityTaskWoken);
-    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+// IRQ context. Converts one half of the DMA buffer into the queue, then wakes run().
+// The DMA is filling the other half meanwhile, so this must finish within
+// ADC_DMA_HALF_FRAMES sample periods (it takes a few microseconds).
+void
+AdcIqSource::processDmaHalf(const uint32_t* half)
+{
+  uint32_t dropped = 0;
+  for (uint32_t n = 0; n < ADC_DMA_HALF_FRAMES; ++n) {
+    const uint32_t word = half[n];
+    const float iSample = (static_cast<float>(word & 0xFFFFu) - 32768.0f) * ADC_TO_FLOAT;
+    const float qSample = (static_cast<float>(word >> 16) - 32768.0f) * ADC_TO_FLOAT;
+    if (!m_iqBuffer.push(sdrcomplex(iSample, qSample))) {
+      dropped += ADC_DMA_HALF_FRAMES - n; // run() isn't keeping up: drop the rest of this half.
+      break;
+    }
+  }
+  if (dropped != 0) {
+    m_droppedSamples += dropped;
+    // static uint32_t counter = 0;
+    // counter++;
+    // if (counter > 5) {
+    //   BSP_LED_Toggle(LED_RED);
+    //   counter = 0;
+    // }
+  } else {
+    static uint32_t counter = 0;
+    counter++;
+    if (counter > 5) {
+      BSP_LED_Toggle(LED_GREEN);
+      counter = 0;
+    }
   }
 
+  BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  m_dataAvailable.postFromISR(&xHigherPriorityTaskWoken);
+  portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 }
 
 void
 AdcIqSource::run()
 {
+
   while (m_isRunning) {
     {
+
       if (m_iqBuffer.empty()) {
         m_dataAvailable.wait();
       }
       if (!m_isRunning) {
+
         break;
       }
+
       if (!m_iqBuffer.empty()) {
+
         uint32_t requiredSamples = m_maxPacketSamples - m_numCurrentSamples;
         uint32_t numIncomingSamples = m_iqBuffer.size();
         uint32_t samplesToRead = std::min(requiredSamples, numIncomingSamples);
@@ -329,7 +355,17 @@ AdcIqSource::run()
       }
     }
     if (m_numCurrentSamples == m_maxPacketSamples) {
-      m_pSink->sinkIq(m_buffer, m_numCurrentSamples);
+
+      // static uint32_t counter = 0;
+      // counter++;
+      // if (counter > 10) {
+      //   BSP_LED_Toggle(LED_RED);
+      //   counter = 0;
+      // }
+      if (m_pIqSink) {
+        m_pIqSink->sinkIq(m_buffer, m_numCurrentSamples);
+      }
+
       m_numCurrentSamples = 0;
     }
   }

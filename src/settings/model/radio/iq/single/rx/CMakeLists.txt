@@ -4,7 +4,9 @@ project(settings-model-radio-iq-single-rx)
 
 set(BASIC_IQ_RX_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/SingleIqRxSettings.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/radio/iq/SingleIqRxUpdater.h
         ${CMAKE_CURRENT_LIST_DIR}/src/SingleIqRxSettings.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/src/SingleIqRxUpdater.cpp
 )
 
 add_library(settings-model-radio-iq-single-rx STATIC ${BASIC_IQ_RX_FILES})
@@ -18,6 +20,7 @@ set(BASIC_IQ_RX_LIBS
         settings-model-radio-base
         settings-model-radio-iq-single-common
         settings-model-meta-radio
+        settings-model-update-radios-basic-iq-rx-resolved
 )
 
 if (USE_DOTTED_STRING_PATHS)

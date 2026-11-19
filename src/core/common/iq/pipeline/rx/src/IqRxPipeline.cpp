@@ -1,6 +1,12 @@
 #include "iq/pipeline/IqRxPipeline.h"
 
+// #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
+#ifdef IS_STM32
+#define DEFAULT_SAMPLE_RATE 32000
+#else
 #define DEFAULT_SAMPLE_RATE 48000
+#endif
+// #define DEFAULT_SAMPLE_RATE 31250
 
 
 IqRxPipeline::IqRxPipeline(
@@ -28,16 +34,16 @@ IqRxPipeline::IqRxPipeline(
   m_monitorStage.setAverageBuffers(8);
   m_sMeterStage.setSampleRateProvider(sampleRateProvider);
   m_sMeterStage.setAgcGainProvider([this]() { return this->m_agcStage.getGainDb(); });
-  // appendStage(&m_iqCorrection);
+
   appendStage(&m_monitorStage);
   appendStage(&m_oscillatorMixer);
-
-  appendStage(&m_ifFilter);
-  // appendStage(&m_monitorStage);
-
-  appendStage(&m_resampler);
-  appendStage(&m_sMeterStage);
-  appendStage(&m_agcStage);
+  // appendStage(&m_resampler); // This was moved to reduce filter workload
+  appendStage(&m_ifFilter); // This now operates at the output sample rate
+  // // appendStage(&m_monitorStage);
+  //
+  // appendStage(&m_resampler);
+  // appendStage(&m_sMeterStage);
+  // appendStage(&m_agcStage);
 
 
   m_pDemodulator = &m_ssbDemodulator; // For now TODO: Get setting updates working again.
@@ -58,7 +64,9 @@ IqRxPipeline::initialise(IqIo* pIo, AudioSink* pAudioSink)
 void
 IqRxPipeline::setOutputSampleRate(uint32_t preferredOutputRate)
 {
-  m_outputSampleRate = m_resampler.configure(m_inputSampleRate, preferredOutputRate);
+  // TODO: See why this hangs on STM32 with both sample rates at 48000
+  // m_outputSampleRate = m_resampler.configure(m_inputSampleRate, preferredOutputRate);
+  m_outputSampleRate = preferredOutputRate;
   m_amDemodulator.setSampleRate(m_outputSampleRate);
   m_fmnDemodulator.setSampleRate(m_outputSampleRate);
   m_ssbDemodulator.setSampleRate(m_outputSampleRate);
@@ -90,7 +98,7 @@ IqRxPipeline::apply(const BandRfSettings* bandRfSettings, RxPipelineSettings* se
   }
   if (settings->hasAgcSpeed()) {
     const AgcSpeed agcSpeed = settings->agcSpeed();
-    lock_guard<mutex> lock(m_settingsMutex);
+    LockGuard lock(m_settingsMutex);
     m_agcStage.setSpeed(agcSpeed);
   }
   return ResultCode::OK;
@@ -110,7 +118,8 @@ IqRxPipeline::setMode(const Mode& mode)
 
   IqPipeline::setMode(mode);
   // const uint32_t decimatorOutputRate = m_decimator.getOutputSampleRate();
-  m_ifFilter.configure(mode.loCut(), mode.hiCut(), mode.offset(), m_inputSampleRate);
+  // m_ifFilter.configure(mode.loCut(), mode.hiCut(), mode.offset(), m_inputSampleRate); // If filter before resample
+  m_ifFilter.configure(mode.loCut(), mode.hiCut(), mode.offset(), m_outputSampleRate); // If filter after resample
   setDemodulator(mode);
 }
 
@@ -149,9 +158,15 @@ IqRxPipeline::setDemodulator(const Mode& mode)
 uint32_t
 IqRxPipeline::processSamples(ComplexPingPongBuffers& samples, uint32_t length)
 {
+  // static uint32_t counter = 0;
+  // counter++;
+  // if (counter > 10) {
+  //   BSP_LED_Toggle(LED_RED);
+  //   counter = 0;
+  // }
   uint32_t outputLength = length;
 
-  lock_guard<mutex> lock(m_settingsMutex);
+  LockGuard lock(m_settingsMutex);
   for (auto stage : m_stages) {
     outputLength = stage->processSamples(samples, outputLength);
     samples.flip();

@@ -46,7 +46,7 @@ SingleIqRxRadio::SingleIqRxRadio(
 ResultCode
 SingleIqRxRadio::configure(const Config::Radio::Fields& config)
 {
-  if (!config.sdr) return ResultCode::ERR_CONFIG_NO_RXTX;
+  if (!config.sdr) return ResultCode::ERR_CONFIG_NO_SDR;
 
   const Config::Sdr::Fields& sdr = *config.sdr;
   if (!sdr.receiver) return ResultCode::ERR_CONFIG_RX_NO_RX;
@@ -69,10 +69,12 @@ ResultCode
 SingleIqRxRadio::start()
 {
   ResultCode rc = m_receiver.start();
+
   if (rc != ResultCode::OK) return rc;
   m_control.connectRadioSettingsSink(this);
   m_control.connectFieldUpdateSink(this);
   rc = m_control.start();
+
   if (rc != ResultCode::OK) return rc;
   m_transport.connectRadioSettingsSink(this);
   m_transport.connectFieldUpdateSink(this);
@@ -139,7 +141,14 @@ SingleIqRxRadio::applySettings(Settings& settings)
 ResultCode
 SingleIqRxRadio::applyFieldUpdate(const FieldUpdate& update)
 {
-  return ResultCode::OK; // TODO: Decide how to manage locally stored settings.
+  m_settingsMutex.lock();
+  ResultCode rc = m_settings.applyFieldUpdate(update);
+  m_settingsMutex.unlock();
+  if (rc != ResultCode::OK) return rc;
+  if (update.isFinal()) {
+    return processCurrentSettings();
+  }
+  return ResultCode::OK;
 }
 
 ResultCode
@@ -163,10 +172,16 @@ SingleIqRxRadio::processCurrentSettings()
   //   return ResultCode::OK;  // Don't try to do anything else concurrently with PTT.
   // }
   ResultCode rc = m_receiver.apply(m_settings);
+
+
   if (rc != ResultCode::OK) return rc;
   rc = m_control.applySettings(m_settings);
   if (rc != ResultCode::OK) return rc;
   rc = m_transport.send(&m_settings);
+  if (rc == ResultCode::ERR_CHANNEL_FULL) {
+    // The client isn't reading the settings yet so the last one is still there (only one due to size).
+    rc = ResultCode::OK;
+  }
 
   // Clear all has_* flags so that only subsequent updates are seen as changes.
   m_settings.setAllFieldsPresence(false);

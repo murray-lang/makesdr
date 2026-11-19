@@ -71,6 +71,6 @@ private:
   AgcStage m_agcStage;
   SMeterStage m_sMeterStage;
 
-  RealSamplesBuffer m_audioBuffer;
+  AudioSamplesBuffer m_audioBuffer;
   bool m_mute;
 };

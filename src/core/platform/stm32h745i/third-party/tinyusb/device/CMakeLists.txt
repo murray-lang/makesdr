@@ -43,5 +43,6 @@ tinyusb_target_add(core-stm32h745i-cm7-tinyusb-device)
 target_link_libraries(core-stm32h745i-cm7-tinyusb-device PUBLIC
         core-stm32h745i-drivers-bsp-disco-cm7
         core-stm32h745i-drivers-hal-cm7
+
 )
 

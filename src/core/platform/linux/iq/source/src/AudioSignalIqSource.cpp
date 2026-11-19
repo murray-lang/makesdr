@@ -34,7 +34,7 @@ AudioSignalIqSource::stop()
 }
 
 uint32_t
-AudioSignalIqSource::sinkAudio(const RealSamplesBuffer& audioSamples, uint32_t length, uint32_t numChannels)
+AudioSignalIqSource::sinkAudio(const RealSamplesRef& audioSamples, uint32_t length, uint32_t numChannels)
 {
   uint32_t numFrames = length/2; // Assume numChannels == 2
   if (m_pIqSink != nullptr) {

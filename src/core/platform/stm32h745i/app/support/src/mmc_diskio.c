@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h745i/fatfs/ff_gen_drv.h"
 #include "stm32h745i/app/support/mmc_diskio.h"
+#include "stm32h745i/hw_semaphore.h"
 
 #ifdef CORE_CM7
 #include <stm32h745i/drivers/cmsis/core_cm7.h>
@@ -67,17 +68,6 @@
  * FatFs access. Both cores will use the slower clock.
  */
 // #define LIMIT_FATFS_CLOCK_FOR_CM4  1  /* Define in CMakeLists.txt instead */
-
-#define EMMC_HSEM_ID (1U)
-#define LOCK_HSEM(__sem__)    do                                                \
-                              {                                                 \
-                                 while(HAL_HSEM_FastTake(__sem__) != HAL_OK) {} \
-                              } while(0)
-
-#define UNLOCK_HSEM(__sem__)  do                               \
-                              {                                \
-                                 HAL_HSEM_Release(__sem__, 0); \
-                              } while(0)
 
 /* Private variables ---------------------------------------------------------*/
 /* Disk status */

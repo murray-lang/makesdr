@@ -15,13 +15,14 @@ public:
   ResultCode configure(const Config::IqIo::Fields& config);
 
   void setIqSink(IqSink* pIqSink);
-  uint32_t sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkAudio(const RealSamplesRef& samples, uint32_t length, uint32_t numChannels) override;
 
   [[nodiscard]] uint32_t getInputSampleRate() const;
   [[nodiscard]] uint32_t getOutputSampleRate() const;
 
   [[nodiscard]] ResultCode start(uint32_t maxFramesPerInputPacket, uint32_t maxFramesPerOutputPacket);
   void stop();
+
 
 protected:
   ResultCode startInput(uint32_t maxFramesPerInputPacket);

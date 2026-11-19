@@ -16,7 +16,7 @@ public:
 
   virtual uint32_t processSamples(
     const ComplexSamplesBuffer& in,
-    RealSamplesBuffer& out,
+    RealSamplesRef& out,
     uint32_t inputLength
     ) = 0;
 

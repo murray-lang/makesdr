@@ -1,7 +1,7 @@
 #pragma once
 #include <audio/AudioSink.h>
 
-class AudioMixer;
+class AudioMixerBase;
 
 class AudioMixerInput : public AudioSink
 {
@@ -13,17 +13,17 @@ public:
     INPUT_B
   };
 
-  AudioMixerInput(AudioMixer& mixer, InputId inputId)
+  AudioMixerInput(AudioMixerBase& mixer, InputId inputId)
     : m_mixer(mixer)
     , m_inputId(inputId)
   {
 
   }
 
-  uint32_t sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels) override;
+  uint32_t sinkAudio(const RealSamplesRef& samples, uint32_t length, uint32_t numChannels) override;
 
 protected:
-  AudioMixer& m_mixer;
+  AudioMixerBase& m_mixer;
   InputId m_inputId;
 
 };
