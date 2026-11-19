@@ -5,7 +5,6 @@ project(core-stm32h745i-transport)
 set(STM32_TRANSPORT_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/stm32h745i/globalStm32H745Rings.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/stm32h745i/HsemNotifier.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/transport/stm32h745i/Stm32H745IqCapableRadioTransportT.h
         ${CMAKE_CURRENT_LIST_DIR}/include/transport/stm32h745i/Stm32H745MessageRings.h
 
         ${CMAKE_CURRENT_LIST_DIR}/src/globalStm32H745Rings.cpp
@@ -30,6 +29,8 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
             core-common-transport-updates
             core-freertos-transport-base
             core-stm32h745i-drivers-hal-cm4
+            core-stm32h745i-hsem-cm4
+            settings-model-radio-base
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     target_link_libraries(core-stm32h745i-transport PUBLIC
@@ -42,5 +43,7 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
             core-common-transport-updates
             core-freertos-transport-base
             core-stm32h745i-drivers-hal-cm7
+            core-stm32h745i-hsem-cm7
+            settings-model-radio-base
     )
 endif()

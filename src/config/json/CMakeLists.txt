@@ -20,6 +20,7 @@ set(CONFIG_SOURCES
         include/config/json/GpioLinesConfig.json.h
         include/config/json/IqCapabilitiesConfig.json.h
         include/config/json/IqIoConfig.json.h
+        include/config/json/SaiAudioConfig.json.h
         include/config/json/RadioConfig.json.h
         include/config/json/IqReceiverConfig.json.h
         include/config/json/SdrConfig.json.h
@@ -37,6 +38,7 @@ set(CONFIG_SOURCES
         src/audio/AudioIqSourceConfig.json.cpp
         src/audio/AudioSignalIqSourceConfig.json.cpp
         src/audio/IqIoConfig.json.cpp
+        src/audio/SaiAudioConfig.json.cpp
 
         src/base/ConfigBase.json.cpp
 

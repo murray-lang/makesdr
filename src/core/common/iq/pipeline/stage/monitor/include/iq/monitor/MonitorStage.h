@@ -21,6 +21,8 @@ public:
     , m_spectrumPublisher(fftPublisher)
     , m_sampleRateProvider(nullptr)
     , m_enabled(false)
+    , m_averageBuffers(16)
+    , m_buffersAccumulated(0)
     , m_powerSpectrum()
     // , m_fft(WindowType::HANNING)
   {
@@ -48,8 +50,8 @@ protected:
   SpectrumPublisher* m_spectrumPublisher;
   SampleRateProvider m_sampleRateProvider;
   bool m_enabled;
-  uint32_t m_averageBuffers = 1;
-  uint32_t m_buffersAccumulated = 0;
+  uint32_t m_averageBuffers;
+  uint32_t m_buffersAccumulated;
   // Member, not a global: Fft copies the global window functions, which aren't
   // guaranteed to be initialised before other translation units' globals.
   PowerSpectrumT<uint8_t, MONITOR_FFT_SIZE> m_powerSpectrum;

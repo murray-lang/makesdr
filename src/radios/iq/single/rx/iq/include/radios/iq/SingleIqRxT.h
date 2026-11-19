@@ -7,6 +7,8 @@
 
 #include <transport/IRadioPublishers.h>
 #include <config/struct/SdrConfig.h>
+#include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
+
 
 template<typename RadioSettingsT>
 class SingleIqRxT : public IqRxBaseT<RadioSettingsT>
@@ -86,9 +88,16 @@ public:
 
   uint32_t sinkIq(ComplexSamplesBuffer& samples, uint32_t length) override
   {
+    // static uint32_t counter = 0;
+    // counter++;
+    // if (counter > 10) {
+    //   BSP_LED_Toggle(LED_RED);
+    //   counter = 0;
+    // }
     m_pingPongBuffers.reset();
     std::copy_n(samples.begin(), length, m_pingPongBuffers.input().begin());
     uint32_t out = m_rxPipelineA.processSamples(m_pingPongBuffers, length);
+
     return out;
   }
 

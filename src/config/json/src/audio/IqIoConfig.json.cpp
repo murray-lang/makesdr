@@ -3,6 +3,7 @@
 #include "config/json/AudioConfig.json.h"
 #include "config/json/AudioIqSourceConfig.json.h"
 #include "config/json/AudioSignalIqSourceConfig.json.h"
+#include "config/json/SaiAudioConfig.json.h"
 #include <CrossPlatformTypes.h>
 
 namespace Config::IqIo
@@ -37,6 +38,14 @@ namespace Config::IqIo
       result = Audio::fromJson(json.config, fields);
       if (result == ResultCode::OK) {
         outputVariant.emplace<Audio::Fields>(fields);
+      }
+      return result;
+    }
+    if (json.type == SaiAudio::type) {
+      SaiAudio::Fields fields{};
+      result = SaiAudio::fromJson(json.config, fields);
+      if (result == ResultCode::OK) {
+        outputVariant.emplace<SaiAudio::Fields>(fields);
       }
       return result;
     }

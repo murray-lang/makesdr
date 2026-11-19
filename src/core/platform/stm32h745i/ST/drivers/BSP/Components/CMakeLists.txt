@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 4.1)
 project(core-stm32h745i-drivers-bsp-components)
 
 set(STM32_BSP_COMPONENTS_SOURCES
+        include/stm32h745i/drivers/bsp/components/audio.h
         include/stm32h745i/drivers/bsp/components/ft5336_conf_template.h
         include/stm32h745i/drivers/bsp/components/ft5336.h
         include/stm32h745i/drivers/bsp/components/ft5336_reg.h
@@ -17,6 +18,8 @@ set(STM32_BSP_COMPONENTS_SOURCES
         include/stm32h745i/drivers/bsp/components/mt48lc4m32b2.h
         include/stm32h745i/drivers/bsp/components/rk043fn48h.h
         include/stm32h745i/drivers/bsp/components/ts.h
+        include/stm32h745i/drivers/bsp/components/wm8994.h
+        include/stm32h745i/drivers/bsp/components/wm8994_reg.h
 
         src/ft5336/ft5336.c
         src/ft5336/ft5336_reg.c
@@ -24,12 +27,16 @@ set(STM32_BSP_COMPONENTS_SOURCES
         src/gt911/gt911_reg.c
         src/mt25tl01g/mt25tl01g.c
         src/mt48lc4m32b2/mt48lc4m32b2.c
+        src/wm8994/wm8994.c
+        src/wm8994/wm8994_reg.c
+
 )
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     add_library(core-stm32h745i-drivers-bsp-components-cm7 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
     target_include_directories(core-stm32h745i-drivers-bsp-components-cm7 PUBLIC
             include
+            include/stm32h745i/drivers/bsp/components
     )
     target_link_libraries(core-stm32h745i-drivers-bsp-components-cm7 PUBLIC
             core-stm32h745i-drivers-hal-cm7
@@ -40,6 +47,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     add_library(core-stm32h745i-drivers-bsp-components-cm4 STATIC ${STM32_BSP_COMPONENTS_SOURCES})
     target_include_directories(core-stm32h745i-drivers-bsp-components-cm4 PUBLIC
             include
+            include/stm32h745i/drivers/bsp/components
     )
     target_link_libraries(core-stm32h745i-drivers-bsp-components-cm4 PUBLIC
             core-stm32h745i-drivers-hal-cm4

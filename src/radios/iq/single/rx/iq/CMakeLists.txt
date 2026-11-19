@@ -21,5 +21,6 @@ target_link_libraries(radios-iq-single-rx-iq INTERFACE
         core-common-iq-pipeline-tx
         core-common-audio-mixer
         config-struct
+        core-stm32h745i-drivers-bsp-disco-cm4 # for BSP_LED_*
 
 )

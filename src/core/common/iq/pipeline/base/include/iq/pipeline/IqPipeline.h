@@ -9,6 +9,7 @@
 #include <settings/model/radio/BandRfSettings.h>
 
 #include "settings/model/radio/PipelineId.h"
+#include <thread/Mutex.h>
 
 // #include <qcoreevent.h>
 
@@ -82,7 +83,10 @@ protected:
   // MeteringSource m_meteringSource;
   // MonitorSource m_monitorSource;
   Mode::Proto m_mode;
-  mutex m_settingsMutex;
+  // Platform mutex (FreeRTOS: priority inheritance). Not etl::mutex, which is a
+  // spinlock: a high-priority DSP task spinning on it starves a low-priority
+  // settings task that holds it, deadlocking.
+  Mutex m_settingsMutex;
   // IqPipelineIo* m_pIo;
   // IqSource* m_pInput;
   PipelineStages m_stages;

@@ -42,8 +42,10 @@ set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -x assembler-with-cpp -MMD -MP")
 # Build type specific flags
 set(CMAKE_C_FLAGS_DEBUG "-g3 -O0 -g")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -g")
-set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
-set(CMAKE_CXX_FLAGS_RELEASE "-Os  -flto")
+#set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
+#set(CMAKE_CXX_FLAGS_RELEASE "-Os  -flto")
+set(CMAKE_C_FLAGS_RELEASE "-Os")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os")
 
 # ETL configuration for embedded targets
 add_compile_definitions(
@@ -52,8 +54,10 @@ add_compile_definitions(
     # Tell ETL to not use STL (it will use its own implementations or compiler intrinsics)
     # This doesn't prevent our code from using std::complex, std::vector, etc.
     ETL_NO_STL=1
-    # Don't provide std::initializer_list since the compiler already provides it
-    ETL_NO_INITIALIZER_LIST=1
+    # Use the compiler's std::initializer_list rather than ETL's own definition.
+    # (ETL_NO_INITIALIZER_LIST would instead remove initializer_list constructors
+    # from all ETL containers, breaking brace-initialisation of etl::vector etc.)
+    ETL_FORCE_STD_INITIALIZER_LIST=1
 )
 
 add_compile_options($<$<COMPILE_LANGUAGE:CXX>:-fpermissive>)

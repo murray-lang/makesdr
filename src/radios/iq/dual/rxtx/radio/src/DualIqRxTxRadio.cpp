@@ -29,7 +29,7 @@ DualIqRxTxRadio::DualIqRxTxRadio(
 ResultCode
 DualIqRxTxRadio::configure(const Config::Radio::Fields& config)
 {
-  if (!config.sdr) return ResultCode::ERR_CONFIG_NO_RXTX;
+  if (!config.sdr) return ResultCode::ERR_CONFIG_NO_SDR;
 
   const Config::Sdr::Fields& sdr = *config.sdr;
 

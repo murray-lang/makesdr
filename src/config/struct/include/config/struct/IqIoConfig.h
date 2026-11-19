@@ -2,6 +2,7 @@
 #include <CrossPlatformTypes.h>
 #include "AudioSignalIqSourceConfig.h"
 #include "AdcIqSourceConfig.h"
+#include "SaiAudioConfig.h"
 
 #include <etl/variant.h>
 
@@ -14,7 +15,7 @@ namespace Config::IqIo
     AudioIqSource::Fields,
     AdcIqSource::Fields
   >;
-  using AudioOutputConfigVariant = variant<Audio::Fields>;
+  using AudioOutputConfigVariant = variant<Audio::Fields, SaiAudio::Fields>;
 
   struct Fields
   {

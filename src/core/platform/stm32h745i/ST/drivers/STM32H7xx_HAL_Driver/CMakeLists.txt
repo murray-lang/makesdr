@@ -112,6 +112,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     add_library(core-stm32h745i-drivers-hal-cm7 STATIC ${STM32_HAL_SOURCES})
     target_include_directories(core-stm32h745i-drivers-hal-cm7 PUBLIC
             include
+            include/stm32h745i/drivers/hal
     )
     target_link_libraries(core-stm32h745i-drivers-hal-cm7 PUBLIC
             core-stm32h745i-drivers-conf
@@ -123,6 +124,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     add_library(core-stm32h745i-drivers-hal-cm4 STATIC ${STM32_HAL_SOURCES})
     target_include_directories(core-stm32h745i-drivers-hal-cm4 PUBLIC
             include
+            include/stm32h745i/drivers/hal
     )
     target_link_libraries(core-stm32h745i-drivers-hal-cm4 PUBLIC
             core-stm32h745i-drivers-conf

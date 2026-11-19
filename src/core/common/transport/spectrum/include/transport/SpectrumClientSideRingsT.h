@@ -46,8 +46,7 @@ public:
   }
 
   // Client thread only. Delivers whatever is pending on the pipe the payload
-  // type identifies, handing anything not IQ-specific to the base; unknown
-  // types are ignored.
+  // type identifies.
   void dispatch(PayloadType payloadType)
   {
     if (payloadType == PAYLOAD_TYPE_SPECTRUM ) {

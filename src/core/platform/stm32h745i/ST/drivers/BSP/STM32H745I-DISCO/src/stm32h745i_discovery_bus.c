@@ -22,7 +22,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery_bus.h"
 
+#include <stdio.h>
+
+#include "stm32h745i/hw_semaphore.h"
 #include "stm32h745i/drivers/hal/stm32h7xx_hal.h"
+#include "stm32h745i/hw_semaphore.h"
 
 /** @addtogroup BSP
   * @{
@@ -193,6 +197,7 @@ int32_t BSP_I2C4_Init(void)
 
   hbus_i2c4.Instance = BUS_I2C4;
 
+  LOCK_HSEM(I2C4_HSEM_ID);
   if (I2c4InitCounter == 0U)
   {
     I2c4InitCounter++;
@@ -230,7 +235,7 @@ int32_t BSP_I2C4_Init(void)
 #endif
     }
   }
-
+  UNLOCK_HSEM(I2C4_HSEM_ID);
   return ret;
 }
 
@@ -241,7 +246,7 @@ int32_t BSP_I2C4_Init(void)
 int32_t BSP_I2C4_DeInit(void)
 {
   int32_t ret  = BSP_ERROR_NONE;
-
+  LOCK_HSEM(I2C4_HSEM_ID);
   I2c4InitCounter--;
 
   if (I2c4InitCounter == 0U)
@@ -257,6 +262,7 @@ int32_t BSP_I2C4_DeInit(void)
     }
   }
 
+  UNLOCK_HSEM(I2C4_HSEM_ID);
   return ret;
 }
 
@@ -459,6 +465,7 @@ int32_t BSP_I2C4_ReadReg16(uint16_t DevAddr, uint16_t Reg, uint8_t *pData, uint1
 int32_t BSP_I2C4_IsReady(uint16_t DevAddr, uint32_t Trials)
 {
   int32_t ret = BSP_ERROR_NONE;
+  LOCK_HSEM(I2C4_HSEM_ID);
 #if defined(BSP_USE_CMSIS_OS)
   /* Get semaphore to prevent multiple I2C access */
   osSemaphoreWait(BspI2cSemaphore, osWaitForever);
@@ -471,6 +478,7 @@ int32_t BSP_I2C4_IsReady(uint16_t DevAddr, uint32_t Trials)
   /* Release semaphore to prevent multiple I2C access */
   osSemaphoreRelease(BspI2cSemaphore);
 #endif
+  UNLOCK_HSEM(I2C4_HSEM_ID);
   return ret;
 }
 
@@ -836,12 +844,19 @@ static void I2C4_MspDeInit(I2C_HandleTypeDef *phi2c)
   */
 static int32_t I2C4_WriteReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize, uint8_t *pData, uint16_t Length)
 {
-  if(HAL_I2C_Mem_Write(&hbus_i2c4, DevAddr, Reg, MemAddSize, pData, Length, 1000) == HAL_OK)
+  int32_t ret = BSP_ERROR_BUS_FAILURE;
+  LOCK_HSEM(I2C4_HSEM_ID);
+  if (HAL_I2C_Mem_Write(&hbus_i2c4, DevAddr, Reg, MemAddSize, pData, Length, 1000) == HAL_OK)
   {
-    return BSP_ERROR_NONE;
+    ret = BSP_ERROR_NONE;
   }
-
-  return BSP_ERROR_BUS_FAILURE;
+  uint32_t err = HAL_I2C_GetError(&hbus_i2c4);   // TEMP
+  UNLOCK_HSEM(I2C4_HSEM_ID);
+  if (ret != BSP_ERROR_NONE)                       // TEMP
+  {
+    printf("I2C4 W dev=0x%02X reg=0x%04X err=0x%08lX t=%lu\r\n", DevAddr, Reg, err, HAL_GetTick());
+  }
+  return ret;
 }
 
 /**
@@ -855,12 +870,14 @@ static int32_t I2C4_WriteReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize
   */
 static int32_t I2C4_ReadReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize, uint8_t *pData, uint16_t Length)
 {
+  int32_t ret = BSP_ERROR_BUS_FAILURE;
+  LOCK_HSEM(I2C4_HSEM_ID);
   if (HAL_I2C_Mem_Read(&hbus_i2c4, DevAddr, Reg, MemAddSize, pData, Length, 1000) == HAL_OK)
   {
-    return BSP_ERROR_NONE;
+    ret = BSP_ERROR_NONE;
   }
-
-  return BSP_ERROR_BUS_FAILURE;
+  UNLOCK_HSEM(I2C4_HSEM_ID);
+  return ret;
 }
 
 /**

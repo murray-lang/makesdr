@@ -14,12 +14,12 @@ BandPassFirKernel::configureComplex(int32_t freqLoCut, int32_t freqHiCut, int32_
   int32_t centreIndex = static_cast<int32_t>(FIR_SIZE-1)/2;
   // int32_t outStartIndex = (static_cast<int32_t>(FILTER_FFT_SIZE)/2) - centreIndex;
 
-
-  ComplexSamplesFft complexSincPulse(
+  // Static to keep the stack size down
+  static ComplexSamplesFft complexSincPulse(
       FILTER_FFT_SIZE,
       sdrcomplex(static_cast<sdrreal>(0.0), static_cast<sdrreal>(0.0))
   );
-  RealSamplesFft realSincPulse(FILTER_FFT_SIZE, static_cast<sdrreal>(0.0));
+  static RealSamplesFft realSincPulse(FILTER_FFT_SIZE, static_cast<sdrreal>(0.0));
 //  for (auto& item : m_complexSincPulse) {
 //    item = sdrcomplex(0.0f, 0.0f);
 //  }

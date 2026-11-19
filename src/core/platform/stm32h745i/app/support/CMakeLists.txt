@@ -7,7 +7,6 @@ set(LOCAL_INCLUDE_DIR include/stm32h745i/app/support)
 set(STM32_SUPPORT_CM7_SOURCES
         ${LOCAL_INCLUDE_DIR}/fatfs_wrapper.h
         ${LOCAL_INCLUDE_DIR}/mmc_diskio.h
-        ${LOCAL_INCLUDE_DIR}/hw_semaphore.h
         ${LOCAL_INCLUDE_DIR}/safe_printf.h
         ${LOCAL_INCLUDE_DIR}/usb_manager.h
 
@@ -17,7 +16,6 @@ set(STM32_SUPPORT_CM7_SOURCES
 )
 
 set(STM32_SUPPORT_CM4_SOURCES
-        ${LOCAL_INCLUDE_DIR}/hw_semaphore.h
         ${LOCAL_INCLUDE_DIR}/safe_printf.h
         src/dummy.c
 )
@@ -39,6 +37,7 @@ if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
             core-stm32h745i-cm7-freertos
             core-stm32h745i-cm7-tinyusb-device
             core-stm32h745i-fatfs-cm7
+            core-stm32h745i-hsem-cm7
     )
 elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     add_library(core-stm32h745i-app-support-cm4 STATIC ${STM32_SUPPORT_CM4_SOURCES})
@@ -58,6 +57,7 @@ elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
             core-stm32h745i-cm4-freertos
             core-stm32h745i-cm4-tinyusb-host
             core-stm32h745i-fatfs-cm4
+            core-stm32h745i-hsem-cm4
     )
 endif()
 

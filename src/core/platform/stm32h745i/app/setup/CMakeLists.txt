@@ -4,8 +4,11 @@ project(core-stm32h745i-app-setup)
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
     add_subdirectory(setup1/cm4)
+    add_subdirectory(setup2/cm4)
+    add_subdirectory(setup3/cm4)
 endif()
 
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     add_subdirectory(setup1/cm7)
+    add_subdirectory(setup3/cm7)
 endif()

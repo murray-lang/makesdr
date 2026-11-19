@@ -23,3 +23,9 @@ target_link_libraries(core-common-iq-pipeline-base PUBLIC
         settings-model-radio-iq-common
         settings-model-meta-radio
 )
+
+if(IS_LINUX)
+    target_link_libraries(core-common-iq-pipeline-base PUBLIC core-linux-thread)
+else()
+    target_link_libraries(core-common-iq-pipeline-base PUBLIC core-freertos-thread)
+endif()

@@ -10,7 +10,6 @@
 
 #define MODES_RING_SIZE 1
 #define BANDS_RING_SIZE 1
-#define RX_METERING_RING_SIZE 2
 
 
 //*****************************************************************************
@@ -31,7 +30,6 @@ public:
   using CapabilitiesRing = MessageRingT<CapabilitiesMessage, CAPABILITIES_RING_SIZE, NotifierT>;
   using ModesRing    = MessageRingT<ModeList, MODES_RING_SIZE, NotifierT>;
   using BandsRing    = MessageRingT<BandCategoryList, BANDS_RING_SIZE, NotifierT>;
-  using RxMeteringRing = MessageRingT<RxMeteringMessage, RX_METERING_RING_SIZE, NotifierT>;
 
   //--- client -> radio -------------------------------------------------------
 
@@ -40,11 +38,9 @@ public:
   CapabilitiesRing& capabilitiesToClient() { return m_capabilitiesToClient; }
   ModesRing&    modesToClient()    { return m_modesToClient; }
   BandsRing&    bandsToClient()    { return m_bandsToClient; }
-  RxMeteringRing& rxMeteringToClient() { return m_rxMeteringToClient; }
 
 protected:
   CapabilitiesRing m_capabilitiesToClient;
   ModesRing    m_modesToClient;
   BandsRing    m_bandsToClient;
-  RxMeteringRing m_rxMeteringToClient;
 };

@@ -3,6 +3,8 @@
 #include <iq/source/IqSourceFactory.h>
 #include <audio/AudioOutputFactory.h>
 
+// #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
+
 ResultCode IqIo::configure(const Config::IqIo::Fields& config)
 {
   ResultCode rc = IqSourceFactory::create(config.iqSource, m_iqSource);
@@ -37,7 +39,7 @@ IqIo::setIqSink(IqSink* pIqSink)
 }
 
 uint32_t
-IqIo::sinkAudio(const RealSamplesBuffer& samples, uint32_t length, uint32_t numChannels)
+IqIo::sinkAudio(const RealSamplesRef& samples, uint32_t length, uint32_t numChannels)
 {
   if (m_pAudioOutputAsBase) {
     return m_pAudioOutputAsBase->addAudioData(samples, length, numChannels);

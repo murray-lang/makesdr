@@ -12,7 +12,9 @@ add_definitions(
 )
 
 add_subdirectory(audio)
+add_subdirectory(client)
 add_subdirectory(dsp)
+add_subdirectory(hsem)
 add_subdirectory(iq)
 add_subdirectory(ST)
 add_subdirectory(time)

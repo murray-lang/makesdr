@@ -164,7 +164,7 @@ int main(void)
   /* Wait until CPU2 boots and enters in stop mode or timeout*/
   // Note that the CM4 initialises GPIO, and needs to finish that before this CM7
   // can use the USB
-  int32_t timeout = 0xFFFF;
+  int32_t timeout = 0x00FFFFFF;
   while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
 
   if ( timeout < 0 )

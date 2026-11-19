@@ -55,7 +55,7 @@ extern struct AdcConfig adcConfig;
   * @param None
   * @retval None
   */
-enum ResultCode MX_ADC1_Init(struct AdcChannelConfig* adcChannelConfig, ADC_MultiModeTypeDef* multimode)
+enum ResultCode ADC1_Init(struct AdcChannelConfig* adcChannelConfig, ADC_MultiModeTypeDef* multimode)
 {
   // ADC_HandleTypeDef hadc1 = {0};
   /* USER CODE BEGIN ADC1_Init 0 */
@@ -131,7 +131,7 @@ enum ResultCode MX_ADC1_Init(struct AdcChannelConfig* adcChannelConfig, ADC_Mult
   * @param None
   * @retval None
   */
-enum ResultCode MX_ADC2_Init(struct AdcChannelConfig* adcChannelConfig)
+enum ResultCode ADC2_Init(struct AdcChannelConfig* adcChannelConfig)
 {
   // ADC_HandleTypeDef hadc2 = {0};
   /* USER CODE BEGIN ADC2_Init 0 */

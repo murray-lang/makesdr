@@ -18,6 +18,13 @@ target_include_directories(core-freertos-usb-host PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/include
 )
 
+# The USB host task must outrank the IQ/DSP thread (ADCIQ, priority 6), which can
+# run flat out; at tskIDLE_PRIORITY it was starved and hub/device events were never
+# processed. It mostly blocks in tuh_task_ext(), so this costs the DSP very little.
+target_compile_definitions(core-freertos-usb-host PRIVATE
+        USB_HOST_THREAD_PRIORITY=7
+)
+
 if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
     target_link_libraries(core-freertos-usb-host PUBLIC
             core-usb-base

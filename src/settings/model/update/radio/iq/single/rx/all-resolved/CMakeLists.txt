@@ -16,9 +16,9 @@ target_include_directories(settings-model-update-radios-basic-iq-rx-resolved PUB
 )
 
 target_include_directories(settings-model-update-radios-basic-iq-rx-resolved PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/path
+        ${CMAKE_CURRENT_LIST_DIR}/include/settings/model/update
 )
 
 target_link_libraries(settings-model-update-radios-basic-iq-rx-resolved PUBLIC
-        settings-model-message
+        settings-model-update-base
 )

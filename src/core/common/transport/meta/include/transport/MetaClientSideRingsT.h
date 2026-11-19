@@ -33,7 +33,6 @@ public:
     : m_capabilitiesIn(rings.capabilitiesToClient())
     , m_modesIn(rings.modesToClient())
     , m_bandsIn(rings.bandsToClient())
-    , m_rxMeteringIn(rings.rxMeteringToClient())
   {
   }
 
@@ -45,7 +44,6 @@ public:
   void connectCapabilitiesSink(MessageSinkT<CapabilitiesMessage>* caps) { m_capabilitiesIn.connectMessageSink(caps); }
   void connectModesSink(MessageSinkT<ModeList>* sink)             { m_modesIn.connectMessageSink(sink); }
   void connectBandsSink(MessageSinkT<BandCategoryList>* sink)     { m_bandsIn.connectMessageSink(sink); }
-  void connectRxMeteringSink(MessageSinkT<RxMeteringMessage>* sink)      { m_rxMeteringIn.connectMessageSink(sink); }
 
   // Client thread only. Delivers whatever is pending on the channel the
   // payload type identifies; unknown types are ignored.
@@ -61,9 +59,6 @@ public:
     case PAYLOAD_TYPE_BANDS:
       m_bandsIn.consumePending();
       break;
-    case PAYLOAD_TYPE_RX_METERING:
-      m_rxMeteringIn.consumePending();
-      break;
     default:
       break;
     }
@@ -77,7 +72,6 @@ public:
     m_capabilitiesIn.attachRecipient(target);
     m_modesIn.attachRecipient(target);
     m_bandsIn.attachRecipient(target);
-    m_rxMeteringIn.attachRecipient(target);
   }
 
   void detachRecipient()
@@ -85,12 +79,10 @@ public:
     m_capabilitiesIn.detachRecipient();
     m_modesIn.detachRecipient();
     m_bandsIn.detachRecipient();
-    m_rxMeteringIn.detachRecipient();
   }
 
 private:
   MessageRingSourceT<typename RingsT::CapabilitiesRing>    m_capabilitiesIn;
   MessageRingSourceT<typename RingsT::ModesRing>    m_modesIn;
   MessageRingSourceT<typename RingsT::BandsRing>    m_bandsIn;
-  MessageRingSourceT<typename RingsT::RxMeteringRing>    m_rxMeteringIn;
 };

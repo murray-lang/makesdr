@@ -6,11 +6,9 @@
 #include <settings/model/message/PayloadType.h>
 #include <transport/freertos/TaskNotify.h>
 
-#ifndef MAKESDR_HSEM_RING_FIRST_ID
-// Hardware semaphores below this are left for other uses: 0 wakes the CM4 at
-// boot, 2 guards the shared UART, 3 is reserved for the shared I2C4 bus.
-#define MAKESDR_HSEM_RING_FIRST_ID 8
-#endif
+// MAKESDR_HSEM_RING_FIRST_ID, and the fixed semaphore IDs below it, are
+// allocated in one place.
+#include <stm32h745i/hw_semaphore.h>
 
 #ifndef MAKESDR_HSEM_IRQ_PRIORITY
 // Must be numerically >= configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, so the
@@ -82,5 +80,9 @@ private:
   uint8_t m_semId;
 };
 
+static_assert(HsemNotifier::FirstId > HSEM_ID_0 && HsemNotifier::FirstId > EMMC_HSEM_ID &&
+              HsemNotifier::FirstId > UART_HSEM_ID && HsemNotifier::FirstId > I2C4_HSEM_ID,
+              "ring semaphores would overlap a fixed ID in hw_semaphore.h");
+static_assert(HsemNotifier::FirstId <= HsemNotifier::LastId);
 static_assert(!std::is_polymorphic_v<HsemNotifier>);
 static_assert(std::is_trivially_copyable_v<HsemNotifier>);

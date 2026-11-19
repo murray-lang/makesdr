@@ -50,6 +50,9 @@ FLASH (rx)      : ORIGIN = 0x08100000, LENGTH = 1024K
 DMA_RAM (xrw)  : ORIGIN = 0x30000000, LENGTH = 4K       /* first 4K of SRAM1 - SDMMC DMA buffers */
 RAM (xrw)      : ORIGIN = 0x10001000, LENGTH = 284K     /* rest of D2 SRAM, via CM4 alias */
 SHARED_RAM (xrw): ORIGIN = 0x38000000, LENGTH = 64K     /* SRAM4 - shared between cores */
+/* Top 128K of D1 AXI SRAM. The CM7 image's RAM_D1 stops short of it. Slower
+   for the CM4 than D2 SRAM, so use it for bulky, infrequently used data. */
+RAM_D1_CM4 (xrw): ORIGIN = 0x24060000, LENGTH = 128K
 }
 
 /* Define output sections */
@@ -144,11 +147,34 @@ SECTIONS
     *(.data)           /* .data sections */
     *(.data*)          /* .data* sections */
 
+    /* liquid-dsp forces -fPIC, so its code reads globals through the GOT.
+       Keep the GOT inside _sdata.._edata so that startup copies it from
+       flash; as an orphan section it would be left uninitialised. */
+    . = ALIGN(4);
+    *(.got.plt)
+    *(.igot.plt)
+    *(.got)
+    *(.igot)
+
     . = ALIGN(32);
-    _edata = .;        /* define a global symbol at data end */
+    _edata = .;       /* define a global symbol at data end */
   } >RAM AT> FLASH
 
   
+  /* Bulky CM4-only data moved out of D2 SRAM to leave room for the heap.
+     Must precede .bss so that these input sections aren't claimed by it.
+     NOT zeroed by startup: only select objects that a constructor fully
+     initialises at runtime (function-local statics), never their guard
+     variables (_ZGV...), which must stay in .bss. */
+  .cm4_d1 (NOLOAD) :
+  {
+    . = ALIGN(32);
+    _scm4_d1 = .;
+    *(.bss._ZZN17BandPassFirKernel*)
+    . = ALIGN(32);
+    _ecm4_d1 = .;
+  } >RAM_D1_CM4
+
   /* Uninitialized data section */
   . = ALIGN(32);
   .bss :

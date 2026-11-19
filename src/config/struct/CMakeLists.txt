@@ -9,6 +9,7 @@ set(CONFIG_STRUCT_SOURCES
         include/config/struct/AudioIqSourceConfig.h
         include/config/struct/AudioSignalIqSourceConfig.h
         include/config/struct/IqIoConfig.h
+        include/config/struct/SaiAudioConfig.h
         include/config/struct/ConfigBase.h
         include/config/struct/BandSelectorConfig.h
         include/config/struct/CapabilitiesConfig.h

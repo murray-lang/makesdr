@@ -28,7 +28,7 @@ FmDemodulator::setMode(const Mode::Proto& mode)
 uint32_t
 FmDemodulator::processSamples(
     const ComplexSamplesBuffer& in,
-    RealSamplesBuffer& out,
+    RealSamplesRef& out,
     uint32_t inputLength)
 {
   for(uint32_t i=0; i<inputLength; i++) {

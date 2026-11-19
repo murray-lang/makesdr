@@ -19,7 +19,9 @@ _Min_Stack_Size = 0x2000;
 MEMORY
 {
   DTCMRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 128K /* DMA buffers, 32-byte aligned */
-  RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  512K
+  /* Bottom 384K of AXI SRAM. The top 128K (0x24060000) is owned by the CM4
+     (RAM_D1_CM4 in its linker script): place nothing there. */
+  RAM_D1 (xrw)   : ORIGIN = 0x24000000, LENGTH =  384K
   FLASH  (rx)    : ORIGIN = 0x08000000, LENGTH = 1024K
   
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K /* Owned by the CM4 (its RAM via the 0x10000000 alias): place nothing here */
