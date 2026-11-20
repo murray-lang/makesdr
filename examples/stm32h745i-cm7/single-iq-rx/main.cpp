@@ -18,7 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 
-// extern "C" {
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -32,8 +31,10 @@
 #include <lvgl/lvgl.h>
 #include <lvgl_port_lcd.h>
 #include <lvgl_port_touchpad.h>
+#include <ui/lvgl/RadioDisplay.h>
 #include <demos/lv_demos.h>
-// }
+
+
 #include <stm32h745i/app/support/safe_printf.h>
 #include <stm32h745i/mpu_config.h>
 #include <stm32h745i/config.h>
@@ -74,7 +75,8 @@
 #define HSEM_ID_0 (0U) /* HW semaphore 0*/
 #endif
 
-char MMCPath[4]; /* SD card logical drive path */
+static RadioClient radioClient;
+static RadioDisplay radioDisplay;
 
 static void prvLvglTask( void *pvParameters );
 static void prvRadioTask( void *pvParameters );
@@ -115,7 +117,7 @@ int main(void)
   // flash at the 64MHz reset clock before reaching main(), which took
   // longer than ST's default 0xFFFF iterations.
   int32_t timeout = 0x00FFFFFF;
-  while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0));
+  while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) != RESET) && (timeout-- > 0)) {}
 
   if ( timeout < 0 )
   {
@@ -174,40 +176,19 @@ int main(void)
 
 static void prvRadioTask( void *pvParameters )
 {
-  static RadioClient client;
-  ResultCode rc1 = client.start();
-  SAFE_PRINTF("[CM7]:\tclient.start() returned %d\r\n", rc1);
+  ResultCode rc1 = radioClient.start();
+  SAFE_PRINTF("[CM7]:\tradioClient.start() returned %d\r\n", rc1);
   if (rc1 == ResultCode::OK) {
-    client.requestAll();
+    radioClient.requestAll();
   }
 
   TickType_t xLastWakeTime = xTaskGetTickCount();
   const TickType_t xFrequency = pdMS_TO_TICKS(10);
   while (1) {
-    // vTaskDelay(pdMS_TO_TICKS(1000)); // Sleep to avoid wasting CPU
-    // if (rc == ResultCode::OK) {
-    //   int64_t& centerFrequency = radioSettings.body().active_bands.band_1.pipeline_a.base.rf.centre_frequency.value;
-    //   SAFE_PRINTF("[CM4]\t Centre frequency %ld\r\n", static_cast<int32_t>(centerFrequency));
-    // }
-    // BSP_LED_Toggle(LED_GREEN);
-    //if (rc == ResultCode::OK) {
-    // tuh_task_ext(xFrequency, false);
-    // tuh_task();
-    // }
-
-
     // Wait for next cycle
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
   }
 }
-
-// void vApplicationTickHook(void)
-// {
-//   /* Calls lv_tick_inc with 1ms increment */
-//   // lv_tick_inc(1);
-//   // BSP_LED_On(LED2);
-//   HAL_IncTick();
-// }
 
 static void prvLvglTask( void *pvParameters )
 {
@@ -219,7 +200,8 @@ static void prvLvglTask( void *pvParameters )
 
   touchpad_init();
 
-  lv_demo_widgets();
+  radioDisplay.start();
+  // lv_demo_widgets();
   for (;;) {
     // Must block: this task outranks ClientTransport (and anything else
     // below configMAX_PRIORITIES - 2), which would otherwise never run.

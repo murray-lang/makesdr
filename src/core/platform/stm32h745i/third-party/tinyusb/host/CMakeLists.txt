@@ -35,37 +35,40 @@ set(STM32_TINYUSB_HOST_SOURCES
 #)
 
 
-add_library(core-stm32h745i-cm4-tinyusb-host STATIC ${STM32_TINYUSB_HOST_SOURCES})
-target_include_directories(core-stm32h745i-cm4-tinyusb-host PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    add_library(core-stm32h745i-cm4-tinyusb-host STATIC ${STM32_TINYUSB_HOST_SOURCES})
+    target_include_directories(core-stm32h745i-cm4-tinyusb-host PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
-tinyusb_target_add(core-stm32h745i-cm4-tinyusb-host)
+    tinyusb_target_add(core-stm32h745i-cm4-tinyusb-host)
 
-## Only for debugging with printf
-#target_sources(core-stm32h745i-cm4-tinyusb-host PRIVATE
-#        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/src/syscalls.c
-##        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/src/config.c
-#)
-#
-## Only for debugging with printf
-#target_include_directories(core-stm32h745i-cm4-tinyusb-host PRIVATE
-#        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/include
-#)
+    ## Only for debugging with printf
+    #target_sources(core-stm32h745i-cm4-tinyusb-host PRIVATE
+    #        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/src/syscalls.c
+    ##        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/src/config.c
+    #)
+    #
+    ## Only for debugging with printf
+    #target_include_directories(core-stm32h745i-cm4-tinyusb-host PRIVATE
+    #        ${CMAKE_SOURCE_DIR}/src/core/platform/stm32h745i/app/setup/setup1/cm4/include
+    #)
 
-target_link_libraries(core-stm32h745i-cm4-tinyusb-host PUBLIC
-        core-stm32h745i-cm4-freertos
-        core-stm32h745i-drivers-bsp-disco-cm4
-        core-stm32h745i-drivers-hal-cm4
-#        $<TARGET_OBJECTS:core-stm32h745i-cm4-tinyusb-host-irq>
-)
+    target_link_libraries(core-stm32h745i-cm4-tinyusb-host PUBLIC
+            core-stm32h745i-cm4-freertos
+            core-stm32h745i-drivers-bsp-disco-cm4
+            core-stm32h745i-drivers-hal-cm4
+    #        $<TARGET_OBJECTS:core-stm32h745i-cm4-tinyusb-host-irq>
+    )
+endif()
 
-add_library(core-stm32h745i-cm7-tinyusb-host STATIC ${STM32_TINYUSB_HOST_SOURCES})
-target_include_directories(core-stm32h745i-cm7-tinyusb-host PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_library(core-stm32h745i-cm7-tinyusb-host STATIC ${STM32_TINYUSB_HOST_SOURCES})
+    target_include_directories(core-stm32h745i-cm7-tinyusb-host PUBLIC ${CMAKE_CURRENT_LIST_DIR}/include)
 
-tinyusb_target_add(core-stm32h745i-cm7-tinyusb-host)
+    tinyusb_target_add(core-stm32h745i-cm7-tinyusb-host)
 
-target_link_libraries(core-stm32h745i-cm7-tinyusb-host PUBLIC
-        core-stm32h745i-cm7-freertos
-        core-stm32h745i-drivers-bsp-disco-cm7
-        core-stm32h745i-drivers-hal-cm7
-)
-
+    target_link_libraries(core-stm32h745i-cm7-tinyusb-host PUBLIC
+            core-stm32h745i-cm7-freertos
+            core-stm32h745i-drivers-bsp-disco-cm7
+            core-stm32h745i-drivers-hal-cm7
+    )
+endif()

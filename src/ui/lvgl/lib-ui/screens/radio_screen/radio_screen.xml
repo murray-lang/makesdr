@@ -1,0 +1,29 @@
+<screen permanent="true">
+	<styles>
+		<style name="centered_text" text_align="center" />
+		<style name="right_text" text_align="right" />
+	</styles>
+	<view extends="lv_obj" style_bg_color="#color_dark_bg">
+		<style name="style_screen_dark" />
+		<bind_style name="style_screen_dark" subject="subject_theme_dark" ref_value="1" />
+		<column name="content" width="100%" height="content" pad="#space_md" gap="#space_md">
+			<row width="100%" gap="#space_sm" vertical_align="center">
+				<frequency_display name="frequency" />
+			</row>
+			<row width="100%" gap="#space_sm" vertical_align="center">
+				<panadapter name="panadapter" />
+			</row>
+			<row width="100%" gap="#space_sm" vertical_align="center">
+				<lv_canvas name="my_canvas" width="100%" height="80" style_bg_color="0xffffff" />
+			</row>
+			<row width="100%" gap="#space_sm" vertical_align="center">
+				<button icon="icon_settings" text="" />
+				<button text="Band" />
+				<container grow="1" />
+				<button text="AGC" />
+				<button text="Mode" />
+				<button icon="icon_volume" text="" />
+			</row>
+		</column>
+	</view>
+</screen>

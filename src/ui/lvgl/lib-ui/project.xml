@@ -1,0 +1,7 @@
+<project lvgl_version="9.5.0" theme="simple">
+	<targets>
+		<target name="stm32h745i_disco">
+			<display width="480" height="272" />
+		</target>
+	</targets>
+</project>

@@ -25,24 +25,26 @@ set(STM32_TINYUSB_DEVICE_SOURCES
         ${TINYUSB_DIR}/portable/synopsys/dwc2/dwc2_common.c
 )
 
-add_library(core-stm32h745i-cm4-tinyusb-device STATIC ${STM32_TINYUSB_DEVICE_SOURCES})
-target_include_directories(core-stm32h745i-cm4-tinyusb-device PUBLIC include)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm4")
+    add_library(core-stm32h745i-cm4-tinyusb-device STATIC ${STM32_TINYUSB_DEVICE_SOURCES})
+    target_include_directories(core-stm32h745i-cm4-tinyusb-device PUBLIC include)
 
-tinyusb_target_add(core-stm32h745i-cm4-tinyusb-device)
+    tinyusb_target_add(core-stm32h745i-cm4-tinyusb-device)
 
-target_link_libraries(core-stm32h745i-cm4-tinyusb-device PUBLIC
-        core-stm32h745i-drivers-bsp-disco-cm4
-        core-stm32h745i-drivers-hal-cm4
-)
+    target_link_libraries(core-stm32h745i-cm4-tinyusb-device PUBLIC
+            core-stm32h745i-drivers-bsp-disco-cm4
+            core-stm32h745i-drivers-hal-cm4
+    )
+endif()
 
-add_library(core-stm32h745i-cm7-tinyusb-device STATIC ${STM32_TINYUSB_DEVICE_SOURCES})
-target_include_directories(core-stm32h745i-cm7-tinyusb-device PUBLIC include)
+if(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_library(core-stm32h745i-cm7-tinyusb-device STATIC ${STM32_TINYUSB_DEVICE_SOURCES})
+    target_include_directories(core-stm32h745i-cm7-tinyusb-device PUBLIC include)
 
-tinyusb_target_add(core-stm32h745i-cm7-tinyusb-device)
+    tinyusb_target_add(core-stm32h745i-cm7-tinyusb-device)
 
-target_link_libraries(core-stm32h745i-cm7-tinyusb-device PUBLIC
-        core-stm32h745i-drivers-bsp-disco-cm7
-        core-stm32h745i-drivers-hal-cm7
-
-)
-
+    target_link_libraries(core-stm32h745i-cm7-tinyusb-device PUBLIC
+            core-stm32h745i-drivers-bsp-disco-cm7
+            core-stm32h745i-drivers-hal-cm7
+    )
+endif()

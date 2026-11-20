@@ -6,4 +6,6 @@ add_subdirectory(common)
 
 if(IS_QT)
     add_subdirectory(qt)
+elseif(TARGET_PLATFORM STREQUAL "stm32h745i-cm7")
+    add_subdirectory(lvgl)
 endif()

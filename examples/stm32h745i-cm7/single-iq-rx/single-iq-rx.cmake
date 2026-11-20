@@ -26,6 +26,7 @@ target_link_libraries(example-cm7-single-iq-rx PUBLIC
         core-stm32h745i-setup-setup3-cm7
         core-stm32h745i-app-support-cm7
         core-stm32h745i-lvgl-cm7
+        ui-lvgl-radio-display
         core-stm32h745i-client
         radios-iq-single-rx-transport-stm32h745i-globals
 )
