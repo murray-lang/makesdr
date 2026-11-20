@@ -24,7 +24,7 @@ target_include_directories(example-cm7-single-iq-rx PUBLIC
 target_link_libraries(example-cm7-single-iq-rx PUBLIC
         -T${LD_FILE_CM7}
         core-stm32h745i-setup-setup3-cm7
-        core-stm32h745i-app-support-cm7
+#        core-stm32h745i-app-support-cm7
         core-stm32h745i-lvgl-cm7
         ui-lvgl-radio-display
         core-stm32h745i-client

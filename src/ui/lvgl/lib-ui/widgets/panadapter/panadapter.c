@@ -66,11 +66,9 @@ void panadapter_set_bins(lv_obj_t * panadapter, const void * bins)
     /* Resize the chart's point count to match the byte array length */
     lv_chart_set_point_count(chart, length);
 
-    /* Populate each point (casts uint8_t to int32_t) */
     for(uint32_t i = 0; i < length; i++) {
         lv_chart_set_value_by_id(chart, series, i, (int32_t)data[i]);
     }
-
     lv_chart_refresh(chart);
 }
 

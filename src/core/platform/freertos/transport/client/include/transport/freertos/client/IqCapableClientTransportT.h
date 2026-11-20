@@ -34,8 +34,17 @@
 // or the other by platform and is otherwise unchanged.
 //
 // Where the Qt transport moves its settings recipient to a QThread, this one
-// runs a FreeRTOS task that waits on its TaskDispatcher and delivers settings
-// and field updates from the CM7 to the connected sinks, on that task.
+// delivers incoming messages to the connected sinks on a FreeRTOS task that
+// waits on its TaskDispatcher. That task is either:
+//
+//  - its own: start()/stop() run a "ClientTransport" task that does nothing
+//    else; or
+//  - hosted: the client's task (e.g. the LVGL task, so the settings mirror,
+//    the client and the display share one thread) calls attach() once, then
+//    waitAndDispatch() in its loop in place of its delay, and detach() when
+//    done.
+//
+// Use one or the other, not both.
 //
 // There are no IQ rings between the cores (the UI takes spectrum messages),
 // so getIqPublisher() returns nullptr, as the Qt transport's currently does.
@@ -87,6 +96,7 @@ public:
     if (m_thread.isRunning()) {
       return ResultCode::OK;
     }
+    configASSERT(!m_attached);  // already hosted by another task
     const bool started = m_thread.start(
       CLIENT_TRANSPORT_STACK_SIZE/sizeof(uint32_t), CLIENT_TRANSPORT_PRIORITY, "ClientTransport");
     return started ? ResultCode::OK : ResultCode::ERR_TRANSPORT_THREAD_START_FAILED;
@@ -103,6 +113,42 @@ public:
       TaskNotify::setBits(task, 0);
     }
     m_thread.stop();
+  }
+
+  //--- hosted mode: all on the hosting task ---------------------------------
+
+  // Makes the calling task the one that delivers incoming messages to the
+  // sinks. Call before anything is requested, so no wake is missed.
+  void attach()
+  {
+    if (m_attached) {
+      return;
+    }
+    m_dispatcher.bindToCurrentTask();
+    m_settingsTransport.attachRecipient();
+    m_metaTransport.attachRecipient();
+    m_rxMeteringTransport.attachRecipient();
+    m_spectrumTransport.attachRecipient();
+    m_attached = true;
+  }
+
+  void detach()
+  {
+    if (!m_attached) {
+      return;
+    }
+    m_settingsTransport.detachRecipient();
+    m_metaTransport.detachRecipient();
+    m_rxMeteringTransport.detachRecipient();
+    m_spectrumTransport.detachRecipient();
+    m_attached = false;
+  }
+
+  // Blocks until messages are waiting or timeout, then delivers them to the
+  // sinks. Returns true if anything was waiting.
+  bool waitAndDispatch(TickType_t timeout)
+  {
+    return m_dispatcher.waitAndDispatch(timeout);
   }
 
   void connectRadioSettingsSink(MessageSinkT<RadioSettings>* settingsSink)
@@ -141,27 +187,18 @@ public:
   UpdateTransport& getUpdateTransport() { return m_updateTransport; }
 
   // The task that delivers incoming messages to the connected sinks. Null
-  // until the transport task has started. Callers that block waiting for a
+  // until the transport task has started or a task has attached. Callers that block waiting for a
   // reply must not do so on this task.
   [[nodiscard]] TaskHandle_t dispatcherTask() const { return m_dispatcher.taskHandle(); }
 
 private:
   void run() override
   {
-    m_dispatcher.bindToCurrentTask();
-    m_settingsTransport.attachRecipient();
-    m_metaTransport.attachRecipient();
-    m_rxMeteringTransport.attachRecipient();
-    m_spectrumTransport.attachRecipient();
-
+    attach();
     while (!m_thread.shouldStop()) {
-      m_dispatcher.waitAndDispatch(pdMS_TO_TICKS(WaitTimeoutMs));
+      waitAndDispatch(pdMS_TO_TICKS(WaitTimeoutMs));
     }
-
-    m_settingsTransport.detachRecipient();
-    m_metaTransport.detachRecipient();
-    m_rxMeteringTransport.detachRecipient();
-    m_spectrumTransport.detachRecipient();
+    detach();
   }
 
   // A backstop only: stop() wakes the task directly.
@@ -177,4 +214,6 @@ private:
   RecipientSideT<MetaClientSideRingsT<MetaRingsT>, TaskRecipientT>             m_metaTransport;
   RecipientSideT<RxMeteringClientSideRingsT<RxMeteringRingsT>, TaskRecipientT> m_rxMeteringTransport;
   RecipientSideT<SpectrumClientSideRingsT<SpectrumRingsT>, TaskRecipientT>     m_spectrumTransport;
+
+  bool m_attached = false;   // the dispatching task only
 };

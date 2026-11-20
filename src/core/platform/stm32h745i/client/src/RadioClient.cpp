@@ -1,5 +1,7 @@
 #include "stm32h745i/client/RadioClient.h"
 
+#include <cstdio>
+
 
 RadioClient::RadioClient()
   : m_transport(
@@ -11,13 +13,13 @@ RadioClient::RadioClient()
     )
   , m_settingsMirror(m_transport, this)
   , m_pUpdater(m_settingsMirror.updater())
+  , m_pSettingsListener(nullptr)
 {
-  // m_transport.connectRadioSettingsSink(this);
-  m_transport.connectSpectrumSink(this);
+  // Settings go to m_settingsMirror; spectrum and metering to whatever the
+  // application connects.
   m_transport.connectCapabilitiesSink(this);
   m_transport.connectBandsSink(this);
   m_transport.connectModesSink(this);
-  m_transport.connectRxMeteringSink(this);
 
   m_requester.connectFieldUpdateSink(&m_transport.getUpdateTransport());
 }
@@ -37,66 +39,80 @@ RadioClient::applyFieldUpdate(const FieldUpdate& update)
 ResultCode
 RadioClient::start()
 {
-  return m_transport.start();
+  m_transport.attach();
+  return ResultCode::OK;
 }
 
 void RadioClient::stop()
 {
-  m_transport.stop();
+  m_awaiting = Awaiting::None;
+  m_transport.detach();
 }
 
-// ResultCode
-// RadioClient::applyMessage(RadioSettings* message)
-// {
-//   return ResultCode::OK;
-//
-// }
+bool
+RadioClient::waitAndDispatch(TickType_t timeout)
+{
+  const bool dispatched = m_transport.waitAndDispatch(timeout);
+
+  if (m_awaiting != Awaiting::None
+      && (xTaskGetTickCount() - m_requestSentAt) >= pdMS_TO_TICKS(RequestTimeoutMs)) {
+    failRequestAll(ResultCode::ERR_RADIO_REQUEST_TIMEOUT);
+  }
+  return dispatched;
+}
 
 ResultCode
 RadioClient::requestAll()
 {
-  // ResultCode rc = requestAndWait(
-  //   Awaiting::Capabilities,
-  //   &RadioClient::requestCapabilities,
-  //   1000
-  // );
-  // if (rc != ResultCode::OK) {
-  //   printf("Failed to request capabilities (%d)\r\n", rc);
-  //   return rc;
-  // }
+  m_requestAllStatus = ResultCode::OK;
+  // Capabilities aren't requested yet: start with modes
+  return request(Awaiting::Modes);
+}
 
-  ResultCode rc = requestAndWait(
-    Awaiting::Modes,
-    &RadioClient::requestModes,
-    2000
-  );
-  if (rc != ResultCode::OK) {
-    printf("Failed to request modes (%d)\r\n", rc);
-    return rc;
+ResultCode
+RadioClient::request(Awaiting what)
+{
+  // Set before sending, so that a send failure reports what was awaited.
+  // The reply can't arrive before this returns: it is dispatched on this task.
+  m_awaiting = what;
+  m_requestSentAt = xTaskGetTickCount();
+
+  ResultCode rc = ResultCode::OK;
+  switch (what) {
+    case Awaiting::Capabilities: rc = requestCapabilities(); break;
+    case Awaiting::Modes:        rc = requestModes(); break;
+    case Awaiting::Bands:        rc = requestBands(); break;
+    // The reply goes to m_settingsMirror, which calls applySettings() and so notifyReceived(Settings)
+    case Awaiting::Settings:     rc = requestSettings(); break;
+    case Awaiting::None:         break;
   }
-
-  rc = requestAndWait(
-    Awaiting::Bands,
-    &RadioClient::requestBands,
-    2000
-  );
   if (rc != ResultCode::OK) {
-    printf("Failed to request bands (%d)\r\n", rc);
-    return rc;
+    failRequestAll(rc);
   }
+  return rc;
+}
 
-  // The reply goes to m_settingsMirror, which calls applySettings() and so notifyReceived(Settings)
-  rc = requestAndWait(
-    Awaiting::Settings,
-    &RadioClient::requestSettings,
-    2000
-  );
-  if (rc != ResultCode::OK) {
-    printf("Failed to request settings (%d)\r\n", rc);
-    return rc;
+void
+RadioClient::failRequestAll(ResultCode rc)
+{
+  printf("requestAll() failed awaiting %d (%d)\r\n", static_cast<int>(m_awaiting), static_cast<int>(rc));
+  m_awaiting = Awaiting::None;
+  m_requestAllStatus = rc;
+}
+
+// Called from applyMessage()/applySettings() on the hosting task. Unsolicited
+// messages (e.g. settings pushed by the radio) don't advance the sequence.
+void
+RadioClient::notifyReceived(Awaiting what)
+{
+  if (what != m_awaiting) {
+    return;
   }
-
-  return ResultCode::OK;
+  switch (what) {
+    case Awaiting::Modes:    request(Awaiting::Bands); break;
+    case Awaiting::Bands:    request(Awaiting::Settings); break;
+    default:                 m_awaiting = Awaiting::None; break;
+  }
 }
 
 ResultCode RadioClient::applyMessage(CapabilitiesMessage* message)
@@ -123,47 +139,4 @@ RadioClient::applyMessage(ModeList* message)
   }
   notifyReceived(Awaiting::Modes);
   return ResultCode::OK;
-}
-
-ResultCode
-RadioClient::applyMessage(RxMeteringMessage* message)
-{
-  return ResultCode::OK;
-}
-
-ResultCode
-RadioClient::applyMessage(SpectrumMessage* message)
-{
-  // BSP_LED_Toggle(LED_RED);
-  return ResultCode::OK;
-}
-
-ResultCode
-RadioClient::requestAndWait(Awaiting what, ResultCode (RadioClient::*requestFunc)(), uint32_t timeoutMs)
-{
-  // Must not block the task that delivers the reply
-  if (xTaskGetCurrentTaskHandle() == m_transport.dispatcherTask()) {
-    return ResultCode::ERR_RADIO_REQUEST_WOULD_DEADLOCK;
-  }
-  while (m_replied.tryWait()) {}   // drain a late post from an earlier timed-out request
-
-  m_awaiting.store(what);
-  ResultCode rc = (this->*requestFunc)();
-  if (rc != ResultCode::OK) {
-    m_awaiting.store(Awaiting::None);
-    return rc;
-  }
-  const bool received = m_replied.waitFor(timeoutMs);
-  m_awaiting.store(Awaiting::None);
-  return received ? ResultCode::OK : ResultCode::ERR_RADIO_REQUEST_TIMEOUT;
-}
-
-// Called from applyMessage()/applySettings() on the transport task
-void
-RadioClient::notifyReceived(Awaiting what)
-{
-  Awaiting expected = what;
-  if (m_awaiting.compare_exchange_strong(expected, Awaiting::None)) {
-    m_replied.post();
-  }
 }

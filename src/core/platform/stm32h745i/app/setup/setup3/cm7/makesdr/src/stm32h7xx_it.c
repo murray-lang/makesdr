@@ -26,7 +26,7 @@
 #include <FreeRTOS.h>
 #include <task.h>
 #endif
-#include <tinyusb/device/tusb.h>
+// #include <tinyusb/device/tusb.h>
 
 #include <lvgl/lvgl.h>
 
@@ -306,13 +306,13 @@ void SDMMC1_IRQHandler(void)
   * @param  None
   * @retval None
   */
-volatile uint32_t usb_irq_count = 0;
-
-void OTG_FS_IRQHandler(void)
-{
-  usb_irq_count++;
-  tusb_int_handler(BOARD_TUD_RHPORT, true);
-}
+// volatile uint32_t usb_irq_count = 0;
+//
+// void OTG_FS_IRQHandler(void)
+// {
+//   usb_irq_count++;
+//   tusb_int_handler(BOARD_TUD_RHPORT, true);
+// }
 
 
 /* USER CODE END 1 */

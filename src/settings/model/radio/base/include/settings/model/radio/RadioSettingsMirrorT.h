@@ -20,14 +20,22 @@
 //   connectRadioSettingsSink(MessageSinkT<RadioSettings>*)
 //   UpdateTransport& getUpdateTransport()
 //*****************************************************************************
-template<typename TransportT, typename ListenerT>
+template<typename TransportT>
 class RadioSettingsMirrorT : public MessageSinkT<typename TransportT::RadioSettings>
 {
 public:
   using RadioSettings = typename TransportT::RadioSettings;
   using UpdateTransport = typename TransportT::UpdateTransport;
 
-  RadioSettingsMirrorT(TransportT& transport, ListenerT* listener)
+  class IListener
+  {
+  public:
+    virtual void radioSettingsChanged(const RadioSettings& state, const RadioSettings& changes) = 0;
+  protected:
+    ~IListener() = default;
+  };
+
+  RadioSettingsMirrorT(TransportT& transport, IListener* listener)
     : m_updateTransport(transport.getUpdateTransport())
     , m_listener(listener)
   {
@@ -53,7 +61,7 @@ public:
       // of 'changes' is what downstream change checking relies on. A replace changes everything,
       // so the fully-present merged settings stand in for the changes.
       const RadioSettings& changes = isReplace ? m_settings : *delta;
-      m_listener->template applySettings<RadioSettings>(m_settings, changes);
+      m_listener->radioSettingsChanged(m_settings, changes);
     }
     return rc;
   }
@@ -70,5 +78,5 @@ public:
 private:
   RadioSettings m_settings;
   UpdateTransport& m_updateTransport;
-  ListenerT* m_listener;
+  IListener* m_listener;
 };

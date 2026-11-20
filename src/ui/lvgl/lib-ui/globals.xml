@@ -49,6 +49,22 @@
 		     right, OK, close, backspace, new-line, keyboard) plus up/down.
 		     lv_fallback=font_body so Latin keys still render from one font. -->
 		<bin
+			name="roboto_mono_medium"
+			size="22"
+			src_path="fonts/RobotoMono-VariableFont_wght.ttf"
+			bpp="4"
+			range="0x20-0x7f"
+			as_file="false"
+		/>
+		<bin
+			name="roboto_mono_large"
+			size="28"
+			src_path="fonts/RobotoMono-VariableFont_wght.ttf"
+			bpp="4"
+			range="0x20-0x7f"
+			as_file="false"
+		/>
+		<bin
 			name="font_body_symbols"
 			size="16"
 			src_path="fonts/FontAwesome5.ttf"

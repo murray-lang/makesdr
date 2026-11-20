@@ -64,6 +64,10 @@ lv_obj_t * screen_components = NULL;
  * Fonts
  *----------------*/
 
+lv_font_t * roboto_mono_medium;
+extern lv_font_t roboto_mono_medium_data;
+lv_font_t * roboto_mono_large;
+extern lv_font_t roboto_mono_large_data;
 lv_font_t * font_body_symbols;
 extern lv_font_t font_body_symbols_data;
 lv_font_t * font_body;
@@ -227,6 +231,18 @@ void lvgl_stm32h745i_disco_ui_project_init_gen(const char * asset_path)
 
     #if LVGL_STM32H745I_DISCO_UI_PROJECT_CHECK_COMPILE_TARGET(LVGL_STM32H745I_DISCO_UI_PROJECT_TARGET_ALL)
     if (lvgl_stm32h745i_disco_ui_project_check_target(LVGL_STM32H745I_DISCO_UI_PROJECT_TARGET_ALL)) {
+        if (!roboto_mono_medium) {
+            /* roboto_mono_medium */
+            /* get font 'roboto_mono_medium' from a C array */
+            roboto_mono_medium = &roboto_mono_medium_data;
+
+        }
+        if (!roboto_mono_large) {
+            /* roboto_mono_large */
+            /* get font 'roboto_mono_large' from a C array */
+            roboto_mono_large = &roboto_mono_large_data;
+
+        }
         if (!font_body_symbols) {
             /* font_body_symbols */
             /* get font 'font_body_symbols' from a C array */
@@ -544,6 +560,8 @@ void lvgl_stm32h745i_disco_ui_project_init_gen(const char * asset_path)
 
     /* Check all fonts / default if needed. This prevents fonts that are used in one target but
        defined in another from causing assertion failures during rendering of the Preview. */
+    check_font(&roboto_mono_medium, "roboto_mono_medium");
+    check_font(&roboto_mono_large, "roboto_mono_large");
     check_font(&font_body_symbols, "font_body_symbols");
     check_font(&font_body, "font_body");
     check_font(&font_h5, "font_h5");
@@ -553,6 +571,8 @@ void lvgl_stm32h745i_disco_ui_project_init_gen(const char * asset_path)
     check_font(&font_h1, "font_h1");
 
     /* Register fonts */
+    lv_xml_register_font(NULL, "roboto_mono_medium", roboto_mono_medium);
+    lv_xml_register_font(NULL, "roboto_mono_large", roboto_mono_large);
     lv_xml_register_font(NULL, "font_body_symbols", font_body_symbols);
     lv_xml_register_font(NULL, "font_body", font_body);
     lv_xml_register_font(NULL, "font_h5", font_h5);

@@ -97,8 +97,10 @@ static void frequency_display_constructor(const lv_obj_class_t * class_p, lv_obj
         lv_style_set_text_color(&style_base, lv_color_hex(0x0dacf1));
         lv_style_set_text_align(&left_text, LV_TEXT_ALIGN_LEFT);
         lv_style_set_align(&left_text, LV_ALIGN_BOTTOM_RIGHT);
+        lv_style_set_text_font(&left_text, roboto_mono_medium);
         lv_style_set_text_align(&right_text, LV_TEXT_ALIGN_RIGHT);
         lv_style_set_align(&right_text, LV_ALIGN_BOTTOM_LEFT);
+        lv_style_set_text_font(&right_text, roboto_mono_large);
 
         style_inited = true;
     }

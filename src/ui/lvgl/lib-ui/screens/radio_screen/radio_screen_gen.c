@@ -79,6 +79,7 @@ lv_obj_t * radio_screen_create(void)
 
         lv_obj_t * row_1 = row_create(content, 0, SPACE_SM, 0, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
         lv_obj_set_width(row_1, lv_pct(100));
+        lv_obj_set_height(row_1, 90);
         lv_obj_t * panadapter = panadapter_create(row_1);
         lv_obj_set_name(panadapter, "panadapter");
 

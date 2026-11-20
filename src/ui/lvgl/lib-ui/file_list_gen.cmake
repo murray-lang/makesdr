@@ -35,6 +35,8 @@ list(
   ${CMAKE_CURRENT_LIST_DIR}/fonts/font_h3_data.c
   ${CMAKE_CURRENT_LIST_DIR}/fonts/font_h4_data.c
   ${CMAKE_CURRENT_LIST_DIR}/fonts/font_h5_data.c
+  ${CMAKE_CURRENT_LIST_DIR}/fonts/roboto_mono_large_data.c
+  ${CMAKE_CURRENT_LIST_DIR}/fonts/roboto_mono_medium_data.c
   ${CMAKE_CURRENT_LIST_DIR}/images/icon_arrow_down_data.c
   ${CMAKE_CURRENT_LIST_DIR}/images/icon_arrow_left_data.c
   ${CMAKE_CURRENT_LIST_DIR}/images/icon_arrow_right_data.c

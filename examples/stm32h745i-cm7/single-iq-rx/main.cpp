@@ -46,7 +46,7 @@
 
 #include <string.h>
 #include <stm32h745i/app/support/usb_manager.h>
-#include <tinyusb/device/usbd.h>
+// #include <tinyusb/device/usbd.h>
 
 #include "stm32h745i/client/RadioClient.h"
 #include "stm32h745i/drivers/bsp/disco/stm32h745i_discovery.h"
@@ -75,11 +75,21 @@
 #define HSEM_ID_0 (0U) /* HW semaphore 0*/
 #endif
 
-static RadioClient radioClient;
+
 static RadioDisplay radioDisplay;
 
+// Passes the client's settings to the display. Both are on the LVGL task.
+class DisplaySettingsListener : public ISettingsListener
+{
+public:
+  void radioSettingsChanged(const RadioClient::RadioSettings& state, const RadioClient::RadioSettings& changes) override
+  {
+    radioDisplay.handleRadioSettingsChanged<RadioClient::RadioSettings>(state, changes);
+  }
+};
+static DisplaySettingsListener displaySettingsListener;
+
 static void prvLvglTask( void *pvParameters );
-static void prvRadioTask( void *pvParameters );
 
 extern "C" void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 {
@@ -146,18 +156,12 @@ int main(void)
   LOCK_HSEM(HSEM_ID_0);
   UNLOCK_HSEM(HSEM_ID_0);// This signals the CM4 to wake up
 
-  BaseType_t rc = xTaskCreate( prvLvglTask, "LVGL", 2048, NULL, LVGL_TASK_PRIORITY, NULL );
-  if (rc == pdPASS) {
-    // SAFE_PRINTF("[CM7]\txTaskCreate() succeeded\r\n");
-  } else {
-    // SAFE_PRINTF("[CM7]\txTaskCreate() returned: %ld", rc);
-  }
+  static RadioClient radioClient;
 
-  rc = xTaskCreate( prvRadioTask, "Client", 2048, NULL, LVGL_TASK_PRIORITY, NULL );
-  if (rc == pdPASS) {
-    // SAFE_PRINTF("[CM7]\tprvRadioTask created\r\n");
-  } else {
-    // SAFE_PRINTF("[CM7]\tprvRadioTask xTaskCreate() returned: %ld", rc);
+  // The one task for LVGL, the radio client and its transport
+  BaseType_t rc = xTaskCreate( prvLvglTask, "LVGL", 2048, &radioClient, LVGL_TASK_PRIORITY, NULL );
+  if (rc != pdPASS) {
+    Error_Handler();
   }
   vTaskStartScheduler();
 
@@ -174,22 +178,6 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-static void prvRadioTask( void *pvParameters )
-{
-  ResultCode rc1 = radioClient.start();
-  SAFE_PRINTF("[CM7]:\tradioClient.start() returned %d\r\n", rc1);
-  if (rc1 == ResultCode::OK) {
-    radioClient.requestAll();
-  }
-
-  TickType_t xLastWakeTime = xTaskGetTickCount();
-  const TickType_t xFrequency = pdMS_TO_TICKS(10);
-  while (1) {
-    // Wait for next cycle
-    vTaskDelayUntil(&xLastWakeTime, xFrequency);
-  }
-}
-
 static void prvLvglTask( void *pvParameters )
 {
   // SAFE_PRINTF("[CM7]:\tInitializing LVGL and LCD...\r\n");
@@ -200,17 +188,32 @@ static void prvLvglTask( void *pvParameters )
 
   touchpad_init();
 
+  RadioClient* radioClient = (RadioClient *)pvParameters;
+
+  radioDisplay.initialise(radioClient);
   radioDisplay.start();
-  // lv_demo_widgets();
+
+  radioClient->connectSettingsListener(&displaySettingsListener);
+  radioClient->connectSpectrumSink(&radioDisplay);
+  radioClient->connectRxMeteringSink(&radioDisplay);
+
+  // This task now hosts the transport: messages are delivered to the client
+  // and the display from radioClient.waitAndDispatch() below.
+  ResultCode rc = radioClient->start();
+  SAFE_PRINTF("[CM7]:\tradioClient.start() returned %d\r\n", rc);
+  if (rc == ResultCode::OK) {
+    // Returns at once; the replies advance it
+    radioClient->requestAll();
+  }
+
   for (;;) {
-    // Must block: this task outranks ClientTransport (and anything else
-    // below configMAX_PRIORITIES - 2), which would otherwise never run.
     uint32_t idleMs = lv_timer_handler();
     if (idleMs == LV_NO_TIMER_READY || idleMs > 10) {
       idleMs = 10;
     }
+    // Must block, so lower priority tasks can run. Wakes early for messages.
     const TickType_t ticks = pdMS_TO_TICKS(idleMs);
-    vTaskDelay(ticks > 0 ? ticks : 1);
+    radioClient->waitAndDispatch(ticks > 0 ? ticks : 1);
   }
 }
 
